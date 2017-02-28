@@ -53,4 +53,5 @@ public class Session extends Thread {
 		sessionActive = false;
 		host.removeSession(this);
 	}
+
 }

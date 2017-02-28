@@ -26,7 +26,6 @@ public class Server extends Thread {
 	private ArrayList<Session> activeSessions;
 	private ServerGUI gui;
 	private PlayerManager playerManager;
-
 	private GameManager gameManager;
 
 	/**
