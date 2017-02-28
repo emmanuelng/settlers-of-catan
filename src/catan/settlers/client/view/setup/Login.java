@@ -33,7 +33,7 @@ public class Login implements ActionListener {
 		Login = new JButton("Login");
 		Register = new JButton("Register");
 
-		loginPanel = new JPanel(new GridLayout(3, 1));
+		loginPanel = new JPanel();
 		loginPanel.add(label1);
 		loginPanel.add(username);
 		loginPanel.add(label2);
@@ -47,7 +47,7 @@ public class Login implements ActionListener {
 
 		frame.setTitle("Settlers Of Catan Login");
 		frame.setContentPane(loginPanel);
-		frame.setSize(300, 100);
+		frame.setSize(1920, 1080);
 		frame.setVisible(true);
 	}
 

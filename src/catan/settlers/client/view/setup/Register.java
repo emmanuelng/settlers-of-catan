@@ -16,7 +16,7 @@ public class Register implements ActionListener {
 	private JButton RegisterButton;
 	private JButton backToLogin;
 	private JPanel registerPanel;
-	private JLabel label1, label2, label3;
+	private JLabel label1, label2, label3, label4;
 	private JTextField username;
 	private JPasswordField password, cpassword;
 
@@ -38,7 +38,7 @@ public class Register implements ActionListener {
 		RegisterButton = new JButton("Register");
 		backToLogin = new JButton("Go back");
 
-		registerPanel = new JPanel(new GridLayout(4, 1));
+		registerPanel = new JPanel();
 		registerPanel.add(label1);
 		registerPanel.add(username);
 		registerPanel.add(label2);
@@ -66,7 +66,7 @@ public class Register implements ActionListener {
 			
 			// send a register query to server
 			ClientModel.instance.sendCommand(new RegisterCommand(u, p));
-
+			JOptionPane.showMessageDialog(label4, "Register Success");
 		} else if (arg0.getSource() == backToLogin) {
 			topFrame.remove(registerPanel);
 			topFrame.dispose();

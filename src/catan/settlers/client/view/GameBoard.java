@@ -9,8 +9,8 @@ import org.minueto.window.MinuetoPanel;
 import catan.settlers.client.model.HexagonMap;
 
 public class GameBoard {
-	private JFrame gameFrame;
-	private MinuetoPanel boardPanel;
+	private GameFrame gameFrame;
+	private MinuetoFrame boardPanel;
 	private MinuetoPanel resourcePanel;
 	private MinuetoPanel playerPanel;
 	private MinuetoPanel controlPanel;
@@ -19,7 +19,7 @@ public class GameBoard {
 	
 	public GameBoard(){
 		//just the board and its elements
-		boardPanel = new MinuetoPanel(0,100);
+		boardPanel = new MinuetoFrame(0,100, true);
 		boardPanel.setVisible(true);
 		board = new HexagonMap().DrawHexagonMap(100,100);
 		boardPanel.draw(board, 0, 0);
@@ -31,5 +31,22 @@ public class GameBoard {
 		//add the elements to the gameFrame
 		gameFrame.add(boardPanel);
 		gameFrame.setVisible(true);
+	}
+	
+	public static void main(String[] args){
 		
+		MinuetoImage map = new HexagonMap().DrawHexagonMap(100,100);
+		GameBoard();
+		
+		
+		while(true){
+
+			boardPanel.draw(map,50,50);
+
+			
+			
+			window.render();
+			Thread.yield();
+		}
+	}
 }

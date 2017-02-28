@@ -2,6 +2,8 @@ package catan.settlers.network.client.commands;
 
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+
 import catan.settlers.server.model.Game;
 
 public class GameListResponseCommand implements ServerToClientCommand {
@@ -16,5 +18,9 @@ public class GameListResponseCommand implements ServerToClientCommand {
 	@Override
 	public void execute() {
 		// TODO Display the list of games
+		for (game i : games) {
+			i = new JButton("Game" + i.getText());
+			lobbyPanel.add(i); // add some layout later
+		}
 	}
 }

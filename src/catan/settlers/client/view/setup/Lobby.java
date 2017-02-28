@@ -10,6 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.GameBoard;
+import catan.settlers.network.server.commands.CreateGameCommand;
+import catan.settlers.network.server.commands.GetListOfGamesCommand;
+
 public class Lobby implements ActionListener {
 	private JButton back;
 	private JButton createNewGame;
@@ -33,6 +38,8 @@ public class Lobby implements ActionListener {
 		lobbyPanel.add(createNewGame);
 		lobbyPanel.add(label1);
 
+		GetListOfGamesCommand getListOfGames = new GetListOfGamesCommand();
+		ClientModel.instance.sendCommand(getListOfGames);
 		// populating the publicGame arraylist
 		publicGame = new ArrayList<JButton>();
 		publicGame.add(new JButton("1"));
@@ -60,11 +67,19 @@ public class Lobby implements ActionListener {
 			topFrame.remove(lobbyPanel);
 			topFrame.add(backMenu.getPanel());
 			topFrame.setContentPane(backMenu.getPanel());
-		} else if (arg0.getSource() == createNewGame) {
+		} /*else if (arg0.getSource() == createNewGame) {
 			NewGame newGame = new NewGame(user);
 			topFrame.remove(lobbyPanel);
 			topFrame.add(newGame.getPanel());
-			topFrame.setContentPane(newGame.getPanel());
+			topFrame.setContentPane(newGame.getPanel());*/ //reserved for more advanced options of game
+		else if(arg0.getSource() == createNewGame){
+			//topFrame.getContentPane().removeAll();
+			//topFrame.dispose();
+			CreateGameCommand newGame = new CreateGameCommand(user);
+			ClientModel.instance.sendCommand(newGame);
+			
+			//GameBoard gameBoard = new GameBoard();
+			//topFrame.setTitle("Cattlers of Seten");
 		}
 		topFrame.revalidate();
 		topFrame.repaint();
