@@ -41,16 +41,7 @@ public class Lobby implements ActionListener {
 		GetListOfGamesCommand getListOfGames = new GetListOfGamesCommand();
 		ClientModel.instance.sendCommand(getListOfGames);
 		// populating the publicGame arraylist
-		publicGame = new ArrayList<JButton>();
-		publicGame.add(new JButton("1"));
-		publicGame.add(new JButton("2"));
-		publicGame.add(new JButton("3"));
-
-		for (JButton i : publicGame) {
-			i = new JButton("Game" + i.getText());
-			lobbyPanel.add(i); // add some layout later
-		}
-
+	
 		back.addActionListener(this);
 		createNewGame.addActionListener(this);
 	}
@@ -77,7 +68,8 @@ public class Lobby implements ActionListener {
 			//topFrame.dispose();
 			CreateGameCommand newGame = new CreateGameCommand(user);
 			ClientModel.instance.sendCommand(newGame);
-			
+			GetListOfGamesCommand getListOfGames = new GetListOfGamesCommand();
+			ClientModel.instance.sendCommand(getListOfGames);
 			//GameBoard gameBoard = new GameBoard();
 			//topFrame.setTitle("Cattlers of Seten");
 		}
