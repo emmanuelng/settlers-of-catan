@@ -39,6 +39,7 @@ public class Server extends Thread {
 	public Server(ServerGUI gui) throws IOException {
 		this.gui = gui;
 		this.playerManager = new PlayerManager();
+		this.activeSessions = new ArrayList<>();
 
 		settingsFile = new File(SETTINGS_FILE);
 		loadSettings();
@@ -54,7 +55,7 @@ public class Server extends Thread {
 			isServerRunning = true;
 			start();
 		} catch (IOException e) {
-			gui.writeToLog("Error: Failed to launch server. Port " + settings.getPort() + " is already used.");
+			writeToConsole("Error: Failed to launch server. Port " + settings.getPort() + " is already used.");
 		}
 	}
 
@@ -63,7 +64,7 @@ public class Server extends Thread {
 	 * restart is needed, use a new instance of Server.
 	 */
 	public void close() {
-		gui.writeToLog("Closing server...");
+		writeToConsole("Closing server...");
 		try {
 			listener.close();
 			isServerRunning = false;
@@ -74,7 +75,7 @@ public class Server extends Thread {
 
 	@Override
 	public void run() {
-		gui.writeToLog("Server is running on port " + settings.getPort());
+		writeToConsole("Server is running on port " + settings.getPort());
 		while (isServerRunning) {
 			try {
 				Socket socket = listener.accept();
@@ -85,7 +86,7 @@ public class Server extends Thread {
 				// Ignore
 			}
 		}
-		gui.writeToLog("Server is now closed");
+		writeToConsole("Server is now closed");
 	}
 
 	/**
@@ -116,7 +117,7 @@ public class Server extends Thread {
 		saveSettings();
 		loadSettings();
 
-		gui.writeToLog("Server settings updated");
+		writeToConsole("Server settings updated");
 	}
 
 	/**
@@ -130,16 +131,22 @@ public class Server extends Thread {
 	public boolean registerPlayer(String username, String password) {
 		return playerManager.register(username, password);
 	}
-	
+
 	/**
 	 * Authenticates a player
+	 * 
 	 * @param username
 	 * @param password
-	 * @param sender the session that received the authentication request
+	 * @param sender
+	 *            the session that received the authentication request
 	 * @return true if the process was successful, false otherwise
 	 */
 	public boolean authenticatePlayer(String username, String password, Session sender) {
 		return playerManager.authenticate(username, password, sender);
+	}
+
+	public void writeToConsole(String string) {
+		gui.writeToLog(string);
 	}
 
 	private void loadSettings() {

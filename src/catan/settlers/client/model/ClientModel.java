@@ -3,17 +3,27 @@ package catan.settlers.client.model;
 import java.io.IOException;
 
 import catan.settlers.network.client.Client;
+import catan.settlers.network.server.commands.ClientToServerCommand;
 
 public class ClientModel {
 	public static final ClientModel instance = new ClientModel();
-	private Client newClient;
+	private Client client;
 	
 	private ClientModel(){
-		
+		// TODO
 	}
 	
 	public void connect(String IP, int portNumber) throws IOException{
-		newClient = new Client(IP,portNumber);
-		newClient.connect();
+		client = new Client(IP,portNumber);
+		client.connect();
+	}
+	
+	public void sendCommand(ClientToServerCommand cmd) {
+		try {
+			client.sendCommand(cmd);
+		} catch (IOException e) {
+			// TODO Failed to send command
+			System.out.println("Failed to send registration request: " + e.getMessage());
+		}
 	}
 }

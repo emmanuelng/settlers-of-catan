@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
+import catan.settlers.network.server.commands.ClientToServerCommand;
 
 public class Client extends Thread {
 
@@ -56,7 +57,7 @@ public class Client extends Thread {
 		}
 	}
 
-	public void sendCommand(ServerToClientCommand cmd) throws IOException {
+	public void sendCommand(ClientToServerCommand cmd) throws IOException {
 		out.writeObject(cmd);
 	}
 }

@@ -2,6 +2,11 @@ package catan.settlers.client.view.setup;
 
 import javax.swing.*;
 
+import org.omg.PortableInterceptor.ClientRequestInfo;
+
+import catan.settlers.client.model.ClientModel;
+import catan.settlers.network.server.commands.RegisterCommand;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,7 +63,9 @@ public class Register implements ActionListener {
 		if (arg0.getSource() == RegisterButton) {
 			String u = username.getText();
 			String p = String.valueOf(password.getPassword());
+			
 			// send a register query to server
+			ClientModel.instance.sendCommand(new RegisterCommand(u, p));
 
 		} else if (arg0.getSource() == backToLogin) {
 			topFrame.remove(registerPanel);

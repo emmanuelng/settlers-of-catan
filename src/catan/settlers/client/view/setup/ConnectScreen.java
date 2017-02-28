@@ -21,6 +21,8 @@ public class ConnectScreen extends JFrame implements ActionListener {
 	private JLabel label1, label2;
 
 	public ConnectScreen() {
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		
 		label1 = new JLabel("Enter the Server Address");
 		IP = new JTextField(100);
 
