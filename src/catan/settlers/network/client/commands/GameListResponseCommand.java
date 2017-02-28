@@ -12,8 +12,12 @@ public class GameListResponseCommand implements ServerToClientCommand {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Game> games;
 
-	public GameListResponseCommand(ArrayList<Game> games) {
-		this.games = games;
+	public GameListResponseCommand(ArrayList<Game> pGames) {
+		//this.games = games;
+		this.games= new ArrayList<Game>();
+		for(Game g: pGames){
+			this.games.add(g);
+		}
 	}
 
 	@Override
