@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import catan.settlers.client.view.GameBoard;
+import catan.settlers.server.model.Game;
 
 
 
@@ -64,7 +65,7 @@ public class NewGame implements ActionListener {
 
 		
 		if(arg0.getSource()==back){
-			Lobby backLobby = new Lobby(user);
+			Lobby backLobby = new Lobby(new ArrayList<Game>());
 			topFrame.remove(newGamePanel);
 			topFrame.add(backLobby.getPanel());
 			topFrame.setContentPane(backLobby.getPanel());

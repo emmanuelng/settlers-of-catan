@@ -38,7 +38,7 @@ public class Lobby implements ActionListener {
 		lobbyPanel.add(back);
 		lobbyPanel.add(createNewGame);
 		lobbyPanel.add(label1);
-		System.out.println(games);
+
 		for (int i=0;i<games.size();i++) {
 			
 			JButton gameButton = new JButton("Game" + i);
