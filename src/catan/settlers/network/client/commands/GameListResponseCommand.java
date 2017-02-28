@@ -2,7 +2,6 @@ package catan.settlers.network.client.commands;
 
 import java.util.ArrayList;
 
-import javax.swing.JButton;
 
 import catan.settlers.client.view.setup.Lobby;
 import catan.settlers.client.view.setup.MainFrame;

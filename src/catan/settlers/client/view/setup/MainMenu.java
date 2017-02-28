@@ -2,6 +2,8 @@ package catan.settlers.client.view.setup;
 
 import javax.swing.*;
 
+import catan.settlers.client.model.ClientModel;
+import catan.settlers.network.server.commands.GetListOfGamesCommand;
 import catan.settlers.server.model.Game;
 
 import java.awt.*;
@@ -48,7 +50,8 @@ public class MainMenu implements ActionListener {
 			topFrame.remove(mainPanel);
 			topFrame.add(lobby.getPanel(), BorderLayout.CENTER);
 			topFrame.setContentPane(lobby.getPanel());
-
+			ClientModel.instance.sendCommand(new GetListOfGamesCommand());
+			
 		} else if (arg0.getSource() == Exit) {
 			// could add more prompts and stuff, now it's just abrupt closing
 			System.exit(0);
