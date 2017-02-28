@@ -7,7 +7,7 @@ import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 
 public class AuthenticationCommand implements ClientToServerCommand {
-	
+
 	private String username;
 	private String password;
 
@@ -19,11 +19,16 @@ public class AuthenticationCommand implements ClientToServerCommand {
 	@Override
 	public void execute(Session sender, Server server) {
 		try {
-			sender.sendCommand(new AuthResultCommand(username,server.authenticatePlayer(username, password, sender)));
+			if (server.authenticatePlayer(username, password, sender)) {
+				server.writeToConsole("Received authentication request");
+				sender.sendCommand(new AuthResultCommand(username, true));
+			} else {
+				sender.sendCommand(new AuthResultCommand(username, false));
+			}
 		} catch (IOException e) {
 			// Ignore
 		}
-		
+
 	}
-	
+
 }

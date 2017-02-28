@@ -1,12 +1,14 @@
 package catan.settlers.server.model;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.Session;
 
-public class Player {
+public class Player implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
 	private Session session;
