@@ -14,19 +14,20 @@ import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.GameBoard;
 import catan.settlers.network.server.commands.CreateGameCommand;
 import catan.settlers.network.server.commands.GetListOfGamesCommand;
+import catan.settlers.server.model.Game;
 
 public class Lobby implements ActionListener {
 	private JButton back;
 	private JButton createNewGame;
-	private ArrayList<JButton> publicGame; // button for every public game, this
+	private ArrayList<Game> games; // button for every public game, this
 											// will have to be accessed from the
 											// server
 	private JPanel lobbyPanel;
 	private JLabel label1;
 	private String user;
 
-	public Lobby(String user) {
-		this.user = user;
+	public Lobby(ArrayList<Game> games) {
+		this.games = games;
 		lobbyPanel = new JPanel();
 
 		back = new JButton("Back");
@@ -37,9 +38,12 @@ public class Lobby implements ActionListener {
 		lobbyPanel.add(back);
 		lobbyPanel.add(createNewGame);
 		lobbyPanel.add(label1);
-
-		GetListOfGamesCommand getListOfGames = new GetListOfGamesCommand();
-		ClientModel.instance.sendCommand(getListOfGames);
+		System.out.println(games);
+		for (int i=0;i<games.size();i++) {
+			
+			JButton gameButton = new JButton("Game" + i);
+			lobbyPanel.add(gameButton); // add some layout later
+		}
 		// populating the publicGame arraylist
 	
 		back.addActionListener(this);
@@ -66,10 +70,10 @@ public class Lobby implements ActionListener {
 		else if(arg0.getSource() == createNewGame){
 			//topFrame.getContentPane().removeAll();
 			//topFrame.dispose();
-			CreateGameCommand newGame = new CreateGameCommand(user);
-			ClientModel.instance.sendCommand(newGame);
-			GetListOfGamesCommand getListOfGames = new GetListOfGamesCommand();
-			ClientModel.instance.sendCommand(getListOfGames);
+		
+			ClientModel.instance.sendCommand(new CreateGameCommand(user));
+			topFrame.remove(lobbyPanel);
+			ClientModel.instance.sendCommand(new GetListOfGamesCommand());
 			//GameBoard gameBoard = new GameBoard();
 			//topFrame.setTitle("Cattlers of Seten");
 		}

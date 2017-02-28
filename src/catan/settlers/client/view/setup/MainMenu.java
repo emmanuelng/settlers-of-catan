@@ -2,8 +2,11 @@ package catan.settlers.client.view.setup;
 
 import javax.swing.*;
 
+import catan.settlers.server.model.Game;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class MainMenu implements ActionListener {
 
@@ -41,7 +44,7 @@ public class MainMenu implements ActionListener {
 		JFrame topFrame = MainFrame.getInstance();
 
 		if (arg0.getSource() == Play) {
-			Lobby lobby = new Lobby(username);
+			Lobby lobby = new Lobby(new ArrayList<Game>());
 			topFrame.remove(mainPanel);
 			topFrame.add(lobby.getPanel(), BorderLayout.CENTER);
 			topFrame.setContentPane(lobby.getPanel());
