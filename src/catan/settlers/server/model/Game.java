@@ -1,8 +1,9 @@
 package catan.settlers.server.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Game extends Thread {
+public class Game extends Thread implements Serializable {
 	
 	private ArrayList<Player> participants;
 	

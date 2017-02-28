@@ -16,6 +16,6 @@ public class GameManager {
 	}
 	
 	public ArrayList<Game> getListOfGames() {
-		return (ArrayList<Game>) Collections.unmodifiableList(games);
+		return games;
 	}
 }
