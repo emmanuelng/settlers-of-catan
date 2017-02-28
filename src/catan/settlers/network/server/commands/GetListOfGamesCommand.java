@@ -13,6 +13,7 @@ public class GetListOfGamesCommand implements ClientToServerCommand {
 	@Override
 	public void execute(Session sender, Server server) {
 		try {
+			server.writeToConsole("Client requested the list of games");
 			sender.sendCommand(new GameListResponseCommand(server.getGameManager().getListOfGames()));
 		} catch (IOException e) {
 			// Ignore
