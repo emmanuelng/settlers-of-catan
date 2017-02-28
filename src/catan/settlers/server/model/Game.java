@@ -6,7 +6,8 @@ public class Game extends Thread {
 	
 	private ArrayList<Player> participants;
 	
-	public Game() {
+	public Game(String ownerUsername) {
+		// TODO add owner to the list of participants
 		participants = new ArrayList<>();
 	}
 	

@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import catan.settlers.common.utils.File;
+import catan.settlers.server.model.Game;
+import catan.settlers.server.model.GameManager;
 import catan.settlers.server.model.PlayerManager;
 import catan.settlers.server.view.ServerGUI;
 
@@ -25,6 +27,8 @@ public class Server extends Thread {
 	private ServerGUI gui;
 	private PlayerManager playerManager;
 
+	private GameManager gameManager;
+
 	/**
 	 * A Server is a thread that blocks until a client connects. When a new
 	 * server is created, it is not started automatically. In order to do so,
@@ -39,6 +43,7 @@ public class Server extends Thread {
 	public Server(ServerGUI gui) throws IOException {
 		this.gui = gui;
 		this.playerManager = new PlayerManager();
+		this.gameManager = new GameManager();
 		this.activeSessions = new ArrayList<>();
 
 		settingsFile = new File(SETTINGS_FILE);
@@ -131,18 +136,13 @@ public class Server extends Thread {
 	public boolean registerPlayer(String username, String password) {
 		return playerManager.register(username, password);
 	}
-
-	/**
-	 * Authenticates a player
-	 * 
-	 * @param username
-	 * @param password
-	 * @param sender
-	 *            the session that received the authentication request
-	 * @return true if the process was successful, false otherwise
-	 */
-	public boolean authenticatePlayer(String username, String password, Session sender) {
-		return playerManager.authenticate(username, password, sender);
+	
+	public PlayerManager getPlayerManager() {
+		return playerManager;
+	}
+	
+	public GameManager getGameManager() {
+		return gameManager;
 	}
 
 	public void writeToConsole(String string) {

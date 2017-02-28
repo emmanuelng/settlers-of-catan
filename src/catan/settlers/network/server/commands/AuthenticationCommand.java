@@ -19,7 +19,7 @@ public class AuthenticationCommand implements ClientToServerCommand {
 	@Override
 	public void execute(Session sender, Server server) {
 		try {
-			if (server.authenticatePlayer(username, password, sender)) {
+			if (server.getPlayerManager().authenticate(username, password, sender)) {
 				server.writeToConsole("Received authentication request");
 				sender.sendCommand(new AuthResultCommand(username, true));
 			} else {
