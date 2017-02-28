@@ -2,6 +2,9 @@ package catan.settlers.client.view.setup;
 
 import javax.swing.*;
 
+import catan.settlers.client.model.ClientModel;
+import catan.settlers.network.server.commands.AuthenticationCommand;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -53,16 +56,8 @@ public class Login implements ActionListener {
 		if (arg0.getSource() == Login) {
 			String u = username.getText();
 			String p = String.valueOf(password.getPassword());
-
-			if (u.equals("1") && p.equals("1")) {
-				MainMenu menu = new MainMenu(u);
-				frame.remove(loginPanel);
-				frame.add(menu.getPanel(), BorderLayout.CENTER);
-				frame.setContentPane(menu.getPanel());
-			} else {
-				System.out.println("enter valid username & password");
-				JOptionPane.showMessageDialog(null, "Incorrect login/password", "Error", JOptionPane.ERROR_MESSAGE);
-			}
+			
+			ClientModel.instance.sendCommand(new AuthenticationCommand(u,p));
 
 		} else if (arg0.getSource() == Register) {
 			Register register = new Register();

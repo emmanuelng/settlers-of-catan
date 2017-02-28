@@ -59,5 +59,6 @@ public class Client extends Thread {
 
 	public void sendCommand(ClientToServerCommand cmd) throws IOException {
 		out.writeObject(cmd);
+		
 	}
 }

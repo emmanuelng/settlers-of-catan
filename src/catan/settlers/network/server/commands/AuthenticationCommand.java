@@ -19,7 +19,7 @@ public class AuthenticationCommand implements ClientToServerCommand {
 	@Override
 	public void execute(Session sender, Server server) {
 		try {
-			sender.sendCommand(new AuthResultCommand(server.authenticatePlayer(username, password, sender)));
+			sender.sendCommand(new AuthResultCommand(username,server.authenticatePlayer(username, password, sender)));
 		} catch (IOException e) {
 			// Ignore
 		}
