@@ -10,7 +10,7 @@ public class MainFrame extends JFrame {
 	private JPanel currentPanel;
 
 	private MainFrame() {
-
+		// Private constructor for the singleton pattern
 	}
 
 	public static MainFrame getInstance() {
@@ -19,19 +19,18 @@ public class MainFrame extends JFrame {
 		}
 		return instance;
 	}
-	
-	public void switchScreen(JPanel panel){
-		if(currentPanel != null){
+
+	public void switchScreen(JPanel panel) {
+		if (currentPanel != null) {
 			remove(currentPanel);
 			revalidate();
 			repaint();
-		}
-		else{
+		} else {
 			remove(this.getContentPane());
 			revalidate();
 			repaint();
 		}
-		currentPanel= panel;
+		currentPanel = panel;
 		setContentPane(panel);
 		revalidate();
 		repaint();

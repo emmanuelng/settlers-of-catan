@@ -13,14 +13,14 @@ import catan.settlers.network.server.commands.CancelJoinGameCommand;
 
 public class WaitingRoom implements ActionListener {
 	private JPanel waitingRoomPanel;
-	private JLabel player1, player2, player3;
 	private JButton goButton, back;
-	private int gameID;
+	private int gameId;
 
 	public WaitingRoom(ArrayList<String> participants,int gameId) {
-		this.gameID = gameID;
+		this.gameId = gameId;
+		
 		waitingRoomPanel = new JPanel();
-		JLabel currentGameID = new JLabel(""+ gameID);
+		JLabel currentGameID = new JLabel(""+ gameId);
 		goButton = new JButton("Go");
 		back = new JButton("Back");
 
@@ -48,7 +48,7 @@ public class WaitingRoom implements ActionListener {
 			System.out.println("successful go");
 		} else if (arg0.getSource() == back) {
 			System.out.println("trigger");
-			ClientModel.instance.sendCommand(new CancelJoinGameCommand(gameID));
+			ClientModel.instance.sendCommand(new CancelJoinGameCommand(gameId));
 		}
 	}
 }

@@ -16,6 +16,7 @@ import catan.settlers.network.server.commands.JoinGameCommand;
 import catan.settlers.server.model.Game;
 
 public class Lobby implements ActionListener {
+	
 	private JButton back;
 	private JButton createNewGame;
 	JButton gameButton;

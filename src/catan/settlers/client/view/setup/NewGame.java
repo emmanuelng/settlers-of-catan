@@ -9,10 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import catan.settlers.client.view.GameBoard;
 import catan.settlers.server.model.Game;
-
-
 
 public class NewGame implements ActionListener {
 	private JButton back;
@@ -21,11 +18,8 @@ public class NewGame implements ActionListener {
 	private JButton gameBoard3;
 	private JPanel newGamePanel;
 	private JLabel label1;
-	private String user;
-	//private ArrayList<Player> players;
 	
 	public NewGame(String user) {
-		this.user = user;
 		newGamePanel = new JPanel();
 		
 		back = new JButton("Back");
@@ -81,17 +75,14 @@ public class NewGame implements ActionListener {
 		else if(arg0.getSource()==gameBoard1){
 			System.out.println("triggered");
 			topFrame.getContentPane().removeAll();
-			GameBoard gameBoard = new GameBoard();
 			topFrame.setTitle("Cattlers of Seten");
 		}
 		else if(arg0.getSource()==gameBoard2){
 			topFrame.getContentPane().removeAll();
-			GameBoard gameBoard = new GameBoard();
 			topFrame.setTitle("Cattlers of Seten");
 		}
 		else if(arg0.getSource()==gameBoard3){
 			topFrame.getContentPane().removeAll();
-			GameBoard gameBoard = new GameBoard();
 			topFrame.setTitle("Cattlers of Seten");
 		}
 		

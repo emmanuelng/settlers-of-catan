@@ -8,7 +8,7 @@ public class SettlersOfCatanClient {
 	
 	public static void main(String arg[]) {
 		try {
-			ConnectScreen frame = new ConnectScreen();
+			new ConnectScreen();
 			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());

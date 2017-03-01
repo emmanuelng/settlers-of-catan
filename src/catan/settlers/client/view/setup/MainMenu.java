@@ -1,14 +1,16 @@
 package catan.settlers.client.view.setup;
 
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.network.server.commands.GetListOfGamesCommand;
 import catan.settlers.server.model.Game;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
 
 public class MainMenu implements ActionListener {
 
@@ -16,12 +18,10 @@ public class MainMenu implements ActionListener {
 	private JButton Play;
 	private JButton Exit;
 	private JPanel mainPanel;
-	private JLabel label1, label2, label3;
-	private String username;
+	private JLabel label1;
 
 	public MainMenu(String username) {
 		mainPanel = new JPanel();
-		this.username = username;
 		label1 = new JLabel("Welcome " + username);
 
 		Tutorial = new JButton("Tutorial");
@@ -33,7 +33,6 @@ public class MainMenu implements ActionListener {
 		mainPanel.add(Play);
 		mainPanel.add(Exit);
 
-		// Tutorial.addActionListener()
 		Play.addActionListener(this);
 		Exit.addActionListener(this);
 	}
@@ -48,7 +47,6 @@ public class MainMenu implements ActionListener {
 			Lobby lobby = new Lobby(new ArrayList<Game>());
 			MainFrame.getInstance().switchScreen(lobby.getPanel());
 			ClientModel.instance.sendCommand(new GetListOfGamesCommand());
-			
 		} else if (arg0.getSource() == Exit) {
 			// could add more prompts and stuff, now it's just abrupt closing
 			System.exit(0);
