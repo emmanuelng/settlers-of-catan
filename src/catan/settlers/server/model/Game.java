@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Game extends Thread implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Player> participants;
 
 	public Game(String ownerUsername) {
@@ -24,10 +25,20 @@ public class Game extends Thread implements Serializable {
 	public void removePlayer(Player player) {
 		participants.remove(player);
 	}
+	
+	public ArrayList<Player> getParticipants() {
+		ArrayList<Player> list = new ArrayList<>();
+		
+		for (Player p : participants) {
+			list.add(p);
+		}
+		
+		return list;
+	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		// TODO Run the game
 		super.run();
 	}
 }
