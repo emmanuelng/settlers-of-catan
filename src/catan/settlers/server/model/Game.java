@@ -4,27 +4,27 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Game extends Thread implements Serializable {
-	
+
 	private ArrayList<Player> participants;
-	
+
 	public Game(String ownerUsername) {
 		// TODO add owner to the list of participants
 		participants = new ArrayList<>();
 	}
-	
-	public void addPlayer(Player player) {
-		if (!participants.contains(player)) {
+
+	public boolean addPlayer(Player player) {
+		if (!participants.contains(player) && participants.size() < 3) {
 			participants.add(player);
-			if (participants.size() == 3) {
-				start();
-			}
+			return true;
 		}
+		
+		return false;
 	}
-	
+
 	public void removePlayer(Player player) {
 		participants.remove(player);
 	}
-	
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub

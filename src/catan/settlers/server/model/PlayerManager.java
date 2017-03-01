@@ -58,4 +58,14 @@ public class PlayerManager {
 
 		return loadedList;
 	}
+
+	public Player getPlayerByUsername(String username) {
+		for (Player p : registeredPlayers) {
+			if (p.getUsername().equals(username)) {
+				return p;
+			}
+		}
+		
+		return null;
+	}
 }
