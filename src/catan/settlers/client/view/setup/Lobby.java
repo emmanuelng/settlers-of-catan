@@ -38,7 +38,7 @@ public class Lobby implements ActionListener {
 		for (int i = 0; i < games.size(); i++) {
 			gameButton = new JButton("Game" + i);
 			lobbyPanel.add(gameButton); // add some layout later
-			gameButton.addActionListener(new JoinGameActionListener(games.get(i), user));
+			gameButton.addActionListener(new JoinGameActionListener(games.get(i)));
 		}
 		// populating the publicGame arraylist
 
@@ -90,14 +90,13 @@ class JoinGameActionListener implements ActionListener {
 	private Game game;
 	private String username;
 
-	public JoinGameActionListener(Game game, String username) {
+	public JoinGameActionListener(Game game) {
 		this.game = game;
-		this.username = username;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ClientModel.instance.sendCommand(new JoinGameCommand(game, username));
+		ClientModel.instance.sendCommand(new JoinGameCommand(game));
 	}
 
 }
