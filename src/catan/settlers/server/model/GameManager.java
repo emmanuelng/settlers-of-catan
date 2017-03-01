@@ -16,6 +16,12 @@ public class GameManager {
 	}
 	
 	public ArrayList<Game> getListOfGames() {
-		return games;
+		ArrayList<Game> list = new ArrayList<>();
+		
+		for (Game g : games) {
+			list.add(g);
+		}
+		
+		return list;
 	}
 }
