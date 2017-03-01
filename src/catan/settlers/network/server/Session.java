@@ -7,6 +7,7 @@ import java.net.Socket;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.commands.ClientToServerCommand;
+import catan.settlers.server.model.Player;
 
 public class Session extends Thread {
 
@@ -14,6 +15,7 @@ public class Session extends Thread {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private boolean sessionActive;
+	private Player authenticatedPlayer;
 
 	/**
 	 * A session is a thread that waits commands from a specific client (not
@@ -53,5 +55,12 @@ public class Session extends Thread {
 		sessionActive = false;
 		host.removeSession(this);
 	}
-
+	
+	public void setPlayer(Player player) {
+		authenticatedPlayer = player;
+	}
+	
+	public Player getPlayer() {
+		return authenticatedPlayer;
+	}
 }

@@ -34,6 +34,7 @@ public class PlayerManager {
 		for (Player p : registeredPlayers) {
 			if (p.getUsername().equals(username) && p.comparePassword(password)) {
 				p.setCurrentSession(sender);
+				sender.setPlayer(p);
 				return true;
 			}
 		}
