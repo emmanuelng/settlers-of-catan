@@ -17,7 +17,7 @@ public class Hexagon {
 	private static int r = 0; //radius -centre to middle of each side
 	private static int h = 0; //distance between centres of two neighbor hexes
 	
-	private HexType type;
+	//private HexType type;
 	private MinuetoColor color;
 	
 	/*public Hexagon(HexType htype){
@@ -36,13 +36,13 @@ public class Hexagon {
 		
 	}
 	
-	public void setHexType(HexType htype){
+	/*public void setHexType(HexType htype){
 		type = htype;
 	}
 	
 	public HexType getHexType(){
 		return type;
-	}
+	}*/
 	
 	public MinuetoColor getColor(){
 		return color;

@@ -22,9 +22,11 @@ public class Lobby implements ActionListener {
 	private ArrayList<Game> games; // button for every public game, this
 											// will have to be accessed from the
 											// server
+	JButton gameButton;
 	private JPanel lobbyPanel;
 	private JLabel label1;
 	private String user;
+	
 
 	public Lobby(ArrayList<Game> games) {
 		this.games = games;
@@ -41,8 +43,16 @@ public class Lobby implements ActionListener {
 
 		for (int i=0;i<games.size();i++) {
 			
-			JButton gameButton = new JButton("Game" + i);
+			gameButton = new JButton("Game" + i);
 			lobbyPanel.add(gameButton); // add some layout later
+			gameButton.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					System.out.println(arg0.getSource());
+				}
+				
+			});
 		}
 		// populating the publicGame arraylist
 	
@@ -68,15 +78,21 @@ public class Lobby implements ActionListener {
 			topFrame.add(newGame.getPanel());
 			topFrame.setContentPane(newGame.getPanel());*/ //reserved for more advanced options of game
 		else if(arg0.getSource() == createNewGame){
-			//topFrame.getContentPane().removeAll();
-			//topFrame.dispose();
-		
+			//System.out.println(games);
 			ClientModel.instance.sendCommand(new CreateGameCommand(user));
 			topFrame.remove(lobbyPanel);
 			ClientModel.instance.sendCommand(new GetListOfGamesCommand());
-			//GameBoard gameBoard = new GameBoard();
-			//topFrame.setTitle("Cattlers of Seten");
-		}
+			
+		}/*else if(arg0.getSource() == gameButton){
+
+			
+			topFrame.remove(lobbyPanel);
+			topFrame.setVisible(false);
+			Thread ourGame = new Thread(new GameBoard());
+		      // Start
+		    ourGame.start();
+			
+		}*/
 		topFrame.revalidate();
 		topFrame.repaint();
 	}

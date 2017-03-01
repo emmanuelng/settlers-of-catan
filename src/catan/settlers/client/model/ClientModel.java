@@ -15,7 +15,7 @@ public class ClientModel {
 	
 	public void connect(String IP, int portNumber) throws IOException{
 		//client = new Client(IP,portNumber);
-		client = new Client("132.206.54.90",3000);
+		client = new Client(IP,portNumber);
 		client.connect();
 	}
 	
