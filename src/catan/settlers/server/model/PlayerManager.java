@@ -51,10 +51,7 @@ public class PlayerManager {
 		ArrayList<Player> loadedList = (ArrayList<Player>) registeredPlayersFile.read();
 
 		if (loadedList == null) {
-			System.out.println("No player file found");
 			loadedList = new ArrayList<>();
-		} else {
-			System.out.println("Loaded list of players");
 		}
 
 		return loadedList;

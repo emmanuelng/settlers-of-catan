@@ -18,8 +18,6 @@ public class GameListResponseCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
-		// TODO Display the list of games
-		System.out.println(games);
 		Lobby newLobby = new Lobby(games);
 		MainFrame.getInstance().switchScreen(newLobby.getPanel());
 	}

@@ -85,7 +85,7 @@ public class Server extends Thread {
 		while (isServerRunning) {
 			try {
 				Socket socket = listener.accept();
-				gui.writeToLog("Detected new client");
+				gui.writeToLog("New client connected");
 				Session session = new Session(socket, this);
 				activeSessions.add(session);
 			} catch (IOException e) {
