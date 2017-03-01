@@ -49,7 +49,8 @@ public class Lobby implements ActionListener {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					System.out.println(arg0.getSource());
+					
+					ClientModel.instance.sendCommand(new JoinGamecommand(games.get(i),user));
 				}
 				
 			});

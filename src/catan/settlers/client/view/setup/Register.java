@@ -66,7 +66,7 @@ public class Register implements ActionListener {
 			
 			// send a register query to server
 			ClientModel.instance.sendCommand(new RegisterCommand(u, p));
-			JOptionPane.showMessageDialog(label4, "Register Success");
+			
 		} else if (arg0.getSource() == backToLogin) {
 			topFrame.remove(registerPanel);
 			topFrame.dispose();
