@@ -24,8 +24,7 @@ public class AuthResultCommand implements ServerToClientCommand {
 		System.out.println(success);
 		if (success) {
 			MainMenu menu = new MainMenu(user);
-			MainFrame.getInstance().add(menu.getPanel(), BorderLayout.CENTER);
-			MainFrame.getInstance().setContentPane(menu.getPanel());
+			MainFrame.getInstance().switchScreen(menu.getPanel());
 		} else {
 			System.out.println("enter valid username & password");
 			JOptionPane.showMessageDialog(null, "Incorrect login/password", "Error", JOptionPane.ERROR_MESSAGE);

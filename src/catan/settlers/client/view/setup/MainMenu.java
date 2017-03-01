@@ -43,20 +43,17 @@ public class MainMenu implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		JFrame topFrame = MainFrame.getInstance();
 
 		if (arg0.getSource() == Play) {
 			Lobby lobby = new Lobby(new ArrayList<Game>());
-			topFrame.remove(mainPanel);
-			topFrame.add(lobby.getPanel(), BorderLayout.CENTER);
-			topFrame.setContentPane(lobby.getPanel());
+			MainFrame.getInstance().switchScreen(lobby.getPanel());
 			ClientModel.instance.sendCommand(new GetListOfGamesCommand());
 			
 		} else if (arg0.getSource() == Exit) {
 			// could add more prompts and stuff, now it's just abrupt closing
 			System.exit(0);
 		}
-		topFrame.revalidate();
-		topFrame.repaint();
+		MainFrame.getInstance().revalidate();
+		MainFrame.getInstance().repaint();
 	}
 }

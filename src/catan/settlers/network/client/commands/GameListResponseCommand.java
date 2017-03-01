@@ -21,9 +21,6 @@ public class GameListResponseCommand implements ServerToClientCommand {
 		// TODO Display the list of games
 		System.out.println(games);
 		Lobby newLobby = new Lobby(games);
-		MainFrame.getInstance().add(newLobby.getPanel());
-		MainFrame.getInstance().setContentPane(newLobby.getPanel());
-		MainFrame.getInstance().revalidate();
-		MainFrame.getInstance().repaint();
+		MainFrame.getInstance().switchScreen(newLobby.getPanel());
 	}
 }

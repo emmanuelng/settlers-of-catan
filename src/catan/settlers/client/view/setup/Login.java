@@ -56,7 +56,7 @@ public class Login implements ActionListener {
 		if (arg0.getSource() == Login) {
 			String u = username.getText();
 			String p = String.valueOf(password.getPassword());
-			MainFrame.getInstance().remove(loginPanel);
+			
 			ClientModel.instance.sendCommand(new AuthenticationCommand(u,p)); //this is proper the bottom is not, this is for coding purposes
 			/*MainMenu menu = new MainMenu(u);
 			MainFrame.getInstance().add(menu.getPanel(), BorderLayout.CENTER);

@@ -14,20 +14,22 @@ public class WaitingRoom implements ActionListener {
 	private JButton goButton, back;
 
 	public WaitingRoom(ArrayList<String> participants) {
+		System.out.println(MainFrame.getInstance().getContentPane());
 		waitingRoomPanel = new JPanel();
+		JLabel test = new JLabel("test");
 		goButton = new JButton("Go");
 		back = new JButton("Back");
 
-		for (int i = 0; i < 3; i++) {
-			if (participants.get(i) != null) {
-				String username = participants.get(i);
-				waitingRoomPanel.add(new JLabel(username));
-			}
+		for (String s: participants) {
+			waitingRoomPanel.add(new JLabel(s));
+			System.out.println(s);
 		}
 		waitingRoomPanel.add(goButton);
 		waitingRoomPanel.add(back);
+		waitingRoomPanel.add(test);
 
 		goButton.addActionListener(this);
+		waitingRoomPanel.setVisible(true);
 	}
 
 	public JPanel getPanel() {
