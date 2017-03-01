@@ -70,7 +70,7 @@ public class Register implements ActionListener {
 		} else if (arg0.getSource() == backToLogin) {
 			topFrame.remove(registerPanel);
 			topFrame.dispose();
-			Login login = new Login();
+			new Login();
 		}
 	}
 }
