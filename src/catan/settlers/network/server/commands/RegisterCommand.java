@@ -7,6 +7,8 @@ import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 
 public class RegisterCommand implements ClientToServerCommand {
+
+	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
 
