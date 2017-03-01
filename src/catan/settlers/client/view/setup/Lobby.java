@@ -1,6 +1,5 @@
 package catan.settlers.client.view.setup;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -11,25 +10,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import catan.settlers.client.model.ClientModel;
-import catan.settlers.client.view.GameBoard;
 import catan.settlers.network.server.commands.CreateGameCommand;
 import catan.settlers.network.server.commands.GetListOfGamesCommand;
+import catan.settlers.network.server.commands.JoinGameCommand;
 import catan.settlers.server.model.Game;
 
 public class Lobby implements ActionListener {
 	private JButton back;
 	private JButton createNewGame;
-	private ArrayList<Game> games; // button for every public game, this
-											// will have to be accessed from the
-											// server
 	JButton gameButton;
 	private JPanel lobbyPanel;
 	private JLabel label1;
 	private String user;
-	
 
 	public Lobby(ArrayList<Game> games) {
-		this.games = games;
 		lobbyPanel = new JPanel();
 
 		back = new JButton("Back");
@@ -41,22 +35,13 @@ public class Lobby implements ActionListener {
 		lobbyPanel.add(createNewGame);
 		lobbyPanel.add(label1);
 
-		for (int i=0;i<games.size();i++) {
-			
+		for (int i = 0; i < games.size(); i++) {
 			gameButton = new JButton("Game" + i);
 			lobbyPanel.add(gameButton); // add some layout later
-			gameButton.addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					
-					ClientModel.instance.sendCommand(new JoinGamecommand(games.get(i),user));
-				}
-				
-			});
+			gameButton.addActionListener(new JoinGameActionListener(games.get(i), user));
 		}
 		// populating the publicGame arraylist
-	
+
 		back.addActionListener(this);
 		createNewGame.addActionListener(this);
 	}
@@ -73,29 +58,46 @@ public class Lobby implements ActionListener {
 			topFrame.remove(lobbyPanel);
 			topFrame.add(backMenu.getPanel());
 			topFrame.setContentPane(backMenu.getPanel());
-		} /*else if (arg0.getSource() == createNewGame) {
-			NewGame newGame = new NewGame(user);
-			topFrame.remove(lobbyPanel);
-			topFrame.add(newGame.getPanel());
-			topFrame.setContentPane(newGame.getPanel());*/ //reserved for more advanced options of game
-		else if(arg0.getSource() == createNewGame){
-			//System.out.println(games);
+		} /*
+			 * else if (arg0.getSource() == createNewGame) { NewGame newGame =
+			 * new NewGame(user); topFrame.remove(lobbyPanel);
+			 * topFrame.add(newGame.getPanel());
+			 * topFrame.setContentPane(newGame.getPanel());
+			 */ // reserved for more advanced options of game
+		else if (arg0.getSource() == createNewGame) {
+			// System.out.println(games);
 			ClientModel.instance.sendCommand(new CreateGameCommand(user));
 			topFrame.remove(lobbyPanel);
 			ClientModel.instance.sendCommand(new GetListOfGamesCommand());
-			
-		}/*else if(arg0.getSource() == gameButton){
 
-			
-			topFrame.remove(lobbyPanel);
-			topFrame.setVisible(false);
-			Thread ourGame = new Thread(new GameBoard());
-		      // Start
-		    ourGame.start();
-			
-		}*/
+		} /*
+			 * else if(arg0.getSource() == gameButton){
+			 * 
+			 * 
+			 * topFrame.remove(lobbyPanel); topFrame.setVisible(false); Thread
+			 * ourGame = new Thread(new GameBoard()); // Start ourGame.start();
+			 * 
+			 * }
+			 */
 		topFrame.revalidate();
 		topFrame.repaint();
+	}
+
+}
+
+class JoinGameActionListener implements ActionListener {
+
+	private Game game;
+	private String username;
+
+	public JoinGameActionListener(Game game, String username) {
+		this.game = game;
+		this.username = username;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		ClientModel.instance.sendCommand(new JoinGameCommand(game, username));
 	}
 
 }
