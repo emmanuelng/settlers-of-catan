@@ -88,7 +88,6 @@ public class Lobby implements ActionListener {
 class JoinGameActionListener implements ActionListener {
 
 	private Game game;
-	private String username;
 
 	public JoinGameActionListener(Game game) {
 		this.game = game;
@@ -96,7 +95,7 @@ class JoinGameActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ClientModel.instance.sendCommand(new JoinGameCommand(game));
+		ClientModel.instance.sendCommand(new JoinGameCommand(game.getGameId()));
 	}
 
 }

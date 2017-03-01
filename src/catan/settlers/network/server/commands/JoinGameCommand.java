@@ -9,19 +9,21 @@ import catan.settlers.server.model.Player;
 public class JoinGameCommand implements ClientToServerCommand {
 
 	private static final long serialVersionUID = 1L;
-	private Game game;
+	private int gameId;
 
-	public JoinGameCommand(Game game) {
-		this.game = game;
+	public JoinGameCommand(int gameId) {
+		this.gameId = gameId;
 	}
 
 	@Override
 	public void execute(Session sender, Server server) {
-		server.writeToConsole("Player " + sender.getPlayer().getUsername() + " wants to join game " + game);
 		Player player = sender.getPlayer();
+		Game game = server.getGameManager().getGameById(gameId);
+
+		server.writeToConsole("Player " + sender.getPlayer().getUsername() + " wants to join game " + game);
 
 		try {
-			if (player == null) {
+			if (player == null || game == null) {
 				sender.sendCommand(new JoinGameResponseCommand(false, game.getParticipantsUsernames()));
 			} else {
 				if (game.addPlayer(player)) {

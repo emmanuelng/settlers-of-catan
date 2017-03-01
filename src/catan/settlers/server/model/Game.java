@@ -7,10 +7,15 @@ public class Game extends Thread implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Player> participants;
+	private int id;
 
-	public Game(String ownerUsername) {
+	public Game(int id, String ownerUsername) {
 		// TODO add owner to the list of participants
 		participants = new ArrayList<>();
+	}
+
+	public int getGameId() {
+		return id;
 	}
 
 	public boolean addPlayer(Player player) {
