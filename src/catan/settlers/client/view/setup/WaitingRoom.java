@@ -26,7 +26,6 @@ public class WaitingRoom implements ActionListener {
 
 		for (String s: participants) {
 			waitingRoomPanel.add(new JLabel(s));
-			System.out.println(s);
 		}
 		waitingRoomPanel.add(goButton);
 		waitingRoomPanel.add(back);
@@ -43,7 +42,6 @@ public class WaitingRoom implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 		if (arg0.getSource() == goButton) {
 			System.out.println("successful go");
 		} else if (arg0.getSource() == back) {

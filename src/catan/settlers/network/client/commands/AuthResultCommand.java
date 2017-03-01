@@ -18,8 +18,6 @@ public class AuthResultCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
-		// TODO Manage authentication success/failure on client side
-		System.out.println(success);
 		if (success) {
 			MainMenu menu = new MainMenu(user);
 			MainFrame.getInstance().switchScreen(menu.getPanel());
@@ -27,8 +25,6 @@ public class AuthResultCommand implements ServerToClientCommand {
 			System.out.println("enter valid username & password");
 			JOptionPane.showMessageDialog(null, "Incorrect login/password", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		MainFrame.getInstance().validate();
-		MainFrame.getInstance().repaint();
 	}
 
 }

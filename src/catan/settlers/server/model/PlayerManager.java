@@ -18,7 +18,7 @@ public class PlayerManager {
 		registeredPlayers = loadRegisteredPlayers();
 	}
 
-	public boolean register(String username, String password) {
+	public synchronized boolean register(String username, String password) {
 		for (Player p : registeredPlayers) {
 			if (p.getUsername().equals(username)) {
 				return false;
@@ -30,7 +30,7 @@ public class PlayerManager {
 		return true;
 	}
 
-	public boolean authenticate(String username, String password, Session sender) {
+	public synchronized boolean authenticate(String username, String password, Session sender) {
 		for (Player p : registeredPlayers) {
 			if (p.getUsername().equals(username) && p.comparePassword(password)) {
 				p.setCurrentSession(sender);
@@ -42,7 +42,7 @@ public class PlayerManager {
 		return false;
 	}
 
-	private void saveRegisteredPlayers() {
+	private synchronized void saveRegisteredPlayers() {
 		registeredPlayersFile.write(registeredPlayers);
 	}
 
@@ -57,7 +57,7 @@ public class PlayerManager {
 		return loadedList;
 	}
 
-	public Player getPlayerByUsername(String username) {
+	public synchronized Player getPlayerByUsername(String username) {
 		for (Player p : registeredPlayers) {
 			if (p.getUsername().equals(username)) {
 				return p;

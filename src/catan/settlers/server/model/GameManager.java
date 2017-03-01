@@ -12,12 +12,12 @@ public class GameManager {
 		this.games = new ArrayList<>();
 	}
 
-	public void createGame(String ownerUsername) {
+	public synchronized void createGame(String ownerUsername) {
 		games.add(new Game(lastId, ownerUsername));
 		lastId++;
 	}
 
-	public ArrayList<Game> getListOfGames() {
+	public synchronized ArrayList<Game> getListOfGames() {
 		ArrayList<Game> list = new ArrayList<>();
 
 		for (Game g : games) {
@@ -27,7 +27,7 @@ public class GameManager {
 		return list;
 	}
 
-	public Game getGameById(int id) {
+	public synchronized Game getGameById(int id) {
 		for (Game g : games) {
 			if (g.getGameId() == id) {
 				return g;

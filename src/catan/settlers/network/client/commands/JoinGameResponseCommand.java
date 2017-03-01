@@ -23,13 +23,8 @@ public class JoinGameResponseCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
-		// TODO Handle Join game result here
-
-		System.out.println(success);
 		if (success) {
 			WaitingRoom room = new WaitingRoom(currentListOfPlayers, gameID);
-
-			// Update the frame
 			MainFrame.getInstance().switchScreen(room.getPanel());
 
 		} else {

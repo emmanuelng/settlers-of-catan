@@ -1,6 +1,7 @@
 package catan.settlers.network.server.commands;
 
 import catan.settlers.network.client.commands.JoinGameResponseCommand;
+import catan.settlers.network.client.commands.PlayerJoinedGameCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.server.model.Game;
@@ -24,12 +25,27 @@ public class JoinGameCommand implements ClientToServerCommand {
 
 		try {
 			if (player == null || game == null) {
-				sender.sendCommand(new JoinGameResponseCommand(false, game.getParticipantsUsernames(), game.getGameId()));
+				sender.sendCommand(
+						new JoinGameResponseCommand(false, game.getParticipantsUsernames(), game.getGameId()));
 			} else {
 				if (game.addPlayer(player)) {
-					sender.sendCommand(new JoinGameResponseCommand(true, game.getParticipantsUsernames(), game.getGameId()));
+					// Send positive response
+					sender.sendCommand(
+							new JoinGameResponseCommand(true, game.getParticipantsUsernames(), game.getGameId()));
+					
+					// Notify the other players
+					for (String username : game.getParticipantsUsernames()) {
+						if (!username.equals(sender.getPlayer().getUsername())) {
+							server.writeToConsole("Notifying player " + username);
+							Player curPlayer = server.getPlayerManager().getPlayerByUsername(username);
+							curPlayer.sendCommand(
+									new PlayerJoinedGameCommand(game.getParticipantsUsernames(), game.getGameId()));
+						}
+
+					}
 				} else {
-					sender.sendCommand(new JoinGameResponseCommand(false, game.getParticipantsUsernames(), game.getGameId()));
+					sender.sendCommand(
+							new JoinGameResponseCommand(false, game.getParticipantsUsernames(), game.getGameId()));
 				}
 			}
 		} catch (Exception e) {

@@ -56,7 +56,6 @@ public class ConnectScreen implements ActionListener {
 		int p = Integer.parseInt(portNumber.getText());
 		try {
 			ClientModel.instance.connect(i, p);
-			System.out.print("Connected to server " + i + " at port " + p);
 			Login login = new Login();
 			MainFrame.getInstance().switchScreen(login.getPanel());
 		} catch (IOException e) {

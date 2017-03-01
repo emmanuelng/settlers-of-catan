@@ -18,7 +18,7 @@ public class Game extends Thread implements Serializable {
 		return id;
 	}
 
-	public boolean addPlayer(Player player) {
+	public synchronized boolean addPlayer(Player player) {
 		if (!participants.contains(player) && participants.size() < 3) {
 			participants.add(player);
 			return true;
@@ -27,11 +27,11 @@ public class Game extends Thread implements Serializable {
 		return false;
 	}
 
-	public void removePlayer(Player player) {
+	public synchronized void removePlayer(Player player) {
 		participants.remove(player);
 	}
 
-	public ArrayList<String> getParticipantsUsernames() {
+	public synchronized ArrayList<String> getParticipantsUsernames() {
 		ArrayList<String> list = new ArrayList<>();
 
 		for (Player p : participants) {
