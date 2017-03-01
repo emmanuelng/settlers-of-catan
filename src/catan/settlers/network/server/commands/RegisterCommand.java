@@ -18,7 +18,7 @@ public class RegisterCommand implements ClientToServerCommand {
 	@Override
 	public void execute(Session sender, Server server) {
 		try {
-			if (server.registerPlayer(username, password)) {
+			if (server.getPlayerManager().register(username, password)) {
 				// User successfully registered
 				server.writeToConsole("New user " + username + " registered");
 				sender.sendCommand(new RegistrationResultCommand(true));

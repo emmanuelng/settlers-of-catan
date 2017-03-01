@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import catan.settlers.common.utils.File;
-import catan.settlers.server.model.Game;
 import catan.settlers.server.model.GameManager;
 import catan.settlers.server.model.PlayerManager;
 import catan.settlers.server.view.ServerGUI;
@@ -122,18 +121,6 @@ public class Server extends Thread {
 		loadSettings();
 
 		writeToConsole("Server settings updated");
-	}
-
-	/**
-	 * Registers a player
-	 * 
-	 * @param username
-	 * @param password
-	 * @return true if the process was successful, false otherwise (e.g. if the
-	 *         user name is not unique)
-	 */
-	public boolean registerPlayer(String username, String password) {
-		return playerManager.register(username, password);
 	}
 	
 	public PlayerManager getPlayerManager() {
