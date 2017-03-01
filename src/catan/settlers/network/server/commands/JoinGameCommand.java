@@ -24,12 +24,12 @@ public class JoinGameCommand implements ClientToServerCommand {
 
 		try {
 			if (player == null || game == null) {
-				sender.sendCommand(new JoinGameResponseCommand(false, game.getParticipantsUsernames()));
+				sender.sendCommand(new JoinGameResponseCommand(false, game.getParticipantsUsernames(), game.getGameId()));
 			} else {
 				if (game.addPlayer(player)) {
-					sender.sendCommand(new JoinGameResponseCommand(true, game.getParticipantsUsernames()));
+					sender.sendCommand(new JoinGameResponseCommand(true, game.getParticipantsUsernames(), game.getGameId()));
 				} else {
-					sender.sendCommand(new JoinGameResponseCommand(false, game.getParticipantsUsernames()));
+					sender.sendCommand(new JoinGameResponseCommand(false, game.getParticipantsUsernames(), game.getGameId()));
 				}
 			}
 		} catch (Exception e) {

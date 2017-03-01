@@ -16,23 +16,23 @@ public class JoinGameResponseCommand implements ServerToClientCommand {
 	private ArrayList<String> currentListOfPlayers;
 	private int gameID;
 
-	public JoinGameResponseCommand(boolean success, ArrayList<String> currentListOfPlayers,int gameID) {
+	public JoinGameResponseCommand(boolean success, ArrayList<String> currentListOfPlayers, int gameID) {
 		this.success = success;
 		this.currentListOfPlayers = currentListOfPlayers;
-		this.gameID=gameID;
+		this.gameID = gameID;
 	}
 
 	@Override
 	public void execute() {
 		// TODO Handle Join game result here
-		
+
 		System.out.println(success);
 		if (success) {
-			WaitingRoom room = new WaitingRoom(currentListOfPlayers,gameID);
-			
+			WaitingRoom room = new WaitingRoom(currentListOfPlayers, gameID);
+
 			// Update the frame
 			MainFrame.getInstance().switchScreen(room.getPanel());
-			
+
 		} else {
 			JOptionPane.showMessageDialog(new JLabel(), "Room full");
 		}
