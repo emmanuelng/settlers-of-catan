@@ -7,7 +7,6 @@ import javax.swing.JOptionPane;
 
 import catan.settlers.client.view.setup.MainFrame;
 import catan.settlers.client.view.setup.WaitingRoom;
-import catan.settlers.server.model.Player;
 
 public class JoinGameResponseCommand implements ServerToClientCommand {
 

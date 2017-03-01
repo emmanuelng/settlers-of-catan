@@ -1,7 +1,5 @@
 package catan.settlers.network.client.commands;
 
-import java.awt.BorderLayout;
-
 import javax.swing.JOptionPane;
 
 import catan.settlers.client.view.setup.MainFrame;
