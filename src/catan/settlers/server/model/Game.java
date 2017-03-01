@@ -18,21 +18,21 @@ public class Game extends Thread implements Serializable {
 			participants.add(player);
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	public void removePlayer(Player player) {
 		participants.remove(player);
 	}
-	
-	public ArrayList<Player> getParticipants() {
-		ArrayList<Player> list = new ArrayList<>();
-		
+
+	public ArrayList<String> getParticipantsUsernames() {
+		ArrayList<String> list = new ArrayList<>();
+
 		for (Player p : participants) {
-			list.add(p);
+			list.add(p.getUsername());
 		}
-		
+
 		return list;
 	}
 

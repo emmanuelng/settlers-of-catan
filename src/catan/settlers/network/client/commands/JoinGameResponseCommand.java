@@ -13,9 +13,9 @@ public class JoinGameResponseCommand implements ServerToClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	private boolean success;
-	private ArrayList<Player> currentListOfPlayers;
+	private ArrayList<String> currentListOfPlayers;
 
-	public JoinGameResponseCommand(boolean success, ArrayList<Player> currentListOfPlayers) {
+	public JoinGameResponseCommand(boolean success, ArrayList<String> currentListOfPlayers) {
 		this.success = success;
 		this.currentListOfPlayers = currentListOfPlayers;
 	}
