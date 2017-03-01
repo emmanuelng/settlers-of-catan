@@ -14,10 +14,12 @@ public class JoinGameResponseCommand implements ServerToClientCommand {
 	private static final long serialVersionUID = 1L;
 	private boolean success;
 	private ArrayList<String> currentListOfPlayers;
+	private int gameID;
 
-	public JoinGameResponseCommand(boolean success, ArrayList<String> currentListOfPlayers) {
+	public JoinGameResponseCommand(boolean success, ArrayList<String> currentListOfPlayers,int gameID) {
 		this.success = success;
 		this.currentListOfPlayers = currentListOfPlayers;
+		this.gameID=gameID;
 	}
 
 	@Override
@@ -26,7 +28,7 @@ public class JoinGameResponseCommand implements ServerToClientCommand {
 		
 		System.out.println(success);
 		if (success) {
-			WaitingRoom room = new WaitingRoom(currentListOfPlayers);
+			WaitingRoom room = new WaitingRoom(currentListOfPlayers,gameID);
 			
 			// Update the frame
 			MainFrame.getInstance().switchScreen(room.getPanel());

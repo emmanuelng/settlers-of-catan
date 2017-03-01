@@ -8,12 +8,14 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import catan.settlers.client.model.ClientModel;
+
 public class WaitingRoom implements ActionListener {
 	private JPanel waitingRoomPanel;
 	private JLabel player1, player2, player3;
 	private JButton goButton, back;
 
-	public WaitingRoom(ArrayList<String> participants) {
+	public WaitingRoom(ArrayList<String> participants,int gameId) {
 		System.out.println(MainFrame.getInstance().getContentPane());
 		waitingRoomPanel = new JPanel();
 		JLabel test = new JLabel("test");
@@ -42,6 +44,7 @@ public class WaitingRoom implements ActionListener {
 		if (arg0.getSource() == goButton) {
 			System.out.println("successful go");
 		} else if (arg0.getSource() == back) {
+			ClientModel.instance.sendCommand(new CancelJoinGameCommand)
 		}
 	}
 }
