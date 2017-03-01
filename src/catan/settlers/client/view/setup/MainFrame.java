@@ -32,8 +32,7 @@ public class MainFrame extends JFrame {
 			repaint();
 		}
 		currentPanel= panel;
-		this.add(currentPanel);
-		this.setContentPane(panel);
+		setContentPane(panel);
 		revalidate();
 		repaint();
 	}

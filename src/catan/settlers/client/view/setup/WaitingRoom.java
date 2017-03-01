@@ -42,7 +42,6 @@ public class WaitingRoom implements ActionListener {
 		if (arg0.getSource() == goButton) {
 			System.out.println("successful go");
 		} else if (arg0.getSource() == back) {
-
 		}
 	}
 }
