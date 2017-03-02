@@ -2,27 +2,27 @@ package catan.settlers.network.client.commands;
 
 import javax.swing.JOptionPane;
 
+import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.setup.MainFrame;
 import catan.settlers.client.view.setup.MainMenu;
 
-public class AuthResultCommand implements ServerToClientCommand {
+public class AuthenticationResponseCommand implements ServerToClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	private boolean success;
-	private String user;
-	
-	public AuthResultCommand(String user, boolean success) {
+	private String username;
+
+	public AuthenticationResponseCommand(String username, boolean success) {
 		this.success = success;
-		this.user=user;
+		this.username = username;
 	}
 
 	@Override
 	public void execute() {
 		if (success) {
-			MainMenu menu = new MainMenu(user);
-			MainFrame.getInstance().switchScreen(menu);
+			ClientModel.instance.setUsername(username);
+			MainFrame.getInstance().setScreen(new MainMenu());
 		} else {
-			System.out.println("enter valid username & password");
 			JOptionPane.showMessageDialog(null, "Incorrect login/password", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}

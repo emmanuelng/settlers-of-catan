@@ -61,8 +61,8 @@ public class NewGame implements ActionListener {
 		if(arg0.getSource()==back){
 			Lobby backLobby = new Lobby(new ArrayList<Game>());
 			topFrame.remove(newGamePanel);
-			topFrame.add(backLobby.getPanel());
-			topFrame.setContentPane(backLobby.getPanel());
+			topFrame.add(backLobby);
+			topFrame.setContentPane(backLobby);
 		}
 		/*for(int i =0;i<gameBoards.size();i++){
 			if(arg0.getSource()==gameBoards.get(i)){

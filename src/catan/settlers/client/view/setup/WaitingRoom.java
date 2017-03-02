@@ -43,7 +43,6 @@ public class WaitingRoom extends JPanel implements ActionListener {
 		if (arg0.getSource() == goButton) {
 			System.out.println("successful go");
 		} else if (arg0.getSource() == backButton) {
-			System.out.println("trigger");
 			ClientModel.instance.sendCommand(new CancelJoinGameCommand(gameId));
 		}
 	}
