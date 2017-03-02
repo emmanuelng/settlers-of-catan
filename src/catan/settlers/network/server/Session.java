@@ -42,7 +42,8 @@ public class Session extends Thread {
 				ClientToServerCommand cmd = (ClientToServerCommand) in.readObject();
 				cmd.execute(this, host);
 			} catch (Exception e) {
-				// Ignore
+				// Close the session (e.g. when the client closes the connection)
+				close();
 			}
 		}
 	}
@@ -52,6 +53,7 @@ public class Session extends Thread {
 	}
 
 	public void close() {
+		host.writeToConsole("Closing session...");
 		sessionActive = false;
 		host.removeSession(this);
 	}
