@@ -44,6 +44,7 @@ public class Session extends Thread {
 			} catch (Exception e) {
 				// Close the session (e.g. when the client closes the connection)
 				close();
+				e.printStackTrace();
 			}
 		}
 	}

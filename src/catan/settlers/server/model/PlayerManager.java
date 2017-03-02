@@ -38,7 +38,7 @@ public class PlayerManager {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -63,7 +63,7 @@ public class PlayerManager {
 				return p;
 			}
 		}
-		
+
 		return null;
 	}
 }
