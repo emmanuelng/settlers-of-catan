@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import catan.settlers.common.utils.File;
+import catan.settlers.network.client.commands.AuthenticationResponseCommand.Status;
 import catan.settlers.network.server.Session;
 
 public class PlayerManager {
@@ -30,16 +31,18 @@ public class PlayerManager {
 		return true;
 	}
 
-	public synchronized boolean authenticate(String username, String password, Session sender) {
+	public synchronized Status authenticate(String username, String password, Session sender) {
 		for (Player p : registeredPlayers) {
+			if (p.isConnected())
+				return Status.ALREADY_CONNECTED;
 			if (p.getUsername().equals(username) && p.comparePassword(password)) {
 				p.setCurrentSession(sender);
 				sender.setPlayer(p);
-				return true;
+				return Status.SUCCESS;
 			}
 		}
 
-		return false;
+		return Status.INVALID_CREDENTIALS;
 	}
 
 	private synchronized void saveRegisteredPlayers() {

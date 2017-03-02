@@ -31,7 +31,7 @@ public class Player implements Serializable {
 	}
 	
 	public boolean isConnected() {
-		return session == null;
+		return session != null;
 	}
 	
 	public void sendCommand(ServerToClientCommand cmd) {

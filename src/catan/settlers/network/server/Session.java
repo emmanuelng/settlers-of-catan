@@ -44,7 +44,6 @@ public class Session extends Thread {
 			} catch (Exception e) {
 				// Close the session (e.g. when the client closes the connection)
 				close();
-				e.printStackTrace();
 			}
 		}
 	}
@@ -56,6 +55,7 @@ public class Session extends Thread {
 	public void close() {
 		host.writeToConsole("Closing session...");
 		sessionActive = false;
+		if (authenticatedPlayer != null) authenticatedPlayer.setCurrentSession(null);
 		host.removeSession(this);
 	}
 	
