@@ -42,12 +42,14 @@ public class WaitingRoom extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == goButton) {
+			
 			setVisible(false);
         	
         	Thread workerThread = new Thread(new Worker());
         	workerThread.start();
         	
         	setVisible(false);
+        	ClientWindow.getInstance().setWindowVisible(false);
 		} else if (arg0.getSource() == backButton) {
 			ClientModel.instance.sendCommand(new CancelJoinGameCommand(gameId));
 		}

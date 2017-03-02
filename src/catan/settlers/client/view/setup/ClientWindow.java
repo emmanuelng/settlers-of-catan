@@ -51,4 +51,8 @@ public class ClientWindow extends JFrame {
 		revalidate();
 		repaint();
 	}
+	
+	public void setWindowVisible(boolean arg0){
+		setVisible(arg0);
+	}
 }
