@@ -31,7 +31,7 @@ public class Player implements Serializable {
 	}
 	
 	public boolean isConnected() {
-		return session == null;
+		return session != null;
 	}
 	
 	public void sendCommand(ServerToClientCommand cmd) {
@@ -40,6 +40,7 @@ public class Player implements Serializable {
 				session.sendCommand(cmd);
 			} catch (IOException e) {
 				// Ignore: failed to send command
+				e.printStackTrace();
 			}
 		}
 	}

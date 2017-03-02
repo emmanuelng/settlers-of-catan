@@ -1,27 +1,28 @@
 package catan.settlers.client.view.setup;
 
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.network.server.commands.AuthenticationCommand;
 
-import java.awt.*;
-import java.awt.event.*;
+public class Login extends JPanel implements ActionListener {
 
-public class Login implements ActionListener {
+	private static final long serialVersionUID = 1L;
 
-	private JFrame frame;
 	private JButton Login;
 	private JButton Register;
-	private JPanel loginPanel;
 	private JLabel label1, label2;
 	private JTextField username;
 	private JPasswordField password;
 
 	public Login() {
-		frame = MainFrame.getInstance();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		label1 = new JLabel();
 		label1.setText("Username: ");
 		username = new JTextField(15);
@@ -33,22 +34,15 @@ public class Login implements ActionListener {
 		Login = new JButton("Login");
 		Register = new JButton("Register");
 
-		loginPanel = new JPanel();
-		loginPanel.add(label1);
-		loginPanel.add(username);
-		loginPanel.add(label2);
-		loginPanel.add(password);
-		loginPanel.add(Login);
-		loginPanel.add(Register);
-		frame.add(loginPanel, BorderLayout.CENTER);
+		add(label1);
+		add(username);
+		add(label2);
+		add(password);
+		add(Login);
+		add(Register);
 
 		Login.addActionListener(this);
 		Register.addActionListener(this);
-
-		frame.setTitle("Settlers Of Catan Login");
-		frame.setContentPane(loginPanel);
-		frame.setSize(1920, 1080);
-		frame.setVisible(true);
 	}
 
 	@Override
@@ -56,34 +50,11 @@ public class Login implements ActionListener {
 		if (arg0.getSource() == Login) {
 			String u = username.getText();
 			String p = String.valueOf(password.getPassword());
-			
-			ClientModel.instance.sendCommand(new AuthenticationCommand(u,p)); //this is proper the bottom is not, this is for coding purposes
-			/*MainMenu menu = new MainMenu(u);
-			MainFrame.getInstance().add(menu.getPanel(), BorderLayout.CENTER);
-			MainFrame.getInstance().setContentPane(menu.getPanel());*/
+			ClientModel.instance.sendCommand(new AuthenticationCommand(u, p));
 
 		} else if (arg0.getSource() == Register) {
 			Register register = new Register();
-			frame.remove(loginPanel);
-			frame.add(register.getPanel(), BorderLayout.CENTER);
-			frame.setTitle("Settlers Of Catan - Register");
-			frame.setContentPane(register.getPanel());
+			ClientWindow.getInstance().setScreen(register);
 		}
-		frame.validate();
-		frame.repaint();
-	}
-
-	public JPanel getPanel() {
-		return loginPanel;
-	}
-}
-
-class LoginInit {
-	public static void main(String arg[]) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new Login();
-			}
-		});
 	}
 }

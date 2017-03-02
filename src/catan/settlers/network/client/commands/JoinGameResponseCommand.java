@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import catan.settlers.client.view.setup.MainFrame;
+import catan.settlers.client.view.setup.ClientWindow;
 import catan.settlers.client.view.setup.WaitingRoom;
-import catan.settlers.server.model.Player;
 
 public class JoinGameResponseCommand implements ServerToClientCommand {
 
@@ -24,14 +23,9 @@ public class JoinGameResponseCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
-		// TODO Handle Join game result here
-
-		System.out.println(success);
 		if (success) {
 			WaitingRoom room = new WaitingRoom(currentListOfPlayers, gameID);
-
-			// Update the frame
-			MainFrame.getInstance().switchScreen(room.getPanel());
+			ClientWindow.getInstance().setScreen(room);
 
 		} else {
 			JOptionPane.showMessageDialog(new JLabel(), "Room full");

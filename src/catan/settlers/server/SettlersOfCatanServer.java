@@ -1,11 +1,11 @@
 package catan.settlers.server;
 
-import catan.settlers.server.view.ServerGUI;
+import catan.settlers.server.view.ServerWindow;
 
 public class SettlersOfCatanServer {
 	
 	public static void main(String[] args) {
-		new ServerGUI();
+		new ServerWindow();
 	}
 
 }

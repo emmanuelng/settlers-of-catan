@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import catan.settlers.common.utils.File;
+import catan.settlers.network.client.commands.AuthenticationResponseCommand.Status;
 import catan.settlers.network.server.Session;
 
 public class PlayerManager {
@@ -18,7 +19,7 @@ public class PlayerManager {
 		registeredPlayers = loadRegisteredPlayers();
 	}
 
-	public boolean register(String username, String password) {
+	public synchronized boolean register(String username, String password) {
 		for (Player p : registeredPlayers) {
 			if (p.getUsername().equals(username)) {
 				return false;
@@ -30,19 +31,21 @@ public class PlayerManager {
 		return true;
 	}
 
-	public boolean authenticate(String username, String password, Session sender) {
+	public synchronized Status authenticate(String username, String password, Session sender) {
 		for (Player p : registeredPlayers) {
+			if (p.isConnected())
+				return Status.ALREADY_CONNECTED;
 			if (p.getUsername().equals(username) && p.comparePassword(password)) {
 				p.setCurrentSession(sender);
 				sender.setPlayer(p);
-				return true;
+				return Status.SUCCESS;
 			}
 		}
-		
-		return false;
+
+		return Status.INVALID_CREDENTIALS;
 	}
 
-	private void saveRegisteredPlayers() {
+	private synchronized void saveRegisteredPlayers() {
 		registeredPlayersFile.write(registeredPlayers);
 	}
 
@@ -51,22 +54,19 @@ public class PlayerManager {
 		ArrayList<Player> loadedList = (ArrayList<Player>) registeredPlayersFile.read();
 
 		if (loadedList == null) {
-			System.out.println("No player file found");
 			loadedList = new ArrayList<>();
-		} else {
-			System.out.println("Loaded list of players");
 		}
 
 		return loadedList;
 	}
 
-	public Player getPlayerByUsername(String username) {
+	public synchronized Player getPlayerByUsername(String username) {
 		for (Player p : registeredPlayers) {
 			if (p.getUsername().equals(username)) {
 				return p;
 			}
 		}
-		
+
 		return null;
 	}
 }

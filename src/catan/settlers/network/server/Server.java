@@ -3,17 +3,15 @@ package catan.settlers.network.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import catan.settlers.common.utils.File;
 import catan.settlers.server.model.GameManager;
 import catan.settlers.server.model.PlayerManager;
-import catan.settlers.server.view.ServerGUI;
+import catan.settlers.server.view.ServerWindow;
 
 public class Server extends Thread {
 
@@ -28,7 +26,7 @@ public class Server extends Thread {
 	private ServerSocket listener;
 
 	private ArrayList<Session> activeSessions;
-	private ServerGUI gui;
+	private ServerWindow gui;
 	private PlayerManager playerManager;
 	private GameManager gameManager;
 
@@ -43,7 +41,7 @@ public class Server extends Thread {
 	 *             Throws an error if the server was not instantiated for some
 	 *             reason
 	 */
-	public Server(ServerGUI gui) throws IOException {
+	public Server(ServerWindow gui) throws IOException {
 		this.gui = gui;
 		this.playerManager = new PlayerManager();
 		this.gameManager = new GameManager();
@@ -87,7 +85,7 @@ public class Server extends Thread {
 		while (isServerRunning) {
 			try {
 				Socket socket = listener.accept();
-				gui.writeToLog("Detected new client");
+				gui.writeToLog("New client connected");
 				Session session = new Session(socket, this);
 				activeSessions.add(session);
 			} catch (IOException e) {

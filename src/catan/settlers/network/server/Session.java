@@ -3,7 +3,6 @@ package catan.settlers.network.server;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.Socket;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
@@ -43,7 +42,8 @@ public class Session extends Thread {
 				ClientToServerCommand cmd = (ClientToServerCommand) in.readObject();
 				cmd.execute(this, host);
 			} catch (Exception e) {
-				// Ignore
+				// Close the session (e.g. when the client closes the connection)
+				close();
 			}
 		}
 	}
@@ -53,7 +53,9 @@ public class Session extends Thread {
 	}
 
 	public void close() {
+		host.writeToConsole("Closing session...");
 		sessionActive = false;
+		if (authenticatedPlayer != null) authenticatedPlayer.setCurrentSession(null);
 		host.removeSession(this);
 	}
 	

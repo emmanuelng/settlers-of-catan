@@ -9,46 +9,59 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.GameBoard;
 import catan.settlers.network.server.commands.CancelJoinGameCommand;
 
-public class WaitingRoom implements ActionListener {
-	private JPanel waitingRoomPanel;
-	private JLabel player1, player2, player3;
-	private JButton goButton, back;
-	private int gameID;
+public class WaitingRoom extends JPanel implements ActionListener {
 
-	public WaitingRoom(ArrayList<String> participants,int gameId) {
-		this.gameID = gameID;
-		waitingRoomPanel = new JPanel();
-		JLabel currentGameID = new JLabel(""+ gameID);
+	private static final long serialVersionUID = 1L;
+	private JButton goButton, backButton;
+	private int gameId;
+
+	public WaitingRoom(ArrayList<String> participants, int gameId) {
+		this.gameId = gameId;
+
+		JLabel curGameIdLabel = new JLabel("" + gameId);
 		goButton = new JButton("Go");
-		back = new JButton("Back");
+		backButton = new JButton("Back");
 
-		for (String s: participants) {
-			waitingRoomPanel.add(new JLabel(s));
-			System.out.println(s);
+		for (String s : participants) {
+			add(new JLabel(s));
 		}
-		waitingRoomPanel.add(goButton);
-		waitingRoomPanel.add(back);
-		waitingRoomPanel.add(currentGameID);
+
+		add(goButton);
+		add(backButton);
+		add(curGameIdLabel);
 
 		goButton.addActionListener(this);
-		back.addActionListener(this);
-		waitingRoomPanel.setVisible(true);
-	}
+		backButton.addActionListener(this);
 
-	public JPanel getPanel() {
-		return waitingRoomPanel;
+		setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 		if (arg0.getSource() == goButton) {
-			System.out.println("successful go");
-		} else if (arg0.getSource() == back) {
-			System.out.println("trigger");
-			ClientModel.instance.sendCommand(new CancelJoinGameCommand(gameID));
+			
+			setVisible(false);
+        	
+        	Thread workerThread = new Thread(new Worker());
+        	workerThread.start();
+        	
+        	setVisible(false);
+        	ClientWindow.getInstance().setWindowVisible(false);
+		} else if (arg0.getSource() == backButton) {
+			ClientModel.instance.sendCommand(new CancelJoinGameCommand(gameId));
 		}
 	}
+}
+
+class Worker implements Runnable {
+
+	public void run() {
+
+		GameBoard gameWindow = new GameBoard();		
+		gameWindow.start();				
+	}
+	
 }
