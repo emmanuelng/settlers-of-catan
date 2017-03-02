@@ -60,9 +60,7 @@ public class Register extends JPanel implements ActionListener {
 			ClientModel.instance.sendCommand(new RegisterCommand(u, p));
 
 		} else if (arg0.getSource() == backButton) {
-			topFrame.remove(this);
-			topFrame.dispose();
-			new Login();
+			ClientWindow.getInstance().setScreen(new Login());
 		}
 	}
 }

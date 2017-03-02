@@ -1,14 +1,14 @@
 package catan.settlers.client.view;
 
-import javax.swing.JFrame;
+import org.minueto.window.MinuetoFrame;
 
-public class GameFrame extends JFrame{
+public class GameFrame extends MinuetoFrame{
 	private static GameFrame instance = null;
+	private static final int WINDOW_WIDTH = 1000;
+	private static final int WINDOW_HEIGHT = 500;
 	
 	private GameFrame(){
-		super.setTitle("Cattlers of Seten");
-		super.setVisible(true);
-		super.setSize(1920,1080);
+		super(WINDOW_WIDTH, WINDOW_HEIGHT, true);
 	}
 	
 	public static GameFrame getInstance(){

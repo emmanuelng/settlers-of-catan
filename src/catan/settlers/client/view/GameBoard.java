@@ -13,28 +13,12 @@ import catan.settlers.client.view.setup.Login;
 
 public class GameBoard implements Runnable{
 	private GameFrame gameFrame;
-	private MinuetoWindow boardPanel;
-	private MinuetoPanel resourcePanel;
-	private MinuetoPanel playerPanel;
-	private MinuetoPanel controlPanel;
 	
 	private MinuetoImage board;
 	private boolean isWaiting =true;
 	
 	public GameBoard(){
-		//just the board and its elements
-		//boardPanel = new MinuetoWindow(0,100);
-		//boardPanel.setVisible(true);
-		board = new HexagonMap().DrawHexagonMap(100,100);
-		boardPanel.draw(board, 0, 0);
-		boardPanel.render();
-		
-		
-		//game entire frame
-		gameFrame = GameFrame.getInstance();
-		//add the elements to the gameFrame
-		//gameFrame.add(boardPanel);
-		gameFrame.setVisible(true);
+		gameFrame = GameFrame.getInstance());
 	}
 	
 	public MinuetoWindow getBoardPanel(){
