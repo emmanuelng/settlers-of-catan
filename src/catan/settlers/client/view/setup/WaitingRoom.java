@@ -17,6 +17,7 @@ public class WaitingRoom extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JButton goButton, backButton;
 	private int gameId;
+	
 
 	public WaitingRoom(ArrayList<String> participants, int gameId) {
 		this.gameId = gameId;
@@ -42,13 +43,11 @@ public class WaitingRoom extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == goButton) {
-			
-			setVisible(false);
+		
         	
         	Thread workerThread = new Thread(new Worker());
         	workerThread.start();
         	
-        	setVisible(false);
         	ClientWindow.getInstance().setWindowVisible(false);
 		} else if (arg0.getSource() == backButton) {
 			ClientModel.instance.sendCommand(new CancelJoinGameCommand(gameId));
@@ -57,11 +56,18 @@ public class WaitingRoom extends JPanel implements ActionListener {
 }
 
 class Worker implements Runnable {
+	private boolean isWaiting = true;
 
 	public void run() {
-
-		GameBoard gameWindow = new GameBoard();		
-		gameWindow.start();				
+		while (isWaiting) {
+	         try {
+	        	GameBoard gameWindow = new GameBoard();		
+	     		gameWindow.start();
+	            Thread.sleep(100);
+	         } catch (InterruptedException e) {
+	            // Can ignore, we'll just try again
+	         }
+	      }
 	}
 	
 }

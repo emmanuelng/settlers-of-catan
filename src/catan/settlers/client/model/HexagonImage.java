@@ -4,10 +4,15 @@ package catan.settlers.client.model;
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoImage;
 
-import enums.HexType;
+import catan.settlers.client.view.GameFrame;
 
-public class Hexagon {
+public class HexagonImage extends MinuetoImage{
+	private MinuetoImage hexImage;
 	private static int BORDERS =50; //default number of pixels for the border
+	final static int HEXSIZE = 50;
+	final static int BSIZE = 19; //changes size of the board
+	final static int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS *3;
+	
 	
 	public static boolean notAlternateVertex = true; // if this is true it means that the coordinate (0,0) are coordinates of the first vertex.
 	//if it is false it means that the coordinate are coordinates of the top left rectangle.
@@ -17,6 +22,15 @@ public class Hexagon {
 	private static int r = 0; //radius -centre to middle of each side
 	private static int h = 0; //distance between centres of two neighbor hexes
 	
+	public static enum HexType {
+		WOOD,
+		BRICK,
+		SHEEP,
+		WHEAT,
+		ORE,
+		DESERT,
+		WATER
+	};
 	//private HexType type;
 	private MinuetoColor color;
 	
@@ -32,17 +46,9 @@ public class Hexagon {
 			case DESERT: color = MinuetoColor.YELLOW.darken(100);
 		}
 	}*/
-	public Hexagon(){
-		
+	public HexagonImage(int posX,int posY, HexType htype){
+		drawHex(posX,posY,htype);
 	}
-	
-	/*public void setHexType(HexType htype){
-		type = htype;
-	}
-	
-	public HexType getHexType(){
-		return type;
-	}*/
 	
 	public MinuetoColor getColor(){
 		return color;
@@ -86,8 +92,13 @@ public class Hexagon {
 			coordinates = new int[] {x+t,y,x+s+t,y,x+s+t+t,y+r,x+s+t,y+r+r,x+t,y+r+r,x,y+r};
 		}
 
-
 		return coordinates;	
 	}
-
+	
+	public void drawHex(int posX,int posY,HexType type){
+		hexImage = new MinuetoImage(SCRSIZE,SCRSIZE);
+		hexImage.drawPolygon(MinuetoColor.YELLOW, drawCoordinates(posX,posY));
+		//GameFrame.getInstance().draw(hexImage, posX, posY);
+	}
 }
+

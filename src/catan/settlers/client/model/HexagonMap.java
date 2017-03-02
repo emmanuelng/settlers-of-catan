@@ -10,11 +10,11 @@ public class HexagonMap {
 	public MinuetoImage DrawHexagonMap(int posX, int posY){
 		MinuetoImage map = new MinuetoImage(SCRSIZE,SCRSIZE);
 		
-		Hexagon.setHeight(HEXSIZE);
-		Hexagon.setSide(HEXSIZE);
-		Hexagon.setBorders(BORDERS);
+		HexagonImage.setHeight(HEXSIZE);
+		HexagonImage.setSide(HEXSIZE);
+		HexagonImage.setBorders(BORDERS);
 		
-		Hexagon x = new Hexagon();
+		HexagonImage x = new HexagonImage();
 		MinuetoColor color = MinuetoColor.WHITE;
 		map = HexagonMap.drawHex(map, x.drawCoordinates(posX,posY+90*1), color.YELLOW);
 		map = HexagonMap.drawHex(map, x.drawCoordinates(posX,posY+90*2), color.YELLOW);

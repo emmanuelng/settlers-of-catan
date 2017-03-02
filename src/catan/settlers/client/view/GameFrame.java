@@ -1,5 +1,7 @@
 package catan.settlers.client.view;
 
+import javax.swing.WindowConstants;
+
 import org.minueto.window.MinuetoFrame;
 
 public class GameFrame extends MinuetoFrame{
@@ -8,7 +10,8 @@ public class GameFrame extends MinuetoFrame{
 	private static final int WINDOW_HEIGHT = 500;
 	
 	private GameFrame(){
-		super(WINDOW_WIDTH, WINDOW_HEIGHT, true);
+		super(WINDOW_WIDTH,WINDOW_HEIGHT,true);
+		this.setVisible(true);
 	}
 	
 	public static GameFrame getInstance(){
