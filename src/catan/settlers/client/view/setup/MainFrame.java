@@ -23,12 +23,8 @@ public class MainFrame extends JFrame {
 	public void switchScreen(JPanel panel) {
 		if (currentPanel != null) {
 			remove(currentPanel);
-			revalidate();
-			repaint();
 		} else {
 			remove(this.getContentPane());
-			revalidate();
-			repaint();
 		}
 		currentPanel = panel;
 		setContentPane(panel);

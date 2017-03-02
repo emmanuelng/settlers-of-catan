@@ -12,46 +12,38 @@ import catan.settlers.client.model.ClientModel;
 import catan.settlers.network.server.commands.GetListOfGamesCommand;
 import catan.settlers.server.model.Game;
 
-public class MainMenu implements ActionListener {
+public class MainMenu extends JPanel implements ActionListener {
 
-	private JButton Tutorial;
-	private JButton Play;
-	private JButton Exit;
-	private JPanel mainPanel;
-	private JLabel label1;
+	private static final long serialVersionUID = 1L;
+	private JButton tutorialButton;
+	private JButton playButton;
+	private JButton exitButton;
+	private JLabel welcomeLabel;
 
 	public MainMenu(String username) {
-		mainPanel = new JPanel();
-		label1 = new JLabel("Welcome " + username);
+		welcomeLabel = new JLabel("Welcome " + username);
 
-		Tutorial = new JButton("Tutorial");
-		Play = new JButton("Play");
-		Exit = new JButton("Exit");
+		tutorialButton = new JButton("Tutorial");
+		playButton = new JButton("Play");
+		exitButton = new JButton("Exit");
 
-		mainPanel.add(label1);
-		mainPanel.add(Tutorial);
-		mainPanel.add(Play);
-		mainPanel.add(Exit);
+		add(welcomeLabel);
+		add(tutorialButton);
+		add(playButton);
+		add(exitButton);
 
-		Play.addActionListener(this);
-		Exit.addActionListener(this);
-	}
-
-	public JPanel getPanel() {
-		return mainPanel;
+		playButton.addActionListener(this);
+		exitButton.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-
-		if (arg0.getSource() == Play) {
+		if (arg0.getSource() == playButton) {
 			Lobby lobby = new Lobby(new ArrayList<Game>());
 			MainFrame.getInstance().switchScreen(lobby.getPanel());
 			ClientModel.instance.sendCommand(new GetListOfGamesCommand());
-		} else if (arg0.getSource() == Exit) {
+		} else if (arg0.getSource() == exitButton) {
 			// could add more prompts and stuff, now it's just abrupt closing
 			System.exit(0);
 		}
-		MainFrame.getInstance().revalidate();
-		MainFrame.getInstance().repaint();
 	}
 }

@@ -8,12 +8,13 @@ import catan.settlers.network.server.commands.AuthenticationCommand;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Login implements ActionListener {
+public class Login extends JPanel implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
+
 	private JButton Login;
 	private JButton Register;
-	private JPanel loginPanel;
 	private JLabel label1, label2;
 	private JTextField username;
 	private JPasswordField password;
@@ -33,20 +34,20 @@ public class Login implements ActionListener {
 		Login = new JButton("Login");
 		Register = new JButton("Register");
 
-		loginPanel = new JPanel();
-		loginPanel.add(label1);
-		loginPanel.add(username);
-		loginPanel.add(label2);
-		loginPanel.add(password);
-		loginPanel.add(Login);
-		loginPanel.add(Register);
-		frame.add(loginPanel, BorderLayout.CENTER);
+		add(label1);
+		add(username);
+		add(label2);
+		add(password);
+		add(Login);
+		add(Register);
+		
+		frame.add(this, BorderLayout.CENTER);
 
 		Login.addActionListener(this);
 		Register.addActionListener(this);
 
 		frame.setTitle("Settlers Of Catan Login");
-		frame.setContentPane(loginPanel);
+		frame.setContentPane(this);
 		frame.setSize(1920, 1080);
 		frame.setVisible(true);
 	}
@@ -57,18 +58,7 @@ public class Login implements ActionListener {
 			String u = username.getText();
 			String p = String.valueOf(password.getPassword());
 
-			ClientModel.instance.sendCommand(new AuthenticationCommand(u, p)); // this
-																				// is
-																				// proper
-																				// the
-																				// bottom
-																				// is
-																				// not,
-																				// this
-																				// is
-																				// for
-																				// coding
-																				// purposes
+			ClientModel.instance.sendCommand(new AuthenticationCommand(u, p));
 			/*
 			 * MainMenu menu = new MainMenu(u);
 			 * MainFrame.getInstance().add(menu.getPanel(),
@@ -78,26 +68,9 @@ public class Login implements ActionListener {
 
 		} else if (arg0.getSource() == Register) {
 			Register register = new Register();
-			frame.remove(loginPanel);
-			frame.add(register.getPanel(), BorderLayout.CENTER);
-			frame.setTitle("Settlers Of Catan - Register");
-			frame.setContentPane(register.getPanel());
+			MainFrame.getInstance().switchScreen(register);
 		}
 		frame.validate();
 		frame.repaint();
-	}
-
-	public JPanel getPanel() {
-		return loginPanel;
-	}
-}
-
-class LoginInit {
-	public static void main(String arg[]) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new Login();
-			}
-		});
 	}
 }

@@ -57,8 +57,8 @@ public class Lobby implements ActionListener {
 		if (arg0.getSource() == back) {
 			MainMenu backMenu = new MainMenu(user);
 			topFrame.remove(lobbyPanel);
-			topFrame.add(backMenu.getPanel());
-			topFrame.setContentPane(backMenu.getPanel());
+			topFrame.add(backMenu);
+			topFrame.setContentPane(backMenu);
 		} /*
 			 * else if (arg0.getSource() == createNewGame) { NewGame newGame =
 			 * new NewGame(user); topFrame.remove(lobbyPanel);

@@ -19,8 +19,9 @@ public class PlayerJoinedGameCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
+		System.out.println("PlayerJoinedGameCommand.execute()");
 		WaitingRoom room = new WaitingRoom(currentListOfPlayers, gameID);
-		MainFrame.getInstance().switchScreen(room.getPanel());
+		MainFrame.getInstance().switchScreen(room);
 	}
 
 }

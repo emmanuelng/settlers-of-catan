@@ -40,6 +40,7 @@ public class Player implements Serializable {
 				session.sendCommand(cmd);
 			} catch (IOException e) {
 				// Ignore: failed to send command
+				e.printStackTrace();
 			}
 		}
 	}
