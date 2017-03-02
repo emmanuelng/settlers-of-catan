@@ -36,7 +36,6 @@ public class PlayerManager {
 			if (p.isConnected())
 				return Status.ALREADY_CONNECTED;
 			if (p.getUsername().equals(username) && p.comparePassword(password)) {
-				p.setCurrentSession(sender);
 				sender.setPlayer(p);
 				return Status.SUCCESS;
 			}

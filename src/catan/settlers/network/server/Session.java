@@ -60,6 +60,7 @@ public class Session extends Thread {
 	}
 	
 	public void setPlayer(Player player) {
+		player.setCurrentSession(this);
 		authenticatedPlayer = player;
 	}
 	

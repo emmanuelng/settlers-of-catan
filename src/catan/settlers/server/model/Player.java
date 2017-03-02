@@ -16,6 +16,7 @@ public class Player implements Serializable {
 	public Player(String username, String password) {
 		this.username = username;
 		this.password = password;
+		this.session = null;
 	}
 	
 	public String getUsername() {
@@ -39,7 +40,7 @@ public class Player implements Serializable {
 			try {
 				session.sendCommand(cmd);
 			} catch (IOException e) {
-				// Ignore: failed to send command
+				// failed to send command
 				e.printStackTrace();
 			}
 		}

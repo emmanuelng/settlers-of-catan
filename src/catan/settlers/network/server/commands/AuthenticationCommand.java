@@ -26,7 +26,6 @@ public class AuthenticationCommand implements ClientToServerCommand {
 				server.writeToConsole("Player " + sender.getPlayer().getUsername() + " was authenticated");
 			}
 			sender.sendCommand(new AuthenticationResponseCommand(username, status));
-			System.out.println(status);
 		} catch (IOException e) {
 			// Ignore
 		}

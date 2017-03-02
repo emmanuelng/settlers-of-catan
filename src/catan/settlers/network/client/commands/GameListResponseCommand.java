@@ -18,7 +18,6 @@ public class GameListResponseCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
-		System.out.println("Received list of " + games.size() + " games");
 		ClientWindow.getInstance().setScreen(new Lobby(games));
 	}
 }
