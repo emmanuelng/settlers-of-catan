@@ -57,7 +57,8 @@ public class GameBoard implements MinuetoWindowHandler{
 		
 		// Keep window open
 		open = true;
-		MinuetoImage helloWorld = new MinuetoText("HelloWorld",fontArial14,Minueto.Color.BLUE);
+		MinuetoFont fontArial14 = new MinuetoFont("Arial",14,false, false);
+		MinuetoImage helloWorld = new MinuetoText("HelloWorld",fontArial14,MinuetoColor.BLUE);
 		// Game/rendering loop
 		while(open) {
 		
