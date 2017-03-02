@@ -20,6 +20,12 @@ public class AuthenticationCommand implements ClientToServerCommand {
 	@Override
 	public void execute(Session sender, Server server) {
 		try {
+			if (sender.getPlayer().isConnected()) {
+				// A player cannot have two active clients
+				sender.sendCommand(new AuthenticationResponseCommand(username, false));
+				return;
+			}
+			
 			if (server.getPlayerManager().authenticate(username, password, sender)) {
 				server.writeToConsole("Received authentication request");
 				sender.sendCommand(new AuthenticationResponseCommand(username, true));

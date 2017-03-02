@@ -32,11 +32,10 @@ public class JoinGameCommand implements ClientToServerCommand {
 					// Send positive response
 					sender.sendCommand(
 							new JoinGameResponseCommand(true, game.getParticipantsUsernames(), game.getGameId()));
-					
+
 					// Notify the other players
 					for (String username : game.getParticipantsUsernames()) {
 						if (!username.equals(sender.getPlayer().getUsername())) {
-							server.writeToConsole("Notifying player " + username);
 							Player curPlayer = server.getPlayerManager().getPlayerByUsername(username);
 							curPlayer.sendCommand(
 									new PlayerJoinedGameCommand(game.getParticipantsUsernames(), game.getGameId()));

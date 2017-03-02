@@ -13,6 +13,7 @@ public class PlayerJoinedGameCommand implements ServerToClientCommand {
 	private int gameID;
 
 	public PlayerJoinedGameCommand(ArrayList<String> currentListOfPlayers, int gameID) {
+		System.out.println("Greating a new PlayerJoinedGameCommand");
 		this.currentListOfPlayers = currentListOfPlayers;
 		this.gameID = gameID;
 	}
