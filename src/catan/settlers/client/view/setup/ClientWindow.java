@@ -5,24 +5,24 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
-public class MainFrame extends JFrame {
+public class ClientWindow extends JFrame {
 	
 	private static final int WINDOW_WIDTH = 1000;
 	private static final int WINDOW_HEIGHT = 500;
 	private static final String WINDOW_TITLE = "Settlers of Catan";
 	
 	private static final long serialVersionUID = 1L;
-	private static MainFrame instance;
+	private static ClientWindow instance;
 	private JPanel currentPanel;
 	
-	public static MainFrame getInstance() {
+	public static ClientWindow getInstance() {
 		if (instance == null) {
-			instance = new MainFrame();
+			instance = new ClientWindow();
 		}
 		return instance;
 	}
 
-	private MainFrame() {
+	private ClientWindow() {
 		// Setup look and feel
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

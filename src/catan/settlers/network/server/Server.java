@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import catan.settlers.common.utils.File;
 import catan.settlers.server.model.GameManager;
 import catan.settlers.server.model.PlayerManager;
-import catan.settlers.server.view.ServerGUI;
+import catan.settlers.server.view.ServerWindow;
 
 public class Server extends Thread {
 
@@ -26,7 +26,7 @@ public class Server extends Thread {
 	private ServerSocket listener;
 
 	private ArrayList<Session> activeSessions;
-	private ServerGUI gui;
+	private ServerWindow gui;
 	private PlayerManager playerManager;
 	private GameManager gameManager;
 
@@ -41,7 +41,7 @@ public class Server extends Thread {
 	 *             Throws an error if the server was not instantiated for some
 	 *             reason
 	 */
-	public Server(ServerGUI gui) throws IOException {
+	public Server(ServerWindow gui) throws IOException {
 		this.gui = gui;
 		this.playerManager = new PlayerManager();
 		this.gameManager = new GameManager();

@@ -50,7 +50,7 @@ public class Register extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		JFrame topFrame = MainFrame.getInstance();
+		JFrame topFrame = ClientWindow.getInstance();
 
 		if (arg0.getSource() == registerButton) {
 			String u = usernameTextField.getText();

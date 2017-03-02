@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 import catan.settlers.client.view.setup.Lobby;
-import catan.settlers.client.view.setup.MainFrame;
+import catan.settlers.client.view.setup.ClientWindow;
 import catan.settlers.server.model.Game;
 
 public class GameListResponseCommand implements ServerToClientCommand {
@@ -18,6 +18,6 @@ public class GameListResponseCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
-		MainFrame.getInstance().setScreen(new Lobby(games));
+		ClientWindow.getInstance().setScreen(new Lobby(games));
 	}
 }

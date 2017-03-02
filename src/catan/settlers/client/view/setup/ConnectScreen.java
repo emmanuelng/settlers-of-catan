@@ -46,7 +46,7 @@ public class ConnectScreen extends JPanel implements ActionListener {
 			
 			// Connect
 			ClientModel.instance.connect(ip, port);
-			MainFrame.getInstance().setScreen(new Login());
+			ClientWindow.getInstance().setScreen(new Login());
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Error: Cannot connect to the server");

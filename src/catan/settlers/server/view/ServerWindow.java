@@ -14,7 +14,7 @@ import javax.swing.UIManager;
 
 import catan.settlers.network.server.Server;
 
-public class ServerGUI extends JFrame {
+public class ServerWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,7 +25,7 @@ public class ServerGUI extends JFrame {
 	private LogPanel log;
 	private SettingsPanel settings;
 
-	public ServerGUI() {
+	public ServerWindow() {
 		initialize();
 
 		try {

@@ -54,7 +54,7 @@ public class Login extends JPanel implements ActionListener {
 
 		} else if (arg0.getSource() == Register) {
 			Register register = new Register();
-			MainFrame.getInstance().setScreen(register);
+			ClientWindow.getInstance().setScreen(register);
 		}
 	}
 }

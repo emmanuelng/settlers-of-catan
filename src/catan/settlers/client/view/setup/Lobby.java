@@ -41,7 +41,7 @@ public class Lobby extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == backButton) {
-			MainFrame.getInstance().setScreen(new MainMenu());
+			ClientWindow.getInstance().setScreen(new MainMenu());
 		} else if (arg0.getSource() == createGameButton) {
 			ClientModel.instance.sendCommand(new CreateGameCommand());
 			ClientModel.instance.sendCommand(new GetListOfGamesCommand());

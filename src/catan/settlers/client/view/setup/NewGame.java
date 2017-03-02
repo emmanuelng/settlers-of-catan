@@ -55,7 +55,7 @@ public class NewGame implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent arg0){
-		JFrame topFrame = MainFrame.getInstance();
+		JFrame topFrame = ClientWindow.getInstance();
 
 		
 		if(arg0.getSource()==back){
