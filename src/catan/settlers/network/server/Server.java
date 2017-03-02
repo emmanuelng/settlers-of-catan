@@ -71,6 +71,11 @@ public class Server extends Thread {
 	 */
 	public void close() {
 		writeToConsole("Closing server...");
+		
+		for(Session s : activeSessions) {
+			s.close();
+		}
+		
 		try {
 			listener.close();
 			isServerRunning = false;

@@ -55,7 +55,10 @@ public class Session extends Thread {
 	public void close() {
 		host.writeToConsole("Closing session...");
 		sessionActive = false;
-		if (authenticatedPlayer != null) authenticatedPlayer.setCurrentSession(null);
+		if (authenticatedPlayer != null) {
+			host.writeToConsole("Resetting session for player " + authenticatedPlayer.getUsername());
+			authenticatedPlayer.setCurrentSession(null);
+		}
 		host.removeSession(this);
 	}
 	
