@@ -1,4 +1,6 @@
-package catan.settlers.client.model;
+	package catan.settlers.client.model;
+
+import java.awt.image.BufferedImage;
 
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoImage;
@@ -9,16 +11,18 @@ public class IntersectionImage extends MinuetoImage{
 	
 	private int SQR_SIZE = 10;
 	private MinuetoImage intersectionImage;
+	private boolean occupied;
 	
 	public IntersectionImage(){
-		
+		intersectionImage = new MinuetoImage(SQR_SIZE,SQR_SIZE);
+		intersectionImage.drawRectangle(MinuetoColor.BLACK, 0, 0, SQR_SIZE, SQR_SIZE);
 	}
 	
-	public void drawIntersection(int posX,int posY,boolean occupied){
-		if(!occupied){
-			intersectionImage = new MinuetoImage(SQR_SIZE,SQR_SIZE);
-			intersectionImage.drawRectangle(MinuetoColor.BLACK,posX,posY,SQR_SIZE,SQR_SIZE);
-			//GameFrame.getInstance().draw(intersectionImage, posX, posY);
-		}
+	public void setOccupied(){
+		this.occupied = true;
+	}
+	
+	public MinuetoImage getIntersectionImage(){
+		return intersectionImage;
 	}
 }

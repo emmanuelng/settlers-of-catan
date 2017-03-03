@@ -1,22 +1,19 @@
 package catan.settlers.client.view;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
 import org.minueto.MinuetoColor;
 import org.minueto.MinuetoEventQueue;
+import org.minueto.MinuetoFileException;
 import org.minueto.handlers.MinuetoWindowHandler;
 import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoImage;
+import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoText;
-import org.minueto.window.MinuetoFrame;
-import org.minueto.window.MinuetoPanel;
+
 import org.minueto.window.MinuetoWindow;
 
 import catan.settlers.client.model.HexagonImage;
 import catan.settlers.client.model.HexagonImage.HexType;
 import catan.settlers.client.model.IntersectionImage;
-import catan.settlers.client.view.setup.Login;
 
 public class GameBoard implements MinuetoWindowHandler{
 	
@@ -24,11 +21,13 @@ public class GameBoard implements MinuetoWindowHandler{
 	private MinuetoImage board;
 
 	private MinuetoEventQueue eventQueue;
-	private MinuetoFont font;
+	private MinuetoFont fontArial14;
+	private MinuetoImage helloWorld;
+	private int BOARDSIZE = 19;
 	
 	// Images of text
-	private MinuetoImage hex;
-	private MinuetoImage intersection;
+	private BoardSurface boardSurface;
+	//private MinuetoImage intersection[] = new MinuetoImage[20];
 	
 	// Should be keep the window open
 	private boolean open;
@@ -38,17 +37,19 @@ public class GameBoard implements MinuetoWindowHandler{
 	}
 	
 	private void initialize() {
-		// Build the event quue.
+		// Build the event queue.
 		eventQueue = new MinuetoEventQueue();
 		
 		// Register the window handler with the event queue.
 		this.window.registerWindowHandler(this, eventQueue);		
 		
 		// Build the images of the text
+		fontArial14 = new MinuetoFont("Arial",14,false, false);
+		helloWorld = new MinuetoText("HelloWorld",fontArial14,MinuetoColor.BLUE);
+		boardSurface = new BoardSurface(640,480);
+
 		
-		hex = new HexagonImage(0,0,HexType.BRICK);
-		intersection = new IntersectionImage();
-		
+		this.window.setVisible(true);
 		this.window.setTitle("Cattlers of Seten");
 	}
 	
@@ -57,19 +58,18 @@ public class GameBoard implements MinuetoWindowHandler{
 		
 		// Keep window open
 		open = true;
-		MinuetoFont fontArial14 = new MinuetoFont("Arial",14,false, false);
-		MinuetoImage helloWorld = new MinuetoText("HelloWorld",fontArial14,MinuetoColor.BLUE);
+		
+		boardSurface.clear(MinuetoColor.WHITE);
+		//boardSurface.drawIntersection(100,100);
+		boardSurface.drawHex(0, 0, HexType.BRICK);
+		
+		
 		// Game/rendering loop
 		while(open) {
 		
-			int n = 5;
-			// Clear the window.
-			this.window.clear(MinuetoColor.BLACK);
 			
 			// Draw the text on the screen.
-			this.window.draw(helloWorld, 0, 0);
-			//this.window.draw(hex, 0, 0);
-			//this.window.draw(intersection, 100, 100);
+			this.window.draw(boardSurface, 0, 0);
 			
 			// Handle all the events in the event queue.
 			while (eventQueue.hasNext()) {

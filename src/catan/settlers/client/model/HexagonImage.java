@@ -34,20 +34,13 @@ public class HexagonImage extends MinuetoImage{
 	//private HexType type;
 	private MinuetoColor color;
 	
-	/*public Hexagon(HexType htype){
-		type = htype;
-		switch(type){
-			case WOOD: color = MinuetoColor.GREEN.darken(100);
-			case BRICK: color = MinuetoColor.RED.darken(100);
-			case ORE: color = MinuetoColor.BLACK.lighten(100);
-			case WATER: color = MinuetoColor.BLUE;
-			case SHEEP: color = MinuetoColor.GREEN;
-			case WHEAT: color = MinuetoColor.YELLOW;
-			case DESERT: color = MinuetoColor.YELLOW.darken(100);
-		}
-	}*/
-	public HexagonImage(int posX,int posY, HexType htype){
-		drawHex(posX,posY,htype);
+	public HexagonImage(HexType htype){
+		System.out.println(drawCoordinates(0,0));
+		HexagonImage.setHeight(HEXSIZE);
+		HexagonImage.setSide(HEXSIZE);
+		System.out.println(drawCoordinates(0,0));
+		hexImage = new MinuetoImage(SCRSIZE,SCRSIZE);
+		hexImage.drawPolygon(MinuetoColor.BLACK, drawCoordinates(0,0));
 	}
 	
 	public MinuetoColor getColor(){
@@ -95,10 +88,8 @@ public class HexagonImage extends MinuetoImage{
 		return coordinates;	
 	}
 	
-	public void drawHex(int posX,int posY,HexType type){
-		hexImage = new MinuetoImage(SCRSIZE,SCRSIZE);
-		hexImage.drawPolygon(MinuetoColor.YELLOW, drawCoordinates(posX,posY));
-		//GameFrame.getInstance().draw(hexImage, posX, posY);
+	public MinuetoImage getHexImage(){
+		return hexImage;
 	}
 }
 
