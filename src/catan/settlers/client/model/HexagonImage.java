@@ -35,10 +35,9 @@ public class HexagonImage extends MinuetoImage{
 	private MinuetoColor color;
 	
 	public HexagonImage(HexType htype){
-		System.out.println(drawCoordinates(0,0));
 		HexagonImage.setHeight(HEXSIZE);
 		HexagonImage.setSide(HEXSIZE);
-		System.out.println(drawCoordinates(0,0));
+
 		hexImage = new MinuetoImage(SCRSIZE,SCRSIZE);
 		hexImage.drawPolygon(MinuetoColor.BLACK, drawCoordinates(0,0));
 	}

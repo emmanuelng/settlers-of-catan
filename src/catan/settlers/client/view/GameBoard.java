@@ -22,7 +22,7 @@ public class GameBoard implements MinuetoWindowHandler{
 
 	private MinuetoEventQueue eventQueue;
 	private MinuetoFont fontArial14;
-	private MinuetoImage helloWorld;
+	private MinuetoImage typeWords;
 	private int BOARDSIZE = 19;
 	
 	// Images of text
@@ -45,7 +45,7 @@ public class GameBoard implements MinuetoWindowHandler{
 		
 		// Build the images of the text
 		fontArial14 = new MinuetoFont("Arial",14,false, false);
-		helloWorld = new MinuetoText("HelloWorld",fontArial14,MinuetoColor.BLUE);
+		typeWords = new MinuetoText("You can type what ever you want with this",fontArial14,MinuetoColor.BLUE);
 		boardSurface = new BoardSurface(640,480);
 
 		
@@ -60,8 +60,9 @@ public class GameBoard implements MinuetoWindowHandler{
 		open = true;
 		
 		boardSurface.clear(MinuetoColor.WHITE);
-		//boardSurface.drawIntersection(100,100);
+		boardSurface.drawIntersection(100,100);
 		boardSurface.drawHex(0, 0, HexType.BRICK);
+		boardSurface.draw(typeWords, 20, 20);
 		
 		
 		// Game/rendering loop
