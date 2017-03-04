@@ -44,18 +44,31 @@ public class GameBoard {
 					}
 				}
 			}
-		}	
+		}
+		populateEdgesAndIntersections();
+		randomizeHexes();
 	}
 	
-	private void populateEdges() {
+	private void populateEdgesAndIntersections() {
 		for (int y = 0; y < 5; y++) {
 			for (int x = 0; x < 5; x++) {
 				if (Math.abs(x-y) < 3) {
 					Hex h = hexes[x][y];
 					for (int i = 0; i < 6; i++) {
 						Edge e = h.getEdge(i);
-						e.addEdge(h.getEdge((i+5)%6));
-						e.addEdge(h.getEdge((i+1)%6));
+						if (i < 3) {
+							e.addLeftEdge(h.getEdge((i+5)%6));
+							e.addRightEdge(h.getEdge((i+1)%6));
+						} else {
+							e.addRightEdge(h.getEdge((i+5)%6));
+							e.addLeftEdge(h.getEdge((i+1)%6));
+						}
+						
+						Intersection t = h.getIntersection(i);
+						t.addEdge(e);
+						t.addEdge(h.getEdge((i+1)%6));
+						t.addIntersection (h.getIntersection((i+5)%6));
+						t.addIntersection (h.getIntersection((i+1)%6));
 						
 						if (e.getIntersection(0) == null || e.getIntersection(1) == null) {
 							e.setIntersection(h.getIntersection(i), 0);
@@ -158,5 +171,14 @@ public class GameBoard {
 	}
 	
 	
-
+	public void placeSettlement(Player p, Intersection i) {
+		if (i.canBuild()) {
+			Village v = new Village(p);
+			i.setUnit(v);
+		}
+	}
+	
+	public Hex[][] getHexes() {
+		return hexes;
+	}
 }
