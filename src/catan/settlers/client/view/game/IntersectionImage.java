@@ -1,7 +1,5 @@
 	package catan.settlers.client.view.game;
 
-import java.awt.image.BufferedImage;
-
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoImage;
 

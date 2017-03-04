@@ -1,11 +1,5 @@
 package catan.settlers.client.view;
 
-import java.awt.image.renderable.RenderableImage;
-
-import org.minueto.MinuetoColor;
-import org.minueto.image.MinuetoImage;
-import org.minueto.image.MinuetoRectangle;
-
 import catan.settlers.client.view.game.GameWindow;
 import catan.settlers.client.view.game.HexagonMap;
 import catan.settlers.client.view.setup.SetupWindow;
