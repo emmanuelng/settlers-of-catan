@@ -33,9 +33,9 @@ public class PlayerManager {
 
 	public synchronized Status authenticate(String username, String password, Session sender) {
 		for (Player p : registeredPlayers) {
-			if (p.isConnected())
-				return Status.ALREADY_CONNECTED;
 			if (p.getUsername().equals(username) && p.comparePassword(password)) {
+				if (p.isConnected())
+					return Status.ALREADY_CONNECTED;
 				sender.setPlayer(p);
 				return Status.SUCCESS;
 			}
