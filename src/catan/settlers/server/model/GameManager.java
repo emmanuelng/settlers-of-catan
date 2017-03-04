@@ -12,9 +12,11 @@ public class GameManager {
 		this.games = new ArrayList<>();
 	}
 
-	public synchronized void createGame(String ownerUsername) {
-		games.add(new Game(lastId, ownerUsername));
+	public synchronized Game createGame(Player owner) {
+		Game game = new Game(lastId, owner);
+		games.add(game);
 		lastId++;
+		return game;
 	}
 
 	public synchronized ArrayList<Game> getListOfGames() {

@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
-import java.util.ArrayList;
 
 import catan.settlers.common.utils.File;
 import catan.settlers.server.model.GameManager;
@@ -25,7 +24,6 @@ public class Server extends Thread {
 	private boolean isServerRunning;
 	private ServerSocket listener;
 
-	private ArrayList<Session> activeSessions;
 	private ServerWindow gui;
 	private PlayerManager playerManager;
 	private GameManager gameManager;
@@ -45,7 +43,6 @@ public class Server extends Thread {
 		this.gui = gui;
 		this.playerManager = new PlayerManager();
 		this.gameManager = new GameManager();
-		this.activeSessions = new ArrayList<>();
 
 		settingsFile = new File(SETTINGS_FILE);
 		loadSettings();
@@ -70,12 +67,7 @@ public class Server extends Thread {
 	 * restart is needed, use a new instance of Server.
 	 */
 	public void close() {
-		writeToConsole("Closing server...");
-		
-		for(Session s : activeSessions) {
-			s.close();
-		}
-		
+		writeToConsole("Closing server...");		
 		try {
 			listener.close();
 			isServerRunning = false;
@@ -91,8 +83,7 @@ public class Server extends Thread {
 			try {
 				Socket socket = listener.accept();
 				gui.writeToLog("New client connected");
-				Session session = new Session(socket, this);
-				activeSessions.add(session);
+				new Session(socket, this);
 			} catch (IOException e) {
 				// Ignore
 			}
@@ -107,16 +98,6 @@ public class Server extends Thread {
 	 */
 	public boolean isRunning() {
 		return isServerRunning;
-	}
-
-	/**
-	 * Closes a session
-	 * 
-	 * @param session
-	 *            the session to close
-	 */
-	public void removeSession(Session session) {
-		activeSessions.remove(session);
 	}
 
 	public ServerSettings getSettings() {

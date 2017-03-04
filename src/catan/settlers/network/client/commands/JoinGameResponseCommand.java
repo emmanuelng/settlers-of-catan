@@ -23,10 +23,10 @@ public class JoinGameResponseCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
+		System.out.println("JoinGameResponseCommand");
 		if (success) {
 			WaitingRoom room = new WaitingRoom(currentListOfPlayers, gameID);
 			ClientWindow.getInstance().getSetupWindow().setScreen(room);
-
 		} else {
 			JOptionPane.showMessageDialog(new JLabel(), "Room full");
 		}

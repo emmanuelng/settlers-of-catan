@@ -45,7 +45,6 @@ public class Lobby extends JPanel implements ActionListener {
 			ClientWindow.getInstance().getSetupWindow().setScreen(new MainMenu());
 		} else if (arg0.getSource() == createGameButton) {
 			ClientModel.instance.getNetworkManager().sendCommand(new CreateGameCommand());
-			ClientModel.instance.getNetworkManager().sendCommand(new GetListOfGamesCommand());
 		}
 	}
 }

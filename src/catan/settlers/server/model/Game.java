@@ -9,9 +9,9 @@ public class Game extends Thread implements Serializable {
 	private ArrayList<Player> participants;
 	private int id;
 
-	public Game(int id, String ownerUsername) {
-		// TODO add owner to the list of participants
+	public Game(int id, Player owner) {
 		participants = new ArrayList<>();
+		participants.add(owner);
 	}
 
 	public int getGameId() {
@@ -19,6 +19,7 @@ public class Game extends Thread implements Serializable {
 	}
 
 	public synchronized boolean addPlayer(Player player) {
+		System.out.println(participants.size());
 		if (!participants.contains(player) && participants.size() < 3) {
 			participants.add(player);
 			return true;

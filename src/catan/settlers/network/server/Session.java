@@ -15,7 +15,6 @@ public class Session extends Thread {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private boolean sessionActive;
-	private Player authenticatedPlayer;
 
 	/**
 	 * A session is a thread that waits commands from a specific client (not
@@ -42,7 +41,8 @@ public class Session extends Thread {
 				ClientToServerCommand cmd = (ClientToServerCommand) in.readObject();
 				cmd.execute(this, host);
 			} catch (Exception e) {
-				// Close the session (e.g. when the client closes the connection)
+				// Close the session (e.g. when the client closes the
+				// connection)
 				close();
 			}
 		}
@@ -55,19 +55,10 @@ public class Session extends Thread {
 	public void close() {
 		host.writeToConsole("Closing session...");
 		sessionActive = false;
-		if (authenticatedPlayer != null) {
-			host.writeToConsole("Resetting session for player " + authenticatedPlayer.getUsername());
-			authenticatedPlayer.setCurrentSession(null);
-		}
-		host.removeSession(this);
-	}
-	
-	public void setPlayer(Player player) {
-		player.setCurrentSession(this);
-		authenticatedPlayer = player;
+		host.getPlayerManager().removeSession(this);
 	}
 	
 	public Player getPlayer() {
-		return authenticatedPlayer;
+		return host.getPlayerManager().getPlayerBySession(this);
 	}
 }

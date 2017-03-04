@@ -1,7 +1,8 @@
 package catan.settlers.network.server.commands;
 
+import java.util.ArrayList;
+
 import catan.settlers.network.client.commands.JoinGameResponseCommand;
-import catan.settlers.network.client.commands.PlayerJoinedGameCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.server.model.Game;
@@ -18,38 +19,21 @@ public class JoinGameCommand implements ClientToServerCommand {
 
 	@Override
 	public void execute(Session sender, Server server) {
-		Player player = sender.getPlayer();
 		Game game = server.getGameManager().getGameById(gameId);
-
-		server.writeToConsole("Player " + sender.getPlayer().getUsername() + " wants to join game " + game);
-
 		try {
-			if (player == null || game == null) {
-				sender.sendCommand(
-						new JoinGameResponseCommand(false, game.getParticipantsUsernames(), game.getGameId()));
+			if (game == null) {
+				sender.sendCommand(new JoinGameResponseCommand(false, null, 0));
 			} else {
+				Player player = sender.getPlayer();
 				if (game.addPlayer(player)) {
-					// Send positive response
-					sender.sendCommand(
-							new JoinGameResponseCommand(true, game.getParticipantsUsernames(), game.getGameId()));
-
-					// Notify the other players
-					for (String username : game.getParticipantsUsernames()) {
-						if (!username.equals(sender.getPlayer().getUsername())) {
-							Player curPlayer = server.getPlayerManager().getPlayerByUsername(username);
-							curPlayer.sendCommand(
-									new PlayerJoinedGameCommand(game.getParticipantsUsernames(), game.getGameId()));
-						}
-
-					}
+					ArrayList<String> participants = game.getParticipantsUsernames();
+					sender.sendCommand(new JoinGameResponseCommand(true, participants, gameId));
 				} else {
-					sender.sendCommand(
-							new JoinGameResponseCommand(false, game.getParticipantsUsernames(), game.getGameId()));
+					sender.sendCommand(new JoinGameResponseCommand(false, null, 0));
 				}
 			}
 		} catch (Exception e) {
 			// Ignore
-			e.printStackTrace();
 		}
 	}
 

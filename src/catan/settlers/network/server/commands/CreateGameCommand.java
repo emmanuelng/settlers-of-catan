@@ -1,7 +1,9 @@
 package catan.settlers.network.server.commands;
 
+import catan.settlers.network.client.commands.JoinGameResponseCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
+import catan.settlers.server.model.Game;
 
 public class CreateGameCommand implements ClientToServerCommand {
 
@@ -9,11 +11,14 @@ public class CreateGameCommand implements ClientToServerCommand {
 
 	@Override
 	public void execute(Session sender, Server server) {
-		server.writeToConsole("Received creating game request");
-		server.getGameManager().createGame(sender.getPlayer().getUsername());
-
-		int nbOfGames = server.getGameManager().getListOfGames().size();
-		server.writeToConsole("There are now " + nbOfGames + " games in the system");
+		try {
+			Game game = server.getGameManager().createGame(sender.getPlayer());
+			sender.sendCommand(new JoinGameResponseCommand(true, game.getParticipantsUsernames(), game.getGameId()));
+			int nbOfGames = server.getGameManager().getListOfGames().size();
+			server.writeToConsole("New game created. There are now " + nbOfGames + " games");
+		} catch (Exception e) {
+			// Ignore
+		}
 	}
 
 }
