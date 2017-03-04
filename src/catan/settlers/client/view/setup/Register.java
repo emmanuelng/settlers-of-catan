@@ -10,6 +10,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.network.server.commands.RegisterCommand;
 
 public class Register extends JPanel implements ActionListener {
@@ -49,8 +50,6 @@ public class Register extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		ClientWindow.getInstance();
-
 		if (arg0.getSource() == registerButton) {
 			String u = usernameTextField.getText();
 			String p = String.valueOf(passwordTextField.getPassword());
@@ -59,7 +58,7 @@ public class Register extends JPanel implements ActionListener {
 			ClientModel.instance.getNetworkManager().sendCommand(new RegisterCommand(u, p));
 
 		} else if (arg0.getSource() == backButton) {
-			ClientWindow.getInstance().setScreen(new Login());
+			ClientWindow.getInstance().getSetupWindow().setScreen(new Login());
 		}
 	}
 }

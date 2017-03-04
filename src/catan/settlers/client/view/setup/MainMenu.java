@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.network.server.commands.GetListOfGamesCommand;
 import catan.settlers.server.model.Game;
 
@@ -39,7 +40,7 @@ public class MainMenu extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == playButton) {
 			Lobby lobby = new Lobby(new ArrayList<Game>());
-			ClientWindow.getInstance().setScreen(lobby);
+			ClientWindow.getInstance().getSetupWindow().setScreen(lobby);
 			ClientModel.instance.getNetworkManager().sendCommand(new GetListOfGamesCommand());
 		} else if (arg0.getSource() == exitButton) {
 			// could add more prompts and stuff, now it's just abrupt closing

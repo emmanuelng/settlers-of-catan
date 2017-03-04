@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.ClientWindow;
 
 public class ConnectScreen extends JPanel implements ActionListener {
 
@@ -46,7 +47,7 @@ public class ConnectScreen extends JPanel implements ActionListener {
 			
 			// Connect
 			ClientModel.instance.getNetworkManager().connect(ip, port);
-			ClientWindow.getInstance().setScreen(new Login());
+			ClientWindow.getInstance().getSetupWindow().setScreen(new Login());
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Error: Cannot connect to the server");

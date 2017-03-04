@@ -1,10 +1,8 @@
-package catan.settlers.client.view;
+package catan.settlers.client.view.game;
 
 import org.minueto.image.MinuetoImage;
 
-import catan.settlers.client.model.HexagonImage;
-import catan.settlers.client.model.HexagonImage.HexType;
-import catan.settlers.client.model.IntersectionImage;
+import catan.settlers.client.view.game.HexagonImage.HexType;
 
 public class BoardSurface extends MinuetoImage {
 	public BoardSurface(int sizeX,int sizeY){

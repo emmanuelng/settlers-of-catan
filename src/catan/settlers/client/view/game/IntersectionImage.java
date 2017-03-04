@@ -1,11 +1,9 @@
-	package catan.settlers.client.model;
+	package catan.settlers.client.view.game;
 
 import java.awt.image.BufferedImage;
 
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoImage;
-
-import catan.settlers.client.view.GameFrame;
 
 public class IntersectionImage extends MinuetoImage{
 	

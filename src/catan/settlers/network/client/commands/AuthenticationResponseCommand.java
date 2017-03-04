@@ -3,7 +3,7 @@ package catan.settlers.network.client.commands;
 import javax.swing.JOptionPane;
 
 import catan.settlers.client.model.ClientModel;
-import catan.settlers.client.view.setup.ClientWindow;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.setup.MainMenu;
 
 public class AuthenticationResponseCommand implements ServerToClientCommand {
@@ -25,7 +25,7 @@ public class AuthenticationResponseCommand implements ServerToClientCommand {
 	public void execute() {
 		if (status == Status.SUCCESS) {
 			ClientModel.instance.setUsername(username);
-			ClientWindow.getInstance().setScreen(new MainMenu());
+			ClientWindow.getInstance().getSetupWindow().setScreen(new MainMenu());
 		} else if (status == Status.INVALID_CREDENTIALS) {
 			JOptionPane.showMessageDialog(null, "Incorrect login/password", "Error", JOptionPane.ERROR_MESSAGE);
 		} else {

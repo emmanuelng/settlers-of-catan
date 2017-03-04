@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.server.model.Game;
 
 public class NewGame implements ActionListener {
@@ -55,7 +56,7 @@ public class NewGame implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent arg0){
-		JFrame topFrame = ClientWindow.getInstance();
+		JFrame topFrame = ClientWindow.getInstance().getSetupWindow();
 
 		
 		if(arg0.getSource()==back){

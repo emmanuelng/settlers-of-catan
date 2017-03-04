@@ -10,6 +10,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.network.server.commands.AuthenticationCommand;
 
 public class Login extends JPanel implements ActionListener {
@@ -54,7 +55,7 @@ public class Login extends JPanel implements ActionListener {
 
 		} else if (arg0.getSource() == Register) {
 			Register register = new Register();
-			ClientWindow.getInstance().setScreen(register);
+			ClientWindow.getInstance().getSetupWindow().setScreen(register);
 		}
 	}
 }

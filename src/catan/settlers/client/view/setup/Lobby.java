@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.network.server.commands.CreateGameCommand;
 import catan.settlers.network.server.commands.GetListOfGamesCommand;
 import catan.settlers.network.server.commands.JoinGameCommand;
@@ -41,7 +42,7 @@ public class Lobby extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == backButton) {
-			ClientWindow.getInstance().setScreen(new MainMenu());
+			ClientWindow.getInstance().getSetupWindow().setScreen(new MainMenu());
 		} else if (arg0.getSource() == createGameButton) {
 			ClientModel.instance.getNetworkManager().sendCommand(new CreateGameCommand());
 			ClientModel.instance.getNetworkManager().sendCommand(new GetListOfGamesCommand());
