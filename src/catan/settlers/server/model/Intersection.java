@@ -8,4 +8,5 @@ public class Intersection {
 	private IntersectionUnit myUnit;
 	
 	public void addEdge(Edge e) { myEdges.add(e); }
+	public IntersectionUnit getUnit() { return myUnit; }
 }

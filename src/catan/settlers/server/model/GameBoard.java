@@ -83,7 +83,7 @@ public class GameBoard {
 		
 		for (int y = 0; y < 5; y++) {
 			for (int x = 0; x < 5; x++) {
-				if ((max(x,y) - min(x,y)) < 3) {
+				if (Math.abs(x-y) < 3) {
 					if (terrainPool.get(0) != TerrainType.DESERT) {
 						hexes[x][y].setNum(diceValues.remove(0));
 					}
@@ -93,6 +93,7 @@ public class GameBoard {
 		}
 	}
 	
+	// Utility functions for constructing the board.
 	private int offsetToIndex(int dx, int dy) {
 		if 			(dx ==  1 && dy ==  1) { return 0; } 
 		else if 	(dx ==  1 && dy ==  0) { return 1; } 
@@ -102,7 +103,6 @@ public class GameBoard {
 		else if 	(dx ==  0 && dy ==  1) { return 5; }
 		else { return -1; }
 	}
-	
 	private Tuple indexToOffset(int i) {
 		if 		(i == 0) { return new Tuple(-1, -1); }
 		else if (i == 1) { return new Tuple( 1,  0); }
@@ -123,17 +123,40 @@ public class GameBoard {
 		} 
 	}
 	
+	
+	/*
+	 *  Distributes cards to players based on n being rolled.
+	 *  Checks all hexes for n; if found, distributes resources and commodities
+	 *  to all players with a village on that hex.
+	 */
+	
 	public void drawNum(int n) {
-		for (Hex[] h : hexes) {
-			for (Hex x : h) {
-				if (h.getNum() == n) {
-					Intersection[] neighbours = h.getIntersections();
-					for (Intersection i : neighbours) {
-						i.drawResource(h.getType());
+		for (int y = 0; y < 5; y++) {
+			for (int x = 0; x < 5; x++) {
+				if (Math.abs(x-y) < 3) {
+					if (hexes[x][y].getNum() == n) {
+						for (int i = 0; i < 6; i++) {
+							IntersectionUnit u = hexes[x][y].getIntersection(i).getUnit();
+							if (u instanceof Village) {	
+								switch (((Village) u).getKind()) {
+									case SETTLEMENT: 
+										u.getOwner().giveResource(hexes[x][y].getResource(), 1);
+									case CITY:
+										u.getOwner().giveResource(hexes[x][y].getResource(), 1);
+										u.getOwner().giveResource(hexes[x][y].getCommodity(), 1);
+									case METROPOLIS:
+										u.getOwner().giveResource(hexes[x][y].getResource(), 1);
+										u.getOwner().giveResource(hexes[x][y].getCommodity(), 1);
+								}
+							}
+							
+						}
 					}
 				}
 			}
-		}
+		}	
 	}
+	
+	
 
 }
