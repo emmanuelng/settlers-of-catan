@@ -2,6 +2,8 @@ package catan.settlers.client.model;
 
 public class ClientModel {
 	public static final ClientModel instance = new ClientModel();
+	public static final int WINDOW_WIDTH = 1000;
+	public static final int WINDOW_HEIGHT = 500;
 
 	private String username;
 	private NetworkManager networkManager;

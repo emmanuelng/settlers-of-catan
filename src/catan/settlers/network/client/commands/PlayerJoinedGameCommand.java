@@ -2,7 +2,7 @@ package catan.settlers.network.client.commands;
 
 import java.util.ArrayList;
 
-import catan.settlers.client.view.setup.ClientWindow;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.setup.WaitingRoom;
 
 public class PlayerJoinedGameCommand implements ServerToClientCommand {
@@ -22,7 +22,7 @@ public class PlayerJoinedGameCommand implements ServerToClientCommand {
 	public void execute() {
 		System.out.println("PlayerJoinedGameCommand.execute()");
 		WaitingRoom room = new WaitingRoom(currentListOfPlayers, gameID);
-		ClientWindow.getInstance().setScreen(room);
+		ClientWindow.getInstance().getSetupWindow().setScreen(room);
 	}
 
 }

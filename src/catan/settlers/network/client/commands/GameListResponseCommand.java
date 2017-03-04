@@ -2,9 +2,8 @@ package catan.settlers.network.client.commands;
 
 import java.util.ArrayList;
 
-
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.setup.Lobby;
-import catan.settlers.client.view.setup.ClientWindow;
 import catan.settlers.server.model.Game;
 
 public class GameListResponseCommand implements ServerToClientCommand {
@@ -18,7 +17,6 @@ public class GameListResponseCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
-		System.out.println(games);
-		ClientWindow.getInstance().setScreen(new Lobby(games));
+		ClientWindow.getInstance().getSetupWindow().setScreen(new Lobby(games));
 	}
 }

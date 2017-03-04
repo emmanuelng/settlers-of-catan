@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import catan.settlers.client.model.ClientModel;
-import catan.settlers.client.view.GameBoard;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.network.server.commands.CancelJoinGameCommand;
 
 public class WaitingRoom extends JPanel implements ActionListener {
@@ -43,31 +43,9 @@ public class WaitingRoom extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == goButton) {
-		
-        	
-        	Thread workerThread = new Thread(new Worker());
-        	workerThread.start();
-        	
-        	ClientWindow.getInstance().setWindowVisible(false);
+        	ClientWindow.getInstance().switchToGame();
 		} else if (arg0.getSource() == backButton) {
 			ClientModel.instance.getNetworkManager().sendCommand(new CancelJoinGameCommand(gameId));
 		}
 	}
-}
-
-class Worker implements Runnable {
-	private boolean isWaiting = true;
-
-	public void run() {
-		while (isWaiting) {
-	         try {
-	        	GameBoard gameWindow = new GameBoard();		
-	     		gameWindow.start();
-	            Thread.sleep(100);
-	         } catch (InterruptedException e) {
-	            // Can ignore, we'll just try again
-	         }
-	      }
-	}
-	
 }
