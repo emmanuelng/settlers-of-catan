@@ -35,7 +35,7 @@ public class GameWindow extends MinuetoFrame {
 		// Build the images of the text
 		fontArial14 = new MinuetoFont("Arial", 14, false, false);
 		typeWords = new MinuetoText("You can type what ever you want with this", fontArial14, MinuetoColor.BLUE);
-		boardSurface = new BoardSurface(640, 480);
+		boardSurface = new BoardSurface(1024, 768);
 
 		this.setTitle("Cattlers of Seten");
 	}
@@ -47,8 +47,7 @@ public class GameWindow extends MinuetoFrame {
 		open = true;
 
 		boardSurface.clear(MinuetoColor.WHITE);
-		boardSurface.drawIntersection(100, 100);
-		boardSurface.drawHex(0, 0, HexType.BRICK);
+		boardSurface.drawHexGrid(100, 100);
 		boardSurface.draw(typeWords, 20, 20);
 
 		// Game/rendering loop

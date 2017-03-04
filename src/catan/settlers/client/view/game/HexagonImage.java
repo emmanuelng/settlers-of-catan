@@ -34,7 +34,7 @@ public class HexagonImage extends MinuetoImage {
 		HexagonImage.setSide(HEXSIZE);
 
 		hexImage = new MinuetoImage(SCRSIZE, SCRSIZE);
-		hexImage.drawPolygon(MinuetoColor.BLACK, drawCoordinates(0, 0));
+		hexImage.drawPolygon(MinuetoColor.BLUE, drawCoordinates(0, 0));
 	}
 
 	public MinuetoColor getColor() {
