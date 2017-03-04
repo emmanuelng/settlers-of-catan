@@ -27,7 +27,7 @@ public class JoinGameCommand implements ClientToServerCommand {
 				Player player = sender.getPlayer();
 				if (game.addPlayer(player)) {
 					ArrayList<String> participants = game.getParticipantsUsernames();
-					sender.sendCommand(new JoinGameResponseCommand(true, participants, gameId));
+					sender.sendCommand(new JoinGameResponseCommand(true, participants, game.getGameId()));
 				} else {
 					sender.sendCommand(new JoinGameResponseCommand(false, null, 0));
 				}

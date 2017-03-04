@@ -10,6 +10,7 @@ public class Game extends Thread implements Serializable {
 	private int id;
 
 	public Game(int id, Player owner) {
+		this.id = id;
 		participants = new ArrayList<>();
 		participants.add(owner);
 	}

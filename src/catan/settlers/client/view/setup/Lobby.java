@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.network.server.commands.CreateGameCommand;
-import catan.settlers.network.server.commands.GetListOfGamesCommand;
 import catan.settlers.network.server.commands.JoinGameCommand;
 import catan.settlers.server.model.Game;
 
@@ -31,7 +30,7 @@ public class Lobby extends JPanel implements ActionListener {
 		add(publicGamesLabel);
 
 		for (int i = 0; i < games.size(); i++) {
-			JButton gameButton = new JButton("Game" + i);
+			JButton gameButton = new JButton("Game " + i);
 			gameButton.addActionListener(new JoinGameActionListener(games.get(i)));
 			add(gameButton); // TODO: add some layout later
 		}
