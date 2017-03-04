@@ -31,6 +31,10 @@ public class Game extends Thread implements Serializable {
 	public synchronized void removePlayer(Player player) {
 		participants.remove(player);
 	}
+	
+	public boolean shouldRemoveGame() {
+		return participants.size() == 0;
+	}
 
 	public synchronized ArrayList<String> getParticipantsUsernames() {
 		ArrayList<String> list = new ArrayList<>();

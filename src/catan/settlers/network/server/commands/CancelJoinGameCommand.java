@@ -24,6 +24,7 @@ public class CancelJoinGameCommand implements ClientToServerCommand {
 		
 		try {
 			sender.sendCommand(new CancelJoinGameResponseCommand(server.getGameManager().getListOfGames()));
+			server.getGameManager().clearListOfGames();
 		} catch (IOException e) {
 			// Ignore
 		}

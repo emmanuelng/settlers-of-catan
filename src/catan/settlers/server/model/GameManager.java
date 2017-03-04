@@ -44,4 +44,12 @@ public class GameManager {
 			game.removePlayer(player);
 		}
 	}
+
+	public void clearListOfGames() {
+		for (Game game : games) {
+			if (game.shouldRemoveGame()) {
+				games.remove(game);
+			}
+		}
+	}
 }
