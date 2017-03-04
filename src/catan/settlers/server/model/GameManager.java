@@ -38,4 +38,10 @@ public class GameManager {
 
 		return null;
 	}
+
+	public void removePlayerFromGames(Player player) {
+		for (Game game : games) {
+			game.removePlayer(player);
+		}
+	}
 }

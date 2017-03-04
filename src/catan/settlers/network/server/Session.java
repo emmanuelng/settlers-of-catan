@@ -56,6 +56,7 @@ public class Session extends Thread {
 		host.writeToConsole("Closing session...");
 		sessionActive = false;
 		host.getPlayerManager().removeSession(this);
+		host.getGameManager().removePlayerFromGames(getPlayer());
 	}
 	
 	public Player getPlayer() {
