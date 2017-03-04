@@ -50,7 +50,7 @@ public class WaitingRoom extends JPanel implements ActionListener {
         	
         	ClientWindow.getInstance().setWindowVisible(false);
 		} else if (arg0.getSource() == backButton) {
-			ClientModel.instance.sendCommand(new CancelJoinGameCommand(gameId));
+			ClientModel.instance.getNetworkManager().sendCommand(new CancelJoinGameCommand(gameId));
 		}
 	}
 }

@@ -40,7 +40,7 @@ public class MainMenu extends JPanel implements ActionListener {
 		if (arg0.getSource() == playButton) {
 			Lobby lobby = new Lobby(new ArrayList<Game>());
 			ClientWindow.getInstance().setScreen(lobby);
-			ClientModel.instance.sendCommand(new GetListOfGamesCommand());
+			ClientModel.instance.getNetworkManager().sendCommand(new GetListOfGamesCommand());
 		} else if (arg0.getSource() == exitButton) {
 			// could add more prompts and stuff, now it's just abrupt closing
 			System.exit(0);

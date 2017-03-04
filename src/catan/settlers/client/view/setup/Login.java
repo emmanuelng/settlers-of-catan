@@ -50,7 +50,7 @@ public class Login extends JPanel implements ActionListener {
 		if (arg0.getSource() == Login) {
 			String u = username.getText();
 			String p = String.valueOf(password.getPassword());
-			ClientModel.instance.sendCommand(new AuthenticationCommand(u, p));
+			ClientModel.instance.getNetworkManager().sendCommand(new AuthenticationCommand(u, p));
 
 		} else if (arg0.getSource() == Register) {
 			Register register = new Register();

@@ -43,8 +43,8 @@ public class Lobby extends JPanel implements ActionListener {
 		if (arg0.getSource() == backButton) {
 			ClientWindow.getInstance().setScreen(new MainMenu());
 		} else if (arg0.getSource() == createGameButton) {
-			ClientModel.instance.sendCommand(new CreateGameCommand());
-			ClientModel.instance.sendCommand(new GetListOfGamesCommand());
+			ClientModel.instance.getNetworkManager().sendCommand(new CreateGameCommand());
+			ClientModel.instance.getNetworkManager().sendCommand(new GetListOfGamesCommand());
 		}
 	}
 }
@@ -64,7 +64,7 @@ class JoinGameActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ClientModel.instance.sendCommand(new JoinGameCommand(game.getGameId()));
+		ClientModel.instance.getNetworkManager().sendCommand(new JoinGameCommand(game.getGameId()));
 	}
 
 }

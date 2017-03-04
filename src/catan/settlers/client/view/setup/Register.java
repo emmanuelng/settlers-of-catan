@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -50,14 +49,14 @@ public class Register extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		JFrame topFrame = ClientWindow.getInstance();
+		ClientWindow.getInstance();
 
 		if (arg0.getSource() == registerButton) {
 			String u = usernameTextField.getText();
 			String p = String.valueOf(passwordTextField.getPassword());
 
 			// send a register query to server
-			ClientModel.instance.sendCommand(new RegisterCommand(u, p));
+			ClientModel.instance.getNetworkManager().sendCommand(new RegisterCommand(u, p));
 
 		} else if (arg0.getSource() == backButton) {
 			ClientWindow.getInstance().setScreen(new Login());

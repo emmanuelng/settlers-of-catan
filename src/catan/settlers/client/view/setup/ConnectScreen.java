@@ -45,7 +45,7 @@ public class ConnectScreen extends JPanel implements ActionListener {
 			int port = Integer.parseInt(portNumberTextField.getText());
 			
 			// Connect
-			ClientModel.instance.connect(ip, port);
+			ClientModel.instance.getNetworkManager().connect(ip, port);
 			ClientWindow.getInstance().setScreen(new Login());
 
 		} catch (Exception e) {
