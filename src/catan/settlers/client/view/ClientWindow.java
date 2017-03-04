@@ -44,8 +44,18 @@ public class ClientWindow {
 		
 		// Call drawing methods here
 		
-		// For testing purposes
-		gameWindow.draw(new HexagonMap().DrawHexagonMap(0, 0), 0, 0);
-		gameWindow.render();
+		Thread workerThread = new Thread(new Worker(gameWindow));
+		workerThread.start();
+	}
+}
+
+class Worker implements Runnable{
+	private GameWindow gamewindow;
+	public Worker(GameWindow gameWindow){
+		this.gamewindow = gameWindow;
+	}
+	
+	public void run(){
+		gamewindow.start();
 	}
 }
