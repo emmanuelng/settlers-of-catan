@@ -44,31 +44,18 @@ public class GameBoard {
 					}
 				}
 			}
-		}
-		populateEdgesAndIntersections();
-		randomizeHexes();
+		}	
 	}
 	
-	private void populateEdgesAndIntersections() {
+	private void populateEdges() {
 		for (int y = 0; y < 5; y++) {
 			for (int x = 0; x < 5; x++) {
 				if (Math.abs(x-y) < 3) {
 					Hex h = hexes[x][y];
 					for (int i = 0; i < 6; i++) {
 						Edge e = h.getEdge(i);
-						if (i < 3) {
-							e.addLeftEdge(h.getEdge((i+5)%6));
-							e.addRightEdge(h.getEdge((i+1)%6));
-						} else {
-							e.addRightEdge(h.getEdge((i+5)%6));
-							e.addLeftEdge(h.getEdge((i+1)%6));
-						}
-						
-						Intersection t = h.getIntersection(i);
-						t.addEdge(e);
-						t.addEdge(h.getEdge((i+1)%6));
-						t.addIntersection (h.getIntersection((i+5)%6));
-						t.addIntersection (h.getIntersection((i+1)%6));
+						e.addEdge(h.getEdge((i+5)%6));
+						e.addEdge(h.getEdge((i+1)%6));
 						
 						if (e.getIntersection(0) == null || e.getIntersection(1) == null) {
 							e.setIntersection(h.getIntersection(i), 0);
@@ -96,7 +83,7 @@ public class GameBoard {
 		
 		for (int y = 0; y < 5; y++) {
 			for (int x = 0; x < 5; x++) {
-				if (Math.abs(x-y) < 3) {
+				if ((max(x,y) - min(x,y)) < 3) {
 					if (terrainPool.get(0) != TerrainType.DESERT) {
 						hexes[x][y].setNum(diceValues.remove(0));
 					}
@@ -106,7 +93,6 @@ public class GameBoard {
 		}
 	}
 	
-	// Utility functions for constructing the board.
 	private int offsetToIndex(int dx, int dy) {
 		if 			(dx ==  1 && dy ==  1) { return 0; } 
 		else if 	(dx ==  1 && dy ==  0) { return 1; } 
@@ -116,6 +102,7 @@ public class GameBoard {
 		else if 	(dx ==  0 && dy ==  1) { return 5; }
 		else { return -1; }
 	}
+	
 	private Tuple indexToOffset(int i) {
 		if 		(i == 0) { return new Tuple(-1, -1); }
 		else if (i == 1) { return new Tuple( 1,  0); }
@@ -136,49 +123,17 @@ public class GameBoard {
 		} 
 	}
 	
-	
-	/*
-	 *  Distributes cards to players based on n being rolled.
-	 *  Checks all hexes for n; if found, distributes resources and commodities
-	 *  to all players with a village on that hex.
-	 */
-	
 	public void drawNum(int n) {
-		for (int y = 0; y < 5; y++) {
-			for (int x = 0; x < 5; x++) {
-				if (Math.abs(x-y) < 3) {
-					if (hexes[x][y].getNum() == n) {
-						for (int i = 0; i < 6; i++) {
-							IntersectionUnit u = hexes[x][y].getIntersection(i).getUnit();
-							if (u instanceof Village) {	
-								switch (((Village) u).getKind()) {
-									case SETTLEMENT: 
-										u.getOwner().giveResource(hexes[x][y].getResource(), 1);
-									case CITY:
-										u.getOwner().giveResource(hexes[x][y].getResource(), 1);
-										u.getOwner().giveResource(hexes[x][y].getCommodity(), 1);
-									case METROPOLIS:
-										u.getOwner().giveResource(hexes[x][y].getResource(), 1);
-										u.getOwner().giveResource(hexes[x][y].getCommodity(), 1);
-								}
-							}
-							
-						}
+		for (Hex[] h : hexes) {
+			for (Hex x : h) {
+				if (h.getNum() == n) {
+					Intersection[] neighbours = h.getIntersections();
+					for (Intersection i : neighbours) {
+						i.drawResource(h.getType());
 					}
 				}
 			}
-		}	
-	}
-	
-	
-	public void placeSettlement(Player p, Intersection i) {
-		if (i.canBuild()) {
-			Village v = new Village(p);
-			i.setUnit(v);
 		}
 	}
-	
-	public Hex[][] getHexes() {
-		return hexes;
-	}
+
 }
