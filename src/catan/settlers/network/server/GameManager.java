@@ -44,15 +44,7 @@ public class GameManager {
 
 	public void removePlayerFromGames(Player player) {
 		for (Game game : games) {
-			game.removePlayer(player);
-		}
-	}
-
-	public void clearListOfGames() {
-		for (Game game : games) {
-			if (game.shouldRemoveGame()) {
-				games.remove(game);
-			}
+			game.getPlayersManager().removePlayer(player);
 		}
 	}
 }

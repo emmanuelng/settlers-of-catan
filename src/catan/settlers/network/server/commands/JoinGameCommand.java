@@ -26,8 +26,8 @@ public class JoinGameCommand implements ClientToServerCommand {
 				sender.sendCommand(new JoinGameResponseCommand(false, null, 0));
 			} else {
 				Player player = sender.getPlayer();
-				if (game.addPlayer(player)) {
-					ArrayList<String> participants = game.getParticipantsUsernames();
+				if (game.getPlayersManager().addPlayer(player)) {
+					ArrayList<String> participants = game.getPlayersManager().getParticipantsUsernames();
 					sender.sendCommand(new JoinGameResponseCommand(true, participants, game.getGameId()));
 					notifyOtherPlayers(game, sender, server);
 
@@ -41,9 +41,10 @@ public class JoinGameCommand implements ClientToServerCommand {
 	}
 
 	private void notifyOtherPlayers(Game game, Session sender, Server server) {
-		PlayerJoinedGameCommand cmd = new PlayerJoinedGameCommand(game.getParticipantsUsernames(), game.getGameId());
+		PlayerJoinedGameCommand cmd = new PlayerJoinedGameCommand(game.getPlayersManager().getParticipantsUsernames(),
+				game.getGameId());
 
-		for (String username : game.getParticipantsUsernames()) {
+		for (String username : game.getPlayersManager().getParticipantsUsernames()) {
 			if (username.equals(sender.getPlayer().getUsername()))
 				continue;
 			Player curPlayer = server.getPlayerManager().getPlayerByUsername(username);

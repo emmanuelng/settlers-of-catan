@@ -20,7 +20,7 @@ public class CancelJoinGameCommand implements ClientToServerCommand {
 	@Override
 	public void execute(Session sender, Server server) {
 		Game game = server.getGameManager().getGameById(gameId);
-		game.removePlayer(sender.getPlayer());
+		game.getPlayersManager().removePlayer(sender.getPlayer());
 		
 		try {
 			sender.sendCommand(new CancelJoinGameResponseCommand(server.getGameManager().getListOfGames()));
