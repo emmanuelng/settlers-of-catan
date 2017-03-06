@@ -1,4 +1,4 @@
-package catan.settlers.server.model;
+package catan.settlers.server.model.map;
 
 public class Tuple {
 	public int x;

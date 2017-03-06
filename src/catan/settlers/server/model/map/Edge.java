@@ -1,6 +1,8 @@
-package catan.settlers.server.model;
+package catan.settlers.server.model.map;
 
 import java.util.ArrayList;
+
+import catan.settlers.server.view.Intersection;
 
 public class Edge {
 	private ArrayList<Edge> myEdges;

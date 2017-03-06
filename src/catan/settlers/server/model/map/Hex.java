@@ -1,4 +1,6 @@
-package catan.settlers.server.model;
+package catan.settlers.server.model.map;
+
+import catan.settlers.server.view.Intersection;
 
 public class Hex {
 	

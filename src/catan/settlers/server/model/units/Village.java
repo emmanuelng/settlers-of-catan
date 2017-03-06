@@ -1,4 +1,7 @@
-package catan.settlers.server.model;
+package catan.settlers.server.model.units;
+
+import catan.settlers.server.model.Player;
+import catan.settlers.server.model.map.VillageKind;
 
 public class Village implements IntersectionUnit {
 	private Player myOwner;

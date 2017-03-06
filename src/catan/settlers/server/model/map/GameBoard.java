@@ -1,8 +1,10 @@
-package catan.settlers.server.model;
+package catan.settlers.server.model.map;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+
+import catan.settlers.server.view.Intersection;
 
 public class GameBoard {
 	private Hex[][] hexes;
