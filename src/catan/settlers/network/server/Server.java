@@ -8,8 +8,6 @@ import java.net.Socket;
 import java.net.URL;
 
 import catan.settlers.common.utils.File;
-import catan.settlers.server.model.GameManager;
-import catan.settlers.server.model.PlayerManager;
 import catan.settlers.server.view.ServerWindow;
 
 public class Server extends Thread {

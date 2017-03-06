@@ -1,6 +1,9 @@
-package catan.settlers.server.model;
+package catan.settlers.network.server;
 
 import java.util.ArrayList;
+
+import catan.settlers.server.model.Game;
+import catan.settlers.server.model.Player;
 
 public class GameManager {
 

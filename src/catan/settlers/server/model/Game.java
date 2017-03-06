@@ -3,6 +3,8 @@ package catan.settlers.server.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import catan.settlers.server.model.map.Hex;
+
 public class Game extends Thread implements Serializable {
 
 	private static final long serialVersionUID = 1L;

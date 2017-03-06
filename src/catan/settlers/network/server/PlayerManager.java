@@ -1,4 +1,4 @@
-package catan.settlers.server.model;
+package catan.settlers.network.server;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import catan.settlers.common.utils.File;
 import catan.settlers.network.client.commands.AuthenticationResponseCommand.Status;
-import catan.settlers.network.server.Session;
+import catan.settlers.server.model.Player;
 
 public class PlayerManager {
 
