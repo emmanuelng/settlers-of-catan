@@ -27,13 +27,13 @@ public class GameBoard implements Serializable {
 		// TODO: Would normally generate a random board
 		addHexAt(new Hexagon(TerrainType.SEA, 4), 0, 0);
 		addHexAt(new Hexagon(TerrainType.DESERT, 6), 0, 1);
-		//addHexAt(new Hexagon(TerrainType.PASTURE, 1), 0, 2);
-		//addHexAt(new Hexagon(TerrainType.FOREST, 6), 1, 0);
-		//addHexAt(new Hexagon(TerrainType.MOUNTAIN, 2), 1, 1);
-		//addHexAt(new Hexagon(TerrainType.HILLS, 4), 1, 2);
-		//addHexAt(new Hexagon(TerrainType.FIELD, 3), 2, 0);
-		//addHexAt(new Hexagon(TerrainType.GOLDMINE, 2), 2, 1);
-		//addHexAt(null, 2, 2); // Invisible hex
+		addHexAt(new Hexagon(TerrainType.PASTURE, 1), 0, 2);
+		addHexAt(new Hexagon(TerrainType.FOREST, 6), 1, 0);
+		addHexAt(new Hexagon(TerrainType.MOUNTAIN, 2), 1, 1);
+		addHexAt(new Hexagon(TerrainType.HILLS, 4), 1, 2);
+		addHexAt(new Hexagon(TerrainType.FIELD, 3), 2, 0);
+		addHexAt(new Hexagon(TerrainType.GOLDMINE, 2), 2, 1);
+		addHexAt(null, 2, 2); // Invisible hex
 
 	}
 
