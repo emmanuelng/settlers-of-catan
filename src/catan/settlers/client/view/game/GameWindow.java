@@ -1,8 +1,6 @@
 package catan.settlers.client.view.game;
 
-import org.minueto.MinuetoColor;
 import org.minueto.MinuetoEventQueue;
-import org.minueto.image.MinuetoCircle;
 import org.minueto.window.MinuetoFrame;
 
 import catan.settlers.client.model.ClientModel;
@@ -19,7 +17,7 @@ public class GameWindow extends MinuetoFrame {
 
 	private MinuetoEventQueue eventQueue;
 	private boolean open;
-	private boolean waitingForGameBoard;
+	private GameBoard curBoard;
 
 	public void start() {
 		initialize();
@@ -33,12 +31,18 @@ public class GameWindow extends MinuetoFrame {
 			while (eventQueue.hasNext()) {
 				eventQueue.handle();
 			}
+
+			if (curBoard != null) {
+				updateWindow(curBoard);
+			}
+
+			Thread.yield();
 		}
-		
+
 		// Close window
 		close();
 	}
-	
+
 	public void updateWindow(GameBoard board) {
 		GameBoardImage gameBoard = new GameBoardImage(board);
 		draw(gameBoard, 0, 0);
@@ -58,18 +62,12 @@ public class GameWindow extends MinuetoFrame {
 	}
 
 	private void waitForGameBoard() {
-		waitingForGameBoard = true;
 		GetGameBoardCommand req = new GetGameBoardCommand(ClientModel.instance.getCurGameId());
 		ClientModel.instance.getNetworkManager().sendCommand(req);
-
-		while (waitingForGameBoard) {
-			// Wait for the game board. We could display a loading screen here
-		}
 	}
 
-	public void receiveGameBoard(GameBoard board) {
-		waitingForGameBoard = false;
-		updateWindow(board);
+	public void updateGameBoard(GameBoard board) {
+		curBoard = board;
 	}
 
 }
