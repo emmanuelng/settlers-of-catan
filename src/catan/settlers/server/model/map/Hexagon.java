@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import catan.settlers.server.view.Intersection;
 
-public class Hex implements Serializable {
+public class Hexagon implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -12,31 +12,27 @@ public class Hex implements Serializable {
 		SEA, DESERT, PASTURE, FOREST, MOUNTAIN, HILLS, FIELD, GOLDMINE
 	}
 
-	private Edge[] myEdges;
-	private Intersection[] myIntersections;
-	private int num;
-	private TerrainType myType;
-
-	public Hex() {
-		num = 0;
-		myType = null;
-
+	public enum Direction {
+		WEST, NORTHWEST, NORTHEAST, EAST, SOUTHEAST, SOUTHWEST
 	}
 
-	public void setType(TerrainType t) {
-		myType = t;
+	private Edge[] myEdges;
+	private Intersection[] myIntersections;
+	private int number;
+	private TerrainType type;
+
+	public Hexagon(TerrainType type, int number) {
+		this.number = number;
+		this.type = type;
+
 	}
 
 	public TerrainType getType() {
-		return myType;
+		return type;
 	}
 
-	public void setNum(int n) {
-		num = n;
-	}
-
-	public int getNum() {
-		return num;
+	public int getNumber() {
+		return number;
 	}
 
 	public void setEdge(Edge e, int i) {

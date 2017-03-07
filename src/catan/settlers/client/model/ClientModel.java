@@ -7,6 +7,7 @@ public class ClientModel {
 
 	private String username;
 	private NetworkManager networkManager;
+	private int curGameId;
 
 	private ClientModel() {
 		networkManager = new NetworkManager();
@@ -22,6 +23,14 @@ public class ClientModel {
 
 	public String getUsername() {
 		return username;
+	}
+	
+	public void setCurGameId(int id) {
+		curGameId = id;
+	}
+	
+	public int getCurGameId() {
+		return curGameId;
 	}
 
 }

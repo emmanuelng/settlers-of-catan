@@ -9,7 +9,7 @@ public class Edge implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Edge> myEdges;
-	private Hex[] myHexes;
+	private Hexagon[] myHexes;
 	private Intersection[] myIntersections;
 	private boolean hasRoad;
 
