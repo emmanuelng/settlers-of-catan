@@ -1,10 +1,13 @@
 package catan.settlers.server.model.map;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import catan.settlers.server.view.Intersection;
 
-public class Edge {
+public class Edge implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Edge> myEdges;
 	private Hex[] myHexes;
 	private Intersection[] myIntersections;

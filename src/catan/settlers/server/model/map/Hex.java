@@ -1,8 +1,12 @@
 package catan.settlers.server.model.map;
 
+import java.io.Serializable;
+
 import catan.settlers.server.view.Intersection;
 
-public class Hex {
+public class Hex implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	public enum TerrainType {
 		SEA, DESERT, PASTURE, FOREST, MOUNTAIN, HILLS, FIELD, GOLDMINE

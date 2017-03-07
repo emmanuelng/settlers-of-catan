@@ -1,5 +1,6 @@
 package catan.settlers.server.model.map;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -7,7 +8,9 @@ import java.util.Collections;
 import catan.settlers.server.model.map.Hex.TerrainType;
 import catan.settlers.server.view.Intersection;
 
-public class GameBoard {
+public class GameBoard implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private Hex[][] hexes;
 
 	public GameBoard() {

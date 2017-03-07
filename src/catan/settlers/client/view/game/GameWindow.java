@@ -8,7 +8,6 @@ import org.minueto.image.MinuetoText;
 import org.minueto.window.MinuetoFrame;
 
 import catan.settlers.client.model.ClientModel;
-import catan.settlers.client.view.game.HexagonImage.HexType;
 import catan.settlers.client.view.game.handlers.BoardMouseHandler;
 import catan.settlers.client.view.game.handlers.BoardWindowHandler;
 
@@ -17,7 +16,7 @@ public class GameWindow extends MinuetoFrame {
 	public GameWindow() {
 		super(ClientModel.WINDOW_WIDTH, ClientModel.WINDOW_HEIGHT, true);
 	}
-	
+
 	private MinuetoEventQueue eventQueue;
 	private MinuetoFont fontArial14;
 	private MinuetoImage typeWords;
@@ -31,7 +30,7 @@ public class GameWindow extends MinuetoFrame {
 		// Register the window handler with the event queue.
 		this.registerWindowHandler(new BoardWindowHandler(), eventQueue);
 		this.registerMouseHandler(new BoardMouseHandler(), eventQueue);
-		
+
 		// Build the images of the text
 		fontArial14 = new MinuetoFont("Arial", 14, false, false);
 		typeWords = new MinuetoText("You can type what ever you want with this", fontArial14, MinuetoColor.BLUE);
@@ -47,7 +46,7 @@ public class GameWindow extends MinuetoFrame {
 		open = true;
 
 		boardSurface.clear(MinuetoColor.WHITE);
-		boardSurface.drawHexGrid(100, 100);
+		boardSurface.drawHexGrid(100, 100, null);
 		boardSurface.draw(typeWords, 20, 20);
 
 		// Game/rendering loop

@@ -4,6 +4,8 @@ import catan.settlers.server.model.Player;
 
 public class Village implements IntersectionUnit {
 
+	private static final long serialVersionUID = 1L;
+
 	public enum VillageKind {
 		SETTLEMENT, CITY, METROPOLIS
 	}

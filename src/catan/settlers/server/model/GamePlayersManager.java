@@ -1,9 +1,11 @@
 package catan.settlers.server.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GamePlayersManager {
+public class GamePlayersManager implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Player> participants;
 
 	public GamePlayersManager(Player owner) {
@@ -37,5 +39,9 @@ public class GamePlayersManager {
 		}
 
 		return list;
+	}
+
+	public boolean isParticipant(Player player) {
+		return participants.contains(player);
 	}
 }

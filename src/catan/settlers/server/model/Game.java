@@ -1,7 +1,6 @@
 package catan.settlers.server.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Game extends Thread implements Serializable {
 
@@ -23,6 +22,10 @@ public class Game extends Thread implements Serializable {
 	
 	public GamePlayersManager getPlayersManager() {
 		return gamePlayersManager;
+	}
+	
+	public GameBoardManager getGameBoardManager() {
+		return gameBoardManager;
 	}
 	
 	@Override
