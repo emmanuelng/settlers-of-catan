@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import catan.settlers.server.model.Hex;
-import catan.settlers.server.model.IntersectionUnit;
+import catan.settlers.server.model.map.Hex;
+import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.Player;
-import catan.settlers.server.model.Tuple;
-import catan.settlers.server.model.Village;
+import catan.settlers.server.model.map.Tuple;
+import catan.settlers.server.model.units.Village;
 import catan.settlers.server.model.map.Hex.TerrainType;
 import catan.settlers.server.view.Intersection;
 
@@ -59,26 +59,39 @@ public class GameBoard implements Serializable {
 				}
 			}
 		}
+		populateEdgesAndIntersections();
+		randomizeHexes();
 	}
 
-	private void populateEdges() {
+	private void populateEdgesAndIntersections() {
 		for (int y = 0; y < 5; y++) {
 			for (int x = 0; x < 5; x++) {
-				if (Math.abs(x - y) < 3) {
+				if (Math.abs(x-y) < 3) {
 					Hex h = hexes[x][y];
 					for (int i = 0; i < 6; i++) {
 						Edge e = h.getEdge(i);
-						e.addEdge(h.getEdge((i + 5) % 6));
-						e.addEdge(h.getEdge((i + 1) % 6));
-
+						if (i < 3) {
+							e.addLeftEdge(h.getEdge((i+5)%6));
+							e.addRightEdge(h.getEdge((i+1)%6));
+						} else {
+							e.addRightEdge(h.getEdge((i+5)%6));
+							e.addLeftEdge(h.getEdge((i+1)%6));
+						}
+						
+						Intersection t = h.getIntersection(i);
+						t.addEdge(e);
+						t.addEdge(h.getEdge((i+1)%6));
+						t.addIntersection (h.getIntersection((i+5)%6));
+						t.addIntersection (h.getIntersection((i+1)%6));
+						
 						if (e.getIntersection(0) == null || e.getIntersection(1) == null) {
 							e.setIntersection(h.getIntersection(i), 0);
-							e.setIntersection(h.getIntersection((i + 5) % 6), 1);
+							e.setIntersection(h.getIntersection((i+5)%6), 1);
 						}
 					}
 				}
 			}
-		}
+		}	
 	}
 
 	private void randomizeHexes() {
@@ -110,7 +123,7 @@ public class GameBoard implements Serializable {
 
 		for (int y = 0; y < 5; y++) {
 			for (int x = 0; x < 5; x++) {
-				if ((max(x, y) - min(x, y)) < 3) {
+				if ((Math.abs(x - y)) < 3) {
 					if (terrainPool.get(0) != TerrainType.DESERT) {
 						hexes[x][y].setNum(diceValues.remove(0));
 					}

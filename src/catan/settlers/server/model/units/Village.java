@@ -29,4 +29,8 @@ public class Village implements IntersectionUnit {
 	public VillageKind getKind() {
 		return myKind;
 	}
+	
+	public void upgradeToCity() {
+		myKind = VillageKind.CITY;
+	}
 }

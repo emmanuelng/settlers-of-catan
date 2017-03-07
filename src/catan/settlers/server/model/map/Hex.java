@@ -54,5 +54,40 @@ public class Hex implements Serializable {
 	public Intersection getIntersection(int i) {
 		return myIntersections[i];
 	}
-
+	
+	public int getResource() {
+		switch (myType) { 
+			case PASTURE:
+				return 4;
+			case FOREST:
+				return 2;
+			case MOUNTAIN:
+				return 3;
+			case HILLS: 
+				return 0;
+			case FIELD:
+				return 1;
+			default:
+				return -1;
+		}
+	}
+	
+	public int getCommodity() {
+		switch (myType) {	
+			case PASTURE:
+				return 5;
+			case FOREST:
+				return 7;
+			case MOUNTAIN:
+				return 6;
+			case GOLDMINE:
+				return 6;
+			case HILLS: 
+				return 0;
+			case FIELD:
+				return 1;
+			default:
+				return -1;
+		}
+	}
 }
