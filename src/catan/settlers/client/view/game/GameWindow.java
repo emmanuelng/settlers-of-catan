@@ -48,7 +48,7 @@ public class GameWindow extends MinuetoFrame {
 		boardSurface.clear(MinuetoColor.WHITE);
 		boardSurface.drawHexGrid(100, 100, null);
 		boardSurface.draw(typeWords, 20, 20);
-
+		boardSurface.rotate(45);
 		// Game/rendering loop
 		while (open) {
 
