@@ -3,14 +3,15 @@ package catan.settlers.client.view.game;
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoImage;
 
+import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
 
 public class HexagonImage extends MinuetoImage {
 
 	private static int BORDERS = 25; // default number of pixels for the border
-	private final static int HEXSIZE = 50;
 	private final static int BSIZE = 19; // changes size of the board
-	private final static int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS * 3;
+	private final static int HEXSIZE = 50;
+	public final static int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS * 3;
 
 	/**
 	 * if this is true it means that the coordinate (0,0) are coordinates of the
@@ -26,13 +27,13 @@ public class HexagonImage extends MinuetoImage {
 
 	private MinuetoColor color;
 
-	public HexagonImage(TerrainType type) {
+	public HexagonImage(Hexagon hex) {
 		super(SCRSIZE, SCRSIZE);
 
 		HexagonImage.setHeight(HEXSIZE);
 		HexagonImage.setSide(HEXSIZE);
-		
-		drawPolygon(MinuetoColor.BLUE, drawCoordinates(0, 0));
+
+		drawPolygon(getColorByTerrainType(hex.getType()), drawCoordinates(0, 0));
 	}
 
 	public MinuetoColor getColor() {
@@ -83,5 +84,28 @@ public class HexagonImage extends MinuetoImage {
 		}
 
 		return coordinates;
+	}
+
+	private MinuetoColor getColorByTerrainType(TerrainType type) {
+		switch (type) {
+		case SEA:
+			return new MinuetoColor(128, 179, 255);
+		case DESERT:
+			return new MinuetoColor(222, 205, 135);
+		case PASTURE:
+			return new MinuetoColor(170, 222, 135);
+		case FOREST:
+			return new MinuetoColor(55, 200, 113);
+		case MOUNTAIN:
+			return new MinuetoColor(200, 190, 183);
+		case HILLS:
+			return new MinuetoColor(222, 170, 135);
+		case FIELD:
+			return new MinuetoColor(198, 233, 175);
+		case GOLDMINE:
+			return new MinuetoColor(229, 255, 128);
+		default:
+			return new MinuetoColor(236, 236, 236);
+		}
 	}
 }

@@ -1,6 +1,8 @@
 package catan.settlers.client.view.game;
 
+import org.minueto.MinuetoColor;
 import org.minueto.MinuetoEventQueue;
+import org.minueto.image.MinuetoCircle;
 import org.minueto.window.MinuetoFrame;
 
 import catan.settlers.client.model.ClientModel;
