@@ -8,7 +8,6 @@ import catan.settlers.client.view.game.handlers.BoardMouseHandler;
 import catan.settlers.client.view.game.handlers.BoardWindowHandler;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;
 import catan.settlers.server.model.map.GameBoard;
-import catan.settlers.server.model.map.Hexagon.TerrainType;
 
 public class GameWindow extends MinuetoFrame {
 
