@@ -34,7 +34,6 @@ public class GameBoard implements Serializable {
 		addHexAt(new Hexagon(TerrainType.FIELD, 3), 2, 0);
 		addHexAt(new Hexagon(TerrainType.GOLDMINE, 2), 2, 1);
 		addHexAt(null, 2, 2); // Invisible hex
-
 	}
 
 	/**

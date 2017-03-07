@@ -24,7 +24,7 @@ public class Hexagon implements Serializable {
 	public Hexagon(TerrainType type, int number) {
 		this.number = number;
 		this.type = type;
-
+		this.myEdges = new Edge[Direction.values().length];
 	}
 
 	public TerrainType getType() {
@@ -35,12 +35,12 @@ public class Hexagon implements Serializable {
 		return number;
 	}
 
-	public void setEdge(Edge e, int i) {
-		myEdges[i] = e;
+	public void setEdge(Edge e, Direction dir) {
+		myEdges[dir.ordinal()] = e;
 	}
 
-	public Edge getEdge(int i) {
-		return myEdges[i];
+	public Edge getEdge(Direction dir) {
+		return myEdges[dir.ordinal()];
 	}
 
 	public void setIntersection(Intersection t, int i) {
