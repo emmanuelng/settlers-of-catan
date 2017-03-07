@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+import catan.settlers.server.model.Hex;
+import catan.settlers.server.model.IntersectionUnit;
+import catan.settlers.server.model.Player;
+import catan.settlers.server.model.Tuple;
+import catan.settlers.server.model.Village;
 import catan.settlers.server.model.map.Hex.TerrainType;
 import catan.settlers.server.view.Intersection;
 
@@ -162,15 +167,53 @@ public class GameBoard implements Serializable {
 	}
 
 	public void drawNum(int n) {
-		for (Hex[] h : hexes) {
-			for (Hex x : h) {
-				if (h.getNum() == n) {
-					Intersection[] neighbours = h.getIntersections();
-					for (Intersection i : neighbours) {
-						i.drawResource(h.getType());
+		for (int y = 0; y < 5; y++) {
+			for (int x = 0; x < 5; x++) {
+				if (Math.abs(x-y) < 3) {
+					if (hexes[x][y].getNum() == n) {
+						for (int i = 0; i < 6; i++) {
+							IntersectionUnit u = hexes[x][y].getIntersection(i).getUnit();
+							if (u instanceof Village) {	
+								switch (((Village) u).getKind()) {
+									case SETTLEMENT: 
+										u.getOwner().giveResource(hexes[x][y].getResource(), 1);
+									case CITY:
+										u.getOwner().giveResource(hexes[x][y].getResource(), 1);
+										u.getOwner().giveResource(hexes[x][y].getCommodity(), 1);
+									case METROPOLIS:
+										u.getOwner().giveResource(hexes[x][y].getResource(), 1);
+										u.getOwner().giveResource(hexes[x][y].getCommodity(), 1);
+								}
+							}
+							
+						}
 					}
 				}
 			}
+		}	
+	}
+	
+	public void placeSettlement(Player p, Intersection i) {
+		if (i.canBuild()) {
+			Village v = new Village(p);
+			i.setUnit(v);
+		}
+	}
+	
+	public Hex[][] getHexes() {
+		return hexes;
+	}
+	
+	public Tuple rollDice() {
+		int red = (int) Math.ceil(Math.random() * 6);
+		int yellow = (int) Math.ceil(Math.random() * 6);
+		return new Tuple(red, yellow);
+	}
+	
+	public void setupPhase() {
+		for (int i = 0; i < myPlayers.size(); i++) {
+			myPlayers.get(0);
+			
 		}
 	}
 
