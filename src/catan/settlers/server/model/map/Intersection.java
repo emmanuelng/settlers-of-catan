@@ -7,10 +7,18 @@ import catan.settlers.server.model.units.IntersectionUnit;
 public class Intersection implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private IntersectionUnit unit;
+	
+	public Intersection() {
+		unit = null;
+	}
 
 	public IntersectionUnit getUnit() {
-		// TODO Had to remove this method because of some problems. Will re-implement it.
-		return null;
+		return unit;
+	}
+	
+	public void setUnit(IntersectionUnit unit) {
+		this.unit = unit;
 	}
 
 }
