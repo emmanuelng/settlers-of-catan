@@ -2,7 +2,9 @@ package catan.settlers.client.view.game;
 
 import java.util.HashMap;
 
+import org.minueto.MinuetoFileException;
 import org.minueto.image.MinuetoImage;
+import org.minueto.image.MinuetoImageFile;
 
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
@@ -23,8 +25,20 @@ public class GameBoardImage extends MinuetoImage {
 	private void compose() {
 		visitedHexes = new HashMap<>();
 		drawHex(board.getHexagonAt(0, 0), 20, 20);
+		drawDice(450,450);
 	}
-
+	
+	private void drawDice(int x, int y){
+		MinuetoImage dice;
+		try{
+			dice = new MinuetoImageFile("images/dice.png");
+		}catch (MinuetoFileException e) {
+		    System.out.println("Could not load image file");
+		    return;
+		}
+		this.draw(dice, x, y);
+	}
+	
 	private void drawHex(Hexagon hex, int x, int y) {
 		if (hex == null)
 			return;
