@@ -74,7 +74,6 @@ public class GameBoard implements Serializable {
 	}
 
 	private void populateIntersectionsHex(Hexagon hex) {
-		System.out.println("populateIntersectionsHex");
 		if (hex != null) {
 			for (IntersectionLoc loc : IntersectionLoc.values()) {
 				if (hex.getIntersection(loc) == null) {
@@ -105,7 +104,6 @@ public class GameBoard implements Serializable {
 				}
 			}
 		}
-		System.out.println(instersections.size());
 	}
 
 	public Hexagon getHexagonAt(int x, int y) {
