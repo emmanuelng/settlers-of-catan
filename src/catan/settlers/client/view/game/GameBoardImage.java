@@ -41,8 +41,6 @@ public class GameBoardImage extends MinuetoImage {
 		}
 	}
 
-	
-
 	private void drawHex(Hexagon hex, int x, int y) {
 		if (hex == null)
 			return;
@@ -68,8 +66,6 @@ public class GameBoardImage extends MinuetoImage {
 
 		drawEdges(hex, x, y);
 		drawIntersections(hex, x, y);
-		
-		System.out.println(visitedIntersections.size());
 	}
 
 	private void drawIntersections(Hexagon hex, int x, int y) {
@@ -111,7 +107,8 @@ public class GameBoardImage extends MinuetoImage {
 			}
 
 			draw(new IntersectionImage(), shift_x + x, shift_y + y);
-			visitedIntersections.put(curIntersection, true);
+			// TODO: Intersection bug
+			// visitedIntersections.put(curIntersection, true);
 		}
 	}
 

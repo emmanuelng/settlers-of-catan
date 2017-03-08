@@ -23,7 +23,7 @@ public class JoinGameCommand implements ClientToServerCommand {
 	public void execute(Session sender, Server server) {
 		Game game = server.getGameManager().getGameById(gameId);
 		try {
-			if (game == null || game.getPhase() != GamePhase.READYTOJOIN) {
+			if (game == null) { // || game.getPhase() != GamePhase.READYTOJOIN) {
 				sender.sendCommand(new JoinGameResponseCommand(false, null, 0));
 			} else {
 				Player player = sender.getPlayer();
