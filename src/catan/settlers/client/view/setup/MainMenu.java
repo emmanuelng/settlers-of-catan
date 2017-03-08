@@ -35,6 +35,7 @@ public class MainMenu extends JPanel implements ActionListener {
 
 		playButton.addActionListener(this);
 		exitButton.addActionListener(this);
+		tutorialButton.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
@@ -45,6 +46,13 @@ public class MainMenu extends JPanel implements ActionListener {
 		} else if (arg0.getSource() == exitButton) {
 			// could add more prompts and stuff, now it's just abrupt closing
 			System.exit(0);
+		} else if (arg0.getSource() == tutorialButton){
+		   try {         
+		     java.awt.Desktop.getDesktop().browse(java.net.URI.create("http://www.catan.com/service/prof-easy/prof-easys-interactive-tutorial-settlers-catan"));
+		   }
+		   catch (java.io.IOException e) {
+		       System.out.println(e.getMessage());
+		   }
 		}
 	}
 }
