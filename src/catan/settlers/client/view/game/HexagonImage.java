@@ -74,15 +74,7 @@ public class HexagonImage extends MinuetoImage {
 		int x = x0 + BORDERS;
 		int y = y0 + BORDERS;
 
-		int[] coordinates;
-
-		if (notAlternateVertex) {
-			//coordinates = new int[] { x, y, x + s, y, x + s + t, y + r, x + s, y + r + r, x, y + r + r, x - t, y + r };
-			coordinates = new int[] { x, y, x + s, y, x + s + t, y + r, x + s, y + r + r, x, y + r + r, x - t, y + r };
-		} else {
-			coordinates = new int[] { x + t, y, x + s + t, y, x + s + t + t, y + r, x + s + t, y + r + r, x + t,
-					y + r + r, x, y + r };
-		}
+		int[] coordinates = new int[] {x,y,x+r,y-t,x+r+r,y,x+r+r,y+s,x+r,y+s+t,x,y+s};
 
 		return coordinates;
 	}
