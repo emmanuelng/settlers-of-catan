@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import catan.settlers.server.model.map.Hexagon.Direction;
+import catan.settlers.server.model.map.Hexagon.IntersectionLocation;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
 import catan.settlers.server.view.Intersection;
 
@@ -31,15 +32,14 @@ public class GameBoard implements Serializable {
 		hexagons[0][0] = new Hexagon(TerrainType.SEA, 4);
 		hexagons[0][1] = new Hexagon(TerrainType.DESERT, 6);
 		hexagons[0][2] = new Hexagon(TerrainType.PASTURE, 1);
-		// addHexAt(new Hexagon(TerrainType.FOREST, 6), 1, 0);
-		// addHexAt(new Hexagon(TerrainType.MOUNTAIN, 2), 1, 1);
-		// addHexAt(new Hexagon(TerrainType.HILLS, 4), 1, 2);
-		// addHexAt(new Hexagon(TerrainType.FIELD, 3), 2, 0);
-		// addHexAt(new Hexagon(TerrainType.GOLDMINE, 2), 2, 1);
-		// addHexAt(null, 2, 2); // Invisible hex
+		hexagons[1][0] = new Hexagon(TerrainType.FOREST, 6);
+		hexagons[1][1] = new Hexagon(TerrainType.MOUNTAIN, 2);
+		hexagons[1][2] = new Hexagon(TerrainType.HILLS, 4);
+		hexagons[2][0] = new Hexagon(TerrainType.FIELD, 3);
+		hexagons[2][1] = new Hexagon(TerrainType.GOLDMINE, 2);
+		hexagons[2][2] = null; // Invisible hex
 
 		populateAllEdges();
-		System.out.println(edges.size());
 	}
 
 	private void populateAllEdges() {
@@ -66,6 +66,16 @@ public class GameBoard implements Serializable {
 					Edge edge = new Edge();
 					hex.setEdge(edge, dir);
 					edges.add(edge);
+				}
+			}
+		}
+	}
+	
+	private void populateIntersectionsHex(Hexagon hex) {
+		if (hex != null) {
+			for(IntersectionLocation loc: IntersectionLocation.values()) {
+				if (hex.getIntersection(loc) == null) {
+					 
 				}
 			}
 		}
@@ -101,16 +111,6 @@ public class GameBoard implements Serializable {
 			}
 		}
 
-		return null;
-	}
-
-	public Edge getEdge(Hexagon hex1, Hexagon hex2) {
-		// TODO: implement this
-		return null;
-	}
-
-	public Intersection getIntersection(Hexagon hex1, Hexagon hex2, Hexagon hex3) {
-		// TODO: implement this
 		return null;
 	}
 
