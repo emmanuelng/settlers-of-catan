@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import catan.settlers.server.model.map.Hexagon.Direction;
-import catan.settlers.server.model.map.Hexagon.IntersectionLocation;
+import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
-import catan.settlers.server.view.Intersection;
 
 public class GameBoard implements Serializable {
 
@@ -14,6 +13,7 @@ public class GameBoard implements Serializable {
 
 	private Hexagon hexagons[][];
 	private ArrayList<Edge> edges;
+	private ArrayList<Intersection> instersections;
 
 	private int height = 3; // TODO: Make this value customizable
 	private int length = 3; // TODO: Make this value customizable
@@ -21,6 +21,7 @@ public class GameBoard implements Serializable {
 	public GameBoard() {
 		this.hexagons = new Hexagon[length][height];
 		this.edges = new ArrayList<>();
+		this.instersections = new ArrayList<>();
 		generateBoard();
 	}
 
@@ -39,13 +40,14 @@ public class GameBoard implements Serializable {
 		hexagons[2][1] = new Hexagon(TerrainType.GOLDMINE, 2);
 		hexagons[2][2] = null; // Invisible hex
 
-		populateAllEdges();
+		populateAllEdgesAndIntersections();
 	}
 
-	private void populateAllEdges() {
+	private void populateAllEdgesAndIntersections() {
 		for (int x = 0; x < length; x++) {
 			for (int y = 0; y < height; y++) {
 				populateEdgesHex(getHexagonAt(x, y));
+				populateIntersectionsHex(getHexagonAt(x, y));
 			}
 		}
 	}
@@ -70,15 +72,40 @@ public class GameBoard implements Serializable {
 			}
 		}
 	}
-	
+
 	private void populateIntersectionsHex(Hexagon hex) {
+		System.out.println("populateIntersectionsHex");
 		if (hex != null) {
-			for(IntersectionLocation loc: IntersectionLocation.values()) {
+			for (IntersectionLoc loc : IntersectionLoc.values()) {
 				if (hex.getIntersection(loc) == null) {
-					 
+					Direction adj[] = Hexagon.getAdjacentDirs(loc);
+
+					Hexagon neighbor1 = getHexNeighborInDir(hex, adj[0]);
+					Hexagon neighbor2 = getHexNeighborInDir(hex, adj[1]);
+
+					if (neighbor1 != null) {
+						Intersection i = neighbor1.getIntersection(Hexagon.getOppositeIntersection(loc, adj[0]));
+						if (i != null) {
+							hex.setIntersection(i, loc);
+							continue;
+						}
+					}
+
+					if (neighbor2 != null) {
+						Intersection i = neighbor2.getIntersection(Hexagon.getOppositeIntersection(loc, adj[1]));
+						if (i != null) {
+							hex.setIntersection(i, loc);
+							continue;
+						}
+					}
+
+					Intersection i = new Intersection();
+					hex.setIntersection(i, loc);
+					instersections.add(i);
 				}
 			}
 		}
+		System.out.println(instersections.size());
 	}
 
 	public Hexagon getHexagonAt(int x, int y) {

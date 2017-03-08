@@ -1,8 +1,7 @@
 package catan.settlers.server.model.map;
 
 import java.io.Serializable;
-
-import catan.settlers.server.view.Intersection;
+import java.util.ArrayList;
 
 public class Hexagon implements Serializable {
 
@@ -16,7 +15,7 @@ public class Hexagon implements Serializable {
 		WEST, NORTHWEST, NORTHEAST, EAST, SOUTHEAST, SOUTHWEST
 	}
 
-	public enum IntersectionLocation {
+	public enum IntersectionLoc {
 		TOPLEFT, TOP, TOPRIGHT, BOTTOMRIGHT, BOTTOM, BOTTOMLEFT
 	}
 
@@ -29,7 +28,7 @@ public class Hexagon implements Serializable {
 		this.number = number;
 		this.type = type;
 		this.myEdges = new Edge[Direction.values().length];
-		this.myIntersections = new Intersection[IntersectionLocation.values().length];
+		this.myIntersections = new Intersection[IntersectionLoc.values().length];
 	}
 
 	public TerrainType getType() {
@@ -48,11 +47,11 @@ public class Hexagon implements Serializable {
 		return myEdges[dir.ordinal()];
 	}
 
-	public void setIntersection(Intersection t, IntersectionLocation loc) {
+	public void setIntersection(Intersection t, IntersectionLoc loc) {
 		myIntersections[loc.ordinal()] = t;
 	}
 
-	public Intersection getIntersection(IntersectionLocation loc) {
+	public Intersection getIntersection(IntersectionLoc loc) {
 		return myIntersections[loc.ordinal()];
 	}
 
@@ -82,7 +81,7 @@ public class Hexagon implements Serializable {
 	 * we take the TOPLEFT intersection of a hex, it is shared with its WEST and
 	 * NORTHWEST neighbors)
 	 */
-	public Direction[] getAdjacentDirs(IntersectionLocation loc) {
+	public static Direction[] getAdjacentDirs(IntersectionLoc loc) {
 		Direction[] dirs = new Direction[2];
 
 		switch (loc) {
@@ -114,26 +113,33 @@ public class Hexagon implements Serializable {
 
 		return dirs;
 	}
-	
+
 	/**
 	 * Get the corresponding intersection location in the neighbor
 	 */
-	public static IntersectionLocation getOppositeIntersection(IntersectionLocation loc, Direction dir) {
+	public static IntersectionLoc getOppositeIntersection(IntersectionLoc loc, Direction dir) {
 		switch (loc) {
 		case TOPLEFT:
-			if (dir == Direction.WEST) {
-				return IntersectionLocation.TOPRIGHT;
-			} else {
-				
-			}
+			return dir == Direction.WEST ? IntersectionLoc.TOPRIGHT : IntersectionLoc.BOTTOM;
 		case TOP:
+			return dir == Direction.NORTHEAST ? IntersectionLoc.BOTTOMLEFT : IntersectionLoc.BOTTOMRIGHT;
 		case TOPRIGHT:
+			return dir == Direction.NORTHEAST ? IntersectionLoc.BOTTOM : IntersectionLoc.TOPLEFT;
 		case BOTTOMRIGHT:
+			return dir == Direction.EAST ? IntersectionLoc.BOTTOMLEFT : IntersectionLoc.TOP;
 		case BOTTOM:
-		case BOTTOMLEFT:
+			return dir == Direction.SOUTHWEST ? IntersectionLoc.TOPRIGHT : IntersectionLoc.TOPLEFT;
 		default:
-			return null;
+			return dir == Direction.WEST ? IntersectionLoc.BOTTOMRIGHT : IntersectionLoc.TOP;
 		}
+	}
+
+	public ArrayList<Edge> getEdges() {
+		ArrayList<Edge> res = new ArrayList<>();
+		for (Edge e : myEdges) {
+			res.add(e);
+		}
+		return res;
 	}
 
 }

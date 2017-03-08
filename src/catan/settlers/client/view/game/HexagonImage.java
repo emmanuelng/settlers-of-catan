@@ -23,8 +23,6 @@ public class HexagonImage extends MinuetoImage {
 	private static int s = 0; // length of side
 	private static int t = 0; // short side of the 30 degree triangle
 	private static int r = 0; // radius-center to middle of each side
-	private static int h = 0; // distance between centers of two neighbor hexes
-
 	private MinuetoColor color;
 
 	public HexagonImage(Hexagon hex) {
@@ -47,7 +45,6 @@ public class HexagonImage extends MinuetoImage {
 		s = side;
 		t = (int) (s / 2);
 		r = (int) (s * 0.8660254037844);
-		h = 2 * r;
 	}
 
 	/*public static void setHeight(int height) {
