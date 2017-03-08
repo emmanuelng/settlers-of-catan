@@ -7,6 +7,7 @@ import org.minueto.MinuetoFileException;
 import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
 
+import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.Direction;
@@ -15,6 +16,7 @@ public class GameBoardImage extends MinuetoImage {
 
 	private GameBoard board;
 	private HashMap<Hexagon, Boolean> visitedHexes;
+	private HashMap<Edge, Hexagon> visitedEdges;
 
 	public GameBoardImage(GameBoard board) {
 		super(500, 500);
@@ -26,6 +28,8 @@ public class GameBoardImage extends MinuetoImage {
 	private void compose() {
 		drawRectangle(MinuetoColor.WHITE, 0, 0, 500, 500);
 		visitedHexes = new HashMap<>();
+		visitedEdges = new HashMap<>();
+
 		for (int x = 0; x < board.getLength(); x++) {
 			for (int y = 0; y < board.getHeight(); y++) {
 				drawHex(board.getHexagonAt(x, y), 70 + x * HexagonImage.SIZE, 70 + y * HexagonImage.SIZE);
@@ -75,12 +79,51 @@ public class GameBoardImage extends MinuetoImage {
 		if (hex == null)
 			return;
 
-		draw(new EdgeImage(hex.getEdge(Direction.WEST)).rotate(Math.PI / 2), 20 + x, 30 + y);
-		draw(new EdgeImage(hex.getEdge(Direction.NORTHWEST)).rotate(-30 * Math.PI / 180), 27 + x, y);
-		draw(new EdgeImage(hex.getEdge(Direction.NORTHEAST)).rotate(30 * Math.PI / 180), 70 + x, y);
-		draw(new EdgeImage(hex.getEdge(Direction.EAST)).rotate(Math.PI / 2), 105 + x, 30 + y);
-		draw(new EdgeImage(hex.getEdge(Direction.SOUTHEAST)).rotate(-30 * Math.PI / 180), 70 + x, 75 + y);
-		draw(new EdgeImage(hex.getEdge(Direction.SOUTHWEST)).rotate(30 * Math.PI / 180), 25 + x, 75 + y);
+		for (Direction dir : Direction.values()) {
+			Edge curEdge = hex.getEdge(dir);
+
+			if (visitedEdges.keySet().contains(curEdge))
+				continue;
+
+			double rotation;
+			int shift_x = 0, shift_y = 0;
+
+			switch (dir) {
+			case WEST:
+				rotation = Math.PI / 2;
+				shift_x = 20;
+				shift_y = 30;
+				break;
+			case NORTHWEST:
+				rotation = -30 * Math.PI / 180;
+				shift_x = 27;
+				shift_y = 0;
+				break;
+			case NORTHEAST:
+				rotation = 30 * Math.PI / 180;
+				shift_x = 70;
+				shift_y = 0;
+				break;
+			case EAST:
+				rotation = Math.PI / 2;
+				shift_x = 105;
+				shift_y = 30;
+				break;
+			case SOUTHEAST:
+				rotation = -30 * Math.PI / 180;
+				shift_x = 70;
+				shift_y = 75;
+				break;
+			default:
+				rotation = 30 * Math.PI / 180;
+				shift_x = 25;
+				shift_y = 75;
+				break;
+			}
+
+			draw(new EdgeImage(curEdge).rotate(rotation), shift_x + x, shift_y + y);
+			visitedEdges.put(curEdge, hex);
+		}
 	}
 
 }

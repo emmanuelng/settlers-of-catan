@@ -51,7 +51,7 @@ public class Coordinates implements Serializable {
 			new_x = x;
 			new_y = y - 1;
 			if (isEvenRow)
-				new_x = x - 1;
+				new_x = x + 1;
 			break;
 		case EAST:
 			new_x = x + 1;
