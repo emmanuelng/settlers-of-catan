@@ -65,7 +65,10 @@ public class HexagonImage extends MinuetoImage {
 		s = (int) (r / 1.73205);
 
 	}
-
+	public static int getHexSize(){
+		return HEXSIZE;
+	}
+	
 	public static void setBorders(int b) {
 		BORDERS = b;
 	}

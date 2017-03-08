@@ -35,16 +35,19 @@ public class GameBoardImage extends MinuetoImage {
 		HexagonImage image = new HexagonImage(hex);
 		draw(image, x, y);
 		visitedHexes.put(hex, true);
+		
+		int hexsize= image.getHexSize();
+		int s = hexsize;
+		int t = (int) hexsize/2;
+		int r = (int) (hexsize * 0.8660254037844);
+		int h = 2 * r;
 
-		int hexWidth = 100;
-		int hexHeight = 100;
-
-		drawHex(board.getHexNeighborInDir(hex, Direction.WEST), x - hexWidth, y);
-		drawHex(board.getHexNeighborInDir(hex, Direction.NORTHWEST), x - hexWidth / 2, y - (3 * hexHeight) / 4);
-		drawHex(board.getHexNeighborInDir(hex, Direction.NORTHEAST), x + hexWidth / 2, y - (3 * hexHeight) / 4);
-		drawHex(board.getHexNeighborInDir(hex, Direction.EAST), x + hexWidth, y);
-		drawHex(board.getHexNeighborInDir(hex, Direction.SOUTHEAST), x + hexWidth, y + (3 * hexHeight) / 2);
-		drawHex(board.getHexNeighborInDir(hex, Direction.SOUTHWEST), x - hexWidth / 2, y + (3 * hexHeight) / 4);
+		drawHex(board.getHexNeighborInDir(hex, Direction.WEST), x - hexsize, y);
+		drawHex(board.getHexNeighborInDir(hex, Direction.NORTHWEST), x - r , y - s - t );
+		drawHex(board.getHexNeighborInDir(hex, Direction.NORTHEAST), x + r , y - s - t);
+		drawHex(board.getHexNeighborInDir(hex, Direction.EAST), x + hexsize , y);
+		drawHex(board.getHexNeighborInDir(hex, Direction.SOUTHEAST), x + r, y + s + t);
+		drawHex(board.getHexNeighborInDir(hex, Direction.SOUTHWEST), x - r, y + s + t);
 	}
 
 }
