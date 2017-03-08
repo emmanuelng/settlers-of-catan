@@ -19,7 +19,7 @@ public class PlayerJoinedGameCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
-		WaitingRoom room = new WaitingRoom(currentListOfPlayers, gameID, (currentListOfPlayers.size() == 3));
+		WaitingRoom room = new WaitingRoom(currentListOfPlayers, gameID, true);
 		ClientWindow.getInstance().getSetupWindow().setScreen(room);
 	}
 
