@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.network.server.commands.CancelJoinGameCommand;
+import catan.settlers.network.server.commands.StartGameCommand;
 
 public class WaitingRoom extends JPanel implements ActionListener {
 
@@ -19,7 +20,7 @@ public class WaitingRoom extends JPanel implements ActionListener {
 	private int gameId;
 	
 
-	public WaitingRoom(ArrayList<String> participants, int gameId) {
+	public WaitingRoom(ArrayList<String> participants, int gameId, boolean canGo) {
 		this.gameId = gameId;
 
 		JLabel curGameIdLabel = new JLabel("" + gameId);
@@ -36,6 +37,8 @@ public class WaitingRoom extends JPanel implements ActionListener {
 
 		goButton.addActionListener(this);
 		backButton.addActionListener(this);
+		
+		goButton.setEnabled(canGo);
 
 		setVisible(true);
 	}
@@ -45,6 +48,7 @@ public class WaitingRoom extends JPanel implements ActionListener {
 		if (arg0.getSource() == goButton) {
 			ClientModel.instance.setCurGameId(gameId);
         	ClientWindow.getInstance().switchToGame();
+        	ClientModel.instance.getNetworkManager().sendCommand(new StartGameCommand(gameId));
 		} else if (arg0.getSource() == backButton) {
 			ClientModel.instance.getNetworkManager().sendCommand(new CancelJoinGameCommand(gameId));
 		}

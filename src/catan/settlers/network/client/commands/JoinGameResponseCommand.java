@@ -24,7 +24,7 @@ public class JoinGameResponseCommand implements ServerToClientCommand {
 	@Override
 	public void execute() {
 		if (success) {
-			WaitingRoom room = new WaitingRoom(currentListOfPlayers, gameID);
+			WaitingRoom room = new WaitingRoom(currentListOfPlayers, gameID, (currentListOfPlayers.size()==3));
 			ClientWindow.getInstance().getSetupWindow().setScreen(room);
 		} else {
 			JOptionPane.showMessageDialog(new JLabel(), "Room full");

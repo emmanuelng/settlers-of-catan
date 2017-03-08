@@ -8,6 +8,7 @@ import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
+import catan.settlers.server.model.Game.GamePhase;
 
 public class JoinGameCommand implements ClientToServerCommand {
 
@@ -22,7 +23,7 @@ public class JoinGameCommand implements ClientToServerCommand {
 	public void execute(Session sender, Server server) {
 		Game game = server.getGameManager().getGameById(gameId);
 		try {
-			if (game == null) {
+			if (game == null || game.getPhase() != GamePhase.READYTOJOIN) {
 				sender.sendCommand(new JoinGameResponseCommand(false, null, 0));
 			} else {
 				Player player = sender.getPlayer();
@@ -49,7 +50,7 @@ public class JoinGameCommand implements ClientToServerCommand {
 				continue;
 			Player curPlayer = server.getPlayerManager().getPlayerByUsername(username);
 			Session session = server.getPlayerManager().getSessionByPlayer(curPlayer);
-
+			
 			try {
 				session.sendCommand(cmd);
 			} catch (Exception e) {

@@ -35,6 +35,10 @@ public class Player implements Serializable {
 		return username;
 	}
 	
+	public int getResourceAmount(ResourceType res) {
+		return resources[res.ordinal()];
+	}
+	
 	public boolean comparePassword(String proposedPassword) {
 		return password.equals(proposedPassword);
 	}
