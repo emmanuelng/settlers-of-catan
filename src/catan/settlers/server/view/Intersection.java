@@ -11,5 +11,15 @@ public class Intersection {
 	private ArrayList<Edge> myEdges;
 	private IntersectionUnit myUnit;
 	
-	public void addEdge(Edge e) { myEdges.add(e); }
+	public void addEdge(Edge e) { 
+		myEdges.add(e); 
+	}
+	
+	public void setUnit(IntersectionUnit i) {
+		myUnit = i;
+	}
+	
+	public IntersectionUnit getUnit() {
+		return myUnit;
+	}
 }
