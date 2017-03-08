@@ -11,12 +11,15 @@ import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.Direction;
+import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
+import catan.settlers.server.model.map.Intersection;
 
 public class GameBoardImage extends MinuetoImage {
 
 	private GameBoard board;
 	private HashMap<Hexagon, Boolean> visitedHexes;
 	private HashMap<Edge, Hexagon> visitedEdges;
+	private HashMap<Intersection, Boolean> visitedIntersections;
 
 	public GameBoardImage(GameBoard board) {
 		super(500, 500);
@@ -29,6 +32,7 @@ public class GameBoardImage extends MinuetoImage {
 		drawRectangle(MinuetoColor.WHITE, 0, 0, 500, 500);
 		visitedHexes = new HashMap<>();
 		visitedEdges = new HashMap<>();
+		visitedIntersections = new HashMap<>();
 
 		for (int x = 0; x < board.getLength(); x++) {
 			for (int y = 0; y < board.getHeight(); y++) {
@@ -73,6 +77,52 @@ public class GameBoardImage extends MinuetoImage {
 		drawHex(board.getHexNeighborInDir(hex, Direction.SOUTHWEST), x - r, y + s + t);
 
 		drawEdges(hex, x, y);
+		drawIntersections(hex, x, y);
+		
+		System.out.println(visitedIntersections.size());
+	}
+
+	private void drawIntersections(Hexagon hex, int x, int y) {
+		if (hex == null)
+			return;
+
+		for (IntersectionLoc loc : IntersectionLoc.values()) {
+			Intersection curIntersection = hex.getIntersection(loc);
+
+			if (visitedIntersections.get(curIntersection) != null)
+				continue;
+
+			int shift_x = 0, shift_y = 0;
+			switch (loc) {
+			case TOPLEFT:
+				shift_x = 15;
+				shift_y = 15;
+				break;
+			case TOP:
+				shift_x = 58;
+				shift_y = -5;
+				break;
+			case TOPRIGHT:
+				shift_x = 100;
+				shift_y = 15;
+				break;
+			case BOTTOMLEFT:
+				shift_x = 100;
+				shift_y = 70;
+				break;
+			case BOTTOM:
+				shift_x = 58;
+				shift_y = 90;
+				break;
+			default:
+				shift_x = 15;
+				shift_y = 70;
+				break;
+			}
+
+			draw(new IntersectionImage(), shift_x + x, shift_y + y);
+			visitedIntersections.put(curIntersection, true);
+		}
 	}
 
 	private void drawEdges(Hexagon hex, int x, int y) {

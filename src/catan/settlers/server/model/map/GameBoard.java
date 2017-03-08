@@ -36,9 +36,9 @@ public class GameBoard implements Serializable {
 		hexagons[1][0] = new Hexagon(TerrainType.FOREST, 6);
 		hexagons[1][1] = new Hexagon(TerrainType.MOUNTAIN, 2);
 		hexagons[1][2] = new Hexagon(TerrainType.HILLS, 4);
-		 hexagons[2][0] = new Hexagon(TerrainType.FIELD, 3);
-		 hexagons[2][1] = new Hexagon(TerrainType.GOLDMINE, 2);
-		 hexagons[2][2] = null; // Invisible hex
+		hexagons[2][0] = new Hexagon(TerrainType.FIELD, 3);
+		hexagons[2][1] = new Hexagon(TerrainType.GOLDMINE, 2);
+		hexagons[2][2] = null; // Invisible hex
 
 		populateAllEdgesAndIntersections();
 	}
@@ -83,7 +83,8 @@ public class GameBoard implements Serializable {
 					Hexagon neighbor2 = getHexNeighborInDir(hex, adj[1]);
 
 					if (neighbor1 != null) {
-						Intersection i = neighbor1.getIntersection(Hexagon.getOppositeIntersection(loc, adj[0]));
+						IntersectionLoc opp = Hexagon.getOppositeIntersection(loc, adj[0]);
+						Intersection i = neighbor1.getIntersection(opp);
 						if (i != null) {
 							hex.setIntersection(i, loc);
 							continue;
@@ -91,7 +92,8 @@ public class GameBoard implements Serializable {
 					}
 
 					if (neighbor2 != null) {
-						Intersection i = neighbor2.getIntersection(Hexagon.getOppositeIntersection(loc, adj[1]));
+						IntersectionLoc opp = Hexagon.getOppositeIntersection(loc, adj[1]);
+						Intersection i = neighbor2.getIntersection(opp);
 						if (i != null) {
 							hex.setIntersection(i, loc);
 							continue;
