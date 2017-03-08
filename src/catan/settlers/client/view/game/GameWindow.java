@@ -11,13 +11,16 @@ import catan.settlers.server.model.map.GameBoard;
 
 public class GameWindow extends MinuetoFrame {
 
-	public GameWindow() {
-		super(ClientModel.WINDOW_WIDTH, ClientModel.WINDOW_HEIGHT, true);
-	}
-
 	private MinuetoEventQueue eventQueue;
 	private boolean open;
 	private GameBoard curBoard;
+	private BoardMouseHandler mouseHandler;
+	
+	public GameWindow() {
+		super(ClientModel.WINDOW_WIDTH, ClientModel.WINDOW_HEIGHT, true);
+		
+		mouseHandler = new BoardMouseHandler();
+	}
 
 	public void start() {
 		initialize();
@@ -60,7 +63,7 @@ public class GameWindow extends MinuetoFrame {
 
 		// Register the window handler with the event queue.
 		this.registerWindowHandler(new BoardWindowHandler(), eventQueue);
-		this.registerMouseHandler(new BoardMouseHandler(), eventQueue);
+		this.registerMouseHandler(mouseHandler, eventQueue);
 	}
 
 	private void waitForGameBoard() {
@@ -70,6 +73,10 @@ public class GameWindow extends MinuetoFrame {
 
 	public void updateGameBoard(GameBoard board) {
 		curBoard = board;
+	}
+	
+	public BoardMouseHandler getMouseHandler() {
+		return mouseHandler;
 	}
 
 }

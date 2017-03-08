@@ -3,10 +3,9 @@ package catan.settlers.client.view.game;
 import java.util.HashMap;
 
 import org.minueto.MinuetoColor;
-import org.minueto.MinuetoFileException;
 import org.minueto.image.MinuetoImage;
-import org.minueto.image.MinuetoImageFile;
 
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
@@ -16,20 +15,25 @@ import catan.settlers.server.model.map.Intersection;
 
 public class GameBoardImage extends MinuetoImage {
 
+	private static boolean registerClickables = true;
+
+	private static final int WIDTH = 1366;
+	private static final int HEIGHT = 700;
+
 	private GameBoard board;
 	private HashMap<Hexagon, Boolean> visitedHexes;
 	private HashMap<Edge, Hexagon> visitedEdges;
 	private HashMap<Intersection, Boolean> visitedIntersections;
 
 	public GameBoardImage(GameBoard board) {
-		super(500, 500);
+		super(WIDTH, HEIGHT);
 
 		this.board = board;
 		compose();
 	}
 
 	private void compose() {
-		drawRectangle(MinuetoColor.WHITE, 0, 0, 500, 500);
+		drawRectangle(MinuetoColor.WHITE, 0, 0, WIDTH, HEIGHT);
 		visitedHexes = new HashMap<>();
 		visitedEdges = new HashMap<>();
 		visitedIntersections = new HashMap<>();
@@ -39,6 +43,8 @@ public class GameBoardImage extends MinuetoImage {
 				drawHex(board.getHexagonAt(x, y), 70 + x * HexagonImage.SIZE, 70 + y * HexagonImage.SIZE);
 			}
 		}
+
+		GameBoardImage.registerClickables = false;
 	}
 
 	private void drawHex(Hexagon hex, int x, int y) {
@@ -106,7 +112,12 @@ public class GameBoardImage extends MinuetoImage {
 				break;
 			}
 
-			draw(new IntersectionImage(), shift_x + x, shift_y + y);
+			IntersectionImage intersecImg = new IntersectionImage(shift_x + x, shift_y + y);
+			draw(intersecImg, shift_x + x, shift_y + y);
+
+			if (GameBoardImage.registerClickables) {
+				ClientWindow.getInstance().getGameWindow().getMouseHandler().register(intersecImg);
+			}
 			// TODO: Intersection bug
 			// visitedIntersections.put(curIntersection, true);
 		}
@@ -158,7 +169,12 @@ public class GameBoardImage extends MinuetoImage {
 				break;
 			}
 
-			draw(new EdgeImage(curEdge).rotate(rotation), shift_x + x, shift_y + y);
+			EdgeImage edgeImg = new EdgeImage(curEdge, shift_x + x, shift_y + y);
+			draw(edgeImg.rotate(rotation), shift_x + x, shift_y + y);
+
+			if (GameBoardImage.registerClickables) {
+				ClientWindow.getInstance().getGameWindow().getMouseHandler().register(edgeImg);
+			}
 			visitedEdges.put(curEdge, hex);
 		}
 	}
