@@ -45,7 +45,9 @@ public class GameWindow extends MinuetoFrame {
 
 	public void updateWindow(GameBoard board) {
 		GameBoardImage gameBoard = new GameBoardImage(board);
-		draw(gameBoard, 0, 0);
+		ResourceBarImage resourceBar = new ResourceBarImage();
+		draw(resourceBar, 0, 0);
+		draw(gameBoard, 0, 100);
 		render();
 	}
 

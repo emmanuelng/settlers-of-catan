@@ -1,7 +1,9 @@
 package catan.settlers.client.view.game;
 
 import org.minueto.MinuetoColor;
+import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoImage;
+import org.minueto.image.MinuetoText;
 
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
@@ -9,10 +11,9 @@ import catan.settlers.server.model.map.Hexagon.TerrainType;
 public class HexagonImage extends MinuetoImage {
 	
 	public static final int SIZE = 125;
-
 	private static int BORDERS = 25; // default number of pixels for the border
 	private final static int HEXSIZE = 50;
-
+	private int hexValue =0;
 	/**
 	 * if this is true it means that the coordinate (0,0) are coordinates of the
 	 * first vertex. if it is false it means that the coordinate are coordinates
@@ -29,6 +30,7 @@ public class HexagonImage extends MinuetoImage {
 		super(SIZE, SIZE);
 		HexagonImage.setSide(HEXSIZE);
 		drawPolygon(getColorByTerrainType(hex.getType()), drawCoordinates(0, 0));
+		draw(new MinuetoText(""+hexValue,new MinuetoFont("arial",20,false,false),MinuetoColor.BLACK),HEXSIZE+10,r);
 	}
 
 	public MinuetoColor getColor() {

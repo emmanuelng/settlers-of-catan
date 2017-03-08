@@ -39,19 +39,9 @@ public class GameBoardImage extends MinuetoImage {
 				drawHex(board.getHexagonAt(x, y), 70 + x * HexagonImage.SIZE, 70 + y * HexagonImage.SIZE);
 			}
 		}
-		drawDice(450, 450);
 	}
 
-	private void drawDice(int x, int y) {
-		MinuetoImage dice;
-		try {
-			dice = new MinuetoImageFile("images/dice.png");
-		} catch (MinuetoFileException e) {
-			System.out.println("Could not load image file");
-			return;
-		}
-		this.draw(dice, x, y);
-	}
+	
 
 	private void drawHex(Hexagon hex, int x, int y) {
 		if (hex == null)
