@@ -1,9 +1,7 @@
 package catan.settlers.client.view;
 
-import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.game.GameWindow;
 import catan.settlers.client.view.setup.SetupWindow;
-import catan.settlers.network.server.commands.game.GetGameBoardCommand;
 
 public class ClientWindow {
 

@@ -9,9 +9,7 @@ import catan.settlers.server.model.map.Hexagon.TerrainType;
 public class HexagonImage extends MinuetoImage {
 
 	private static int BORDERS = 25; // default number of pixels for the border
-	private final static int BSIZE = 19; // changes size of the board
 	private final static int HEXSIZE = 50;
-	public final static int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS * 3;
 
 	/**
 	 * if this is true it means that the coordinate (0,0) are coordinates of the
@@ -26,7 +24,7 @@ public class HexagonImage extends MinuetoImage {
 	private MinuetoColor color;
 
 	public HexagonImage(Hexagon hex) {
-		super(SCRSIZE, SCRSIZE);
+		super(125, 125);
 
 		HexagonImage.setSide(HEXSIZE);
 
