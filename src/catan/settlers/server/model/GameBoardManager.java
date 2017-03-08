@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
-import catan.settlers.server.model.map.Hexagon.IntersectionLocation;
+import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.units.Village;
 
@@ -28,7 +28,7 @@ public class GameBoardManager implements Serializable {
 				Hexagon hex = board.getHexagonAt(x, y);
 				if (hex != null) {
 					if (hex.getNumber() == i) {
-						for (IntersectionLocation loc : IntersectionLocation.values()) {
+						for (IntersectionLoc loc : IntersectionLoc.values()) {
 							IntersectionUnit u = hex.getIntersection(loc).getUnit();
 							if (u instanceof Village) {
 								Player p = u.getOwner();
