@@ -2,6 +2,7 @@ package catan.settlers.client.view.game;
 
 import java.util.HashMap;
 
+import org.minueto.MinuetoColor;
 import org.minueto.MinuetoFileException;
 import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
@@ -23,10 +24,11 @@ public class GameBoardImage extends MinuetoImage {
 	}
 
 	private void compose() {
+		drawRectangle(MinuetoColor.WHITE, 0, 0, 500, 500);
 		visitedHexes = new HashMap<>();
 		for (int x = 0; x < board.getLength(); x++) {
 			for (int y = 0; y < board.getHeight(); y++) {
-				drawHex(board.getHexagonAt(x, y), 20 + x * HexagonImage.SIZE, 20 + y * HexagonImage.SIZE);
+				drawHex(board.getHexagonAt(x, y), 70 + x * HexagonImage.SIZE, 70 + y * HexagonImage.SIZE);
 			}
 		}
 		drawDice(450, 450);
@@ -65,6 +67,20 @@ public class GameBoardImage extends MinuetoImage {
 		drawHex(board.getHexNeighborInDir(hex, Direction.EAST), x + r + r, y);
 		drawHex(board.getHexNeighborInDir(hex, Direction.SOUTHEAST), x + r, y + s + t);
 		drawHex(board.getHexNeighborInDir(hex, Direction.SOUTHWEST), x - r, y + s + t);
+
+		drawEdges(hex, x, y);
+	}
+
+	private void drawEdges(Hexagon hex, int x, int y) {
+		if (hex == null)
+			return;
+
+		draw(new EdgeImage(hex.getEdge(Direction.WEST)).rotate(Math.PI / 2), 20 + x, 30 + y);
+		draw(new EdgeImage(hex.getEdge(Direction.NORTHWEST)).rotate(-30 * Math.PI / 180), 27 + x, y);
+		draw(new EdgeImage(hex.getEdge(Direction.NORTHEAST)).rotate(30 * Math.PI / 180), 70 + x, y);
+		draw(new EdgeImage(hex.getEdge(Direction.EAST)).rotate(Math.PI / 2), 105 + x, 30 + y);
+		draw(new EdgeImage(hex.getEdge(Direction.SOUTHEAST)).rotate(-30 * Math.PI / 180), 70 + x, 75 + y);
+		draw(new EdgeImage(hex.getEdge(Direction.SOUTHWEST)).rotate(30 * Math.PI / 180), 25 + x, 75 + y);
 	}
 
 }
