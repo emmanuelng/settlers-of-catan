@@ -42,10 +42,10 @@ public class GameBoardImage extends MinuetoImage {
 		int r = (int) (hexsize * 0.8660254037844);
 		int h = 2 * r;
 
-		drawHex(board.getHexNeighborInDir(hex, Direction.WEST), x - hexsize, y);
+		drawHex(board.getHexNeighborInDir(hex, Direction.WEST), x - r - r, y);
 		drawHex(board.getHexNeighborInDir(hex, Direction.NORTHWEST), x - r , y - s - t );
 		drawHex(board.getHexNeighborInDir(hex, Direction.NORTHEAST), x + r , y - s - t);
-		drawHex(board.getHexNeighborInDir(hex, Direction.EAST), x + hexsize , y);
+		drawHex(board.getHexNeighborInDir(hex, Direction.EAST), x + r + r , y);
 		drawHex(board.getHexNeighborInDir(hex, Direction.SOUTHEAST), x + r, y + s + t);
 		drawHex(board.getHexNeighborInDir(hex, Direction.SOUTHWEST), x - r, y + s + t);
 	}

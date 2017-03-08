@@ -30,7 +30,6 @@ public class HexagonImage extends MinuetoImage {
 	public HexagonImage(Hexagon hex) {
 		super(SCRSIZE, SCRSIZE);
 
-		HexagonImage.setHeight(HEXSIZE);
 		HexagonImage.setSide(HEXSIZE);
 
 		drawPolygon(getColorByTerrainType(hex.getType()), drawCoordinates(0, 0));
@@ -51,7 +50,7 @@ public class HexagonImage extends MinuetoImage {
 		h = 2 * r;
 	}
 
-	public static void setHeight(int height) {
+	/*public static void setHeight(int height) {
 		// distance between two centers, or the size of the coordinate
 		h = height;
 
@@ -64,8 +63,8 @@ public class HexagonImage extends MinuetoImage {
 		// side length is (h/2) tan30 = h/2/sqrt(3) = radius/sqrt(3)
 		s = (int) (r / 1.73205);
 
-	}
-	public static int getHexSize(){
+	}*/
+	public int getHexSize(){
 		return HEXSIZE;
 	}
 	
