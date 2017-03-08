@@ -51,27 +51,24 @@ public class GameBoard implements Serializable {
 	}
 
 	private void populateEdgesHex(Hexagon hex) {
-		System.out.println(hex);
 		if (hex != null) {
 			for (Direction dir : Direction.values()) {
 				if (hex.getEdge(dir) == null) {
 					Direction oppDir = Hexagon.getOppositeDir(dir);
 					Hexagon neighbor = getHexNeighborInDir(hex, dir);
-					System.out.println(dir + ": " + neighbor);
 					if (neighbor != null) {
 						if (neighbor.getEdge(oppDir) != null) {
 							hex.setEdge(neighbor.getEdge(oppDir), dir);
 							continue;
 						}
-					} else {
-						Edge edge = new Edge();
-						hex.setEdge(edge, dir);
-						edges.add(edge);
 					}
+
+					Edge edge = new Edge();
+					hex.setEdge(edge, dir);
+					edges.add(edge);
 				}
 			}
 		}
-		System.out.println("");
 	}
 
 	public Hexagon getHexagonAt(int x, int y) {
