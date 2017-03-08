@@ -55,7 +55,7 @@ public class Player implements Serializable {
 	public void maritimeTrade(ResourceType rGet, ResourceType rGive) {
 		if (resources[rGive.ordinal()] >= 4) {
 			resources[rGive.ordinal()] -= 4;
-			resources[rGet.ordinal]++;
+			resources[rGet.ordinal()]++;
 		}
 	}
 }
