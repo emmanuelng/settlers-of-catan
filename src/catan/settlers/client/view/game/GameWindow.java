@@ -1,15 +1,13 @@
 package catan.settlers.client.view.game;
 
-import org.minueto.MinuetoColor;
 import org.minueto.MinuetoEventQueue;
-import org.minueto.image.MinuetoFont;
-import org.minueto.image.MinuetoImage;
-import org.minueto.image.MinuetoText;
 import org.minueto.window.MinuetoFrame;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.game.handlers.BoardMouseHandler;
 import catan.settlers.client.view.game.handlers.BoardWindowHandler;
+import catan.settlers.network.server.commands.game.GetGameBoardCommand;
+import catan.settlers.server.model.map.GameBoard;
 
 public class GameWindow extends MinuetoFrame {
 
@@ -18,54 +16,58 @@ public class GameWindow extends MinuetoFrame {
 	}
 
 	private MinuetoEventQueue eventQueue;
-	private MinuetoFont fontArial14;
-	private MinuetoImage typeWords;
-	private BoardSurface boardSurface;
 	private boolean open;
+	private GameBoard curBoard;
+
+	public void start() {
+		initialize();
+		waitForGameBoard();
+
+		// Keep window open
+		open = true;
+
+		// Event loop
+		while (open) {
+			while (eventQueue.hasNext()) {
+				eventQueue.handle();
+			}
+
+			if (curBoard != null) {
+				updateWindow(curBoard);
+			}
+
+			Thread.yield();
+		}
+
+		// Close window
+		close();
+	}
+
+	public void updateWindow(GameBoard board) {
+		GameBoardImage gameBoard = new GameBoardImage(board);
+		draw(gameBoard, 0, 0);
+		render();
+	}
 
 	private void initialize() {
+		// Window settings
+		this.setTitle("Settlers of Catan");
+
 		// Build the event queue.
 		eventQueue = new MinuetoEventQueue();
 
 		// Register the window handler with the event queue.
 		this.registerWindowHandler(new BoardWindowHandler(), eventQueue);
 		this.registerMouseHandler(new BoardMouseHandler(), eventQueue);
-
-		// Build the images of the text
-		fontArial14 = new MinuetoFont("Arial", 14, false, false);
-		typeWords = new MinuetoText("You can type what ever you want with this", fontArial14, MinuetoColor.BLUE);
-		boardSurface = new BoardSurface(1024, 768);
-
-		this.setTitle("Cattlers of Seten");
 	}
 
-	public void start() {
-		initialize();
-
-		// Keep window open
-		open = true;
-
-		boardSurface.clear(MinuetoColor.WHITE);
-		boardSurface.drawHexGrid(100, 100, null);
-		boardSurface.draw(typeWords, 20, 20);
-		boardSurface.rotate(45);
-		// Game/rendering loop
-		while (open) {
-
-			// Draw the text on the screen.
-			this.draw(boardSurface, 0, 0);
-
-			// Handle all the events in the event queue.
-			while (eventQueue.hasNext()) {
-				eventQueue.handle();
-			}
-
-			// Render all graphics in the back buffer.
-			this.render();
-			Thread.yield();
-		}
-
-		// Close our window
-		this.close();
+	private void waitForGameBoard() {
+		GetGameBoardCommand req = new GetGameBoardCommand(ClientModel.instance.getCurGameId());
+		ClientModel.instance.getNetworkManager().sendCommand(req);
 	}
+
+	public void updateGameBoard(GameBoard board) {
+		curBoard = board;
+	}
+
 }

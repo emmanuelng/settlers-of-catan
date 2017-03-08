@@ -2,232 +2,180 @@ package catan.settlers.server.model.map;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
-import catan.settlers.server.model.map.Hex;
-import catan.settlers.server.model.units.IntersectionUnit;
-import catan.settlers.server.model.Player;
-import catan.settlers.server.model.map.Tuple;
-import catan.settlers.server.model.units.Village;
-import catan.settlers.server.model.map.Hex.TerrainType;
-import catan.settlers.server.view.Intersection;
+import catan.settlers.server.model.map.Hexagon.Direction;
+import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
+import catan.settlers.server.model.map.Hexagon.TerrainType;
 
 public class GameBoard implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Hex[][] hexes;
+
+	private Hexagon hexagons[][];
+	private ArrayList<Edge> edges;
+	private ArrayList<Intersection> instersections;
+
+	private int height = 3; // TODO: Make this value customizable
+	private int length = 3; // TODO: Make this value customizable
 
 	public GameBoard() {
-		// Populate hex array with new hexes, provided they are within bounds of
-		// game board
-		for (int y = 0; y < 5; y++) {
-			for (int x = 0; x < 5; x++) {
-				if (Math.abs(x - y) < 3) {
-					hexes[x][y] = new Hex();
-				} else {
-					hexes[x][y] = null;
-				}
-				// As we create hexes, we populate their edges at the same time
-				// If a neighboring hex already exists, use its edge; create
-				// otherwise
-				for (int dx = -1; dx <= 1; dx++) {
-					for (int dy = -1; dy <= 1; dy++) {
-						if (dx + dy != 0) {
-							Hex h = getNeighbour(x, y, dx, dy);
-							int idx = offsetToIndex(dx, dy);
-							if (h != null) {
-								hexes[x][y].setEdge(h.getEdge((idx + 3) % 6), idx);
-								if (hexes[x][y].getIntersection(idx) == null) {
-									hexes[x][y].setIntersection(h.getIntersection((idx + 3) % 6), idx);
-								}
-								if (hexes[x][y].getIntersection((idx + 5) % 6) == null) {
-									hexes[x][y].setIntersection(h.getIntersection((idx + 2) % 6), (idx + 5) % 6);
-								}
-							} else {
-								hexes[x][y].setEdge(new Edge(), idx);
+		this.hexagons = new Hexagon[length][height];
+		this.edges = new ArrayList<>();
+		this.instersections = new ArrayList<>();
+		generateBoard();
+	}
 
-								// If BOTH neighbors sharing the intersection
-								// are null, we create one
-								Tuple t = indexToOffset((idx + 1) % 6);
-								if (getNeighbour(x, y, t.x, t.y) == null) {
-									hexes[x][y].setIntersection(new Intersection(), idx);
-								}
-							}
-						}
-					}
-				}
+	/**
+	 * Fills the 2D array with hexagons
+	 */
+	private void generateBoard() {
+		// TODO: Would normally generate a random board
+		hexagons[0][0] = new Hexagon(TerrainType.SEA, 4);
+		hexagons[0][1] = new Hexagon(TerrainType.DESERT, 6);
+		hexagons[0][2] = new Hexagon(TerrainType.PASTURE, 1);
+		hexagons[1][0] = new Hexagon(TerrainType.FOREST, 6);
+		hexagons[1][1] = new Hexagon(TerrainType.MOUNTAIN, 2);
+		hexagons[1][2] = new Hexagon(TerrainType.HILLS, 4);
+		hexagons[2][0] = new Hexagon(TerrainType.FIELD, 3);
+		hexagons[2][1] = new Hexagon(TerrainType.GOLDMINE, 2);
+		hexagons[2][2] = null; // Invisible hex
+
+		populateAllEdgesAndIntersections();
+	}
+
+	private void populateAllEdgesAndIntersections() {
+		for (int x = 0; x < length; x++) {
+			for (int y = 0; y < height; y++) {
+				populateEdgesHex(getHexagonAt(x, y));
+				populateIntersectionsHex(getHexagonAt(x, y));
 			}
 		}
-		populateEdgesAndIntersections();
-		randomizeHexes();
 	}
 
-	private void populateEdgesAndIntersections() {
-		for (int y = 0; y < 5; y++) {
-			for (int x = 0; x < 5; x++) {
-				if (Math.abs(x-y) < 3) {
-					Hex h = hexes[x][y];
-					for (int i = 0; i < 6; i++) {
-						Edge e = h.getEdge(i);
-						if (i < 3) {
-							e.addLeftEdge(h.getEdge((i+5)%6));
-							e.addRightEdge(h.getEdge((i+1)%6));
-						} else {
-							e.addRightEdge(h.getEdge((i+5)%6));
-							e.addLeftEdge(h.getEdge((i+1)%6));
-						}
-						
-						Intersection t = h.getIntersection(i);
-						t.addEdge(e);
-						t.addEdge(h.getEdge((i+1)%6));
-						t.addIntersection (h.getIntersection((i+5)%6));
-						t.addIntersection (h.getIntersection((i+1)%6));
-						
-						if (e.getIntersection(0) == null || e.getIntersection(1) == null) {
-							e.setIntersection(h.getIntersection(i), 0);
-							e.setIntersection(h.getIntersection((i+5)%6), 1);
+	private void populateEdgesHex(Hexagon hex) {
+		if (hex != null) {
+			for (Direction dir : Direction.values()) {
+				if (hex.getEdge(dir) == null) {
+					Direction oppDir = Hexagon.getOppositeDir(dir);
+					Hexagon neighbor = getHexNeighborInDir(hex, dir);
+					if (neighbor != null) {
+						if (neighbor.getEdge(oppDir) != null) {
+							hex.setEdge(neighbor.getEdge(oppDir), dir);
+							continue;
 						}
 					}
-				}
-			}
-		}	
-	}
 
-	private void randomizeHexes() {
-		ArrayList<TerrainType> terrainPool = new ArrayList<>();
-		terrainPool.add(TerrainType.HILLS);
-		terrainPool.add(TerrainType.HILLS);
-		terrainPool.add(TerrainType.HILLS);
-		terrainPool.add(TerrainType.MOUNTAIN);
-		terrainPool.add(TerrainType.MOUNTAIN);
-		terrainPool.add(TerrainType.MOUNTAIN);
-		terrainPool.add(TerrainType.PASTURE);
-		terrainPool.add(TerrainType.PASTURE);
-		terrainPool.add(TerrainType.PASTURE);
-		terrainPool.add(TerrainType.PASTURE);
-		terrainPool.add(TerrainType.FIELD);
-		terrainPool.add(TerrainType.FIELD);
-		terrainPool.add(TerrainType.FIELD);
-		terrainPool.add(TerrainType.FIELD);
-		terrainPool.add(TerrainType.FOREST);
-		terrainPool.add(TerrainType.FOREST);
-		terrainPool.add(TerrainType.FOREST);
-		terrainPool.add(TerrainType.FOREST);
-		terrainPool.add(TerrainType.DESERT);
-		Collections.shuffle(terrainPool);
-
-		ArrayList<Integer> diceValues = new ArrayList<>();
-		diceValues.addAll(Arrays.asList(2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12));
-		Collections.shuffle(diceValues);
-
-		for (int y = 0; y < 5; y++) {
-			for (int x = 0; x < 5; x++) {
-				if ((Math.abs(x - y)) < 3) {
-					if (terrainPool.get(0) != TerrainType.DESERT) {
-						hexes[x][y].setNum(diceValues.remove(0));
-					}
-					hexes[x][y].setType(terrainPool.remove(0));
+					Edge edge = new Edge();
+					hex.setEdge(edge, dir);
+					edges.add(edge);
 				}
 			}
 		}
 	}
 
-	private int offsetToIndex(int dx, int dy) {
-		if (dx == 1 && dy == 1) {
-			return 0;
-		} else if (dx == 1 && dy == 0) {
-			return 1;
-		} else if (dx == 0 && dy == -1) {
-			return 2;
-		} else if (dx == -1 && dy == -1) {
-			return 3;
-		} else if (dx == -1 && dy == 0) {
-			return 4;
-		} else if (dx == 0 && dy == 1) {
-			return 5;
-		} else {
-			return -1;
+	private void populateIntersectionsHex(Hexagon hex) {
+		if (hex != null) {
+			for (IntersectionLoc loc : IntersectionLoc.values()) {
+				if (hex.getIntersection(loc) == null) {
+					Direction adj[] = Hexagon.getAdjacentDirs(loc);
+
+					Hexagon neighbor1 = getHexNeighborInDir(hex, adj[0]);
+					Hexagon neighbor2 = getHexNeighborInDir(hex, adj[1]);
+
+					if (neighbor1 != null) {
+						Intersection i = neighbor1.getIntersection(Hexagon.getOppositeIntersection(loc, adj[0]));
+						if (i != null) {
+							hex.setIntersection(i, loc);
+							continue;
+						}
+					}
+
+					if (neighbor2 != null) {
+						Intersection i = neighbor2.getIntersection(Hexagon.getOppositeIntersection(loc, adj[1]));
+						if (i != null) {
+							hex.setIntersection(i, loc);
+							continue;
+						}
+					}
+
+					Intersection i = new Intersection();
+					hex.setIntersection(i, loc);
+					instersections.add(i);
+				}
+			}
 		}
 	}
 
-	private Tuple indexToOffset(int i) {
-		if (i == 0) {
-			return new Tuple(-1, -1);
-		} else if (i == 1) {
-			return new Tuple(1, 0);
-		} else if (i == 2) {
-			return new Tuple(0, -1);
-		} else if (i == 3) {
-			return new Tuple(-1, -1);
-		} else if (i == 4) {
-			return new Tuple(-1, 0);
-		} else if (i == 5) {
-			return new Tuple(0, 1);
-		} else {
-			return new Tuple(0, 0);
-		}
-	}
+	public Hexagon getHexagonAt(int x, int y) {
+		/*
+		 * using offset coordinates ("even-r" horizontal layout)
+		 * (http://www.redblobgames.com/grids/hexagons/#coordinates)
+		 */
 
-	// Dodging out of bounds errors on hexes[][]
-	private Hex getNeighbour(int x, int y, int dx, int dy) {
-
-		if ((x + dx > 4) || (x + dx < 0) || (y + dy > 4) || (y + dy < 0)) {
+		if (x >= length || y >= height) {
 			return null;
 		} else {
-			return hexes[x + dx][y + dy];
+			return hexagons[x][y];
 		}
 	}
 
-	public void drawNum(int n) {
-		for (int y = 0; y < 5; y++) {
-			for (int x = 0; x < 5; x++) {
-				if (Math.abs(x-y) < 3) {
-					if (hexes[x][y].getNum() == n) {
-						for (int i = 0; i < 6; i++) {
-							IntersectionUnit u = hexes[x][y].getIntersection(i).getUnit();
-							if (u instanceof Village) {	
-								switch (((Village) u).getKind()) {
-									case SETTLEMENT: 
-										u.getOwner().giveResource(hexes[x][y].getResource(), 1);
-									case CITY:
-										u.getOwner().giveResource(hexes[x][y].getResource(), 1);
-										u.getOwner().giveResource(hexes[x][y].getCommodity(), 1);
-									case METROPOLIS:
-										u.getOwner().giveResource(hexes[x][y].getResource(), 1);
-										u.getOwner().giveResource(hexes[x][y].getCommodity(), 1);
-								}
-							}
-							
-						}
-					}
+	/**
+	 * Returns the neighbor given an hexagon and a direction
+	 * 
+	 * @return The neighbor or null if the hex does not have a neighbor in the
+	 *         given direction
+	 */
+	public Hexagon getHexNeighborInDir(Hexagon curHex, Direction direction) {
+		Coordinates curHex_coords = getCoords(curHex);
+
+		if (curHex != null) {
+			Coordinates wantedHex_coords = curHex_coords.getCoordsInDir(direction);
+			if (isValidCoords(wantedHex_coords)) {
+				// The hex has a neighbor in this direction
+				return hexagons[wantedHex_coords.getX()][wantedHex_coords.getY()];
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Private helpers; nothing important here
+	 */
+
+	private boolean isValidCoords(Coordinates curHex_coords) {
+		int x = curHex_coords.getX();
+		int y = curHex_coords.getY();
+		return x >= 0 && y >= 0 && x < length && y < length;
+	}
+
+	private Coordinates getCoords(Hexagon curHex) {
+		for (int x = 0; x < length; x++) {
+			for (int y = 0; y < height; y++) {
+				if (hexagons[x][y] == curHex) {
+					return new Coordinates(x, y);
 				}
 			}
-		}	
-	}
-	
-	public void placeSettlement(Player p, Intersection i) {
-		if (i.canBuild()) {
-			Village v = new Village(p);
-			i.setUnit(v);
 		}
-	}
-	
-	public Hex[][] getHexes() {
-		return hexes;
-	}
-	
-	public Tuple rollDice() {
-		int red = (int) Math.ceil(Math.random() * 6);
-		int yellow = (int) Math.ceil(Math.random() * 6);
-		return new Tuple(red, yellow);
-	}
-	
-	public void setupPhase() {
-		for (int i = 0; i < myPlayers.size(); i++) {
-			myPlayers.get(0);
-			
-		}
+		return null;
 	}
 
+	@Override
+	public String toString() {
+		String result = "";
+		for (int x = 0; x < length; x++) {
+			for (int y = 0; y < height; y++) {
+				result += "[" + x + "][" + y + "] = " + getHexagonAt(x, y) + "\n";
+			}
+		}
+		return result;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public int getHeight() {
+		return height;
+	}
 }

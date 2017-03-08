@@ -43,6 +43,7 @@ public class WaitingRoom extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == goButton) {
+			ClientModel.instance.setCurGameId(gameId);
         	ClientWindow.getInstance().switchToGame();
 		} else if (arg0.getSource() == backButton) {
 			ClientModel.instance.getNetworkManager().sendCommand(new CancelJoinGameCommand(gameId));

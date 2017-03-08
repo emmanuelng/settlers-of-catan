@@ -1,7 +1,9 @@
 package catan.settlers.client.view;
 
+import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.game.GameWindow;
 import catan.settlers.client.view.setup.SetupWindow;
+import catan.settlers.network.server.commands.game.GetGameBoardCommand;
 
 public class ClientWindow {
 
@@ -40,7 +42,7 @@ public class ClientWindow {
 	public void switchToGame() {
 		setupWindow.setVisible(false);
 		gameWindow.setVisible(true);
-
+		
 		Thread workerThread = new Thread(new Worker(gameWindow));
 		workerThread.start();
 	}

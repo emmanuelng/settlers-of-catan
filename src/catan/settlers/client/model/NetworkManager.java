@@ -19,6 +19,7 @@ public class NetworkManager {
 			client.sendCommand(cmd);
 		} catch (IOException e) {
 			// ignore
+			System.out.println("Error while sending command: " + e.getMessage());
 		}
 	}
 }

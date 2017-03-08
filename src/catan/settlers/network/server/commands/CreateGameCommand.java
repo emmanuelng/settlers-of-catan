@@ -18,6 +18,7 @@ public class CreateGameCommand implements ClientToServerCommand {
 			server.writeToConsole("New game created. There are now " + nbOfGames + " games");
 		} catch (Exception e) {
 			// Ignore
+			e.printStackTrace();
 		}
 	}
 

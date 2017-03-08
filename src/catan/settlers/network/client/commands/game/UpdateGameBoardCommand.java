@@ -1,5 +1,6 @@
 package catan.settlers.network.client.commands.game;
 
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.server.model.map.GameBoard;
 
@@ -14,7 +15,7 @@ public class UpdateGameBoardCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
-		// TODO: Call the board rendering method
+		ClientWindow.getInstance().getGameWindow().updateGameBoard(board);
 	}
 
 }
