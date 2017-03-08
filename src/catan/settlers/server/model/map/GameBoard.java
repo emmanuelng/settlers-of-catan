@@ -1,6 +1,7 @@
 package catan.settlers.server.model.map;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import catan.settlers.server.model.map.Hexagon.Direction;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
@@ -11,12 +12,14 @@ public class GameBoard implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Hexagon hexagons[][];
+	private ArrayList<Edge> edges;
 
 	private int height = 3; // TODO: Make this value customizable
 	private int length = 3; // TODO: Make this value customizable
 
 	public GameBoard() {
 		this.hexagons = new Hexagon[length][height];
+		this.edges = new ArrayList<>();
 		generateBoard();
 	}
 
@@ -25,25 +28,50 @@ public class GameBoard implements Serializable {
 	 */
 	private void generateBoard() {
 		// TODO: Would normally generate a random board
-		addHexAt(new Hexagon(TerrainType.SEA, 4), 0, 0);
-		addHexAt(new Hexagon(TerrainType.DESERT, 6), 0, 1);
-		addHexAt(new Hexagon(TerrainType.PASTURE, 1), 0, 2);
-		addHexAt(new Hexagon(TerrainType.FOREST, 6), 1, 0);
-		addHexAt(new Hexagon(TerrainType.MOUNTAIN, 2), 1, 1);
-		addHexAt(new Hexagon(TerrainType.HILLS, 4), 1, 2);
-		addHexAt(new Hexagon(TerrainType.FIELD, 3), 2, 0);
-		addHexAt(new Hexagon(TerrainType.GOLDMINE, 2), 2, 1);
-		addHexAt(null, 2, 2); // Invisible hex
+		hexagons[0][0] = new Hexagon(TerrainType.SEA, 4);
+		hexagons[0][1] = new Hexagon(TerrainType.DESERT, 6);
+		hexagons[0][2] = new Hexagon(TerrainType.PASTURE, 1);
+		// addHexAt(new Hexagon(TerrainType.FOREST, 6), 1, 0);
+		// addHexAt(new Hexagon(TerrainType.MOUNTAIN, 2), 1, 1);
+		// addHexAt(new Hexagon(TerrainType.HILLS, 4), 1, 2);
+		// addHexAt(new Hexagon(TerrainType.FIELD, 3), 2, 0);
+		// addHexAt(new Hexagon(TerrainType.GOLDMINE, 2), 2, 1);
+		// addHexAt(null, 2, 2); // Invisible hex
+
+		populateAllEdges();
+		System.out.println(edges.size());
 	}
 
-	/**
-	 * Adds hexagons in the 2D array and populates edges/intersections
-	 */
-	private void addHexAt(Hexagon hex, int x, int y) {
-		if (isValidCoords(new Coordinates(x, y))) {
-			// TODO: Populate edges and intersections
-			hexagons[x][y] = hex;
+	private void populateAllEdges() {
+		for (int x = 0; x < length; x++) {
+			for (int y = 0; y < height; y++) {
+				populateEdgesHex(getHexagonAt(x, y));
+			}
 		}
+	}
+
+	private void populateEdgesHex(Hexagon hex) {
+		System.out.println(hex);
+		if (hex != null) {
+			for (Direction dir : Direction.values()) {
+				if (hex.getEdge(dir) == null) {
+					Direction oppDir = Hexagon.getOppositeDir(dir);
+					Hexagon neighbor = getHexNeighborInDir(hex, dir);
+					System.out.println(dir + ": " + neighbor);
+					if (neighbor != null) {
+						if (neighbor.getEdge(oppDir) != null) {
+							hex.setEdge(neighbor.getEdge(oppDir), dir);
+							continue;
+						}
+					} else {
+						Edge edge = new Edge();
+						hex.setEdge(edge, dir);
+						edges.add(edge);
+					}
+				}
+			}
+		}
+		System.out.println("");
 	}
 
 	public Hexagon getHexagonAt(int x, int y) {

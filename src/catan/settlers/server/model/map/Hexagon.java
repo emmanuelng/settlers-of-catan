@@ -51,4 +51,21 @@ public class Hexagon implements Serializable {
 		return myIntersections[i];
 	}
 
+	public static Direction getOppositeDir(Direction dir) {
+		switch (dir) {
+		case WEST:
+			return Direction.EAST;
+		case NORTHWEST:
+			return Direction.SOUTHEAST;
+		case NORTHEAST:
+			return Direction.SOUTHWEST;
+		case EAST:
+			return Direction.WEST;
+		case SOUTHEAST:
+			return Direction.NORTHWEST;
+		default:
+			return Direction.NORTHEAST;
+		}
+	}
+
 }

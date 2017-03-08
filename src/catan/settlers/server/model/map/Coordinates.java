@@ -33,7 +33,9 @@ public class Coordinates implements Serializable {
 	 *         coordinate might be invalid depending on the application
 	 */
 	public Coordinates getCoordsInDir(Direction dir) {
+		boolean isEvenRow = y % 2 == 0;
 		int new_x = -1, new_y = -1;
+
 		switch (dir) {
 		case WEST:
 			new_x = x - 1;
@@ -42,10 +44,14 @@ public class Coordinates implements Serializable {
 		case NORTHWEST:
 			new_x = x - 1;
 			new_y = y - 1;
+			if (isEvenRow)
+				new_x = x;
 			break;
 		case NORTHEAST:
 			new_x = x;
 			new_y = y - 1;
+			if (isEvenRow)
+				new_x = x - 1;
 			break;
 		case EAST:
 			new_x = x + 1;
@@ -54,10 +60,14 @@ public class Coordinates implements Serializable {
 		case SOUTHEAST:
 			new_x = x;
 			new_y = y + 1;
+			if (isEvenRow)
+				new_x = x + 1;
 			break;
 		case SOUTHWEST:
 			new_x = x - 1;
 			new_y = y + 1;
+			if (isEvenRow)
+				new_x = x;
 			break;
 		default:
 			break;
