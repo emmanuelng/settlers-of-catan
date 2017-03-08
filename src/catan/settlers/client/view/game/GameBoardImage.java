@@ -35,16 +35,16 @@ public class GameBoardImage extends MinuetoImage {
 		HexagonImage image = new HexagonImage(hex);
 		draw(image, x, y);
 		visitedHexes.put(hex, true);
-		
-		int hexsize= image.getHexSize();
+
+		int hexsize = image.getHexSize();
 		int s = hexsize;
-		int t = (int) hexsize/2;
+		int t = (int) hexsize / 2;
 		int r = (int) (hexsize * 0.8660254037844);
-		
+
 		drawHex(board.getHexNeighborInDir(hex, Direction.WEST), x - r - r, y);
-		drawHex(board.getHexNeighborInDir(hex, Direction.NORTHWEST), x - r , y - s - t );
-		drawHex(board.getHexNeighborInDir(hex, Direction.NORTHEAST), x + r , y - s - t);
-		drawHex(board.getHexNeighborInDir(hex, Direction.EAST), x + r + r , y);
+		drawHex(board.getHexNeighborInDir(hex, Direction.NORTHWEST), x - r, y - s - t);
+		drawHex(board.getHexNeighborInDir(hex, Direction.NORTHEAST), x + r, y - s - t);
+		drawHex(board.getHexNeighborInDir(hex, Direction.EAST), x + r + r, y);
 		drawHex(board.getHexNeighborInDir(hex, Direction.SOUTHEAST), x + r, y + s + t);
 		drawHex(board.getHexNeighborInDir(hex, Direction.SOUTHWEST), x - r, y + s + t);
 	}

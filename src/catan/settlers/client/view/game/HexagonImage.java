@@ -47,24 +47,10 @@ public class HexagonImage extends MinuetoImage {
 		r = (int) (s * 0.8660254037844);
 	}
 
-	/*public static void setHeight(int height) {
-		// distance between two centers, or the size of the coordinate
-		h = height;
-
-		// radius of the inscribed circle
-		r = h / 2;
-
-		// short side is (h/2)/cos30 = (h/2)/(sqrt(3)/2) = h/sqrt(3)
-		t = (int) (h / 1.73205);
-
-		// side length is (h/2) tan30 = h/2/sqrt(3) = radius/sqrt(3)
-		s = (int) (r / 1.73205);
-
-	}*/
-	public int getHexSize(){
+	public int getHexSize() {
 		return HEXSIZE;
 	}
-	
+
 	public static void setBorders(int b) {
 		BORDERS = b;
 	}
@@ -73,7 +59,8 @@ public class HexagonImage extends MinuetoImage {
 		int x = x0 + BORDERS;
 		int y = y0 + BORDERS;
 
-		int[] coordinates = new int[] {x,y,x+r,y-t,x+r+r,y,x+r+r,y+s,x+r,y+s+t,x,y+s};
+		int[] coordinates = new int[] { x, y, x + r, y - t, x + r + r, y, x + r + r, y + s, x + r, y + s + t, x,
+				y + s };
 
 		return coordinates;
 	}

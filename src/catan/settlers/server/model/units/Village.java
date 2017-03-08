@@ -22,14 +22,10 @@ public class Village implements IntersectionUnit {
 		return myOwner;
 	}
 
-	public void setOwner(Player p) {
-		myOwner = p;
-	}
-
 	public VillageKind getKind() {
 		return myKind;
 	}
-	
+
 	public void upgradeToCity() {
 		myKind = VillageKind.CITY;
 	}
