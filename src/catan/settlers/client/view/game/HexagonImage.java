@@ -7,6 +7,8 @@ import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
 
 public class HexagonImage extends MinuetoImage {
+	
+	public static final int SIZE = 125;
 
 	private static int BORDERS = 25; // default number of pixels for the border
 	private final static int HEXSIZE = 50;
@@ -24,10 +26,8 @@ public class HexagonImage extends MinuetoImage {
 	private MinuetoColor color;
 
 	public HexagonImage(Hexagon hex) {
-		super(125, 125);
-
+		super(SIZE, SIZE);
 		HexagonImage.setSide(HEXSIZE);
-
 		drawPolygon(getColorByTerrainType(hex.getType()), drawCoordinates(0, 0));
 	}
 

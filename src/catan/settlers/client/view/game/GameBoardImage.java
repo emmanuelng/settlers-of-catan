@@ -26,8 +26,7 @@ public class GameBoardImage extends MinuetoImage {
 		visitedHexes = new HashMap<>();
 		for (int x = 0; x < board.getLength(); x++) {
 			for (int y = 0; y < board.getHeight(); y++) {
-				// 125 is the size of a hex
-				drawHex(board.getHexagonAt(x, y), 20 + x * 125, 20 + y * 125);
+				drawHex(board.getHexagonAt(x, y), 20 + x * HexagonImage.SIZE, 20 + y * HexagonImage.SIZE);
 			}
 		}
 		drawDice(450, 450);
