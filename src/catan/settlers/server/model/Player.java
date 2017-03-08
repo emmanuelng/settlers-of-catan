@@ -20,6 +20,10 @@ public class Player implements Serializable {
 	 *  [0] BRICK, [1] GRAIN, [2] LUMBER, [3] ORE, [4] WOOL, 
 	 *  [5] CLOTH, [6] COIN, [7] PAPER
 	 */
+	public enum ResourceType {
+		BRICK, GRAIN, LUMBER, ORE, WOOL, CLOTH, COIN, PAPER
+	}
+	
 	private int[] resources;
 	
 	public Player(String username, String password) {
@@ -35,56 +39,23 @@ public class Player implements Serializable {
 		return password.equals(proposedPassword);
 	}
 	
-	public void giveResource(TerrainType resource, int amount) {
-		int i = terrainToInt(resource);
-		if (i >= 0) {
-			resources[i] += amount;
-		}
+	public void giveResource(ResourceType r, int amount) {
+			resources[r.ordinal()] += amount;
 	}
-	public void giveCityResource(TerrainType resource, int amount) {
-		int i = cityTerrainToInt(resource);
-		if (i >= 0) {
-			resources[i] += amount;
+	public void giveCityResource(TerrainType r, int amount) {
+			resources[r.ordinal()] += amount;
+	}
+	
+	public void takeResource(ResourceType r, int amount) {
+		if (resources[r.ordinal()] >= amount) {
+			resources[r.ordinal()] -= amount;
 		}
 	}
 	
-	public void takeResource(TerrainType resource, int amount) {
-		int i = terrainToInt(resource);
-		if ((i >= 0) && (resources[i] >= amount)) {
-			resources[i] -= amount;
-		}
-	}
-	
-	public void maritimeTrade(TerrainType resourceToGet, TerrainType resourceToGive) {
-		int give = terrainToInt(resourceToGive);
-		int get = terrainToInt(resourceToGet);
-		if (resources[give] >= 4 && give >= 0 && get >= 0) {
-			resources[give] -= 4;
-			resources[get]++;
-		}
-	}
-	
-	private int terrainToInt(TerrainType t) {
-		switch (t) {
-		case PASTURE: return 4;
-		case FOREST: return 2;
-		case MOUNTAIN: return 3;
-		case HILLS: return 0;
-		case FIELD: return 1;
-		case GOLDMINE: return 6;
-		default: return -1;
-		}
-	}
-	
-	private int cityTerrainToInt(TerrainType t) {
-		switch (t) {
-		case PASTURE: return 5;
-		case FOREST: return 7;
-		case MOUNTAIN: return 6;
-		case HILLS: return 0;
-		case FIELD: return 1;
-		case GOLDMINE: return 6;
-		default: return -1;
+	public void maritimeTrade(ResourceType rGet, ResourceType rGive) {
+		if (resources[rGive.ordinal()] >= 4) {
+			resources[rGive.ordinal()] -= 4;
+			resources[rGet.ordinal]++;
 		}
 	}
 }
