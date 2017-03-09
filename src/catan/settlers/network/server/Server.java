@@ -16,6 +16,27 @@ public class Server extends Thread {
 	 * Name of the file where the server settings are saved
 	 */
 	public static final String SETTINGS_FILE = "settings.dat";
+	public static Server instance;
+
+	public static Server getInstance() {
+		if (instance == null) {
+			try {
+				instance = new Server();
+			} catch (IOException e) {
+				System.exit(0);
+			}
+		}
+
+		return instance;
+	}
+
+	public static void resetInstance() {
+		try {
+			instance = new Server();
+		} catch (IOException e) {
+			System.exit(0);
+		}
+	}
 
 	private ServerSettings settings;
 	private File settingsFile;
@@ -37,14 +58,17 @@ public class Server extends Thread {
 	 *             Throws an error if the server was not instantiated for some
 	 *             reason
 	 */
-	public Server(ServerWindow gui) throws IOException {
-		this.gui = gui;
+	public Server() throws IOException {
 		this.playerManager = new PlayerManager();
 		this.gameManager = new GameManager();
 
 		settingsFile = new File(SETTINGS_FILE);
 		loadSettings();
 		isServerRunning = false;
+	}
+
+	public void setGui(ServerWindow gui) {
+		this.gui = gui;
 	}
 
 	/**
@@ -65,7 +89,7 @@ public class Server extends Thread {
 	 * restart is needed, use a new instance of Server.
 	 */
 	public void close() {
-		writeToConsole("Closing server...");		
+		writeToConsole("Closing server...");
 		try {
 			listener.close();
 			isServerRunning = false;

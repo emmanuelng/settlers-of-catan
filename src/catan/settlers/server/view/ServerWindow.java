@@ -28,11 +28,8 @@ public class ServerWindow extends JFrame {
 	public ServerWindow() {
 		initialize();
 
-		try {
-			server = new Server(this);
-		} catch (IOException e) {
-			writeToLog("Fatal error: Unable to initialize the server");
-		}
+		Server.getInstance().setGui(this);
+		server = Server.getInstance();
 
 		log = new LogPanel();
 		settings = new SettingsPanel(server);
@@ -88,11 +85,14 @@ public class ServerWindow extends JFrame {
 			startStopButton.setText("Start");
 		} else {
 			try {
-				server = new Server(this);
+				Server.resetInstance();
+				server = Server.getInstance();
+				server.setGui(this);
 				server.launch();
 				startStopButton.setText("Stop");
 			} catch (Exception e) {
 				// Ignore
+				e.printStackTrace();
 			}
 		}
 	}
