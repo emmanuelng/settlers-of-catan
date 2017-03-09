@@ -36,7 +36,11 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 	@Override
 	public void onclick() {
 		System.out.println("Intersection was clicked!");
-		ClientModel.instance.setCurrentIntersection(intersection);
+		if(intersection != ClientModel.instance.getCurrentIntersection()){
+			ClientModel.instance.setCurrentIntersection(intersection);
+		}else{
+			ClientModel.instance.setCurrentIntersection(null);
+		}
 	}
 
 	@Override
