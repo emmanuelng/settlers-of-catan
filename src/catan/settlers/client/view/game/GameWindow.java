@@ -1,12 +1,21 @@
 package catan.settlers.client.view.game;
 
+import java.util.ArrayList;
+
+import org.minueto.MinuetoColor;
 import org.minueto.MinuetoEventQueue;
+import org.minueto.image.MinuetoFont;
+import org.minueto.image.MinuetoText;
 import org.minueto.window.MinuetoFrame;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.game.handlers.BoardMouseHandler;
 import catan.settlers.client.view.game.handlers.BoardWindowHandler;
+import catan.settlers.network.server.commands.GetListOfPlayersCommand;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;
+import catan.settlers.server.model.Game;
+import catan.settlers.server.model.GamePlayersManager;
+import catan.settlers.server.model.Player;
 import catan.settlers.server.model.map.GameBoard;
 
 public class GameWindow extends MinuetoFrame {
@@ -15,9 +24,11 @@ public class GameWindow extends MinuetoFrame {
 	private boolean open;
 	private GameBoard curBoard;
 	private BoardMouseHandler mouseHandler;
+	private ArrayList<String> player;
 	
 	public GameWindow() {
 		super(ClientModel.WINDOW_WIDTH, ClientModel.WINDOW_HEIGHT, true);
+		
 		
 		mouseHandler = new BoardMouseHandler();
 	}
@@ -51,6 +62,7 @@ public class GameWindow extends MinuetoFrame {
 		ResourceBarImage resourceBar = new ResourceBarImage();
 		draw(resourceBar, 0, 0);
 		draw(gameBoard, 0, 100);
+		printListOfPlayers(player,1000,500);
 		render();
 	}
 
@@ -74,9 +86,18 @@ public class GameWindow extends MinuetoFrame {
 	public void updateGameBoard(GameBoard board) {
 		curBoard = board;
 	}
-	
+	  
 	public BoardMouseHandler getMouseHandler() {
 		return mouseHandler;
 	}
-
+	
+	public void setListOfPlayers(ArrayList<String> players){
+		this.player=players;
+	}
+	
+	private void printListOfPlayers(ArrayList<String> players, int x, int y){
+		for(int i=0;i<players.size();i++){
+			draw(new MinuetoText(players.get(i),new MinuetoFont("arial",30,false,false),MinuetoColor.BLACK), x, y+i*100);
+		}
+	}
 }
