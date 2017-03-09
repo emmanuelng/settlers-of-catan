@@ -82,4 +82,12 @@ public class Game extends Thread implements Serializable {
 		redDie = (int)Math.ceil((Math.random()*6));
 		yellowDie = (int)Math.ceil((Math.random()*6));
 	}
+	
+	public int getRedDie(){
+		return redDie;
+	}
+	
+	public int getYellowDie(){
+		return yellowDie;
+	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.minueto.handlers.MinuetoMouseHandler;
 
 import catan.settlers.client.view.game.Clickable;
+import catan.settlers.client.view.game.DialogBox;
 
 public class BoardMouseHandler implements MinuetoMouseHandler {
 
@@ -48,5 +49,10 @@ public class BoardMouseHandler implements MinuetoMouseHandler {
 	public void handleMouseMove(int x, int y) {
 
 		// Not going to print on this event.
+	}
+
+	public void unregister(Clickable c) {
+		clickableElmts.remove(c);
+		
 	}
 }

@@ -100,12 +100,7 @@ public class GameWindow extends MinuetoFrame {
 		}
 	}
 	
-	public void setDialogBox(boolean display){
-		if(display){
-			this.dbox=new DialogBox(0,0, 100, 25, "Build Settlement Here?");
-			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(dbox);
-		}else{
-			dbox=null;
-		}
+	public void setDialogBox(DialogBox dbox){
+		this.dbox=dbox;
 	}
 }
