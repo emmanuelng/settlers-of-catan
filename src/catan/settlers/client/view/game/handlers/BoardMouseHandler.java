@@ -16,9 +16,12 @@ public class BoardMouseHandler implements MinuetoMouseHandler {
 
 	public void handleMousePress(int x, int y, int button) {
 
-		for (Clickable c : clickableElmts) {
+		Clickable c;
+		for (int i = clickableElmts.size() - 1; i >= 0; i--) {
+			c = clickableElmts.get(i);
 			if (c.isClicked(x, y)) {
 				c.onclick();
+				return;
 			}
 		}
 	}

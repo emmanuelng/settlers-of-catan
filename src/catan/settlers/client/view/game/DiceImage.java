@@ -5,16 +5,16 @@ import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
 
 public class DiceImage extends MinuetoImage implements Clickable {
-	
+
 	private int relativeX;
 	private int relativeY;
-	
+
 	public DiceImage(int relativeX, int relativeY) {
 		super(51, 51);
-		
+
 		this.relativeX = relativeX;
 		this.relativeY = relativeY;
-		
+
 		MinuetoImage dice;
 		try {
 			dice = new MinuetoImageFile("images/dice.png");
@@ -28,7 +28,7 @@ public class DiceImage extends MinuetoImage implements Clickable {
 	@Override
 	public boolean isClicked(int x, int y) {
 		// TODO: absolute coordinates are hard coded for now
-		return x < relativeX + getWidth() && y < relativeY + getHeight();
+		return x > relativeX && x < relativeX + getWidth() && y > relativeY && y < relativeY + getHeight();
 	}
 
 	@Override

@@ -17,30 +17,26 @@ public class GameBoardImage extends MinuetoImage {
 
 	private static boolean registerClickables = true;
 
-	private static final int WIDTH = 1366;
-	private static final int HEIGHT = 700;
-
 	private GameBoard board;
 	private HashMap<Hexagon, Boolean> visitedHexes;
 	private HashMap<Edge, Hexagon> visitedEdges;
 	private HashMap<Intersection, Boolean> visitedIntersections;
 
 	public GameBoardImage(GameBoard board) {
-		super(WIDTH, HEIGHT);
-
+		super(1366, 700);
 		this.board = board;
 		compose();
 	}
 
 	private void compose() {
-		drawRectangle(MinuetoColor.WHITE, 0, 0, WIDTH, HEIGHT);
+		clear(MinuetoColor.WHITE);
 		visitedHexes = new HashMap<>();
 		visitedEdges = new HashMap<>();
 		visitedIntersections = new HashMap<>();
 
 		for (int x = 0; x < board.getLength(); x++) {
 			for (int y = 0; y < board.getHeight(); y++) {
-				drawHex(board.getHexagonAt(x, y), 70 + x * HexagonImage.SIZE, 70 + y * HexagonImage.SIZE);
+				drawHex(board.getHexagonAt(x, y), 70 + x * 1366, 70 + y * 700);
 			}
 		}
 
@@ -118,6 +114,7 @@ public class GameBoardImage extends MinuetoImage {
 			if (GameBoardImage.registerClickables) {
 				ClientWindow.getInstance().getGameWindow().getMouseHandler().register(intersecImg);
 			}
+
 			// TODO: Intersection bug
 			// visitedIntersections.put(curIntersection, true);
 		}
@@ -169,7 +166,7 @@ public class GameBoardImage extends MinuetoImage {
 				break;
 			}
 
-			EdgeImage edgeImg = new EdgeImage(curEdge, shift_x + x, shift_y + y);
+			EdgeImage edgeImg = new EdgeImage(curEdge, rotation, shift_x + x, shift_y + y);
 			draw(edgeImg.rotate(rotation), shift_x + x, shift_y + y);
 
 			if (GameBoardImage.registerClickables) {

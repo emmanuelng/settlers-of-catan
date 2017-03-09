@@ -19,7 +19,7 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 
 	@Override
 	public boolean isClicked(int x, int y) {
-		return x < relativeX + getWidth() && y < relativeY + 100 + getHeight();
+		return x > relativeX && x < relativeX + getWidth() && y > relativeY + 100 && y < relativeY + 100 + getHeight();
 	}
 
 	@Override
