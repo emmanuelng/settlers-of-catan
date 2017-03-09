@@ -5,26 +5,23 @@ import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoRectangle;
 import org.minueto.image.MinuetoText;
 
-import catan.settlers.client.view.ClientWindow;
-
-public class Button extends MinuetoRectangle implements Clickable{
+public class Button extends MinuetoRectangle implements Clickable {
 
 	private int relativeX;
 	private int relativeY;
 	private MinuetoText text;
 	private String input;
-	
-	public Button(String input, int relativeX, int relativeY,int sizeX, int sizeY) {
+
+	public Button(String input, int relativeX, int relativeY, int sizeX, int sizeY) {
 		super(sizeX, sizeY, MinuetoColor.BLACK, false);
-		text = new MinuetoText(input,new MinuetoFont("arial",9,false,false),MinuetoColor.BLACK);
-		
+		text = new MinuetoText(input, new MinuetoFont("arial", 9, false, false), MinuetoColor.BLACK);
+
 		this.input = input;
-		
-		draw(text,1,1);
+
+		draw(text, 1, 1);
 		this.relativeX = relativeX;
 		this.relativeY = relativeY;
-		
-		
+
 	}
 
 	@Override

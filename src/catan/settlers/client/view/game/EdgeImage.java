@@ -17,7 +17,6 @@ public class EdgeImage extends MinuetoRectangle implements Clickable {
 
 	private int rot_width;
 	private int rot_height;
-	private MinuetoColor edgeMColor;
 
 	private boolean selected;
 

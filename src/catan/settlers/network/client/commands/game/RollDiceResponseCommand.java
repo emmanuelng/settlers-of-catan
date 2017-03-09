@@ -1,7 +1,8 @@
-package catan.settlers.network.client.commands;
+package catan.settlers.network.client.commands.game;
 
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.DialogBox;
+import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class RollDiceResponseCommand implements ServerToClientCommand {
 

@@ -9,7 +9,6 @@ import org.minueto.image.MinuetoText;
 import org.minueto.window.MinuetoFrame;
 
 import catan.settlers.client.model.ClientModel;
-import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.BoardMouseHandler;
 import catan.settlers.client.view.game.handlers.BoardWindowHandler;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;

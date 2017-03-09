@@ -8,8 +8,6 @@ import org.minueto.image.MinuetoImageFile;
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.server.model.map.Intersection;
-import catan.settlers.server.model.units.Village;
-import catan.settlers.server.model.units.Village.VillageKind;
 
 public class IntersectionImage extends MinuetoImage implements Clickable {
 

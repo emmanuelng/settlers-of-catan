@@ -47,35 +47,7 @@ public class Game extends Thread implements Serializable {
 	
 	@Override
 	public void run() {
-		while (true) {
-			switch (phase) {
-			case READYTOJOIN: 
-				System.out.println("Phase is " + phase.toString());
-				break;
-			case SETUPPHASEONE:
-				System.out.println("Phase is " + phase.toString());
-				// Roll to see who goes first
-				int highestRoll = 0;
-				Player goesFirst;
-				for (int i = 0; i < gamePlayersManager.getNumPlayers(); i++) {
-					gamePlayersManager.setCurPlayer(gamePlayersManager.getPlayer(i));
-					System.out.println("Waiting for roll");
-					
-					// wait for player to click roll dice
-					if (redDie+yellowDie > highestRoll) {
-						highestRoll = (redDie + yellowDie);
-						goesFirst = gamePlayersManager.getPlayer(i);
-					}
-				}
-				System.out.println("Highest roll of " + highestRoll);
-				break;
-			case SETUPPHASETWO:
-				break;
-			}
-		}
-		
-		// TODO Run the game
-		//super.run();
+		// TODO
 	}
 	
 	public void rollDice() {
