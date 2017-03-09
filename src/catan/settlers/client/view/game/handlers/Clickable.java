@@ -1,4 +1,4 @@
-package catan.settlers.client.view.game;
+package catan.settlers.client.view.game.handlers;
 
 public interface Clickable {
 

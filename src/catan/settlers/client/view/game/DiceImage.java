@@ -8,6 +8,7 @@ import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.game.handlers.Clickable;
 import catan.settlers.network.server.commands.game.RollDiceCommand;
 
 public class DiceImage extends MinuetoImage implements Clickable {

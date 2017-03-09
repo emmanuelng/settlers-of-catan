@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import org.minueto.handlers.MinuetoMouseHandler;
 
-import catan.settlers.client.view.game.Clickable;
-
 public class BoardMouseHandler implements MinuetoMouseHandler {
 
 	private ArrayList<Clickable> clickableElmts;

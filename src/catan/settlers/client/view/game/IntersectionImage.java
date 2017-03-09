@@ -7,6 +7,7 @@ import org.minueto.image.MinuetoImageFile;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
+import catan.settlers.client.view.game.handlers.Clickable;
 import catan.settlers.server.model.map.Intersection;
 
 public class IntersectionImage extends MinuetoImage implements Clickable {

@@ -5,6 +5,8 @@ import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoRectangle;
 import org.minueto.image.MinuetoText;
 
+import catan.settlers.client.view.game.handlers.Clickable;
+
 public class Button extends MinuetoRectangle implements Clickable {
 
 	private int relativeX;

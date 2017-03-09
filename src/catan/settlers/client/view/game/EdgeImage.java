@@ -7,6 +7,7 @@ import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoRectangle;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.game.handlers.Clickable;
 import catan.settlers.server.model.map.Edge;
 
 public class EdgeImage extends MinuetoRectangle implements Clickable {
