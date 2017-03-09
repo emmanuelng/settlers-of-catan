@@ -3,9 +3,11 @@ package catan.settlers.server.model.map;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import catan.settlers.server.model.Player;
 import catan.settlers.server.model.map.Hexagon.Direction;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
+import catan.settlers.server.model.units.Village;
 
 public class GameBoard implements Serializable {
 
@@ -14,6 +16,7 @@ public class GameBoard implements Serializable {
 	private Hexagon hexagons[][];
 	private ArrayList<Edge> edges;
 	private ArrayList<Intersection> instersections;
+	private Player currPlayer;
 
 	private int height = 3; // TODO: Make this value customizable
 	private int length = 3; // TODO: Make this value customizable
@@ -39,6 +42,10 @@ public class GameBoard implements Serializable {
 		hexagons[2][0] = new Hexagon(TerrainType.FIELD, 3);
 		hexagons[2][1] = new Hexagon(TerrainType.GOLDMINE, 2);
 		hexagons[2][2] = null; // Invisible hex
+		
+		/*Intersection i = hexagons[1][1].getIntersection(IntersectionLoc.TOP);
+		Village v = new Village(currPlayer);
+		i.setUnit(v);*/ //does not work
 
 		populateAllEdgesAndIntersections();
 	}

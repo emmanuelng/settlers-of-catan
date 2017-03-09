@@ -7,6 +7,8 @@ import org.minueto.image.MinuetoImageFile;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.server.model.map.Intersection;
+import catan.settlers.server.model.units.Village;
+import catan.settlers.server.model.units.Village.VillageKind;
 
 public class IntersectionImage extends MinuetoImage implements Clickable {
 
@@ -21,11 +23,20 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 		this.relativeY = relativeY;
 		this.intersection = intersection;
 		
-		if(intersection == ClientModel.instance.getCurrentIntersection()){
-			drawCircle(MinuetoColor.RED,0 ,0 ,20);
-		}else{
+		if(intersection != ClientModel.instance.getCurrentIntersection()){
 			drawCircle(new MinuetoColor(204, 204, 204), 0, 0, 20);
-		}
+		}else if(intersection == ClientModel.instance.getCurrentIntersection()){
+			drawCircle(MinuetoColor.RED,0 ,0 ,20);
+		}else if(intersection.getUnit().isVillage()){
+			MinuetoImage settlement;
+			try{
+				settlement = new MinuetoImageFile("images/building.png");
+				draw(settlement,0,0);
+			}catch(MinuetoFileException e){
+				System.out.println("couldnt load");
+				return;
+			}
+		}	
 	}
 	
 	@Override
@@ -39,7 +50,7 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 		if(intersection != ClientModel.instance.getCurrentIntersection()){
 			ClientModel.instance.setCurrentIntersection(intersection);
 		}else{
-			ClientModel.instance.setCurrentIntersection(null);
+			ClientModel.instance.setCurrentIntersection(null);	
 		}
 	}
 
@@ -47,4 +58,6 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 	public String getName() {
 		return "Intersection";
 	}
+
+
 }

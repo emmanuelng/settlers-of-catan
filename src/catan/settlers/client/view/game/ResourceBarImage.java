@@ -1,9 +1,11 @@
 package catan.settlers.client.view.game;
 
 import org.minueto.MinuetoColor;
+import org.minueto.MinuetoFileException;
 import org.minueto.image.MinuetoCircle;
 import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoImage;
+import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.view.ClientWindow;
@@ -31,6 +33,9 @@ public class ResourceBarImage extends MinuetoImage {
 		// drawResource(ResourceType.GOLDCOIN, x+ 100, 0);
 
 		drawDice(x + 900, 25);
+		drawTrade(x + 1000,25);
+		drawEndTurn(x + 1100,25);
+		drawVP(x+1200,25);
 		ResourceBarImage.addClickables = false;
 	}
 
@@ -82,5 +87,34 @@ public class ResourceBarImage extends MinuetoImage {
 			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(diceImage);
 		}
 	}
-
+	
+	private void drawTrade(int x,int y) {
+		TradeImage tradeImage = new TradeImage(x,y);
+		this.draw(tradeImage, x, y);
+		
+		if (ResourceBarImage.addClickables) {
+			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(tradeImage);
+		}
+	}
+	
+	private void drawEndTurn(int x,int y) {
+		EndTurnImage endTurnImage = new EndTurnImage(x,y);
+		this.draw(endTurnImage, x, y);
+		
+		if (ResourceBarImage.addClickables) {
+			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(endTurnImage);
+		}
+	}
+	
+	private void drawVP(int x,int y) {
+		MinuetoImage vp;
+		try {
+			vp = new MinuetoImageFile("images/vp.png");
+			draw(vp, x, y);
+		} catch (MinuetoFileException e) {
+			System.out.println("Could not load image file");
+			return;
+		}
+		draw(new MinuetoText("0",new MinuetoFont("arial",25,false,false),MinuetoColor.BLACK), x+60, y+10);
+	}
 }

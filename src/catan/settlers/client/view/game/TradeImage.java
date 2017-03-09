@@ -7,26 +7,25 @@ import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoText;
 
-public class DiceImage extends MinuetoImage implements Clickable {
-
+public class TradeImage extends MinuetoImage implements Clickable{
 	private int relativeX;
 	private int relativeY;
 
-	public DiceImage(int relativeX, int relativeY) {
+	public TradeImage(int relativeX, int relativeY) {
 		super(51, 60);
 
 		this.relativeX = relativeX;
 		this.relativeY = relativeY;
 
-		MinuetoImage dice;
+		MinuetoImage trade;
 		try {
-			dice = new MinuetoImageFile("images/dice.png");
-			draw(dice, 0, 0);
+			trade = new MinuetoImageFile("images/trade.png");
+			draw(trade, 0, 0);
 		} catch (MinuetoFileException e) {
 			System.out.println("Could not load image file");
 			return;
 		}
-		draw(new MinuetoText("Roll Dice",new MinuetoFont("arial",10,false,false),MinuetoColor.BLACK), 0, 50);
+		draw(new MinuetoText("Trade",new MinuetoFont("arial",10,false,false),MinuetoColor.BLACK), 0, 50);
 	}
 
 	@Override
@@ -37,12 +36,12 @@ public class DiceImage extends MinuetoImage implements Clickable {
 
 	@Override
 	public void onclick() {
-		System.out.println("Dice was clicked!");
+		System.out.println("Trade was clicked!");
 	}
 
 	@Override
 	public String getName() {
-		return "Dice";
+		return "Trade";
 	}
 
 }
