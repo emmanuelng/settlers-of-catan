@@ -27,6 +27,7 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 			drawCircle(new MinuetoColor(204, 204, 204), 0, 0, 20);
 		}else if(intersection == ClientModel.instance.getCurrentIntersection()){
 			drawCircle(MinuetoColor.RED,0 ,0 ,20);
+			// this.clear();
 		}else if(intersection.getUnit().isVillage()){
 			MinuetoImage settlement;
 			try{
