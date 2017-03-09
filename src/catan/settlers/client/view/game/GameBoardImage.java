@@ -14,10 +14,7 @@ import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.client.model.ClientModel;
 
-
 public class GameBoardImage extends MinuetoImage {
-
-	private static boolean registerClickables = true;
 
 	private GameBoard board;
 	private HashMap<Hexagon, Boolean> visitedHexes;
@@ -41,8 +38,6 @@ public class GameBoardImage extends MinuetoImage {
 				drawHex(board.getHexagonAt(x, y), 70 + x * 1366, 70 + y * 700);
 			}
 		}
-
-		GameBoardImage.registerClickables = false;
 	}
 
 	private void drawHex(Hexagon hex, int x, int y) {
@@ -112,13 +107,7 @@ public class GameBoardImage extends MinuetoImage {
 
 			IntersectionImage intersecImg = new IntersectionImage(shift_x + x, shift_y + y, curIntersection);
 			draw(intersecImg, shift_x + x, shift_y + y);
-
-			if (GameBoardImage.registerClickables) {
-				ClientWindow.getInstance().getGameWindow().getMouseHandler().register(intersecImg);
-			}
-
-			// TODO: Intersection bug
-			// visitedIntersections.put(curIntersection, true);
+			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(intersecImg);
 		}
 	}
 
@@ -167,22 +156,19 @@ public class GameBoardImage extends MinuetoImage {
 				shift_y = 75;
 				break;
 			}
-			
+
 			MinuetoColor edgeMColor = new MinuetoColor(230, 230, 230);
-			
-			if(curEdge != ClientModel.instance.getCurrentEdge()){
+
+			if (curEdge != ClientModel.instance.getCurrentEdge()) {
 				edgeMColor = new MinuetoColor(230, 230, 230);
+			} else if (curEdge == ClientModel.instance.getCurrentEdge()) {
+				edgeMColor = MinuetoColor.RED;
 			}
-			else if(curEdge == ClientModel.instance.getCurrentEdge()){
-					edgeMColor = MinuetoColor.RED;
-			}	
-			
+
 			EdgeImage edgeImg = new EdgeImage(curEdge, rotation, shift_x + x, shift_y + y, edgeMColor);
 			draw(edgeImg.rotate(rotation), shift_x + x, shift_y + y);
 
-			if (GameBoardImage.registerClickables) {
-				ClientWindow.getInstance().getGameWindow().getMouseHandler().register(edgeImg);
-			}
+			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(edgeImg);
 			visitedEdges.put(curEdge, hex);
 		}
 	}

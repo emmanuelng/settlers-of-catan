@@ -22,7 +22,7 @@ public class GameWindow extends MinuetoFrame {
 	private BoardMouseHandler mouseHandler;
 	private ArrayList<String> player;
 	private DialogBox dbox;
-	
+
 	public GameWindow() {
 		super(ClientModel.WINDOW_WIDTH, ClientModel.WINDOW_HEIGHT, true);
 		mouseHandler = new BoardMouseHandler();
@@ -31,34 +31,29 @@ public class GameWindow extends MinuetoFrame {
 	public void start() {
 		initialize();
 		waitForGameBoard();
-
-		// Keep window open
 		open = true;
 
 		// Event loop
 		while (open) {
-			while (eventQueue.hasNext()) {
+			while (eventQueue.hasNext())
 				eventQueue.handle();
-			}
-
-			if (curBoard != null) {
+			if (curBoard != null)
 				updateWindow(curBoard);
-			}
-
 			Thread.yield();
 		}
 
-		// Close window
 		close();
 	}
 
 	public void updateWindow(GameBoard board) {
 		GameBoardImage gameBoard = new GameBoardImage(board);
 		ResourceBarImage resourceBar = new ResourceBarImage();
+		
 		draw(resourceBar, 0, 0);
 		draw(gameBoard, 0, 100);
-		printListOfPlayers(player,1200,300);
-		if(dbox!=null){
+		printListOfPlayers(player, 1200, 300);
+		
+		if (dbox != null) {
 			draw(dbox, 0, 100);
 		}
 		render();
@@ -84,22 +79,23 @@ public class GameWindow extends MinuetoFrame {
 	public void updateGameBoard(GameBoard board) {
 		curBoard = board;
 	}
-	  
+
 	public BoardMouseHandler getMouseHandler() {
 		return mouseHandler;
 	}
-	
-	public void setListOfPlayers(ArrayList<String> players){
-		this.player=players;
+
+	public void setListOfPlayers(ArrayList<String> players) {
+		this.player = players;
 	}
-	
-	private void printListOfPlayers(ArrayList<String> players, int x, int y){
-		for(int i=0;i<players.size();i++){
-			draw(new MinuetoText(players.get(i),new MinuetoFont("arial",30,false,false),MinuetoColor.BLACK), x, y+i*200);
+
+	private void printListOfPlayers(ArrayList<String> players, int x, int y) {
+		for (int i = 0; i < players.size(); i++) {
+			draw(new MinuetoText(players.get(i), new MinuetoFont("arial", 30, false, false), MinuetoColor.BLACK), x,
+					y + i * 200);
 		}
 	}
-	
-	public void setDialogBox(DialogBox dbox){
-		this.dbox=dbox;
+
+	public void setDialogBox(DialogBox dbox) {
+		this.dbox = dbox;
 	}
 }

@@ -1,9 +1,7 @@
 package catan.settlers.client.view.game;
 
 import org.minueto.MinuetoColor;
-import org.minueto.MinuetoFileException;
 import org.minueto.image.MinuetoImage;
-import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoRectangle;
 
 import catan.settlers.client.model.ClientModel;
@@ -54,7 +52,7 @@ public class EdgeImage extends MinuetoRectangle implements Clickable {
 
 	@Override
 	public String getName() {
-		return "Edge";
+		return "Edge" + edgeModel;
 	}
 
 	@Override

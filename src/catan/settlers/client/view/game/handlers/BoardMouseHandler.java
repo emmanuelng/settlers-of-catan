@@ -1,15 +1,18 @@
 package catan.settlers.client.view.game.handlers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.minueto.handlers.MinuetoMouseHandler;
 
 public class BoardMouseHandler implements MinuetoMouseHandler {
 
 	private ArrayList<Clickable> clickableElmts;
+	private HashSet<String> addedElements;
 
 	public BoardMouseHandler() {
 		clickableElmts = new ArrayList<>();
+		addedElements = new HashSet<>();
 	}
 
 	public void handleMousePress(int x, int y, int button) {
@@ -23,19 +26,23 @@ public class BoardMouseHandler implements MinuetoMouseHandler {
 	}
 
 	public void register(Clickable c) {
-		System.out.println("registering: " + c);
-		clickableElmts.add(c);
+		if (!addedElements.contains(c.getName())) {
+			System.out.println("registering: " + c);
+			clickableElmts.add(c);
+			addedElements.add(c.getName());
+		}
 	}
 
 	public void unregister(Clickable c) {
 		clickableElmts.remove(c);
+		addedElements.remove(c.getName());
 	}
 
 	@Override
 	public void handleMouseRelease(int arg0, int arg1, int arg2) {
 		// TODO Auto-generated method stub
 	}
-	
+
 	@Override
 	public void handleMouseMove(int x, int y) {
 		// Not going to print on this event.

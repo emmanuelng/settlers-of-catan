@@ -9,7 +9,7 @@ import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.view.game.handlers.Clickable;
 
-public class EndTurnImage extends MinuetoImage implements Clickable{
+public class EndTurnImage extends MinuetoImage implements Clickable {
 	private int relativeX;
 	private int relativeY;
 
@@ -27,7 +27,7 @@ public class EndTurnImage extends MinuetoImage implements Clickable{
 			System.out.println("Could not load image file");
 			return;
 		}
-		draw(new MinuetoText("End Turn",new MinuetoFont("arial",10,false,false),MinuetoColor.BLACK), 0, 50);
+		draw(new MinuetoText("End Turn", new MinuetoFont("arial", 10, false, false), MinuetoColor.BLACK), 0, 50);
 	}
 
 	@Override

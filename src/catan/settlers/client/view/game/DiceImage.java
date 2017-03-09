@@ -30,7 +30,7 @@ public class DiceImage extends MinuetoImage implements Clickable {
 			System.out.println("Could not load image file");
 			return;
 		}
-		draw(new MinuetoText("Roll Dice",new MinuetoFont("arial",10,false,false),MinuetoColor.BLACK), 0, 50);
+		draw(new MinuetoText("Roll Dice", new MinuetoFont("arial", 10, false, false), MinuetoColor.BLACK), 0, 50);
 	}
 
 	@Override

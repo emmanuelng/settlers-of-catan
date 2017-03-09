@@ -13,8 +13,6 @@ import catan.settlers.server.model.Player.ResourceType;
 
 public class ResourceBarImage extends MinuetoImage {
 
-	private static boolean addClickables = true;
-
 	public ResourceBarImage() {
 		super(ClientWindow.getInstance().getGameWindow().getWidth(), 100);
 		clear(new MinuetoColor(249, 249, 249));
@@ -30,13 +28,11 @@ public class ResourceBarImage extends MinuetoImage {
 		drawResource(ResourceType.CLOTH, x + 100, 50);
 		drawResource(ResourceType.PAPER, x + 250, 50);
 		drawResource(ResourceType.COIN, x + 400, 50);
-		// drawResource(ResourceType.GOLDCOIN, x+ 100, 0);
 
 		drawDice(x + 900, 25);
 		drawTrade(x + 1000,25);
 		drawEndTurn(x + 1100,25);
 		drawVP(x+1200,25);
-		ResourceBarImage.addClickables = false;
 	}
 
 	private void drawResource(ResourceType r, int x, int y) {
@@ -82,28 +78,19 @@ public class ResourceBarImage extends MinuetoImage {
 	private void drawDice(int x, int y) {
 		DiceImage diceImage = new DiceImage(x, y);
 		this.draw(diceImage, x, y);
-
-		if (ResourceBarImage.addClickables) {
-			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(diceImage);
-		}
+		ClientWindow.getInstance().getGameWindow().getMouseHandler().register(diceImage);
 	}
 	
 	private void drawTrade(int x,int y) {
 		TradeImage tradeImage = new TradeImage(x,y);
 		this.draw(tradeImage, x, y);
-		
-		if (ResourceBarImage.addClickables) {
-			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(tradeImage);
-		}
+		ClientWindow.getInstance().getGameWindow().getMouseHandler().register(tradeImage);
 	}
 	
 	private void drawEndTurn(int x,int y) {
 		EndTurnImage endTurnImage = new EndTurnImage(x,y);
 		this.draw(endTurnImage, x, y);
-		
-		if (ResourceBarImage.addClickables) {
-			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(endTurnImage);
-		}
+		ClientWindow.getInstance().getGameWindow().getMouseHandler().register(endTurnImage);
 	}
 	
 	private void drawVP(int x,int y) {
