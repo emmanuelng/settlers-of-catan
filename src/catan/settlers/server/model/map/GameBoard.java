@@ -2,6 +2,8 @@ package catan.settlers.server.model.map;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.map.Hexagon.Direction;
@@ -17,8 +19,8 @@ public class GameBoard implements Serializable {
 	private ArrayList<Edge> edges;
 	private ArrayList<Intersection> instersections;
 
-	private int height = 3; // TODO: Make this value customizable
-	private int length = 3; // TODO: Make this value customizable
+	private int height = 7; // TODO: Make this value customizable
+	private int length = 7; // TODO: Make this value customizable
 
 	public GameBoard() {
 		this.hexagons = new Hexagon[length][height];
@@ -31,21 +33,64 @@ public class GameBoard implements Serializable {
 	 * Fills the 2D array with hexagons
 	 */
 	private void generateBoard() {
-		// TODO: Would normally generate a random board
-		hexagons[0][0] = new Hexagon(TerrainType.SEA, 4);
-		hexagons[0][1] = new Hexagon(TerrainType.DESERT, 6);
-		hexagons[0][2] = new Hexagon(TerrainType.PASTURE, 1);
-		hexagons[1][0] = new Hexagon(TerrainType.FOREST, 6);
-		hexagons[1][1] = new Hexagon(TerrainType.MOUNTAIN, 2);
-		hexagons[1][2] = new Hexagon(TerrainType.HILLS, 4);
-		hexagons[2][0] = new Hexagon(TerrainType.FIELD, 3);
-		hexagons[2][1] = new Hexagon(TerrainType.GOLDMINE, 2);
-		hexagons[2][2] = new Hexagon(TerrainType.GOLDMINE, 2);
 		
-		/*Intersection i = hexagons[1][1].getIntersection(IntersectionLoc.TOP);
-		Village v = new Village(currPlayer);
-		i.setUnit(v);*/ //does not work
-
+		ArrayList<TerrainType> terrainPool = new ArrayList<>();
+		terrainPool.add(TerrainType.HILLS); 	terrainPool.add(TerrainType.HILLS);		terrainPool.add(TerrainType.HILLS);
+		terrainPool.add(TerrainType.MOUNTAIN); 	terrainPool.add(TerrainType.MOUNTAIN); 	terrainPool.add(TerrainType.MOUNTAIN);
+		terrainPool.add(TerrainType.PASTURE); 	terrainPool.add(TerrainType.PASTURE); 	terrainPool.add(TerrainType.PASTURE); 	terrainPool.add(TerrainType.PASTURE);
+		terrainPool.add(TerrainType.FIELD); 	terrainPool.add(TerrainType.FIELD); 	terrainPool.add(TerrainType.FIELD); 	terrainPool.add(TerrainType.FIELD);
+		terrainPool.add(TerrainType.FOREST); 	terrainPool.add(TerrainType.FOREST); 	terrainPool.add(TerrainType.FOREST); 	terrainPool.add(TerrainType.FOREST);
+		terrainPool.add(TerrainType.DESERT);	
+		Collections.shuffle(terrainPool);
+		
+		ArrayList<Integer> diceValues = new ArrayList<>();
+		diceValues.addAll(Arrays.asList(2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12));
+		Collections.shuffle(diceValues);
+		
+		for (int x = 0; x < length; x++) {
+			if (x == 1) {
+				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][1] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][2] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
+				hexagons[x][3] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
+				hexagons[x][4] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
+				hexagons[x][5] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
+			} else if (x == 5) {
+				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][1] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][2] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][3] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
+				hexagons[x][4] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][5] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
+			} else if (x == 0) {
+				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][1] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][2] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][3] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][4] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][5] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
+			} else if (x == length-1) { 
+				hexagons[x][0] = null;
+				hexagons[x][1] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][2] = null;
+				hexagons[x][3] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][4] = null;
+				hexagons[x][5] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][6] = null;
+			
+			} else {
+				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][1] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
+				hexagons[x][2] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
+				hexagons[x][3] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
+				hexagons[x][4] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
+				hexagons[x][5] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
+				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
+			}
+		}
 		populateAllEdgesAndIntersections();
 	}
 
