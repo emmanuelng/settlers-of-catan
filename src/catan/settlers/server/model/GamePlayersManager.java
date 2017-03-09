@@ -15,7 +15,6 @@ public class GamePlayersManager implements Serializable {
 	}
 
 	public synchronized boolean addPlayer(Player player) {
-		System.out.println(participants.size());
 		if (!participants.contains(player) && participants.size() < 3) {
 			participants.add(player);
 			return true;

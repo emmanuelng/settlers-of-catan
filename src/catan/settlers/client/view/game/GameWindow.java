@@ -9,6 +9,7 @@ import org.minueto.image.MinuetoText;
 import org.minueto.window.MinuetoFrame;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.BoardMouseHandler;
 import catan.settlers.client.view.game.handlers.BoardWindowHandler;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;
@@ -25,8 +26,6 @@ public class GameWindow extends MinuetoFrame {
 	
 	public GameWindow() {
 		super(ClientModel.WINDOW_WIDTH, ClientModel.WINDOW_HEIGHT, true);
-		
-		
 		mouseHandler = new BoardMouseHandler();
 	}
 
@@ -104,6 +103,7 @@ public class GameWindow extends MinuetoFrame {
 	public void setDialogBox(boolean display){
 		if(display){
 			this.dbox=new DialogBox(0,0, 100, 25, "Build Settlement Here?");
+			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(dbox);
 		}else{
 			dbox=null;
 		}
