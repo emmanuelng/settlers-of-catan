@@ -1,5 +1,8 @@
 package catan.settlers.client.model;
 
+import catan.settlers.client.view.game.IntersectionImage;
+import catan.settlers.server.model.map.Intersection;
+
 public class ClientModel {
 	public static final ClientModel instance = new ClientModel();
 	public static final int WINDOW_WIDTH = 1366;
@@ -8,6 +11,7 @@ public class ClientModel {
 	private String username;
 	private NetworkManager networkManager;
 	private int curGameId;
+	private Intersection currentSelectedIntersection;
 
 	private ClientModel() {
 		networkManager = new NetworkManager();
@@ -32,5 +36,12 @@ public class ClientModel {
 	public int getCurGameId() {
 		return curGameId;
 	}
-
+	
+	public void setCurrentIntersection(Intersection currentSelectedIntersection){
+		this.currentSelectedIntersection=currentSelectedIntersection;
+	}
+	
+	public Intersection getCurrentIntersection(){
+		return currentSelectedIntersection;
+	}
 }

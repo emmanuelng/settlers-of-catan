@@ -108,7 +108,7 @@ public class GameBoardImage extends MinuetoImage {
 				break;
 			}
 
-			IntersectionImage intersecImg = new IntersectionImage(shift_x + x, shift_y + y);
+			IntersectionImage intersecImg = new IntersectionImage(shift_x + x, shift_y + y, curIntersection);
 			draw(intersecImg, shift_x + x, shift_y + y);
 
 			if (GameBoardImage.registerClickables) {
