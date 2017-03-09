@@ -6,6 +6,7 @@ import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Village;
 import catan.settlers.server.model.units.Village.VillageKind;
@@ -15,6 +16,7 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 	private int relativeX;
 	private int relativeY;
 	private Intersection intersection;
+
 	
 	public IntersectionImage(int relativeX, int relativeY,Intersection intersection) {
 		super(20, 20);
@@ -27,7 +29,7 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 			drawCircle(new MinuetoColor(204, 204, 204), 0, 0, 20);
 		}else if(intersection == ClientModel.instance.getCurrentIntersection()){
 			drawCircle(MinuetoColor.RED,0 ,0 ,20);
-			// this.clear();
+			
 		}else if(intersection.getUnit().isVillage()){
 			MinuetoImage settlement;
 			try{
@@ -50,8 +52,10 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 		System.out.println("Intersection was clicked!");
 		if(intersection != ClientModel.instance.getCurrentIntersection()){
 			ClientModel.instance.setCurrentIntersection(intersection);
+			ClientWindow.getInstance().getGameWindow().setDialogBox(true);
 		}else{
 			ClientModel.instance.setCurrentIntersection(null);	
+			ClientWindow.getInstance().getGameWindow().setDialogBox(false);
 		}
 	}
 
