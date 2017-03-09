@@ -1,6 +1,7 @@
 package catan.settlers.client.model;
 
 import catan.settlers.server.model.map.Intersection;
+import catan.settlers.server.model.map.Edge;
 
 public class ClientModel {
 	public static final ClientModel instance = new ClientModel();
@@ -11,6 +12,7 @@ public class ClientModel {
 	private NetworkManager networkManager;
 	private int curGameId;
 	private Intersection currentSelectedIntersection;
+	private Edge currentSelectedEdge;
 
 	private ClientModel() {
 		networkManager = new NetworkManager();
@@ -42,5 +44,13 @@ public class ClientModel {
 	
 	public Intersection getCurrentIntersection(){
 		return currentSelectedIntersection;
+	}
+	
+	public void setCurrentEdge(Edge currentSelectedEdge){
+		this.currentSelectedEdge = currentSelectedEdge;
+	}
+	
+	public Edge getCurrentEdge(){
+		return currentSelectedEdge;
 	}
 }

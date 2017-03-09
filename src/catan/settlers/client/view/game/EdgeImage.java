@@ -1,30 +1,42 @@
 package catan.settlers.client.view.game;
 
 import org.minueto.MinuetoColor;
+import org.minueto.MinuetoFileException;
 import org.minueto.image.MinuetoImage;
+import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoRectangle;
 
+import catan.settlers.client.model.ClientModel;
 import catan.settlers.server.model.map.Edge;
 
 public class EdgeImage extends MinuetoRectangle implements Clickable {
 
 	private int relativeX;
 	private int relativeY;
+	private Edge edgeModel;
 	
 	private int rot_width;
 	private int rot_height;
+	private MinuetoColor edgeMColor;
+	
+		
 
-	public EdgeImage(Edge edge, double rotation, int relativeX, int relativeY) {
-		super(40, 10, new MinuetoColor(230, 230, 230), true);
+	public EdgeImage(Edge edge, double rotation, int relativeX, int relativeY, MinuetoColor edgeMColor) {
+		super(40, 10, edgeMColor, true);
 		
 		MinuetoImage rotated = rotate(rotation);
 		this.rot_width = rotated.getWidth();
-		this.rot_height = rotated.getHeight();		
+		this.rot_height = rotated.getHeight();	
+		this.edgeModel = edge;
 
 		this.relativeX = relativeX;
 		this.relativeY = relativeY;
+				
+		
 	}
 
+	
+	
 	@Override
 	public boolean isClicked(int x, int y) {
 		return x > relativeX && x < relativeX + getWidth() && y > relativeY + 100 && y < relativeY + 100 + getHeight();
@@ -32,7 +44,7 @@ public class EdgeImage extends MinuetoRectangle implements Clickable {
 
 	@Override
 	public void onclick() {
-		System.out.println("Edge was clicked!");
+		ClientModel.instance.setCurrentEdge(edgeModel);
 	}
 
 	@Override

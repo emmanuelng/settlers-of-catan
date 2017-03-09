@@ -12,6 +12,8 @@ import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.Direction;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.map.Intersection;
+import catan.settlers.client.model.ClientModel;
+
 
 public class GameBoardImage extends MinuetoImage {
 
@@ -165,8 +167,17 @@ public class GameBoardImage extends MinuetoImage {
 				shift_y = 75;
 				break;
 			}
-
-			EdgeImage edgeImg = new EdgeImage(curEdge, rotation, shift_x + x, shift_y + y);
+			
+			MinuetoColor edgeMColor = new MinuetoColor(230, 230, 230);
+			
+			if(curEdge != ClientModel.instance.getCurrentEdge()){
+				edgeMColor = new MinuetoColor(230, 230, 230);
+			}
+			else if(curEdge == ClientModel.instance.getCurrentEdge()){
+					edgeMColor = MinuetoColor.RED;
+			}	
+			
+			EdgeImage edgeImg = new EdgeImage(curEdge, rotation, shift_x + x, shift_y + y, edgeMColor);
 			draw(edgeImg.rotate(rotation), shift_x + x, shift_y + y);
 
 			if (GameBoardImage.registerClickables) {
