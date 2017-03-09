@@ -94,7 +94,7 @@ public class GameBoardImage extends MinuetoImage {
 				shift_x = 100;
 				shift_y = 15;
 				break;
-			case BOTTOMLEFT:
+			case BOTTOMRIGHT:
 				shift_x = 100;
 				shift_y = 70;
 				break;

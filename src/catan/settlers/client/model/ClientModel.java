@@ -1,6 +1,5 @@
 package catan.settlers.client.model;
 
-import catan.settlers.client.view.game.IntersectionImage;
 import catan.settlers.server.model.map.Intersection;
 
 public class ClientModel {
