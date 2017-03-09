@@ -7,6 +7,10 @@ import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoText;
 
+import catan.settlers.client.model.ClientModel;
+import catan.settlers.network.client.Client;
+import catan.settlers.network.server.commands.RollDiceCommand;
+
 public class DiceImage extends MinuetoImage implements Clickable {
 
 	private int relativeX;
@@ -38,6 +42,7 @@ public class DiceImage extends MinuetoImage implements Clickable {
 	@Override
 	public void onclick() {
 		System.out.println("Dice was clicked!");
+		ClientModel.instance.getNetworkManager().sendCommand(new RollDiceCommand(ClientModel.instance.getCurGameId()));
 	}
 
 	@Override

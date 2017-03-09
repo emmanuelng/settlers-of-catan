@@ -7,6 +7,7 @@ public class GamePlayersManager implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Player> participants;
+	private Player currentPlayer;
 
 	public GamePlayersManager(Player owner) {
 		participants = new ArrayList<>();
@@ -43,5 +44,25 @@ public class GamePlayersManager implements Serializable {
 
 	public boolean isParticipant(Player player) {
 		return participants.contains(player);
+	}
+	
+	public void setCurPlayer(Player p) {
+		currentPlayer = p;
+	}
+	
+	public Player getCurPlayer() {
+		return currentPlayer;
+	}
+	
+	public int getNumPlayers() {
+		return participants.size();
+	}
+	
+	public Player getPlayer(int i) {
+		if (i >= 0 && i < participants.size()) {
+			return participants.get(i);
+		} else {
+			return null;
+		}
 	}
 }
