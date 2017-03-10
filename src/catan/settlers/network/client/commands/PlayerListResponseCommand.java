@@ -3,7 +3,6 @@ package catan.settlers.network.client.commands;
 import java.util.ArrayList;
 
 import catan.settlers.client.view.ClientWindow;
-import catan.settlers.server.model.Player;
 
 public class PlayerListResponseCommand implements ServerToClientCommand {
 	

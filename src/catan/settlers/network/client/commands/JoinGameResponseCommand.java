@@ -14,17 +14,22 @@ public class JoinGameResponseCommand implements ServerToClientCommand {
 	private boolean success;
 	private ArrayList<String> currentListOfPlayers;
 	private int gameID;
+	private int readyPlayers;
+	private int maxPlayers;
 
-	public JoinGameResponseCommand(boolean success, ArrayList<String> currentListOfPlayers, int gameID) {
+	public JoinGameResponseCommand(boolean success, ArrayList<String> participants, int gameID, int readyPlayers,
+			int maxPlayers) {
 		this.success = success;
-		this.currentListOfPlayers = currentListOfPlayers;
+		this.currentListOfPlayers = participants;
 		this.gameID = gameID;
+		this.readyPlayers = readyPlayers;
+		this.maxPlayers = maxPlayers;
 	}
 
 	@Override
 	public void execute() {
 		if (success) {
-			WaitingRoom room = new WaitingRoom(currentListOfPlayers, gameID, true);// currentListOfPlayers.size() == 3);
+			WaitingRoom room = new WaitingRoom(currentListOfPlayers, gameID, readyPlayers, maxPlayers);
 			ClientWindow.getInstance().getSetupWindow().setScreen(room);
 		} else {
 			JOptionPane.showMessageDialog(new JLabel(), "Room full");

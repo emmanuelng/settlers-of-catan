@@ -11,15 +11,20 @@ public class PlayerJoinedGameCommand implements ServerToClientCommand {
 
 	private ArrayList<String> currentListOfPlayers;
 	private int gameID;
+	private int readyPlayers;
+	private int maxPlayers;
 
-	public PlayerJoinedGameCommand(ArrayList<String> currentListOfPlayers, int gameID) {
+	public PlayerJoinedGameCommand(ArrayList<String> currentListOfPlayers, int gameID, int readyPlayers,
+			int maxPlayers) {
 		this.currentListOfPlayers = currentListOfPlayers;
 		this.gameID = gameID;
+		this.readyPlayers = readyPlayers;
+		this.maxPlayers = maxPlayers;
 	}
 
 	@Override
 	public void execute() {
-		WaitingRoom room = new WaitingRoom(currentListOfPlayers, gameID, true);//currentListOfPlayers.size() == 3);
+		WaitingRoom room = new WaitingRoom(currentListOfPlayers, gameID, readyPlayers, maxPlayers);
 		ClientWindow.getInstance().getSetupWindow().setScreen(room);
 	}
 

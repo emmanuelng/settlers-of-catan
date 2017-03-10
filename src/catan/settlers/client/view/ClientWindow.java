@@ -4,7 +4,7 @@ import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.game.GameWindow;
 import catan.settlers.client.view.setup.SetupWindow;
 import catan.settlers.network.server.GameManager;
-import catan.settlers.network.server.commands.GetListOfPlayersCommand;
+import catan.settlers.network.server.commands.game.GetListOfPlayersCommand;
 
 public class ClientWindow {
 

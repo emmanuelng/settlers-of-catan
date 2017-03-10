@@ -1,65 +1,45 @@
 package catan.settlers.server.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import catan.settlers.server.model.handlers.SetupPhaseOneHandler;
 
 public class Game extends Thread implements Serializable {
 
+	public static final int MAX_NB_OF_PLAYERS = 1;
+	
 	private static final long serialVersionUID = 1L;
 	private int id;
-	
+
+	private ArrayList<Player> participants;
 	private GamePlayersManager gamePlayersManager;
 	private GameBoardManager gameBoardManager;
-	private GamePhase phase;
-	
-	private int redDie;
-	private int yellowDie;
-	
-	public enum GamePhase {
-		READYTOJOIN, SETUPPHASEONE, SETUPPHASETWO, TURNPHASEONE, TURNDICEROLL,TURNPHASETWO, COMPLETED
-	}
 
 	public Game(int id, Player owner) {
 		this.id = id;
-		this.gamePlayersManager = new GamePlayersManager(owner);
+		this.participants = new ArrayList<>();
+		this.gamePlayersManager = new GamePlayersManager(owner, participants, id);
 		this.gameBoardManager = new GameBoardManager();
-		this.phase = GamePhase.READYTOJOIN;
+
+		start();
+	}
+
+	@Override
+	public void run() {
+		/* Setup phase one */
+		new SetupPhaseOneHandler(participants, this).handle();
 	}
 
 	public int getGameId() {
 		return id;
 	}
-	
+
 	public GamePlayersManager getPlayersManager() {
 		return gamePlayersManager;
 	}
-	
+
 	public GameBoardManager getGameBoardManager() {
 		return gameBoardManager;
-	}
-	
-	public GamePhase getPhase() {
-		return phase;
-	}
-	
-	public void setPhase(GamePhase p) {
-		phase = p;
-	}
-	
-	@Override
-	public void run() {
-		// TODO
-	}
-	
-	public void rollDice() {
-		redDie = (int)Math.ceil((Math.random()*6));
-		yellowDie = (int)Math.ceil((Math.random()*6));
-	}
-	
-	public int getRedDie(){
-		return redDie;
-	}
-	
-	public int getYellowDie(){
-		return yellowDie;
 	}
 }

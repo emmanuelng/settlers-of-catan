@@ -21,10 +21,10 @@ public class ConnectScreen extends JPanel implements ActionListener {
 
 	public ConnectScreen() {
 		ipAdressLabel = new JLabel("Server Address");
-		ipAddressTextField = new JTextField("127.0.0.1");
+		ipAddressTextField = new JTextField("127.0.0.1", 50);
 
-		portNumberLabel = new JLabel("Port numbre");
-		portNumberTextField = new JTextField("3000");
+		portNumberLabel = new JLabel("Port number");
+		portNumberTextField = new JTextField("3000", 5);
 
 		connectButton = new JButton("Connect");
 

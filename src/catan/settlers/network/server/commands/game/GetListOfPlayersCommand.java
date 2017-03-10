@@ -1,10 +1,11 @@
-package catan.settlers.network.server.commands;
+package catan.settlers.network.server.commands.game;
 
 import java.io.IOException;
 
 import catan.settlers.network.client.commands.PlayerListResponseCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
+import catan.settlers.network.server.commands.ClientToServerCommand;
 
 public class GetListOfPlayersCommand implements ClientToServerCommand {
 
