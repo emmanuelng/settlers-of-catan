@@ -28,7 +28,7 @@ public class GameThread extends Thread implements Serializable {
 		try {
 			lock.lock();
 			System.out.println("Waiting");
-			continueGame.await();
+			pauseGame();
 			
 			for (Player p : participants) {
 				p.sendCommand(new StartGameCommand());
@@ -41,5 +41,9 @@ public class GameThread extends Thread implements Serializable {
 			lock.unlock();
 		}
 
+	}
+
+	public void pauseGame() throws InterruptedException {
+		continueGame.await();
 	}
 }
