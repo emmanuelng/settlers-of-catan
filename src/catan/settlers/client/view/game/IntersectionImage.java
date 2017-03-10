@@ -48,7 +48,7 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 	@Override
 	public void onclick() {
 		System.out.println("Intersection was clicked!");
-		DialogBox dbox = new DialogBox(100, 50, "Build Settlement Here?");
+		DialogBox dbox = new DialogBox("Build Settlement Here?", "Click on end turn to confirm");
 		if (intersectionModel != ClientModel.instance.getCurrentIntersection()) {
 			ClientModel.instance.setCurrentIntersection(intersectionModel);
 			ClientWindow.getInstance().getGameWindow().setDialogBox(dbox);

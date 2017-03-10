@@ -2,24 +2,30 @@ package catan.settlers.client.view.game;
 
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoFont;
+import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoRectangle;
 import org.minueto.image.MinuetoText;
 
-import catan.settlers.client.view.ClientWindow;
+import catan.settlers.client.model.ClientModel;
 
-public class DialogBox extends MinuetoRectangle {
+public class DialogBox extends MinuetoImage {
 
-	public DialogBox(int sizex, int sizey, String prompt) {
-		super(sizex, sizey, MinuetoColor.BLACK, false);
+	public DialogBox(String title, String message) {
+		super(ClientModel.WINDOW_WIDTH, ClientModel.WINDOW_HEIGHT);
 
-		MinuetoText promptText = new MinuetoText(prompt, new MinuetoFont("arial", 9, false, false), MinuetoColor.BLACK);
-		draw(promptText, 1, 1);
+		MinuetoFont titleFont = new MinuetoFont("arial", 20, true, false);
+		MinuetoFont messageFont = new MinuetoFont("arial", 16, false, false);
 
-		Button yes = new Button("yes", 0, 0, 20, 15);
-		Button cancel = new Button("cancel", 0, 0, 30, 15);
-		draw(cancel, 45, 20);
-		draw(yes, 15, 20);
-		ClientWindow.getInstance().getGameWindow().getMouseHandler().register(yes);
-		ClientWindow.getInstance().getGameWindow().getMouseHandler().register(cancel);
+		MinuetoText titleImage = new MinuetoText(title, titleFont, MinuetoColor.WHITE, true);
+		MinuetoText messageImage = new MinuetoText(message, messageFont, MinuetoColor.WHITE, true);
+		
+		int backgroundwidth = Math.max(titleImage.getWidth(), messageImage.getWidth()) + 6;
+		int backgroundheight = titleImage.getHeight() + messageImage.getHeight() + 6;
+		
+		MinuetoRectangle background = new MinuetoRectangle(backgroundwidth, backgroundheight, MinuetoColor.BLACK, true);
+				
+		draw(background, getWidth() / 2 - background.getWidth() / 2, 5);
+		draw(titleImage, getWidth() / 2 - titleImage.getWidth() / 2, 10);
+		draw(messageImage, getWidth() / 2 - messageImage.getWidth() / 2, titleImage.getHeight() + 13);
 	}
 }
