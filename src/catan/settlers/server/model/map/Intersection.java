@@ -12,7 +12,10 @@ public class Intersection implements Serializable {
 	
 	private ArrayList<Edge> myEdges;
 	
-	public Intersection() {
+	private int id;
+	
+	public Intersection(int id) {
+		this.id = id;
 		unit = null;
 		myEdges = new ArrayList<Edge>();
 	}

@@ -11,7 +11,10 @@ public class Edge implements Serializable {
 	private ArrayList<Edge> rightEdges;
 	private Intersection[] myIntersections;
 	
-	public Edge() {
+	private int id;
+	
+	public Edge(int id) {
+		this.id = id;
 		myIntersections = new Intersection[2];
 		leftEdges = new ArrayList<Edge>();
 		rightEdges = new ArrayList<Edge>();
