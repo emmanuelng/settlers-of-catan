@@ -30,6 +30,10 @@ public class Game extends Thread implements Serializable {
 		this.gameBoardManager = new GameBoardManager();
 		this.gameThread = new GameThread(participants, lock, continueGame);
 	}
+	
+	public void pauseGame() {
+		gameThread.pauseGame();
+	}
 
 	@Override
 	public void run() {

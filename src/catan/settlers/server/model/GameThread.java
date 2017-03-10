@@ -29,21 +29,23 @@ public class GameThread extends Thread implements Serializable {
 			lock.lock();
 			System.out.println("Waiting");
 			pauseGame();
-			
+
 			for (Player p : participants) {
 				p.sendCommand(new StartGameCommand());
 			}
 
 			System.out.println("Start game!");
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		} finally {
 			lock.unlock();
 		}
 
 	}
 
-	public void pauseGame() throws InterruptedException {
-		continueGame.await();
+	public void pauseGame() {
+		try {
+			continueGame.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
