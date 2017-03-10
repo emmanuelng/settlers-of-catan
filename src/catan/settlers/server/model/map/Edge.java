@@ -44,4 +44,8 @@ public class Edge implements Serializable {
 			}
 		}
 	}
+	
+	public int getId() {
+		return id;
+	}
 }

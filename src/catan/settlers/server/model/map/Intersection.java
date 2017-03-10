@@ -35,5 +35,9 @@ public class Intersection implements Serializable {
 	public void setUnit(IntersectionUnit unit) {
 		this.unit = unit;
 	}
+	
+	public int getId() {
+		return id;
+	}
 
 }
