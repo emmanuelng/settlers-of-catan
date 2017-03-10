@@ -3,12 +3,10 @@ package catan.settlers.server.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import catan.settlers.server.model.handlers.SetupPhaseOneHandler;
-
 public class Game extends Thread implements Serializable {
 
 	public static final int MAX_NB_OF_PLAYERS = 1;
-	
+
 	private static final long serialVersionUID = 1L;
 	private int id;
 
@@ -27,8 +25,12 @@ public class Game extends Thread implements Serializable {
 
 	@Override
 	public void run() {
-		/* Setup phase one */
-		new SetupPhaseOneHandler(participants, this).handle();
+		while (!gamePlayersManager.canStartGame()) {
+			// Wait until all the players are ready
+		}
+		
+		System.out.println("Game started!");
+		
 	}
 
 	public int getGameId() {

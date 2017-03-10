@@ -2,6 +2,7 @@ package catan.settlers.server.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import catan.settlers.network.client.commands.MoreReadyPlayersCommand;
@@ -12,20 +13,21 @@ public class GamePlayersManager implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Player> participants;
-	private Player currentPlayer;
 	private HashMap<Player, Boolean> readyPlayers;
 	private int gameId;
 
 	public GamePlayersManager(Player owner, ArrayList<Player> participants, int gameId) {
 		this.participants = participants;
 		this.readyPlayers = new HashMap<>();
-		this.participants.add(owner);
 		this.gameId = gameId;
+		
+		addPlayer(owner);
 	}
 
 	public synchronized boolean addPlayer(Player player) {
-		if (!participants.contains(player) && participants.size() < Game.MAX_NB_OF_PLAYERS) {
+		if (!participants.contains(player) && participants.size() <= Game.MAX_NB_OF_PLAYERS) {
 			participants.add(player);
+			readyPlayers.put(player, false);
 			return true;
 		}
 
@@ -35,10 +37,6 @@ public class GamePlayersManager implements Serializable {
 	public synchronized void removePlayer(Player player) {
 		participants.remove(player);
 		readyPlayers.remove(player);
-	}
-
-	public boolean shouldRemoveGame() {
-		return participants.size() == 0;
 	}
 
 	public synchronized ArrayList<String> getParticipantsUsernames() {
@@ -55,30 +53,11 @@ public class GamePlayersManager implements Serializable {
 		return participants.contains(player);
 	}
 
-	public void setCurPlayer(Player p) {
-		currentPlayer = p;
-	}
-
-	public Player getCurPlayer() {
-		return currentPlayer;
-	}
-
-	public int getNumPlayers() {
-		return participants.size();
-	}
-
-	public Player getPlayer(int i) {
-		if (i >= 0 && i < participants.size()) {
-			return participants.get(i);
-		} else {
-			return null;
-		}
-	}
-
 	public void playerIsReady(Player player) {
 		if (participants.contains(player)) {
 			readyPlayers.put(player, true);
-			if (allPlayersReady() && participants.size() == Game.MAX_NB_OF_PLAYERS) {
+			if (canStartGame()) {
+				Collections.shuffle(participants);
 				sendToAll(new StartGameCommand());
 			} else {
 				int ready_players = getNbOfReadyPlayers();
@@ -87,6 +66,10 @@ public class GamePlayersManager implements Serializable {
 				sendToAll(cmd);
 			}
 		}
+	}
+
+	public boolean canStartGame() {
+		return allPlayersReady() && participants.size() == Game.MAX_NB_OF_PLAYERS;
 	}
 
 	private void sendToAll(ServerToClientCommand cmd) {
