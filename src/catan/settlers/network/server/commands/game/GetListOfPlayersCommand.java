@@ -6,6 +6,7 @@ import catan.settlers.network.client.commands.PlayerListResponseCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.network.server.commands.ClientToServerCommand;
+import catan.settlers.server.model.Game;
 
 public class GetListOfPlayersCommand implements ClientToServerCommand {
 
@@ -20,10 +21,8 @@ public class GetListOfPlayersCommand implements ClientToServerCommand {
 	public void execute(Session sender, Server server) {
 		// TODO Auto-generated method stub
 		try {
-			System.out.println(
-					server.getGameManager().getGameById(gameID).getPlayersManager().getParticipantsUsernames());
-			sender.sendCommand(new PlayerListResponseCommand(
-					server.getGameManager().getGameById(gameID).getPlayersManager().getParticipantsUsernames()));
+			Game game = server.getGameManager().getGameById(gameID);
+			sender.sendCommand(new PlayerListResponseCommand(game.getPlayersManager().getParticipantsUsernames()));
 		} catch (IOException e) {
 			// Ignore
 		}

@@ -27,7 +27,6 @@ public class BoardMouseHandler implements MinuetoMouseHandler {
 
 	public void register(Clickable c) {
 		if (!addedElements.contains(c.getName())) {
-			System.out.println("registering: " + c);
 			clickableElmts.add(c);
 			addedElements.add(c.getName());
 		}

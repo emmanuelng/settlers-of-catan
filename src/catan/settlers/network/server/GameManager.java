@@ -17,8 +17,9 @@ public class GameManager {
 
 	public synchronized Game createGame(Player owner) {
 		Game game = new Game(lastId, owner);
-		games.add(game);
 		lastId++;
+		games.add(game);
+		game.start();
 		return game;
 	}
 

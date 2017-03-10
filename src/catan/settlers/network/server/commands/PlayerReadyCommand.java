@@ -3,7 +3,6 @@ package catan.settlers.network.server.commands;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.server.model.Game;
-import catan.settlers.server.model.Player;
 
 public class PlayerReadyCommand implements ClientToServerCommand {
 

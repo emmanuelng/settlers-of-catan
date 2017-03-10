@@ -36,6 +36,7 @@ public class CancelJoinGameCommand implements ClientToServerCommand {
 			}
 		} catch (IOException e) {
 			// Ignore
+			e.printStackTrace();
 		}
 	}
 
