@@ -30,9 +30,17 @@ public class Hexagon implements Serializable {
 		this.myEdges = new Edge[Direction.values().length];
 		this.myIntersections = new Intersection[IntersectionLoc.values().length];
 	}
+	
+	public void setType(TerrainType t) {
+		type = t;
+	}
 
 	public TerrainType getType() {
 		return type;
+	}
+	
+	public void setNumber(int n) {
+		number = n;
 	}
 
 	public int getNumber() {
