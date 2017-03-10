@@ -31,34 +31,20 @@ public class GameBoard implements Serializable {
 	 * Fills the 2D array with hexagons
 	 */
 	private void generateBoard() {
-		
-		ArrayList<TerrainType> terrainPool = new ArrayList<>();
-		terrainPool.add(TerrainType.HILLS); 	terrainPool.add(TerrainType.HILLS);		terrainPool.add(TerrainType.HILLS);
-		terrainPool.add(TerrainType.MOUNTAIN); 	terrainPool.add(TerrainType.MOUNTAIN); 	terrainPool.add(TerrainType.MOUNTAIN);
-		terrainPool.add(TerrainType.PASTURE); 	terrainPool.add(TerrainType.PASTURE); 	terrainPool.add(TerrainType.PASTURE); 	terrainPool.add(TerrainType.PASTURE);
-		terrainPool.add(TerrainType.FIELD); 	terrainPool.add(TerrainType.FIELD); 	terrainPool.add(TerrainType.FIELD); 	terrainPool.add(TerrainType.FIELD);
-		terrainPool.add(TerrainType.FOREST); 	terrainPool.add(TerrainType.FOREST); 	terrainPool.add(TerrainType.FOREST); 	terrainPool.add(TerrainType.FOREST);
-		terrainPool.add(TerrainType.DESERT);	
-		Collections.shuffle(terrainPool);
-		
-		ArrayList<Integer> diceValues = new ArrayList<>();
-		diceValues.addAll(Arrays.asList(2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12));
-		Collections.shuffle(diceValues);
-		
 		for (int x = 0; x < length; x++) {
 			if (x == 1) {
 				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][1] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][2] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
-				hexagons[x][3] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
-				hexagons[x][4] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
+				hexagons[x][2] = new Hexagon(TerrainType.PASTURE, 1);
+				hexagons[x][3] = new Hexagon(TerrainType.PASTURE, 1);
+				hexagons[x][4] = new Hexagon(TerrainType.PASTURE, 1);
 				hexagons[x][5] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
 			} else if (x == 5) {
 				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][1] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][2] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][3] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
+				hexagons[x][3] = new Hexagon(TerrainType.PASTURE, 1);
 				hexagons[x][4] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][5] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
@@ -81,15 +67,16 @@ public class GameBoard implements Serializable {
 			
 			} else {
 				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][1] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
-				hexagons[x][2] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
-				hexagons[x][3] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
-				hexagons[x][4] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
-				hexagons[x][5] = new Hexagon(terrainPool.remove(0), diceValues.remove(0));
+				hexagons[x][1] = new Hexagon(TerrainType.PASTURE, 1);
+				hexagons[x][2] = new Hexagon(TerrainType.PASTURE, 1);
+				hexagons[x][3] = new Hexagon(TerrainType.PASTURE, 1);
+				hexagons[x][4] = new Hexagon(TerrainType.PASTURE, 1);
+				hexagons[x][5] = new Hexagon(TerrainType.PASTURE, 1);
 				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
 			}
 		}
 		populateAllEdgesAndIntersections();
+		randomizeHexes();
 	}
 
 	private void populateAllEdgesAndIntersections() {
@@ -152,6 +139,38 @@ public class GameBoard implements Serializable {
 					Intersection i = new Intersection();
 					hex.setIntersection(i, loc);
 					instersections.add(i);
+				}
+			}
+		}
+	}
+	
+	private void randomizeHexes() {
+		ArrayList<TerrainType> terrainPool = new ArrayList<>();
+		terrainPool.add(TerrainType.HILLS); 	terrainPool.add(TerrainType.HILLS);		terrainPool.add(TerrainType.HILLS);
+		terrainPool.add(TerrainType.MOUNTAIN); 	terrainPool.add(TerrainType.MOUNTAIN); 	terrainPool.add(TerrainType.MOUNTAIN);
+		terrainPool.add(TerrainType.PASTURE); 	terrainPool.add(TerrainType.PASTURE); 	terrainPool.add(TerrainType.PASTURE); 	terrainPool.add(TerrainType.PASTURE);
+		terrainPool.add(TerrainType.FIELD); 	terrainPool.add(TerrainType.FIELD); 	terrainPool.add(TerrainType.FIELD); 	terrainPool.add(TerrainType.FIELD);
+		terrainPool.add(TerrainType.FOREST); 	terrainPool.add(TerrainType.FOREST); 	terrainPool.add(TerrainType.FOREST); 	terrainPool.add(TerrainType.FOREST);
+		terrainPool.add(TerrainType.DESERT);	
+		Collections.shuffle(terrainPool);
+		
+		ArrayList<Integer> diceValues = new ArrayList<>();
+		diceValues.addAll(Arrays.asList(2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12));
+		Collections.shuffle(diceValues);
+		
+		for (int x = 0; x < length; x++) {
+			for (int y = 0; y < height; y++) {
+				if (hexagons[x][y] != null) {
+					if (hexagons[x][y].getType() != TerrainType.SEA) {
+						TerrainType t = terrainPool.remove(0);
+						if (t == TerrainType.DESERT) {
+							hexagons[x][y].setType(t);
+							hexagons[x][y].setNumber(0);
+						} else {
+							hexagons[x][y].setType(t);
+							hexagons[x][y].setNumber(diceValues.remove(0));
+						}
+					}
 				}
 			}
 		}
