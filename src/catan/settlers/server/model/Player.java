@@ -57,7 +57,7 @@ public class Player implements Serializable {
 		resources[r.ordinal()] += amount;
 	}
 
-	public void giveCityResource(TerrainType r, int amount) {
+	public void giveCityResource(ResourceType r, int amount) {
 		resources[r.ordinal()] += amount;
 	}
 

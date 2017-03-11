@@ -188,21 +188,27 @@ public class GameBoard implements Serializable {
 					Hexagon h = hexagons[x][y];
 					h.getIntersection(IntersectionLoc.TOP).addEdge(h.getEdge(Direction.NORTHWEST));
 					h.getIntersection(IntersectionLoc.TOP).addEdge(h.getEdge(Direction.NORTHEAST));
+					h.getIntersection(IntersectionLoc.TOP).addHex(h);
 					
 					h.getIntersection(IntersectionLoc.TOPRIGHT).addEdge(h.getEdge(Direction.NORTHWEST));
 					h.getIntersection(IntersectionLoc.TOPRIGHT).addEdge(h.getEdge(Direction.EAST));
+					h.getIntersection(IntersectionLoc.TOPRIGHT).addHex(h);
 					
 					h.getIntersection(IntersectionLoc.BOTTOMRIGHT).addEdge(h.getEdge(Direction.EAST));
 					h.getIntersection(IntersectionLoc.BOTTOMRIGHT).addEdge(h.getEdge(Direction.SOUTHEAST));
+					h.getIntersection(IntersectionLoc.BOTTOMRIGHT).addHex(h);
 					
 					h.getIntersection(IntersectionLoc.BOTTOM).addEdge(h.getEdge(Direction.SOUTHEAST));
 					h.getIntersection(IntersectionLoc.BOTTOM).addEdge(h.getEdge(Direction.SOUTHWEST));
+					h.getIntersection(IntersectionLoc.BOTTOM).addHex(h);
 					
 					h.getIntersection(IntersectionLoc.BOTTOMLEFT).addEdge(h.getEdge(Direction.SOUTHEAST));
 					h.getIntersection(IntersectionLoc.BOTTOMLEFT).addEdge(h.getEdge(Direction.EAST));
+					h.getIntersection(IntersectionLoc.BOTTOMLEFT).addHex(h);
 					
 					h.getIntersection(IntersectionLoc.TOPLEFT).addEdge(h.getEdge(Direction.EAST));
 					h.getIntersection(IntersectionLoc.TOPLEFT).addEdge(h.getEdge(Direction.NORTHEAST));
+					h.getIntersection(IntersectionLoc.TOPLEFT).addHex(h);
 					
 					h.getEdge(Direction.NORTHEAST).addLeftEdge(h.getEdge(Direction.NORTHWEST));
 					h.getEdge(Direction.NORTHEAST).addRightEdge(h.getEdge(Direction.EAST));

@@ -54,6 +54,16 @@ public class Edge implements Serializable {
 		return (myIntersections[0] == i || myIntersections[1] == i);
 	}
 	
+	public Intersection getOppIntersection(Intersection i) {
+		if (myIntersections[0] == i) {
+			return myIntersections[1];
+		} else if (myIntersections[1] == i) {
+			return myIntersections[0];
+		} else  {
+			return null;
+		}
+	}
+	
 	public int getId() {
 		return id;
 	}

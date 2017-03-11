@@ -10,6 +10,7 @@ public class Intersection implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private IntersectionUnit unit;
 	
+	private ArrayList<Hexagon> myHexagons;
 	private ArrayList<Edge> myEdges;
 	
 	private int id;
@@ -18,6 +19,7 @@ public class Intersection implements Serializable {
 		this.id = id;
 		unit = null;
 		myEdges = new ArrayList<Edge>();
+		myHexagons = new ArrayList<Hexagon>();
 	}
 	
 	public void addEdge(Edge e) {
@@ -26,6 +28,18 @@ public class Intersection implements Serializable {
 				myEdges.add(e);
 			}
 		}
+	}
+	
+	public void addHex(Hexagon h) {
+		if (h != null) {
+			if (!myHexagons.contains(h)) {
+				myHexagons.add(h);
+			}
+		}
+	}
+	
+	public ArrayList<Hexagon> getHexagons() {
+		return myHexagons;
 	}
 
 	public IntersectionUnit getUnit() {
@@ -38,6 +52,21 @@ public class Intersection implements Serializable {
 	
 	public int getId() {
 		return id;
+	}
+	
+	public boolean canBuild() {
+		if (unit != null) {
+			return false;
+		}
+		for (Edge e : myEdges) {
+			Intersection opp = e.getOppIntersection(this);
+			if (opp != null) {
+				if (opp.getUnit() != null) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }
