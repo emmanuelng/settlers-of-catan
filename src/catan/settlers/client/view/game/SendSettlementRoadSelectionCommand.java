@@ -14,21 +14,21 @@ public class SendSettlementRoadSelectionCommand implements ClientToServerCommand
 	private int gameId;
 	private Intersection i;
 	private Edge e;
-	
+
 	public SendSettlementRoadSelectionCommand(int gameId, Intersection i, Edge e) {
-		this.gameId= gameId;
+		this.gameId = gameId;
 	}
-	
+
 	@Override
 	public void execute(Session sender, Server server) {
 		Game g = server.getGameManager().getGameById(gameId);
 		Intersection intersectionSelection = g.getGameBoardManager().getBoard().getIntersectionById(i.getId());
 		Edge edgeSelection = g.getGameBoardManager().getBoard().getEdgeById(e.getId());
-		if (edgeSelection.hasIntersection(intersectionSelection) && edgeSelection.getUnit() == null && ) {
+		if (edgeSelection.hasIntersection(intersectionSelection) && edgeSelection.getUnit() == null) {
 			Player p = server.getPlayerManager().getPlayerBySession(sender);
 			g.placeSettlement(intersectionSelection, p);
 			g.placeRoad(edgeSelection, p);
-			
+
 			// send success message, disable buttons
 		} else {
 			// send fail message, ask to try again

@@ -1,6 +1,8 @@
 package catan.settlers.server.model;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.server.model.map.Edge;
+import catan.settlers.server.model.map.Intersection;
 
 /**
  * This class represents an Turn. For any game action, the client needs to build
@@ -11,7 +13,19 @@ import catan.settlers.client.model.ClientModel;
  */
 public class TurnData {
 	
+	private Intersection selectedIntersection;
+	private Edge selectedEdge;
+
 	public TurnData(ClientModel clientModel) {
-		// TODO Populate this object with the client model
+		this.selectedIntersection = clientModel.getCurrentIntersection();
+		this.selectedEdge = clientModel.getCurrentEdge();
+	}
+
+	public Intersection getIntersectionSelection() {
+		return selectedIntersection;
+	}
+
+	public Edge getEdgeSelection() {
+		return selectedEdge;
 	}
 }
