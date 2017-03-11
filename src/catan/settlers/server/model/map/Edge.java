@@ -3,6 +3,8 @@ package catan.settlers.server.model.map;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import catan.settlers.server.model.Player;
+
 public class Edge implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -11,6 +13,8 @@ public class Edge implements Serializable {
 	private ArrayList<Edge> rightEdges;
 	private Intersection[] myIntersections;
 	
+	private Player roadOwner;
+	
 	private int id;
 	
 	public Edge(int id) {
@@ -18,6 +22,7 @@ public class Edge implements Serializable {
 		myIntersections = new Intersection[2];
 		leftEdges = new ArrayList<Edge>();
 		rightEdges = new ArrayList<Edge>();
+		roadOwner = null;
 	}
 	
 	public void addLeftEdge(Edge e) {
@@ -45,7 +50,15 @@ public class Edge implements Serializable {
 		}
 	}
 	
+	public boolean hasIntersection(Intersection i) {
+		return (myIntersections[0] == i || myIntersections[1] == i);
+	}
+	
 	public int getId() {
 		return id;
+	}
+	
+	public Player getOwner() {
+		return roadOwner;
 	}
 }

@@ -15,7 +15,7 @@ public class GameBoard implements Serializable {
 
 	private Hexagon hexagons[][];
 	private ArrayList<Edge> edges;
-	private ArrayList<Intersection> instersections;
+	private ArrayList<Intersection> intersections;
 
 	private int height = 7; // TODO: Make this value customizable
 	private int length = 7; // TODO: Make this value customizable
@@ -26,7 +26,7 @@ public class GameBoard implements Serializable {
 	public GameBoard() {
 		this.hexagons = new Hexagon[length][height];
 		this.edges = new ArrayList<>();
-		this.instersections = new ArrayList<>();
+		this.intersections = new ArrayList<>();
 		generateBoard();
 	}
 
@@ -143,7 +143,7 @@ public class GameBoard implements Serializable {
 					Intersection i = new Intersection(IntersectionId);
 					IntersectionId++;
 					hex.setIntersection(i, loc);
-					instersections.add(i);
+					intersections.add(i);
 				}
 			}
 		}
@@ -243,6 +243,14 @@ public class GameBoard implements Serializable {
 		} else {
 			return hexagons[x][y];
 		}
+	}
+	
+	public Intersection getIntersectionById(int id) {
+		return intersections.get(id);
+	}
+	
+	public Edge getEdgeById(int id) {
+		return edges.get(id);
 	}
 
 	/**
