@@ -9,6 +9,7 @@ import org.minueto.image.MinuetoText;
 import org.minueto.window.MinuetoFrame;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.game.handlers.BoardKeyboardHandler;
 import catan.settlers.client.view.game.handlers.BoardMouseHandler;
 import catan.settlers.client.view.game.handlers.BoardWindowHandler;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;
@@ -21,12 +22,15 @@ public class GameWindow extends MinuetoFrame {
 	private boolean open;
 	private GameBoard curBoard;
 	private BoardMouseHandler mouseHandler;
+	private BoardKeyboardHandler keyboardHandler;
 	private ArrayList<String> player;
 	private DialogBox dbox;
+	private int pressedKey;
 
 	public GameWindow() {
 		super(ClientModel.WINDOW_WIDTH, ClientModel.WINDOW_HEIGHT, true);
 		mouseHandler = new BoardMouseHandler();
+		keyboardHandler = new BoardKeyboardHandler();
 	}
 
 	public void start() {
@@ -104,5 +108,22 @@ public class GameWindow extends MinuetoFrame {
 
 	public void setDialogBox(DialogBox dbox) {
 		this.dbox = dbox;
+	}
+	
+	public BoardKeyboardHandler getKeyBoardHandler() {
+		// TODO Auto-generated method stub
+		return keyboardHandler;
+	}
+
+	public void setKeyPress(int key) {
+		this.pressedKey = key;
+	}
+	
+	public int getKeyPress(){
+		return pressedKey;
+	}
+	
+	public MinuetoEventQueue getEventQueue(){
+		return eventQueue;
 	}
 }
