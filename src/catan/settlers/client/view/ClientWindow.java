@@ -1,9 +1,7 @@
 package catan.settlers.client.view;
 
-import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.game.GameWindow;
 import catan.settlers.client.view.setup.SetupWindow;
-import catan.settlers.network.server.commands.game.GetListOfPlayersCommand;
 
 public class ClientWindow {
 
@@ -21,7 +19,7 @@ public class ClientWindow {
 	private ClientWindow() {
 		setupWindow = new SetupWindow();
 		gameWindow = new GameWindow();
-		
+
 		setupWindow.setVisible(true);
 		gameWindow.setVisible(false);
 	}
@@ -42,9 +40,7 @@ public class ClientWindow {
 	public void switchToGame() {
 		setupWindow.setVisible(false);
 		gameWindow.setVisible(true);
-		
-		System.out.println(ClientModel.instance.getCurGameId());
-		ClientModel.instance.getNetworkManager().sendCommand(new GetListOfPlayersCommand(ClientModel.instance.getCurGameId()));
+
 		Thread workerThread = new Thread(new Worker(gameWindow));
 		workerThread.start();
 	}

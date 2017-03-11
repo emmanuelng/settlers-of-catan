@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
 
 import catan.settlers.network.client.commands.MoreReadyPlayersCommand;
 import catan.settlers.network.client.commands.ServerToClientCommand;
+import catan.settlers.network.client.commands.StartGameCommand;
+import catan.settlers.network.server.Server;
 
 public class GamePlayersManager implements Serializable {
 
@@ -16,16 +16,12 @@ public class GamePlayersManager implements Serializable {
 	private ArrayList<Player> participants;
 	private HashMap<Player, Boolean> readyPlayers;
 	private int gameId;
-	private Lock lock;
-	private Condition continueGame;
 
-	public GamePlayersManager(Player owner, ArrayList<Player> participants, int gameId, Lock lock,
-			Condition continueGame) {
+	public GamePlayersManager(Player owner, ArrayList<Player> participants, int gameId) {
 		this.participants = participants;
 		this.readyPlayers = new HashMap<>();
 		this.gameId = gameId;
-		this.lock = lock;
-		this.continueGame = continueGame;
+
 		addPlayer(owner);
 	}
 
@@ -58,25 +54,18 @@ public class GamePlayersManager implements Serializable {
 	}
 
 	public void playerIsReady(Player player) {
-		try {
-			lock.lock();
-			if (participants.contains(player)) {
-				readyPlayers.put(player, true);
-				if (canStartGame()) {
-					Collections.shuffle(participants);
-
-					System.out.println("Notifying...");
-					continueGame.signal();
-					System.out.println("Notified!");
-				} else {
-					int ready_players = getNbOfReadyPlayers();
-					MoreReadyPlayersCommand cmd = new MoreReadyPlayersCommand(ready_players, Game.MAX_NB_OF_PLAYERS,
-							getParticipantsUsernames(), gameId);
-					sendToAll(cmd);
-				}
+		if (participants.contains(player)) {
+			readyPlayers.put(player, true);
+			if (canStartGame()) {
+				Collections.shuffle(participants);
+				sendToAll(new StartGameCommand());
+				getGame().startGame();
+			} else {
+				int ready_players = getNbOfReadyPlayers();
+				MoreReadyPlayersCommand cmd = new MoreReadyPlayersCommand(ready_players, Game.MAX_NB_OF_PLAYERS,
+						getParticipantsUsernames(), gameId);
+				sendToAll(cmd);
 			}
-		} finally {
-			lock.unlock();
 		}
 	}
 
@@ -97,6 +86,10 @@ public class GamePlayersManager implements Serializable {
 			}
 		}
 		return true;
+	}
+	
+	private Game getGame() {
+		return Server.getInstance().getGameManager().getGameById(gameId);
 	}
 
 	public int getNbOfReadyPlayers() {

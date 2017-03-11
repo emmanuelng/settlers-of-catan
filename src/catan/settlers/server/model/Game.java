@@ -2,11 +2,14 @@ package catan.settlers.server.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
-public class Game extends Thread implements Serializable {
+import catan.settlers.network.server.Server;
+
+public class Game implements Serializable {
+
+	public static enum GamePhase {
+		READYTOJOIN, SETUPPHASEONE
+	}
 
 	public static final int MAX_NB_OF_PLAYERS = 1;
 	private static final long serialVersionUID = 1L;
@@ -15,33 +18,52 @@ public class Game extends Thread implements Serializable {
 	private ArrayList<Player> participants;
 	private GamePlayersManager gamePlayersManager;
 	private GameBoardManager gameBoardManager;
-
-	private GameThread gameThread;
-	private Lock lock;
-	private Condition continueGame;
+	private Player currentPlayer;
+	private GamePhase currentPhase;
 
 	public Game(int id, Player owner) {
 		this.id = id;
 		this.participants = new ArrayList<>();
-		this.lock = new ReentrantLock();
-		this.continueGame = lock.newCondition();
 
-		this.gamePlayersManager = new GamePlayersManager(owner, participants, id, lock, continueGame);
+		this.gamePlayersManager = new GamePlayersManager(owner, participants, id);
 		this.gameBoardManager = new GameBoardManager();
-		this.gameThread = new GameThread(participants, lock, continueGame);
+		this.currentPhase = GamePhase.READYTOJOIN;
 	}
 	
-	public void pauseGame() {
-		gameThread.pauseGame();
+	public void startGame() {
+		this.currentPhase = GamePhase.SETUPPHASEONE;
+		// Send Place settlement command to current player, wait command to the others
 	}
 
-	@Override
-	public void run() {
-		gameThread.start();
+	public void receiveResponse(Player sender, TurnData data) {
+		switch(currentPhase) {
+		case SETUPPHASEONE:
+			setupPhaseOne(sender, data);
+			break;
+		default:
+			break;
+		}
+		
 	}
+	
+	/* ============ Game phases logic ============ */
+	
+	private void setupPhaseOne(Player sender, TurnData data) {
+		if (sender == currentPlayer) {
+			
+		}
+		
+	}
+	
+	/*============ End of game phases ============*/
 
 	public int getGameId() {
 		return id;
+	}
+
+	public void nextPlayer() {
+		int index = (participants.indexOf(currentPlayer) + 1) % participants.size();
+		currentPlayer = participants.get(index);
 	}
 
 	public GamePlayersManager getPlayersManager() {
@@ -50,5 +72,9 @@ public class Game extends Thread implements Serializable {
 
 	public GameBoardManager getGameBoardManager() {
 		return gameBoardManager;
+	}
+
+	public void endGame() {
+		Server.getInstance().getGameManager().removeGame(this);
 	}
 }

@@ -22,7 +22,7 @@ public class GameBoardManager implements Serializable {
 	public GameBoard getBoard() {
 		return board;
 	}
-	
+
 	// Distributes resources to players for a roll of i
 	public void drawForRoll(int i) {
 		for (int x = 0; x < board.getLength(); x++) {
@@ -35,7 +35,7 @@ public class GameBoardManager implements Serializable {
 							if (u instanceof Village) {
 								Player p = u.getOwner();
 								switch (((Village) u).getKind()) {
-								case SETTLEMENT: 
+								case SETTLEMENT:
 									p.giveResource(terrainToResource(hex.getType())[0], 1);
 								case CITY:
 									p.giveResource(terrainToResource(hex.getType())[0], 1);
@@ -51,17 +51,24 @@ public class GameBoardManager implements Serializable {
 			}
 		}
 	}
-	
+
 	private ResourceType[] terrainToResource(TerrainType t) {
 		switch (t) {
-		case PASTURE: return new ResourceType[] {ResourceType.WOOL, ResourceType.CLOTH};
-		case FOREST: return new ResourceType[] {ResourceType.LUMBER, ResourceType.PAPER};
-		case MOUNTAIN: return new ResourceType[] {ResourceType.ORE, ResourceType.COIN};
-		case HILLS: return new ResourceType[] {ResourceType.BRICK, ResourceType.BRICK};
-		case FIELD: return new ResourceType[] {ResourceType.GRAIN, ResourceType.GRAIN};
-		case GOLDMINE: return new ResourceType[] {ResourceType.COIN, ResourceType.COIN};
-		default: return null;
+		case PASTURE:
+			return new ResourceType[] { ResourceType.WOOL, ResourceType.CLOTH };
+		case FOREST:
+			return new ResourceType[] { ResourceType.LUMBER, ResourceType.PAPER };
+		case MOUNTAIN:
+			return new ResourceType[] { ResourceType.ORE, ResourceType.COIN };
+		case HILLS:
+			return new ResourceType[] { ResourceType.BRICK, ResourceType.BRICK };
+		case FIELD:
+			return new ResourceType[] { ResourceType.GRAIN, ResourceType.GRAIN };
+		case GOLDMINE:
+			return new ResourceType[] { ResourceType.COIN, ResourceType.COIN };
+		default:
+			return null;
 		}
-		
+
 	}
 }
