@@ -18,12 +18,13 @@ public class DialogBox extends MinuetoImage {
 
 		MinuetoText titleImage = new MinuetoText(title, titleFont, MinuetoColor.WHITE, true);
 		MinuetoText messageImage = new MinuetoText(message, messageFont, MinuetoColor.WHITE, true);
-		
-		int backgroundwidth = Math.max(titleImage.getWidth(), messageImage.getWidth()) + 6;
-		int backgroundheight = titleImage.getHeight() + messageImage.getHeight() + 6;
-		
-		MinuetoRectangle background = new MinuetoRectangle(backgroundwidth, backgroundheight, MinuetoColor.BLACK, true);
-				
+
+		int backgroundwidth = Math.max(titleImage.getWidth(), messageImage.getWidth()) + 40;
+		int backgroundheight = titleImage.getHeight() + messageImage.getHeight() + 20;
+
+		MinuetoRectangle background = new MinuetoRectangle(backgroundwidth, backgroundheight,
+				new MinuetoColor(102, 102, 102), true);
+
 		draw(background, getWidth() / 2 - background.getWidth() / 2, 5);
 		draw(titleImage, getWidth() / 2 - titleImage.getWidth() / 2, 10);
 		draw(messageImage, getWidth() / 2 - messageImage.getWidth() / 2, titleImage.getHeight() + 13);
