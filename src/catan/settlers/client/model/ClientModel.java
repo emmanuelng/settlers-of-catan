@@ -11,11 +11,15 @@ public class ClientModel {
 	private String username;
 	private NetworkManager networkManager;
 	private int curGameId;
-	private Intersection currentSelectedIntersection;
-	private Edge currentSelectedEdge;
+
+	private Intersection selectedIntersection;
+	private Edge selectEdge;
+	
+	private String currentInGameMessage;
 
 	private ClientModel() {
-		networkManager = new NetworkManager();
+		this.networkManager = new NetworkManager();
+		this.currentInGameMessage = null;
 	}
 
 	public NetworkManager getNetworkManager() {
@@ -29,28 +33,36 @@ public class ClientModel {
 	public String getUsername() {
 		return username;
 	}
-	
+
 	public void setCurGameId(int id) {
 		curGameId = id;
 	}
-	
+
 	public int getCurGameId() {
 		return curGameId;
 	}
-	
-	public void setCurrentIntersection(Intersection currentSelectedIntersection){
-		this.currentSelectedIntersection=currentSelectedIntersection;
+
+	public void setCurrentIntersection(Intersection currentSelectedIntersection) {
+		this.selectedIntersection = currentSelectedIntersection;
+	}
+
+	public Intersection getCurrentIntersection() {
+		return selectedIntersection;
+	}
+
+	public void setCurrentEdge(Edge currentSelectedEdge) {
+		this.selectEdge = currentSelectedEdge;
+	}
+
+	public Edge getCurrentEdge() {
+		return selectEdge;
 	}
 	
-	public Intersection getCurrentIntersection(){
-		return currentSelectedIntersection;
+	public void setCurrentInGameMessage(String message) {
+		currentInGameMessage = message;
 	}
 	
-	public void setCurrentEdge(Edge currentSelectedEdge){
-		this.currentSelectedEdge = currentSelectedEdge;
-	}
-	
-	public Edge getCurrentEdge(){
-		return currentSelectedEdge;
+	public String getCurrentInGameMassage() {
+		return currentInGameMessage;
 	}
 }
