@@ -8,6 +8,7 @@ import java.util.HashMap;
 import catan.settlers.network.client.commands.MoreReadyPlayersCommand;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.client.commands.StartGameCommand;
+import catan.settlers.network.server.Server;
 
 public class GamePlayersManager implements Serializable {
 
@@ -58,6 +59,7 @@ public class GamePlayersManager implements Serializable {
 			if (canStartGame()) {
 				Collections.shuffle(participants);
 				sendToAll(new StartGameCommand());
+				getGame().startGame();
 			} else {
 				int ready_players = getNbOfReadyPlayers();
 				MoreReadyPlayersCommand cmd = new MoreReadyPlayersCommand(ready_players, Game.MAX_NB_OF_PLAYERS,
@@ -84,6 +86,10 @@ public class GamePlayersManager implements Serializable {
 			}
 		}
 		return true;
+	}
+	
+	private Game getGame() {
+		return Server.getInstance().getGameManager().getGameById(gameId);
 	}
 
 	public int getNbOfReadyPlayers() {

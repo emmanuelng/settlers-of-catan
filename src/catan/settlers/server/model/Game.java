@@ -29,6 +29,11 @@ public class Game implements Serializable {
 		this.gameBoardManager = new GameBoardManager();
 		this.currentPhase = GamePhase.READYTOJOIN;
 	}
+	
+	public void startGame() {
+		this.currentPhase = GamePhase.SETUPPHASEONE;
+		// Send Place settlement command to current player, wait command to the others
+	}
 
 	public void receiveResponse(Player sender, TurnData data) {
 		switch(currentPhase) {
