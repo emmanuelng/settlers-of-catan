@@ -22,7 +22,7 @@ public class PlayerManager {
 		playerSessionMap = new HashMap<>();
 	}
 
-	public synchronized boolean register(String username, String password) {
+	public boolean register(String username, String password) {
 		for (Player p : registeredPlayers) {
 			if (p.getUsername().equals(username)) {
 				return false;
@@ -34,7 +34,7 @@ public class PlayerManager {
 		return true;
 	}
 
-	public synchronized Status authenticate(String username, String password, Session sender) {
+	public Status authenticate(String username, String password, Session sender) {
 		for (Player p : registeredPlayers) {
 			if (p.getUsername().equals(username) && p.comparePassword(password)) {
 				if (isPlayerConnected(p)) {
@@ -49,7 +49,7 @@ public class PlayerManager {
 		return Status.INVALID_CREDENTIALS;
 	}
 
-	public synchronized Player getPlayerByUsername(String username) {
+	public Player getPlayerByUsername(String username) {
 		for (Player p : registeredPlayers) {
 			if (p.getUsername().equals(username)) {
 				return p;
@@ -59,11 +59,11 @@ public class PlayerManager {
 		return null;
 	}
 
-	public synchronized Session getSessionByPlayer(Player player) {
+	public Session getSessionByPlayer(Player player) {
 		return playerSessionMap.get(player);
 	}
 
-	public synchronized Player getPlayerBySession(Session s) {
+	public Player getPlayerBySession(Session s) {
 		for (Player player : playerSessionMap.keySet()) {
 			if (playerSessionMap.get(player) == s) {
 				return player;
@@ -89,7 +89,7 @@ public class PlayerManager {
 	 * Save/Load the list of players
 	 */
 
-	private synchronized void saveRegisteredPlayers() {
+	private void saveRegisteredPlayers() {
 		registeredPlayersFile.write(registeredPlayers);
 	}
 

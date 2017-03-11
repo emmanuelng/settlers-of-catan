@@ -14,9 +14,6 @@ public class SetupPhaseOneHandler {
 	}
 
 	public void handle() {
-		for(Player p : participants) {
-			// Send rollDice command
-		}
 	}
 
 }

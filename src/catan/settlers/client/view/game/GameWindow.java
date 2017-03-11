@@ -12,6 +12,7 @@ import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.game.handlers.BoardMouseHandler;
 import catan.settlers.client.view.game.handlers.BoardWindowHandler;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;
+import catan.settlers.network.server.commands.game.GetListOfPlayersCommand;
 import catan.settlers.server.model.map.GameBoard;
 
 public class GameWindow extends MinuetoFrame {
@@ -30,7 +31,8 @@ public class GameWindow extends MinuetoFrame {
 
 	public void start() {
 		initialize();
-		waitForGameBoard();
+		requestGameBoard();
+		requestPlayers();
 		open = true;
 
 		// Event loop
@@ -48,11 +50,11 @@ public class GameWindow extends MinuetoFrame {
 	public void updateWindow(GameBoard board) {
 		GameBoardImage gameBoard = new GameBoardImage(board);
 		ResourceBarImage resourceBar = new ResourceBarImage();
-		
+
 		draw(resourceBar, 0, 0);
 		draw(gameBoard, 0, 100);
 		printListOfPlayers(player, 1200, 300);
-		
+
 		if (dbox != null) {
 			draw(dbox, 0, 100);
 		}
@@ -71,8 +73,13 @@ public class GameWindow extends MinuetoFrame {
 		this.registerMouseHandler(mouseHandler, eventQueue);
 	}
 
-	private void waitForGameBoard() {
+	private void requestGameBoard() {
 		GetGameBoardCommand req = new GetGameBoardCommand(ClientModel.instance.getCurGameId());
+		ClientModel.instance.getNetworkManager().sendCommand(req);
+	}
+
+	private void requestPlayers() {
+		GetListOfPlayersCommand req = new GetListOfPlayersCommand(ClientModel.instance.getCurGameId());
 		ClientModel.instance.getNetworkManager().sendCommand(req);
 	}
 
