@@ -61,4 +61,8 @@ public class Edge implements Serializable {
 	public Player getOwner() {
 		return roadOwner;
 	}
+	
+	public void setOwner(Player p) {
+		roadOwner = p;
+	}
 }

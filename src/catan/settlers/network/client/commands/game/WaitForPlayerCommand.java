@@ -14,6 +14,7 @@ public class WaitForPlayerCommand implements ServerToClientCommand {
 	@Override
 	public void execute() {
 		// TODO Display message on the client
+		// Also disable buttons? Or have a myTurn state?
 		System.out.println("Waiting for player " + username);
 	}
 
