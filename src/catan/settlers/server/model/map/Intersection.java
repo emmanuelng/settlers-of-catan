@@ -9,19 +9,19 @@ public class Intersection implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private IntersectionUnit unit;
-	
+
 	private ArrayList<Hexagon> myHexagons;
 	private ArrayList<Edge> myEdges;
-	
+
 	private int id;
-	
+
 	public Intersection(int id) {
 		this.id = id;
 		unit = null;
 		myEdges = new ArrayList<Edge>();
 		myHexagons = new ArrayList<Hexagon>();
 	}
-	
+
 	public void addEdge(Edge e) {
 		if (e != null) {
 			if (!myEdges.contains(e)) {
@@ -29,7 +29,7 @@ public class Intersection implements Serializable {
 			}
 		}
 	}
-	
+
 	public void addHex(Hexagon h) {
 		if (h != null) {
 			if (!myHexagons.contains(h)) {
@@ -37,7 +37,7 @@ public class Intersection implements Serializable {
 			}
 		}
 	}
-	
+
 	public ArrayList<Hexagon> getHexagons() {
 		return myHexagons;
 	}
@@ -45,15 +45,15 @@ public class Intersection implements Serializable {
 	public IntersectionUnit getUnit() {
 		return unit;
 	}
-	
+
 	public void setUnit(IntersectionUnit unit) {
 		this.unit = unit;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
-	
+
 	public boolean canBuild() {
 		if (unit != null) {
 			return false;
@@ -66,7 +66,14 @@ public class Intersection implements Serializable {
 				}
 			}
 		}
-		return true;
+
+		for (Hexagon hex : myHexagons) {
+			if (hex.getType() != Hexagon.TerrainType.SEA) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

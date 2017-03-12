@@ -22,7 +22,7 @@ public class Game implements Serializable {
 		READYTOJOIN, SETUPPHASEONE, SETUPPHASETWO, TURNPHASEONE
 	}
 
-	public static final int MAX_NB_OF_PLAYERS = 2;
+	public static final int MAX_NB_OF_PLAYERS = 1;
 	private static final long serialVersionUID = 1L;
 
 	private int id;
