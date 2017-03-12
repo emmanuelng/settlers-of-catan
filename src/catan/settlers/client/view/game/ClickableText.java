@@ -14,14 +14,20 @@ public class ClickableText extends MinuetoText implements Clickable {
 	private String resourceType;
 	private String text;
 	private String name;
+	private boolean isOffer;
 	
-	public ClickableText(int relativeX, int relativeY, String resourceType, String text, MinuetoFont font, MinuetoColor color) {
+	public ClickableText(int relativeX, int relativeY, String resourceType, String text, Boolean isOffer, MinuetoFont font, MinuetoColor color) {
 		super(text, font, color);
 		this.relativeX=relativeX;
 		this.relativeY=relativeY;
 		this.text=text;
 		this.resourceType=resourceType;
-		this.name= text+ resourceType + "trade";
+		this.isOffer=isOffer;
+		if(isOffer){
+			this.name= "offer"+text+ resourceType + "trade";
+		}else{
+			this.name= "desired"+text+ resourceType + "trade";
+		}
 	}
 
 	@Override
@@ -34,7 +40,7 @@ public class ClickableText extends MinuetoText implements Clickable {
 	public void onclick() {
 		System.out.println(name);
 		if(text == "+" || text == "-"){
-			ClientWindow.getInstance().getGameWindow().getTradeMenu().updateTradeMenu(resourceType,text);
+			ClientWindow.getInstance().getGameWindow().getTradeMenu().updateTradeMenu(resourceType,text,isOffer);
 		}else if(text == "confirm offer"){
 			ClientWindow.getInstance().getGameWindow().getTradeMenu().confirmTradeOffer();
 
