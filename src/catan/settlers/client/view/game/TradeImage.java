@@ -7,11 +7,15 @@ import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoText;
 
+import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.Clickable;
 
 public class TradeImage extends MinuetoImage implements Clickable{
 	private int relativeX;
 	private int relativeY;
+	private TradeMenu trade;
+	private boolean selected;
 
 	public TradeImage(int relativeX, int relativeY) {
 		super(51, 60);
@@ -28,6 +32,8 @@ public class TradeImage extends MinuetoImage implements Clickable{
 			return;
 		}
 		draw(new MinuetoText("Trade",new MinuetoFont("arial",10,false,false),MinuetoColor.BLACK), 0, 50);
+		
+		this.selected = false;
 	}
 
 	@Override
@@ -38,7 +44,14 @@ public class TradeImage extends MinuetoImage implements Clickable{
 
 	@Override
 	public void onclick() {
-		System.out.println("Trade was clicked!");
+		selected = !selected;
+
+		if(selected){
+			trade = new TradeMenu();
+		}else{
+			trade.clear();
+			trade=null;
+		}
 	}
 
 	@Override

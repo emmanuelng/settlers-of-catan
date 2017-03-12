@@ -25,7 +25,7 @@ public class GameWindow extends MinuetoFrame {
 	private BoardKeyboardHandler keyboardHandler;
 	private ArrayList<String> player;
 	private DialogBox dbox;
-	private int pressedKey;
+	private TradeMenu tradeMenu;
 
 	public GameWindow() {
 		super(ClientModel.WINDOW_WIDTH, ClientModel.WINDOW_HEIGHT, true);
@@ -61,6 +61,11 @@ public class GameWindow extends MinuetoFrame {
 
 		if (dbox != null) {
 			draw(dbox, 0, 100);
+		}
+		
+		if (tradeMenu != null){
+			draw(tradeMenu, 0, 100);
+			printListOfPlayers(player, 1200, 300);
 		}
 		render();
 	}
@@ -114,16 +119,16 @@ public class GameWindow extends MinuetoFrame {
 		// TODO Auto-generated method stub
 		return keyboardHandler;
 	}
-
-	public void setKeyPress(int key) {
-		this.pressedKey = key;
-	}
-	
-	public int getKeyPress(){
-		return pressedKey;
-	}
 	
 	public MinuetoEventQueue getEventQueue(){
 		return eventQueue;
+	}
+	
+	public void setTradeMenu(TradeMenu tradeMenu){
+		this.tradeMenu=tradeMenu;
+	}
+	
+	public TradeMenu getTradeMenu(){
+		return tradeMenu;
 	}
 }

@@ -1,8 +1,5 @@
 package catan.settlers.client.view.game.handlers;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
 import org.minueto.handlers.MinuetoKeyboard;
 import org.minueto.handlers.MinuetoKeyboardHandler;
 
