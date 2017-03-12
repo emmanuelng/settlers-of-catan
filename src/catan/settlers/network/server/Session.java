@@ -18,6 +18,7 @@ public class Session extends Thread {
 	private boolean sessionActive;
 
 	private ArrayList<SessionObserver> observers;
+	private Socket socket;
 
 	/**
 	 * A session is a thread that waits commands from a specific client (not
@@ -30,6 +31,7 @@ public class Session extends Thread {
 	 */
 	public Session(Socket socket, Server host) throws IOException {
 		this.host = host;
+		this.socket = socket;
 		this.out = new ObjectOutputStream(socket.getOutputStream());
 		this.in = new ObjectInputStream(socket.getInputStream());
 		this.sessionActive = true;
@@ -69,6 +71,12 @@ public class Session extends Thread {
 		}
 
 		host.getPlayerManager().removeSession(this);
+
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Player getPlayer() {

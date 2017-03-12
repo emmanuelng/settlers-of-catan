@@ -16,14 +16,14 @@ public class DialogBox extends MinuetoImage {
 		MinuetoFont titleFont = new MinuetoFont("arial", 20, true, false);
 		MinuetoFont messageFont = new MinuetoFont("arial", 16, false, false);
 
-		MinuetoText titleImage = new MinuetoText(title, titleFont, MinuetoColor.WHITE, true);
-		MinuetoText messageImage = new MinuetoText(message, messageFont, MinuetoColor.WHITE, true);
+		MinuetoText titleImage = new MinuetoText(title, titleFont, MinuetoColor.BLACK, true);
+		MinuetoText messageImage = new MinuetoText(message, messageFont, MinuetoColor.BLACK, true);
 
 		int backgroundwidth = Math.max(titleImage.getWidth(), messageImage.getWidth()) + 40;
 		int backgroundheight = titleImage.getHeight() + messageImage.getHeight() + 20;
 
 		MinuetoRectangle background = new MinuetoRectangle(backgroundwidth, backgroundheight,
-				new MinuetoColor(102, 102, 102), true);
+				new MinuetoColor(238, 255, 170), true);
 
 		draw(background, getWidth() / 2 - background.getWidth() / 2, 5);
 		draw(titleImage, getWidth() / 2 - titleImage.getWidth() / 2, 10);
