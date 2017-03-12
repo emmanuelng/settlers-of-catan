@@ -29,8 +29,11 @@ public class HexagonImage extends MinuetoImage {
 		super(SIZE, SIZE);
 		HexagonImage.setSide(HEXSIZE);
 		drawPolygon(getColorByTerrainType(hex.getType()), drawCoordinates(0, 0));
-		draw(new MinuetoText("" + hex.getNumber(), new MinuetoFont("arial", 20, false, false), MinuetoColor.BLACK),
-				HEXSIZE + 10, r);
+
+		if (hex.getNumber() > 0) {
+			draw(new MinuetoText("" + hex.getNumber(), new MinuetoFont("arial", 20, false, false), MinuetoColor.BLACK),
+					HEXSIZE + 10, r);
+		}
 	}
 
 	public MinuetoColor getColor() {

@@ -85,7 +85,7 @@ public class GameBoardImage extends MinuetoImage {
 				break;
 			case TOP:
 				shift_x = 58;
-				shift_y = -5;
+				shift_y = -7;
 				break;
 			case TOPRIGHT:
 				shift_x = 100;
@@ -93,7 +93,7 @@ public class GameBoardImage extends MinuetoImage {
 				break;
 			case BOTTOMRIGHT:
 				shift_x = 100;
-				shift_y = 70;
+				shift_y = 67;
 				break;
 			case BOTTOM:
 				shift_x = 58;
@@ -101,7 +101,7 @@ public class GameBoardImage extends MinuetoImage {
 				break;
 			default:
 				shift_x = 15;
-				shift_y = 70;
+				shift_y = 67;
 				break;
 			}
 
