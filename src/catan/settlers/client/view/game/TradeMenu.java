@@ -1,5 +1,7 @@
 package catan.settlers.client.view.game;
 
+import java.util.ArrayList;
+
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoCircle;
 import org.minueto.image.MinuetoFont;
@@ -8,16 +10,16 @@ import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
+import catan.settlers.network.client.Client;
 import catan.settlers.server.model.Player.ResourceType;
 
 public class TradeMenu extends MinuetoImage{
 	
-	private int offer;
-	private MinuetoText numberOfResources;
+	private ArrayList<String> offer;
+	private MinuetoImage surface;
 	
 	public TradeMenu(){
 		super(ClientModel.WINDOW_WIDTH,ClientModel.WINDOW_HEIGHT);
-		offer=0;
 		this.clear(MinuetoColor.BLACK.lighten(100));
 		
 		//display the trade
@@ -30,6 +32,7 @@ public class TradeMenu extends MinuetoImage{
 		drawResource(ResourceType.PAPER, 100, 475);
 		drawResource(ResourceType.COIN, 100, 550);
 		
+		offer = new ArrayList<String>();
 		
 		ClientWindow.getInstance().getGameWindow().setTradeMenu(this);
 	}
@@ -67,7 +70,7 @@ public class TradeMenu extends MinuetoImage{
 
 		MinuetoCircle resourceCircle = new MinuetoCircle(20, color, true);
 		MinuetoFont usedFont = new MinuetoFont("arial", 20, false, false);
-		MinuetoText numberOfResource = new MinuetoText("" + offer, usedFont, MinuetoColor.BLACK);
+		MinuetoText numberOfResource = new MinuetoText("", usedFont, MinuetoColor.BLACK);
 		MinuetoText typeOfResource = new MinuetoText("" + r, usedFont, MinuetoColor.BLACK);
 		ClickableText plus = new ClickableText(x+200,y+100,""+ r,"+",new MinuetoFont("arial", 40, false, false),MinuetoColor.BLACK);
 		ClickableText minus = new ClickableText(x,y+100,""+ r,"-",new MinuetoFont("arial", 40, false, false),MinuetoColor.BLACK);
@@ -82,24 +85,19 @@ public class TradeMenu extends MinuetoImage{
 	}
 
 	public void updateTradeMenu(String resourceType, String text) {
+		surface = new MinuetoImage(ClientWindow.getInstance().getGameWindow().getWidth(),ClientWindow.getInstance().getGameWindow().getHeight());
+		
+		offer.add(resourceType);
 		MinuetoFont usedFont = new MinuetoFont("arial", 20, false, false);
 		MinuetoText offerResource = new MinuetoText("Your offer",usedFont, MinuetoColor.BLACK);
-		if(numberOfResources !=null){
-			numberOfResources.clear();
-		}
-		if(text == "+"){
-			numberOfResources = new MinuetoText("" + offer++, usedFont, MinuetoColor.BLACK);
-			draw(numberOfResources, 400,200);
-			
-		}else if(text == "-" && offer > 0){
-			numberOfResources = new MinuetoText("" + offer--, usedFont, MinuetoColor.BLACK);
-			draw(numberOfResources, 400,200);
-
-		}
-		MinuetoText typeOfResource = new MinuetoText("" + resourceType, usedFont, MinuetoColor.BLACK);
-		draw(offerResource,400,150);
 		
-		draw(typeOfResource,450,200);
+		for(int i=0;i<offer.size();i++){
+			MinuetoText typeOfResource = new MinuetoText("1 " + offer.get(i), usedFont, MinuetoColor.BLACK);
+			surface.draw(typeOfResource,450,200+i*50);
+		}
+		
+		surface.draw(offerResource,400,150);
+		draw(surface,0,0);
 	}
 	
 }
