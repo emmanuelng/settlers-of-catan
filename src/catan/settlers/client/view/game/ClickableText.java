@@ -32,9 +32,13 @@ public class ClickableText extends MinuetoText implements Clickable {
 
 	@Override
 	public void onclick() {
-		// TODO Auto-generated method stub
 		System.out.println(name);
-		ClientWindow.getInstance().getGameWindow().getTradeMenu().updateTradeMenu(resourceType,text);
+		if(text == "+" || text == "-"){
+			ClientWindow.getInstance().getGameWindow().getTradeMenu().updateTradeMenu(resourceType,text);
+		}else if(text == "confirm offer"){
+			ClientWindow.getInstance().getGameWindow().getTradeMenu().confirmTradeOffer();
+
+		}
 	}
 
 	@Override

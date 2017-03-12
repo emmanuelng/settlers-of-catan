@@ -20,9 +20,18 @@ public class TradeMenu extends MinuetoImage{
 	
 	public TradeMenu(){
 		super(ClientModel.WINDOW_WIDTH,ClientModel.WINDOW_HEIGHT);
-		this.clear(MinuetoColor.BLACK.lighten(100));
+		
 		
 		//display the trade
+		drawSurface();
+		
+		offer = new ArrayList<String>();
+		
+		ClientWindow.getInstance().getGameWindow().setTradeMenu(this);
+	}
+	
+	private void drawSurface(){
+		this.clear(MinuetoColor.BLACK.lighten(100));
 		drawResource(ResourceType.GRAIN, 100, 25);
 		drawResource(ResourceType.LUMBER, 100, 100);
 		drawResource(ResourceType.ORE, 100, 175);
@@ -31,10 +40,6 @@ public class TradeMenu extends MinuetoImage{
 		drawResource(ResourceType.CLOTH, 100, 400);
 		drawResource(ResourceType.PAPER, 100, 475);
 		drawResource(ResourceType.COIN, 100, 550);
-		
-		offer = new ArrayList<String>();
-		
-		ClientWindow.getInstance().getGameWindow().setTradeMenu(this);
 	}
 	
 	private void drawResource(ResourceType r, int x, int y) {
@@ -87,17 +92,36 @@ public class TradeMenu extends MinuetoImage{
 	public void updateTradeMenu(String resourceType, String text) {
 		surface = new MinuetoImage(ClientWindow.getInstance().getGameWindow().getWidth(),ClientWindow.getInstance().getGameWindow().getHeight());
 		
-		offer.add(resourceType);
 		MinuetoFont usedFont = new MinuetoFont("arial", 20, false, false);
-		MinuetoText offerResource = new MinuetoText("Your offer",usedFont, MinuetoColor.BLACK);
-		
-		for(int i=0;i<offer.size();i++){
-			MinuetoText typeOfResource = new MinuetoText("1 " + offer.get(i), usedFont, MinuetoColor.BLACK);
-			surface.draw(typeOfResource,450,200+i*50);
+		if(text == "+"){
+			offer.add(resourceType);
+			for(int i=0;i<offer.size();i++){
+				MinuetoText typeOfResource = new MinuetoText("1 " + offer.get(i), usedFont, MinuetoColor.BLACK);
+				surface.draw(typeOfResource,450,200+i*50);
+			}
+		}else if(text == "-"){
+			offer.remove(resourceType);
+			this.clear();
+			this.drawSurface();
+			for(int i=0;i<offer.size();i++){
+				MinuetoText typeOfResource = new MinuetoText("1 " + offer.get(i), usedFont, MinuetoColor.BLACK);
+				surface.draw(typeOfResource,450,200+i*50);
+			}
 		}
 		
+		MinuetoText offerResource = new MinuetoText("Your offer",usedFont, MinuetoColor.BLACK);
+		ClickableText confirm = new ClickableText(600,200,"confirmButton","confirm",usedFont, MinuetoColor.BLACK);
+		ClientWindow.getInstance().getGameWindow().getMouseHandler().register(confirm);
+		
+		
 		surface.draw(offerResource,400,150);
+		surface.draw(confirm, 600, 200);
 		draw(surface,0,0);
+	}
+
+	public void confirmTradeOffer() {
+		// TODO Auto-generated method stub
+		System.out.println("SSS");
 	}
 	
 }
