@@ -6,7 +6,6 @@ import java.io.Serializable;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
-import catan.settlers.server.model.map.Hexagon.TerrainType;
 
 public class Player implements Serializable {
 
@@ -72,5 +71,9 @@ public class Player implements Serializable {
 			resources[rGive.ordinal()] -= 4;
 			resources[rGet.ordinal()]++;
 		}
+	}
+
+	public Session getSession() {
+		return Server.getInstance().getPlayerManager().getSessionByPlayer(this);
 	}
 }

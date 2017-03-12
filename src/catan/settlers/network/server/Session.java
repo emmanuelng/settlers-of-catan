@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.commands.ClientToServerCommand;
@@ -15,6 +16,8 @@ public class Session extends Thread {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private boolean sessionActive;
+
+	private ArrayList<SessionObserver> observers;
 
 	/**
 	 * A session is a thread that waits commands from a specific client (not
@@ -30,21 +33,22 @@ public class Session extends Thread {
 		this.out = new ObjectOutputStream(socket.getOutputStream());
 		this.in = new ObjectInputStream(socket.getInputStream());
 		this.sessionActive = true;
+		this.observers = new ArrayList<>();
 
 		start();
 	}
 
 	@Override
 	public void run() {
-		while (sessionActive) {
-			try {
+		try {
+			while (sessionActive) {
 				ClientToServerCommand cmd = (ClientToServerCommand) in.readObject();
 				cmd.execute(this, host);
-			} catch (Exception e) {
-				// Close the session (e.g. when the client closes the
-				// connection)
-				close();
 			}
+		} catch (Exception e) {
+			// Ignore
+		} finally {
+			close();
 		}
 	}
 
@@ -52,13 +56,21 @@ public class Session extends Thread {
 		out.writeObject(cmd);
 	}
 
+	public void registerObserver(SessionObserver obs) {
+		observers.add(obs);
+	}
+
 	public void close() {
 		host.writeToConsole("Closing session...");
 		sessionActive = false;
-		host.getGameManager().removePlayerFromGames(getPlayer());
+
+		for (SessionObserver obs : observers) {
+			obs.sessionWasClosed(getPlayer());
+		}
+
 		host.getPlayerManager().removeSession(this);
 	}
-	
+
 	public Player getPlayer() {
 		return host.getPlayerManager().getPlayerBySession(this);
 	}

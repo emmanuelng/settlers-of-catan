@@ -9,8 +9,9 @@ import catan.settlers.network.client.commands.MoreReadyPlayersCommand;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.client.commands.StartGameCommand;
 import catan.settlers.network.server.Server;
+import catan.settlers.network.server.SessionObserver;
 
-public class GamePlayersManager implements Serializable {
+public class GamePlayersManager implements Serializable, SessionObserver {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Player> participants;
@@ -29,6 +30,7 @@ public class GamePlayersManager implements Serializable {
 		if (!participants.contains(player) && participants.size() <= Game.MAX_NB_OF_PLAYERS) {
 			participants.add(player);
 			readyPlayers.put(player, false);
+			player.getSession().registerObserver(this);
 			return true;
 		}
 
@@ -100,5 +102,10 @@ public class GamePlayersManager implements Serializable {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public void sessionWasClosed(Player player) {
+		removePlayer(player);
 	}
 }

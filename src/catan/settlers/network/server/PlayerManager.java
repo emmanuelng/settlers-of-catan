@@ -22,7 +22,7 @@ public class PlayerManager {
 		playerSessionMap = new HashMap<>();
 	}
 
-	public boolean register(String username, String password) {
+	public synchronized boolean register(String username, String password) {
 		for (Player p : registeredPlayers) {
 			if (p.getUsername().equals(username)) {
 				return false;
@@ -34,7 +34,7 @@ public class PlayerManager {
 		return true;
 	}
 
-	public Status authenticate(String username, String password, Session sender) {
+	public synchronized Status authenticate(String username, String password, Session sender) {
 		for (Player p : registeredPlayers) {
 			if (p.getUsername().equals(username) && p.comparePassword(password)) {
 				if (isPlayerConnected(p)) {
@@ -49,7 +49,7 @@ public class PlayerManager {
 		return Status.INVALID_CREDENTIALS;
 	}
 
-	public Player getPlayerByUsername(String username) {
+	public synchronized Player getPlayerByUsername(String username) {
 		for (Player p : registeredPlayers) {
 			if (p.getUsername().equals(username)) {
 				return p;
@@ -59,11 +59,11 @@ public class PlayerManager {
 		return null;
 	}
 
-	public Session getSessionByPlayer(Player player) {
+	public synchronized Session getSessionByPlayer(Player player) {
 		return playerSessionMap.get(player);
 	}
 
-	public Player getPlayerBySession(Session s) {
+	public synchronized Player getPlayerBySession(Session s) {
 		for (Player player : playerSessionMap.keySet()) {
 			if (playerSessionMap.get(player) == s) {
 				return player;
@@ -72,11 +72,11 @@ public class PlayerManager {
 		return null;
 	}
 
-	public boolean isPlayerConnected(Player player) {
+	public synchronized boolean isPlayerConnected(Player player) {
 		return playerSessionMap.get(player) != null;
 	}
 	
-	public void removeSession(Session session) {
+	public synchronized void removeSession(Session session) {
 		for (Player player : playerSessionMap.keySet()) {
 			if (playerSessionMap.get(player) == session) {
 				playerSessionMap.remove(player);

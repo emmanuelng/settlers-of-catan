@@ -80,6 +80,7 @@ public class Game implements Serializable {
 			Intersection interSelect = gameBoardManager.getBoard()
 					.getIntersectionById(data.getIntersectionSelection().getId());
 			Edge edgeSelect = gameBoardManager.getBoard().getEdgeById(data.getEdgeSelection().getId());
+			
 			if (edgeSelect.hasIntersection(interSelect) && edgeSelect.getOwner() == null && interSelect.canBuild()) {
 				Village v = new Village(currentPlayer);
 				interSelect.setUnit(v);

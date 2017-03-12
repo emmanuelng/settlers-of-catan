@@ -15,14 +15,14 @@ public class GameManager {
 		this.games = new ArrayList<>();
 	}
 
-	public Game createGame(Player owner) {
+	public synchronized Game createGame(Player owner) {
 		Game game = new Game(lastId, owner);
 		games.add(game);
 		lastId++;
 		return game;
 	}
 
-	public ArrayList<Game> getListOfGames() {
+	public synchronized ArrayList<Game> getListOfGames() {
 		ArrayList<Game> list = new ArrayList<>();
 
 		for (Game g : games) {
@@ -32,7 +32,7 @@ public class GameManager {
 		return list;
 	}
 
-	public Game getGameById(int id) {
+	public synchronized Game getGameById(int id) {
 		for (Game g : games) {
 			if (g.getGameId() == id) {
 				return g;
@@ -42,13 +42,7 @@ public class GameManager {
 		return null;
 	}
 
-	public void removePlayerFromGames(Player player) {
-		for (Game game : games) {
-			game.getPlayersManager().removePlayer(player);
-		}
-	}
-
-	public void removeGame(Game game) {
+	public synchronized void removeGame(Game game) {
 		games.remove(game);
 	}
 }
