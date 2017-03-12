@@ -187,7 +187,8 @@ public class TradeMenu extends MinuetoImage{
 	}
 	public void confirmTradeOffer() {
 		this.clear();
-		isOffer=false;
+		offer.removeAll(offer);
+		desired.removeAll(desired);
 		drawSurface();
 	}
 	
