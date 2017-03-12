@@ -8,19 +8,13 @@ import catan.settlers.server.model.Player.ResourceType;
 
 public class MaritimeTradeCommand implements ClientToServerCommand {
 
-	
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private int gameId;
-	private ResourceType rGet,rGive;
-	
-	public MaritimeTradeCommand(ResourceType rGet, ResourceType rGive){
-		this.gameId = ClientModel.instance.getCurGameId();
-		this.rGet=rGet;
-		this.rGive=rGive;
+	private ResourceType rGet, rGive;
+
+	public MaritimeTradeCommand(ResourceType rGet, ResourceType rGive) {
+		ClientModel.instance.getCurGameId();
+		this.rGet = rGet;
+		this.rGive = rGive;
 	}
 
 	@Override

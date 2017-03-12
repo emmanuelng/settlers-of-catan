@@ -8,14 +8,12 @@ import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoText;
 
-import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
-import catan.settlers.network.server.commands.game.GetPlayerResourceCommand;
 import catan.settlers.server.model.Player.ResourceType;
 
 public class ResourceBarImage extends MinuetoImage {
 
-	private int g,l,o,w,b,c,p,co;
+	private int g,l,o,w,b,c,p;
 	
 	public ResourceBarImage() {
 		super(ClientWindow.getInstance().getGameWindow().getWidth(), 100);

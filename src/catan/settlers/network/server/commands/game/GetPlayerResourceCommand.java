@@ -10,16 +10,11 @@ import catan.settlers.server.model.Player.ResourceType;
 
 public class GetPlayerResourceCommand implements ClientToServerCommand {
 
-	private int gameId;
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	public GetPlayerResourceCommand(int gameId){
-		this.gameId = gameId;
+	public GetPlayerResourceCommand(int gameId) {
 	}
-	
+
 	@Override
 	public void execute(Session sender, Server server) {
 		int g = sender.getPlayer().getResourceAmount(ResourceType.GRAIN);
@@ -30,11 +25,11 @@ public class GetPlayerResourceCommand implements ClientToServerCommand {
 		int c = sender.getPlayer().getResourceAmount(ResourceType.CLOTH);
 		int p = sender.getPlayer().getResourceAmount(ResourceType.PAPER);
 		int co = sender.getPlayer().getResourceAmount(ResourceType.COIN);
-		
+
 		try {
-			sender.sendCommand(new PlayerResourceResponseCommand(g,l,o,w,b,c,p,co));
+			sender.sendCommand(new PlayerResourceResponseCommand(g, l, o, w, b, c, p, co));
 		} catch (IOException e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 

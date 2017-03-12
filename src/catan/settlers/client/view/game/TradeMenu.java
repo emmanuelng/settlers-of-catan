@@ -10,7 +10,6 @@ import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
-import catan.settlers.network.client.Client;
 import catan.settlers.network.server.commands.game.MaritimeTradeCommand;
 import catan.settlers.server.model.Player.ResourceType;
 

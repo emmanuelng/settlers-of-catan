@@ -7,8 +7,6 @@ import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoText;
 
-import catan.settlers.client.model.ClientModel;
-import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.Clickable;
 
 public class TradeImage extends MinuetoImage implements Clickable{
