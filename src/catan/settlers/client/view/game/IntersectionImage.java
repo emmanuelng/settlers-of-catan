@@ -2,7 +2,6 @@ package catan.settlers.client.view.game;
 
 import org.minueto.MinuetoColor;
 import org.minueto.MinuetoFileException;
-import org.minueto.handlers.MinuetoKeyboard;
 import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
 
@@ -48,12 +47,8 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 
 	@Override
 	public void onclick() {
-		System.out.println("Intersection was clicked!");
-		DialogBox dbox = new DialogBox("Build Settlement Here?", "Click on Enter to confirm");
 		if (intersectionModel != ClientModel.instance.getCurrentIntersection()) {
 			ClientModel.instance.setCurrentIntersection(intersectionModel);
-			ClientWindow.getInstance().getGameWindow().setDialogBox(dbox);
-			ClientWindow.getInstance().getGameWindow().registerKeyboardHandler(ClientWindow.getInstance().getGameWindow().getKeyBoardHandler(), ClientWindow.getInstance().getGameWindow().getEventQueue());
 		} else {
 			ClientModel.instance.setCurrentIntersection(null);
 			ClientWindow.getInstance().getGameWindow().setDialogBox(null);

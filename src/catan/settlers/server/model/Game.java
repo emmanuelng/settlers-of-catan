@@ -10,6 +10,7 @@ import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Edge;
+import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
 import catan.settlers.server.model.map.Intersection;
@@ -77,28 +78,25 @@ public class Game implements Serializable {
 
 	private void setupPhaseOne(Player sender, TurnData data) {
 		if (sender == currentPlayer) {
-			Intersection interSelect = gameBoardManager.getBoard()
-					.getIntersectionById(data.getIntersectionSelection().getId());
-			Edge edgeSelect = gameBoardManager.getBoard().getEdgeById(data.getEdgeSelection().getId());
-			
+			GameBoard board = gameBoardManager.getBoard();
+			Intersection interSelect = board.getIntersectionById(data.getIntersectionSelection().getId());
+			Edge edgeSelect = board.getEdgeById(data.getEdgeSelection().getId());
+
 			if (edgeSelect.hasIntersection(interSelect) && edgeSelect.getOwner() == null && interSelect.canBuild()) {
 				Village v = new Village(currentPlayer);
 				interSelect.setUnit(v);
 				edgeSelect.setOwner(currentPlayer);
 
 				UpdateGameBoardCommand refresh = new UpdateGameBoardCommand(gameBoardManager.getBoard());
-				for (Player p : participants) {
-					p.sendCommand(refresh);
-				}
 				currentPlayer.sendCommand(new TurnResponseCommand("You've placed a settlement and road!", true));
 
-				phaseCounter++;
-				if (phaseCounter == participants.size()) {
+				if (isLastPlayer(currentPlayer)) {
 					currentPhase = GamePhase.SETUPPHASETWO;
 					phaseCounter = 0;
 				} else {
-					nextPlayer();
+					currentPlayer = nextPlayer();
 					for (Player p : participants) {
+						p.sendCommand(refresh);
 						if (p == currentPlayer) {
 							p.sendCommand(new PlaceElmtsSetupPhaseOneCommand());
 						} else {
@@ -163,9 +161,13 @@ public class Game implements Serializable {
 		return id;
 	}
 
-	public void nextPlayer() {
+	public Player nextPlayer() {
 		int index = (participants.indexOf(currentPlayer) + 1) % participants.size();
-		currentPlayer = participants.get(index);
+		return participants.get(index);
+	}
+
+	public boolean isLastPlayer(Player p) {
+		return participants.indexOf(p) == participants.size() - 1;
 	}
 
 	public void prevPlayer() {

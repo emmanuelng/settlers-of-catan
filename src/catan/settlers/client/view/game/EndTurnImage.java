@@ -7,7 +7,10 @@ import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoText;
 
+import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.Clickable;
+import catan.settlers.network.server.commands.game.EndTurnCommand;
 
 public class EndTurnImage extends MinuetoImage implements Clickable {
 	private int relativeX;
@@ -38,7 +41,12 @@ public class EndTurnImage extends MinuetoImage implements Clickable {
 
 	@Override
 	public void onclick() {
-		System.out.println("End Turn was clicked!");
+		ClientModel.instance.getNetworkManager().sendCommand(new EndTurnCommand());
+		
+		// Reset the client model
+		ClientModel.instance.setCurrentEdge(null);
+		ClientModel.instance.setCurrentIntersection(null);
+		ClientWindow.getInstance().getGameWindow().setDialogBox(null);
 	}
 
 	@Override

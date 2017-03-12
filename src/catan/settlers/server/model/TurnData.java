@@ -1,5 +1,7 @@
 package catan.settlers.server.model;
 
+import java.io.Serializable;
+
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.Intersection;
@@ -11,8 +13,9 @@ import catan.settlers.server.model.map.Intersection;
  * method in the Game class)
  *
  */
-public class TurnData {
-	
+public class TurnData implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private Intersection selectedIntersection;
 	private Edge selectedEdge;
 
