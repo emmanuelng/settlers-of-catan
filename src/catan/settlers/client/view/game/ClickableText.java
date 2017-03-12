@@ -6,17 +6,18 @@ import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.Clickable;
+import catan.settlers.server.model.Player.ResourceType;
 
 public class ClickableText extends MinuetoText implements Clickable {
 
 	private int relativeX;
 	private int relativeY;
-	private String resourceType;
+	private ResourceType resourceType;
 	private String text;
 	private String name;
 	private boolean isOffer;
 	
-	public ClickableText(int relativeX, int relativeY, String resourceType, String text, Boolean isOffer, MinuetoFont font, MinuetoColor color) {
+	public ClickableText(int relativeX, int relativeY, ResourceType resourceType, String text, Boolean isOffer, MinuetoFont font, MinuetoColor color) {
 		super(text, font, color);
 		this.relativeX=relativeX;
 		this.relativeY=relativeY;

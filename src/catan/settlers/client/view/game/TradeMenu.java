@@ -11,12 +11,13 @@ import org.minueto.image.MinuetoText;
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.network.client.Client;
+import catan.settlers.network.server.commands.game.MaritimeTradeCommand;
 import catan.settlers.server.model.Player.ResourceType;
 
 public class TradeMenu extends MinuetoImage{
 	
-	private ArrayList<String> offer;
-	private ArrayList<String> desired;
+	private ArrayList<ResourceType> offer;
+	private ArrayList<ResourceType> desired;
 	private MinuetoImage surface;
 	private boolean isOffer;
 	
@@ -25,8 +26,8 @@ public class TradeMenu extends MinuetoImage{
 		//display the trade
 		drawSurface();
 
-		offer = new ArrayList<String>();
-		desired = new ArrayList<String>();
+		offer = new ArrayList<ResourceType>();
+		desired = new ArrayList<ResourceType>();
 		ClientWindow.getInstance().getGameWindow().setTradeMenu(this);
 	}
 	
@@ -93,15 +94,15 @@ public class TradeMenu extends MinuetoImage{
 		MinuetoText numberOfResource = new MinuetoText("", usedFont, MinuetoColor.BLACK);
 		MinuetoText typeOfResource = new MinuetoText("" + r, usedFont, MinuetoColor.BLACK);
 		if(isOffer){
-			offerPlus = new ClickableText(x+200,y+100,""+ r,"+",true,new MinuetoFont("arial", 20, false, false),MinuetoColor.BLACK);
-			offerMinus = new ClickableText(x,y+100,""+ r,"-",true,new MinuetoFont("arial", 20, false, false),MinuetoColor.BLACK);
+			offerPlus = new ClickableText(x+200,y+100,r,"+",true,new MinuetoFont("arial", 20, false, false),MinuetoColor.BLACK);
+			offerMinus = new ClickableText(x,y+100,r,"-",true,new MinuetoFont("arial", 20, false, false),MinuetoColor.BLACK);
 			draw(offerMinus, x, y);
 			draw(offerPlus, x + 200, y);
 			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(offerPlus);
 			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(offerMinus);
 		}else{
-			desiredPlus = new ClickableText(x+200,y+100,""+ r,"+",false,new MinuetoFont("arial", 20, false, false),MinuetoColor.BLACK);
-			desiredMinus = new ClickableText(x,y+100,""+ r,"-",false,new MinuetoFont("arial", 20, false, false),MinuetoColor.BLACK);
+			desiredPlus = new ClickableText(x+200,y+100,r,"+",false,new MinuetoFont("arial", 20, false, false),MinuetoColor.BLACK);
+			desiredMinus = new ClickableText(x,y+100,r,"-",false,new MinuetoFont("arial", 20, false, false),MinuetoColor.BLACK);
 			draw(desiredMinus, x, y);
 			draw(desiredPlus, x + 200, y);
 			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(desiredPlus);
@@ -116,7 +117,7 @@ public class TradeMenu extends MinuetoImage{
 
 	}
 
-	public void updateTradeMenu(String resourceType, String text, boolean isOfferUpdate) {
+	public void updateTradeMenu(ResourceType resourceType, String text, boolean isOfferUpdate) {
 		surface = new MinuetoImage(ClientWindow.getInstance().getGameWindow().getWidth(),ClientWindow.getInstance().getGameWindow().getHeight());
 		
 		MinuetoFont usedFont = new MinuetoFont("arial", 20, false, false);
@@ -168,7 +169,7 @@ public class TradeMenu extends MinuetoImage{
 		
 		MinuetoText offerResource = new MinuetoText("Your offer",usedFont, MinuetoColor.BLACK);
 		MinuetoText desiredResource = new MinuetoText("What you want",usedFont, MinuetoColor.BLACK);
-		MinuetoText confirm = new MinuetoText("Press enter to confirm.",usedFont, MinuetoColor.BLACK);
+		MinuetoText confirm = new MinuetoText("Press enter to confirm trade.",usedFont, MinuetoColor.BLACK);
 		ClientWindow.getInstance().getGameWindow().registerKeyboardHandler(ClientWindow.getInstance().getGameWindow().getKeyBoardHandler(), ClientWindow.getInstance().getGameWindow().getEventQueue());
 		
 		
@@ -187,6 +188,11 @@ public class TradeMenu extends MinuetoImage{
 	}
 	public void confirmTradeOffer() {
 		this.clear();
+		if(offer.size()>=4){
+			if(offer.get(0).toString()==offer.get(1).toString() && offer.get(1).toString()==offer.get(2).toString() && offer.get(2).toString()==offer.get(3).toString()){
+				ClientModel.instance.getNetworkManager().sendCommand(new MaritimeTradeCommand(desired.get(0),offer.get(0)));
+			}
+		}
 		offer.removeAll(offer);
 		desired.removeAll(desired);
 		drawSurface();

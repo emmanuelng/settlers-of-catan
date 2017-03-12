@@ -49,6 +49,7 @@ public class Session extends Thread {
 			}
 		} catch (Exception e) {
 			// Ignore
+			host.writeToConsole(e.toString());
 		} finally {
 			close();
 		}

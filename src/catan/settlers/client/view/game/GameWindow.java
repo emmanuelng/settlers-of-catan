@@ -24,6 +24,7 @@ public class GameWindow extends MinuetoFrame {
 	private BoardMouseHandler mouseHandler;
 	private BoardKeyboardHandler keyboardHandler;
 	private ArrayList<String> player;
+	private ResourceBarImage resourceBar;
 	private DialogBox dbox;
 	private TradeMenu tradeMenu;
 
@@ -53,7 +54,7 @@ public class GameWindow extends MinuetoFrame {
 
 	public void updateWindow(GameBoard board) {
 		GameBoardImage gameBoard = new GameBoardImage(board);
-		ResourceBarImage resourceBar = new ResourceBarImage();
+		resourceBar = new ResourceBarImage();
 
 		draw(resourceBar, 0, 0);
 		draw(gameBoard, 0, 100);
@@ -130,5 +131,9 @@ public class GameWindow extends MinuetoFrame {
 	
 	public TradeMenu getTradeMenu(){
 		return tradeMenu;
+	}
+	
+	public ResourceBarImage getResourceBar(){
+		return resourceBar;
 	}
 }
