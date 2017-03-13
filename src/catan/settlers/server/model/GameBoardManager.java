@@ -24,7 +24,6 @@ public class GameBoardManager implements Serializable {
 	}
 
 	public GameBoard getBoard() {
-		System.out.println("getBoard():\n" + board);
 		return board;
 	}
 
