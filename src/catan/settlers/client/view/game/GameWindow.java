@@ -23,7 +23,7 @@ public class GameWindow extends MinuetoFrame {
 	private GameBoard curBoard;
 	private BoardMouseHandler mouseHandler;
 	private BoardKeyboardHandler keyboardHandler;
-	private ArrayList<String> player;
+	private ArrayList<String> participants;
 	private ResourceBarImage resourceBar;
 	private DialogBox dbox;
 	private TradeMenu tradeMenu;
@@ -58,15 +58,15 @@ public class GameWindow extends MinuetoFrame {
 
 		draw(resourceBar, 0, 0);
 		draw(gameBoard, 0, 100);
-		printListOfPlayers(player, 1200, 300);
+		printListOfPlayers(participants, 1200, 300);
 
 		if (dbox != null) {
 			draw(dbox, 0, 100);
 		}
-		
-		if (tradeMenu != null){
+
+		if (tradeMenu != null) {
 			draw(tradeMenu, 0, 100);
-			printListOfPlayers(player, 1200, 300);
+			printListOfPlayers(participants, 1200, 300);
 		}
 		render();
 	}
@@ -102,7 +102,29 @@ public class GameWindow extends MinuetoFrame {
 	}
 
 	public void setListOfPlayers(ArrayList<String> players) {
-		this.player = players;
+		this.participants = players;
+	}
+	
+	public MinuetoColor getColorByUsername(String username) {
+		int index = participants.indexOf(username);
+		
+		if (index == 0) {
+			return new MinuetoColor(200, 55, 55);
+		} else if (index == 1) {
+			return new MinuetoColor(44, 137, 160);
+		} else if (index == 2) {
+			return new MinuetoColor(200, 113, 55);
+		}
+		
+		return MinuetoColor.BLACK;
+	}
+
+	public ArrayList<String> getListOfPlayer() {
+		ArrayList<String> list = new ArrayList<>();
+		for (String username : participants) {
+			list.add(username);
+		}
+		return list;
 	}
 
 	private void printListOfPlayers(ArrayList<String> players, int x, int y) {
@@ -115,25 +137,25 @@ public class GameWindow extends MinuetoFrame {
 	public void setDialogBox(DialogBox dbox) {
 		this.dbox = dbox;
 	}
-	
+
 	public BoardKeyboardHandler getKeyBoardHandler() {
 		// TODO Auto-generated method stub
 		return keyboardHandler;
 	}
-	
-	public MinuetoEventQueue getEventQueue(){
+
+	public MinuetoEventQueue getEventQueue() {
 		return eventQueue;
 	}
-	
-	public void setTradeMenu(TradeMenu tradeMenu){
-		this.tradeMenu=tradeMenu;
+
+	public void setTradeMenu(TradeMenu tradeMenu) {
+		this.tradeMenu = tradeMenu;
 	}
-	
-	public TradeMenu getTradeMenu(){
+
+	public TradeMenu getTradeMenu() {
 		return tradeMenu;
 	}
-	
-	public ResourceBarImage getResourceBar(){
+
+	public ResourceBarImage getResourceBar() {
 		return resourceBar;
 	}
 }

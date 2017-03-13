@@ -159,14 +159,19 @@ public class GameBoardImage extends MinuetoImage {
 
 			MinuetoColor edgeMColor = new MinuetoColor(230, 230, 230);
 
-			if (curEdge != ClientModel.instance.getCurrentEdge()) {
-				if (!curEdge.isMaritime()) {
-					edgeMColor = new MinuetoColor(230, 230, 230);
+			if (curEdge.getOwner() == null) {
+				if (curEdge != ClientModel.instance.getCurrentEdge()) {
+					if (!curEdge.isMaritime()) {
+						edgeMColor = new MinuetoColor(230, 230, 230);
+					} else {
+						edgeMColor = new MinuetoColor(170, 218, 255);
+					}
 				} else {
-					edgeMColor = new MinuetoColor(170, 218, 255);
+					edgeMColor = MinuetoColor.RED;
 				}
 			} else {
-				edgeMColor = MinuetoColor.RED;
+				String username = curEdge.getOwner().getUsername();
+				edgeMColor = ClientWindow.getInstance().getGameWindow().getColorByUsername(username);
 			}
 
 			EdgeImage edgeImg = new EdgeImage(curEdge, rotation, shift_x + x, shift_y + y, edgeMColor);
