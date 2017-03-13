@@ -71,7 +71,7 @@ public class HexagonImage extends MinuetoImage {
 	private MinuetoColor getColorByTerrainType(TerrainType type) {
 		switch (type) {
 		case SEA:
-			return new MinuetoColor(128, 179, 255);
+			return new MinuetoColor(170, 204, 255);
 		case DESERT:
 			return new MinuetoColor(222, 205, 135);
 		case PASTURE:
