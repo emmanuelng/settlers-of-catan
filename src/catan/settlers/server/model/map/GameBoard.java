@@ -303,9 +303,9 @@ public class GameBoard implements Serializable {
 	@Override
 	public String toString() {
 		String result = "";
-		for (int x = 0; x < length; x++) {
-			for (int y = 0; y < height; y++) {
-				result += "[" + x + "][" + y + "] = " + getHexagonAt(x, y) + "\n";
+		for(Intersection i: intersections) {
+			if (i.getUnit() != null) {
+				result += i.getUnit() + "\n";
 			}
 		}
 		return result;

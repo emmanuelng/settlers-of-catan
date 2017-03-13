@@ -76,4 +76,13 @@ public class Intersection implements Serializable {
 		return false;
 	}
 
+	public boolean isMaritime() {
+		for (Hexagon hex : myHexagons) {
+			if (hex.getType() != Hexagon.TerrainType.SEA) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }

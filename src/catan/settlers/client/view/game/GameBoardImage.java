@@ -160,8 +160,12 @@ public class GameBoardImage extends MinuetoImage {
 			MinuetoColor edgeMColor = new MinuetoColor(230, 230, 230);
 
 			if (curEdge != ClientModel.instance.getCurrentEdge()) {
-				edgeMColor = new MinuetoColor(230, 230, 230);
-			} else if (curEdge == ClientModel.instance.getCurrentEdge()) {
+				if (!curEdge.isMaritime()) {
+					edgeMColor = new MinuetoColor(230, 230, 230);
+				} else {
+					edgeMColor = new MinuetoColor(166, 204, 255);
+				}
+			} else {
 				edgeMColor = MinuetoColor.RED;
 			}
 

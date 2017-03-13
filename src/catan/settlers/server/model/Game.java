@@ -86,8 +86,13 @@ public class Game implements Serializable {
 				Village v = new Village(currentPlayer);
 				interSelect.setUnit(v);
 				edgeSelect.setOwner(currentPlayer);
+				
+				System.out.println("Sending refresh commands");
+				for (Player p : participants) {
+					System.out.println("Command sent");
+					p.sendCommand(new UpdateGameBoardCommand(gameBoardManager.getBoard()));
+				}
 
-				UpdateGameBoardCommand refresh = new UpdateGameBoardCommand(gameBoardManager.getBoard());
 				currentPlayer.sendCommand(new TurnResponseCommand("You've placed a settlement and road!", true));
 
 				if (isLastPlayer(currentPlayer)) {
@@ -96,7 +101,6 @@ public class Game implements Serializable {
 				} else {
 					currentPlayer = nextPlayer();
 					for (Player p : participants) {
-						p.sendCommand(refresh);
 						if (p == currentPlayer) {
 							p.sendCommand(new PlaceElmtsSetupPhaseOneCommand());
 						} else {
