@@ -19,8 +19,7 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 
 	@Override
 	public void execute(Session sender, Server server) {
-		sender.getPlayer().maritimeTrade(rGet, rGive);
-		System.out.print("SSSS");
+		//sender.getPlayer().maritimeTrade(rGet, rGive);
 	}
 
 }

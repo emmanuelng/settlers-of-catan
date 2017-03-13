@@ -2,6 +2,7 @@ package catan.settlers.server.model;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.HashMap;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.Credentials;
@@ -23,24 +24,16 @@ public class Player implements Serializable {
 		BRICK, GRAIN, LUMBER, ORE, WOOL, CLOTH, COIN, PAPER
 	}
 
-	private int[] resources;
+	private HashMap<ResourceType, Integer> resources;
 	private Credentials credentials;
 
 	public Player(Credentials credentials) {
 		this.credentials = credentials;
-		this.resources = new int[ResourceType.values().length];
-
-		for (int i = 0; i < resources.length; i++) {
-			resources[i] = 0;
-		}
+		this.resources = new HashMap<>();
 	}
 
 	public Credentials getCredentials() {
 		return credentials;
-	}
-
-	public int getResourceAmount(ResourceType res) {
-		return resources[res.ordinal()];
 	}
 
 	public void sendCommand(ServerToClientCommand cmd) {
@@ -51,26 +44,14 @@ public class Player implements Serializable {
 			e.printStackTrace();
 		}
 	}
+	
+	public int getResourceAmount(ResourceType res) {
+		return resources.get(res);
+	}
 
 	public void giveResource(ResourceType r, int amount) {
-		resources[r.ordinal()] += amount;
-	}
-
-	public void giveCityResource(ResourceType r, int amount) {
-		resources[r.ordinal()] += amount;
-	}
-
-	public void takeResource(ResourceType r, int amount) {
-		if (resources[r.ordinal()] >= amount) {
-			resources[r.ordinal()] -= amount;
-		}
-	}
-
-	public void maritimeTrade(ResourceType rGet, ResourceType rGive) {
-		if (resources[rGive.ordinal()] >= 4) {
-			resources[rGive.ordinal()] -= 4;
-			resources[rGet.ordinal()]++;
-		}
+		int currentAmount = resources.get(r);
+		resources.put(r, currentAmount + amount);
 	}
 
 	public String getUsername() {

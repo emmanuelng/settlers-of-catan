@@ -7,10 +7,10 @@ import catan.settlers.network.client.commands.TurnResponseCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
-import catan.settlers.network.server.Server;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
+import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Village;
@@ -179,10 +179,6 @@ public class Game implements Serializable {
 
 	public GameBoardManager getGameBoardManager() {
 		return gameBoardManager;
-	}
-
-	public void endGame() {
-		Server.getInstance().getGameManager().removeGame(this);
 	}
 
 	public ResourceType terrainToResource(TerrainType t) {

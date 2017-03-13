@@ -27,7 +27,7 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 		addPlayer(owner);
 	}
 
-	public synchronized boolean addPlayer(Player player) {
+	public boolean addPlayer(Player player) {
 		if (getGame() != null) {
 			if (getGame().getGamePhase() != GamePhase.READYTOJOIN) {
 				return false;
@@ -44,26 +44,22 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 		return false;
 	}
 
-	public synchronized void removePlayer(Player player) {
-		ArrayList<Player> new_participants = new ArrayList<>();
-		
-		for (Player p : participants) {
-			if (p != player) {
-				new_participants.add(p);
-			}
-		}
-
-		participants = new_participants; 
+	public void removePlayer(Player player) {
+		participants.remove(player); 
 		readyPlayers.remove(player);
 	}
 
-	public synchronized ArrayList<String> getParticipantsUsernames() {
+	public ArrayList<String> getParticipantsUsernames() {
 		ArrayList<String> list = new ArrayList<>();
 		for (Player p : participants) {
 			list.add(p.getUsername());
 		}
 
 		return list;
+	}
+	
+	public ArrayList<Player> getParticipants() {
+		return participants;
 	}
 
 	public boolean isParticipant(Player player) {
