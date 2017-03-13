@@ -27,8 +27,13 @@ public class Player implements Serializable {
 	private int[] resources;
 
 	public Player(String username, String password) {
+		this.resources = new int[ResourceType.values().length];
 		this.username = username;
 		this.password = password;
+
+		for (int i = 0; i < resources.length; i++) {
+			resources[i] = 0;
+		}
 	}
 
 	public String getUsername() {
@@ -38,7 +43,7 @@ public class Player implements Serializable {
 	public int getResourceAmount(ResourceType res) {
 		return resources[res.ordinal()];
 	}
-	
+
 	public void sendCommand(ServerToClientCommand cmd) {
 		Session s = Server.instance.getPlayerManager().getSessionByPlayer(this);
 		try {

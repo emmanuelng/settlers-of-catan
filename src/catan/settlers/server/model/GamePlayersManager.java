@@ -10,6 +10,7 @@ import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.client.commands.StartGameCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.SessionObserver;
+import catan.settlers.server.model.Game.GamePhase;
 
 public class GamePlayersManager implements Serializable, SessionObserver {
 
@@ -27,6 +28,12 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 	}
 
 	public synchronized boolean addPlayer(Player player) {
+		if (getGame() != null) {
+			if (getGame().getGamePhase() != GamePhase.READYTOJOIN) {
+				return false;
+			}
+		}
+
 		if (!participants.contains(player) && participants.size() <= Game.MAX_NB_OF_PLAYERS) {
 			participants.add(player);
 			readyPlayers.put(player, false);
@@ -38,7 +45,15 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 	}
 
 	public synchronized void removePlayer(Player player) {
-		participants.remove(player);
+		ArrayList<Player> new_participants = new ArrayList<>();
+		
+		for (Player p : participants) {
+			if (p != player) {
+				new_participants.add(p);
+			}
+		}
+
+		participants = new_participants; 
 		readyPlayers.remove(player);
 	}
 
@@ -89,7 +104,7 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 		}
 		return true;
 	}
-	
+
 	private Game getGame() {
 		return Server.getInstance().getGameManager().getGameById(gameId);
 	}

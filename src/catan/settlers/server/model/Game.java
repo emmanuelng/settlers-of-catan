@@ -11,7 +11,6 @@ import catan.settlers.network.server.Server;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
-import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Village;
@@ -34,11 +33,11 @@ public class Game implements Serializable {
 
 	public Game(int id, Player owner) {
 		this.id = id;
+		this.currentPhase = GamePhase.READYTOJOIN;
 		this.participants = new ArrayList<>();
 
 		this.gamePlayersManager = new GamePlayersManager(owner, participants, id);
 		this.gameBoardManager = new GameBoardManager();
-		this.currentPhase = GamePhase.READYTOJOIN;
 	}
 
 	public void startGame() {
@@ -81,29 +80,28 @@ public class Game implements Serializable {
 
 			// Get the selected intersection and edge
 			GameBoard board = gameBoardManager.getBoard();
-			Intersection interSelect = board.getIntersectionById(data.getIntersectionSelection().getId());
+			Intersection selectedIntersection = board.getIntersectionById(data.getIntersectionSelection().getId());
 			Edge edgeSelect = board.getEdgeById(data.getEdgeSelection().getId());
 
-			if (edgeSelect.hasIntersection(interSelect) && edgeSelect.getOwner() == null && interSelect.canBuild()) {
+			if (edgeSelect.hasIntersection(selectedIntersection) && edgeSelect.getOwner() == null
+					&& selectedIntersection.canBuild()) {
 				// Update the board and send it to all the players
 				Village v = new Village(currentPlayer);
-				interSelect.setUnit(v);
+				selectedIntersection.setUnit(v);
 				edgeSelect.setOwner(currentPlayer);
 				updateAllPlayers();
 
-				if (!isPhaseOne) {
-					// In second setup phase, give the corresponding resources
-					// to the player
-					ArrayList<Hexagon> drawFor = interSelect.getHexagons();
-					for (Hexagon h : drawFor) {
-						ResourceType r = terrainToResource(h.getType());
-						if (r != null) {
-							currentPlayer.giveResource(r, 1);
-						}
-					}
-				}
+				// In second setup phase, give resources to the player
+//				if (!isPhaseOne) {
+//					for (Hexagon h : selectedIntersection.getHexagons()) {
+//						ResourceType r = terrainToResource(h.getType());
+//						if (r != null) {
+//							currentPlayer.giveResource(r, 1);
+//						}
+//					}
+//				}
 
-				// Stopping condition for phase one
+				// Stopping condition for phase one. Initialize setup phase two.
 				if (isPhaseOne && currentPlayer == participants.get(participants.size() - 1)) {
 					currentPhase = GamePhase.SETUPPHASETWO;
 					for (Player p : participants) {
@@ -115,14 +113,19 @@ public class Game implements Serializable {
 					}
 					return;
 				}
-				
-				// Get the next player
-				if (isPhaseOne) {
-					currentPlayer = nextPlayer();
-				} else {
-					currentPlayer = previousPlayer();
+
+				// Stopping condition for phase two. Initialize turn phase one.
+				if (!isPhaseOne && currentPlayer == participants.get(0)) {
+					currentPhase = GamePhase.SETUPPHASETWO;
+					for (Player p : participants) {
+						p.sendCommand(new TurnResponseCommand("Going to turn phase one", true));
+					}
+					return;
 				}
-				
+
+				// Get the next player
+				currentPlayer = isPhaseOne ? nextPlayer() : previousPlayer();
+
 				// Send commands to the players
 				for (Player p : participants) {
 					if (p == currentPlayer) {
@@ -132,22 +135,17 @@ public class Game implements Serializable {
 					}
 				}
 
-				// Stopping condition for phase two
-				if (!isPhaseOne && currentPlayer == participants.get(0)) {
-					currentPhase = GamePhase.TURNPHASEONE;
-				}
-
 			} else {
-				String message = "";
-				if (!edgeSelect.hasIntersection(interSelect)) {
+				String message = "You cannot build here";
+				if (!edgeSelect.hasIntersection(selectedIntersection)) {
 					message = "The intersection and the edge must be adjacent";
 				} else if (edgeSelect.getOwner() != null) {
 					message = "You cannot build on an ocupied edge/intersection";
-				} else {
-					message = "You cannot build here";
 				}
 				currentPlayer.sendCommand(new TurnResponseCommand(message, false));
 			}
+		} else {
+			sender.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
 		}
 	}
 
@@ -202,6 +200,10 @@ public class Game implements Serializable {
 		default:
 			return null;
 		}
+	}
+
+	public GamePhase getGamePhase() {
+		return currentPhase;
 	}
 
 	private void updateAllPlayers() {
