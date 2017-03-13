@@ -16,7 +16,6 @@ public class UpdateGameBoardCommand implements ServerToClientCommand {
 	@Override
 	public void execute() {
 		ClientWindow.getInstance().getGameWindow().updateGameBoard(board);
-		System.out.println("Hello world");
 	}
 
 }
