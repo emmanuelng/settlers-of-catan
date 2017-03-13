@@ -1,5 +1,9 @@
 package catan.settlers.server.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import catan.settlers.server.model.Player.ResourceType;
@@ -20,7 +24,26 @@ public class GameBoardManager implements Serializable {
 	}
 
 	public GameBoard getBoard() {
+		System.out.println("getBoard():\n" + board);
 		return board;
+	}
+
+	public GameBoard getBoardDeepCopy() {
+		try {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ObjectOutputStream out = new ObjectOutputStream(bos);
+			out.writeObject(board);
+			out.flush();
+			ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+			ObjectInputStream in = new ObjectInputStream(bis);
+			GameBoard newBoard = (GameBoard) in.readObject();
+			out.close();
+			in.close();
+			return newBoard;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	// Distributes resources to players for a roll of i

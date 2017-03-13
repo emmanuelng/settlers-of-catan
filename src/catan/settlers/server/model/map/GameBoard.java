@@ -19,7 +19,7 @@ public class GameBoard implements Serializable {
 
 	private int height = 7; // TODO: Make this value customizable
 	private int length = 7; // TODO: Make this value customizable
-	
+
 	private int edgeId = 0;
 	private int IntersectionId = 0;
 
@@ -59,7 +59,7 @@ public class GameBoard implements Serializable {
 				hexagons[x][4] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][5] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
-			} else if (x == length-1) { 
+			} else if (x == length - 1) {
 				hexagons[x][0] = null;
 				hexagons[x][1] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][2] = null;
@@ -67,7 +67,7 @@ public class GameBoard implements Serializable {
 				hexagons[x][4] = null;
 				hexagons[x][5] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][6] = null;
-			
+
 			} else {
 				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][1] = new Hexagon(TerrainType.PASTURE, 1);
@@ -148,21 +148,34 @@ public class GameBoard implements Serializable {
 			}
 		}
 	}
-	
+
 	private void randomizeHexes() {
 		ArrayList<TerrainType> terrainPool = new ArrayList<>();
-		terrainPool.add(TerrainType.HILLS); 	terrainPool.add(TerrainType.HILLS);		terrainPool.add(TerrainType.HILLS);
-		terrainPool.add(TerrainType.MOUNTAIN); 	terrainPool.add(TerrainType.MOUNTAIN); 	terrainPool.add(TerrainType.MOUNTAIN);
-		terrainPool.add(TerrainType.PASTURE); 	terrainPool.add(TerrainType.PASTURE); 	terrainPool.add(TerrainType.PASTURE); 	terrainPool.add(TerrainType.PASTURE);
-		terrainPool.add(TerrainType.FIELD); 	terrainPool.add(TerrainType.FIELD); 	terrainPool.add(TerrainType.FIELD); 	terrainPool.add(TerrainType.FIELD);
-		terrainPool.add(TerrainType.FOREST); 	terrainPool.add(TerrainType.FOREST); 	terrainPool.add(TerrainType.FOREST); 	terrainPool.add(TerrainType.FOREST);
-		terrainPool.add(TerrainType.DESERT);	
+		terrainPool.add(TerrainType.HILLS);
+		terrainPool.add(TerrainType.HILLS);
+		terrainPool.add(TerrainType.HILLS);
+		terrainPool.add(TerrainType.MOUNTAIN);
+		terrainPool.add(TerrainType.MOUNTAIN);
+		terrainPool.add(TerrainType.MOUNTAIN);
+		terrainPool.add(TerrainType.PASTURE);
+		terrainPool.add(TerrainType.PASTURE);
+		terrainPool.add(TerrainType.PASTURE);
+		terrainPool.add(TerrainType.PASTURE);
+		terrainPool.add(TerrainType.FIELD);
+		terrainPool.add(TerrainType.FIELD);
+		terrainPool.add(TerrainType.FIELD);
+		terrainPool.add(TerrainType.FIELD);
+		terrainPool.add(TerrainType.FOREST);
+		terrainPool.add(TerrainType.FOREST);
+		terrainPool.add(TerrainType.FOREST);
+		terrainPool.add(TerrainType.FOREST);
+		terrainPool.add(TerrainType.DESERT);
 		Collections.shuffle(terrainPool);
-		
+
 		ArrayList<Integer> diceValues = new ArrayList<>();
 		diceValues.addAll(Arrays.asList(2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12));
 		Collections.shuffle(diceValues);
-		
+
 		for (int x = 0; x < length; x++) {
 			for (int y = 0; y < height; y++) {
 				if (hexagons[x][y] != null) {
@@ -180,7 +193,7 @@ public class GameBoard implements Serializable {
 			}
 		}
 	}
-	
+
 	private void stitchEdgesAndIntersections() {
 		for (int x = 0; x < length; x++) {
 			for (int y = 0; y < height; y++) {
@@ -189,50 +202,56 @@ public class GameBoard implements Serializable {
 					h.getIntersection(IntersectionLoc.TOP).addEdge(h.getEdge(Direction.NORTHWEST));
 					h.getIntersection(IntersectionLoc.TOP).addEdge(h.getEdge(Direction.NORTHEAST));
 					h.getIntersection(IntersectionLoc.TOP).addHex(h);
-					
+
 					h.getIntersection(IntersectionLoc.TOPRIGHT).addEdge(h.getEdge(Direction.NORTHWEST));
 					h.getIntersection(IntersectionLoc.TOPRIGHT).addEdge(h.getEdge(Direction.EAST));
 					h.getIntersection(IntersectionLoc.TOPRIGHT).addHex(h);
-					
+
 					h.getIntersection(IntersectionLoc.BOTTOMRIGHT).addEdge(h.getEdge(Direction.EAST));
 					h.getIntersection(IntersectionLoc.BOTTOMRIGHT).addEdge(h.getEdge(Direction.SOUTHEAST));
 					h.getIntersection(IntersectionLoc.BOTTOMRIGHT).addHex(h);
-					
+
 					h.getIntersection(IntersectionLoc.BOTTOM).addEdge(h.getEdge(Direction.SOUTHEAST));
 					h.getIntersection(IntersectionLoc.BOTTOM).addEdge(h.getEdge(Direction.SOUTHWEST));
 					h.getIntersection(IntersectionLoc.BOTTOM).addHex(h);
-					
+
 					h.getIntersection(IntersectionLoc.BOTTOMLEFT).addEdge(h.getEdge(Direction.SOUTHEAST));
 					h.getIntersection(IntersectionLoc.BOTTOMLEFT).addEdge(h.getEdge(Direction.EAST));
 					h.getIntersection(IntersectionLoc.BOTTOMLEFT).addHex(h);
-					
+
 					h.getIntersection(IntersectionLoc.TOPLEFT).addEdge(h.getEdge(Direction.EAST));
 					h.getIntersection(IntersectionLoc.TOPLEFT).addEdge(h.getEdge(Direction.NORTHEAST));
 					h.getIntersection(IntersectionLoc.TOPLEFT).addHex(h);
-					
+
 					h.getEdge(Direction.NORTHEAST).addLeftEdge(h.getEdge(Direction.NORTHWEST));
 					h.getEdge(Direction.NORTHEAST).addRightEdge(h.getEdge(Direction.EAST));
-					h.getEdge(Direction.NORTHEAST).setIntersections(h.getIntersection(IntersectionLoc.TOP), h.getIntersection(IntersectionLoc.TOPRIGHT));
-					
+					h.getEdge(Direction.NORTHEAST).setIntersections(h.getIntersection(IntersectionLoc.TOP),
+							h.getIntersection(IntersectionLoc.TOPRIGHT));
+
 					h.getEdge(Direction.EAST).addLeftEdge(h.getEdge(Direction.NORTHEAST));
 					h.getEdge(Direction.EAST).addRightEdge(h.getEdge(Direction.SOUTHEAST));
-					h.getEdge(Direction.EAST).setIntersections(h.getIntersection(IntersectionLoc.TOPRIGHT), h.getIntersection(IntersectionLoc.BOTTOMRIGHT));
-					
+					h.getEdge(Direction.EAST).setIntersections(h.getIntersection(IntersectionLoc.TOPRIGHT),
+							h.getIntersection(IntersectionLoc.BOTTOMRIGHT));
+
 					h.getEdge(Direction.SOUTHEAST).addLeftEdge(h.getEdge(Direction.EAST));
 					h.getEdge(Direction.SOUTHEAST).addRightEdge(h.getEdge(Direction.SOUTHWEST));
-					h.getEdge(Direction.SOUTHEAST).setIntersections(h.getIntersection(IntersectionLoc.BOTTOMRIGHT), h.getIntersection(IntersectionLoc.BOTTOM));
-					
+					h.getEdge(Direction.SOUTHEAST).setIntersections(h.getIntersection(IntersectionLoc.BOTTOMRIGHT),
+							h.getIntersection(IntersectionLoc.BOTTOM));
+
 					h.getEdge(Direction.SOUTHWEST).addRightEdge(h.getEdge(Direction.SOUTHEAST));
 					h.getEdge(Direction.SOUTHWEST).addLeftEdge(h.getEdge(Direction.WEST));
-					h.getEdge(Direction.SOUTHWEST).setIntersections(h.getIntersection(IntersectionLoc.BOTTOM), h.getIntersection(IntersectionLoc.BOTTOMLEFT));
-					
+					h.getEdge(Direction.SOUTHWEST).setIntersections(h.getIntersection(IntersectionLoc.BOTTOM),
+							h.getIntersection(IntersectionLoc.BOTTOMLEFT));
+
 					h.getEdge(Direction.WEST).addRightEdge(h.getEdge(Direction.SOUTHWEST));
 					h.getEdge(Direction.WEST).addLeftEdge(h.getEdge(Direction.NORTHWEST));
-					h.getEdge(Direction.WEST).setIntersections(h.getIntersection(IntersectionLoc.BOTTOMLEFT), h.getIntersection(IntersectionLoc.TOPLEFT));
-					
+					h.getEdge(Direction.WEST).setIntersections(h.getIntersection(IntersectionLoc.BOTTOMLEFT),
+							h.getIntersection(IntersectionLoc.TOPLEFT));
+
 					h.getEdge(Direction.NORTHWEST).addRightEdge(h.getEdge(Direction.WEST));
 					h.getEdge(Direction.NORTHWEST).addLeftEdge(h.getEdge(Direction.NORTHEAST));
-					h.getEdge(Direction.NORTHWEST).setIntersections(h.getIntersection(IntersectionLoc.TOPLEFT), h.getIntersection(IntersectionLoc.TOP));
+					h.getEdge(Direction.NORTHWEST).setIntersections(h.getIntersection(IntersectionLoc.TOPLEFT),
+							h.getIntersection(IntersectionLoc.TOP));
 				}
 			}
 		}
@@ -250,11 +269,11 @@ public class GameBoard implements Serializable {
 			return hexagons[x][y];
 		}
 	}
-	
+
 	public Intersection getIntersectionById(int id) {
 		return intersections.get(id);
 	}
-	
+
 	public Edge getEdgeById(int id) {
 		return edges.get(id);
 	}
@@ -303,7 +322,7 @@ public class GameBoard implements Serializable {
 	@Override
 	public String toString() {
 		String result = "";
-		for(Intersection i: intersections) {
+		for (Intersection i : intersections) {
 			if (i.getUnit() != null) {
 				result += i.getUnit() + "\n";
 			}

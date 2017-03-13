@@ -90,7 +90,7 @@ public class Game implements Serializable {
 				System.out.println("Sending refresh commands");
 				for (Player p : participants) {
 					System.out.println("Command sent");
-					p.sendCommand(new UpdateGameBoardCommand(gameBoardManager.getBoard()));
+					p.sendCommand(new UpdateGameBoardCommand(gameBoardManager.getBoardDeepCopy()));
 				}
 
 				currentPlayer.sendCommand(new TurnResponseCommand("You've placed a settlement and road!", true));
