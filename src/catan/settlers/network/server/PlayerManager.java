@@ -1,7 +1,6 @@
 package catan.settlers.network.server;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import catan.settlers.common.utils.File;
@@ -13,73 +12,79 @@ public class PlayerManager {
 	private static final String registeredPlayersFileName = "players.dat";
 
 	private File registeredPlayersFile;
-	private ArrayList<Player> registeredPlayers;
-	private HashMap<Player, Session> playerSessionMap;
+	private HashMap<Credentials, Player> registeredPlayers;
+	private HashMap<Session, Player> sessionPlayerMap;
 
 	public PlayerManager() throws IOException {
 		registeredPlayersFile = new File(registeredPlayersFileName);
+		sessionPlayerMap = new HashMap<>();
 		registeredPlayers = loadRegisteredPlayers();
-		playerSessionMap = new HashMap<>();
 	}
 
-	public synchronized boolean register(String username, String password) {
-		for (Player p : registeredPlayers) {
+	public boolean register(String username, String password) {
+		for (Credentials p : registeredPlayers.keySet()) {
 			if (p.getUsername().equals(username)) {
 				return false;
 			}
 		}
 
-		registeredPlayers.add(new Player(username, password));
+		Credentials new_credentials = new Credentials(username, password);
+		registeredPlayers.put(new_credentials, null);
 		saveRegisteredPlayers();
 		return true;
 	}
 
-	public synchronized Status authenticate(String username, String password, Session sender) {
-		for (Player p : registeredPlayers) {
-			if (p.getUsername().equals(username) && p.comparePassword(password)) {
-				if (isPlayerConnected(p)) {
+	public Status authenticate(String username, String password, Session sender) {
+		for (Credentials cred : registeredPlayers.keySet()) {
+			if (cred.getUsername().equals(username) && cred.comparePassword(password)) {
+				Player curPlayer = registeredPlayers.get(cred);
+				if (curPlayer != null) {
 					return Status.ALREADY_CONNECTED;
 				} else {
-					playerSessionMap.put(p, sender);
+					Player player = new Player(cred);
+					registeredPlayers.put(cred, player);
+					sessionPlayerMap.put(sender, player);
 					return Status.SUCCESS;
 				}
 			}
 		}
-
 		return Status.INVALID_CREDENTIALS;
 	}
 
-	public synchronized Player getPlayerByUsername(String username) {
-		for (Player p : registeredPlayers) {
-			if (p.getUsername().equals(username)) {
-				return p;
+	public Player getPlayerByUsername(String username) {
+		for (Credentials cred : registeredPlayers.keySet()) {
+			if (cred.getUsername().equals(username)) {
+				return registeredPlayers.get(cred);
 			}
 		}
 
 		return null;
 	}
 
-	public synchronized Session getSessionByPlayer(Player player) {
-		return playerSessionMap.get(player);
-	}
-
-	public synchronized Player getPlayerBySession(Session s) {
-		for (Player player : playerSessionMap.keySet()) {
-			if (playerSessionMap.get(player) == s) {
-				return player;
+	public Session getSessionByPlayer(Player player) {
+		for (Session session : sessionPlayerMap.keySet()) {
+			if (sessionPlayerMap.get(session) == player) {
+				return session;
 			}
 		}
 		return null;
 	}
 
-	public synchronized boolean isPlayerConnected(Player player) {
-		return playerSessionMap.get(player) != null;
+	public Player getPlayerBySession(Session s) {
+		return sessionPlayerMap.get(s);
 	}
-	
-	public synchronized void removeSession(Session session) {
-		for (Player player : playerSessionMap.keySet()) {
-			if (playerSessionMap.get(player) == session) {
-				playerSessionMap.remove(player);
+
+	public boolean isPlayerConnected(Player player) {
+		return registeredPlayers.get(player) != null;
+	}
+
+	public void removeSession(Session session) {
+		Player player = sessionPlayerMap.get(session);
+		sessionPlayerMap.remove(session);
+
+		for (Credentials cred : registeredPlayers.keySet()) {
+			if (registeredPlayers.get(cred) == player) {
+				registeredPlayers.put(cred, null);
 				return;
 			}
 		}
@@ -94,11 +99,15 @@ public class PlayerManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	private ArrayList<Player> loadRegisteredPlayers() {
-		ArrayList<Player> loadedList = (ArrayList<Player>) registeredPlayersFile.read();
+	private HashMap<Credentials, Player> loadRegisteredPlayers() {
+		HashMap<Credentials, Player> loadedList = (HashMap<Credentials, Player>) registeredPlayersFile.read();
 
 		if (loadedList == null) {
-			loadedList = new ArrayList<>();
+			loadedList = new HashMap<>();
+		}
+
+		for (Credentials cred : loadedList.keySet()) {
+			loadedList.put(cred, null);
 		}
 
 		return loadedList;

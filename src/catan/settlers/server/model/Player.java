@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
+import catan.settlers.network.server.Credentials;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 
 public class Player implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private String username;
-	private String password;
 
 	/*
 	 * Non-progress cards (ie: resources and commodities) will be stored in a
@@ -25,19 +24,19 @@ public class Player implements Serializable {
 	}
 
 	private int[] resources;
+	private Credentials credentials;
 
-	public Player(String username, String password) {
+	public Player(Credentials credentials) {
+		this.credentials = credentials;
 		this.resources = new int[ResourceType.values().length];
-		this.username = username;
-		this.password = password;
 
 		for (int i = 0; i < resources.length; i++) {
 			resources[i] = 0;
 		}
 	}
 
-	public String getUsername() {
-		return username;
+	public Credentials getCredentials() {
+		return credentials;
 	}
 
 	public int getResourceAmount(ResourceType res) {
@@ -51,10 +50,6 @@ public class Player implements Serializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public boolean comparePassword(String proposedPassword) {
-		return password.equals(proposedPassword);
 	}
 
 	public void giveResource(ResourceType r, int amount) {
@@ -76,6 +71,10 @@ public class Player implements Serializable {
 			resources[rGive.ordinal()] -= 4;
 			resources[rGet.ordinal()]++;
 		}
+	}
+
+	public String getUsername() {
+		return credentials.getUsername();
 	}
 
 	public Session getSession() {
