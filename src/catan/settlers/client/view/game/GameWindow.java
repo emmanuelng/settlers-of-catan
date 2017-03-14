@@ -62,7 +62,7 @@ public class GameWindow extends MinuetoFrame {
 		eventQueue = new MinuetoEventQueue();
 		this.registerWindowHandler(new BoardWindowHandler(), eventQueue);
 		this.registerMouseHandler(mouseHandler, eventQueue);
-		
+
 		this.participants = new ArrayList<>();
 		this.resources = new HashMap<>();
 	}

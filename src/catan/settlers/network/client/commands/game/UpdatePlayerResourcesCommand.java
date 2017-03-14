@@ -13,10 +13,6 @@ public class UpdatePlayerResourcesCommand implements ServerToClientCommand {
 
 	public UpdatePlayerResourcesCommand(HashMap<ResourceType, Integer> resources) {
 		this.resources = resources;
-
-		for (ResourceType r : resources.keySet()) {
-			System.out.println(r + ": " + resources.get(r));
-		}
 	}
 
 	@Override

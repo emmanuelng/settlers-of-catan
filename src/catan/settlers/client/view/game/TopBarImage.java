@@ -76,7 +76,11 @@ public class TopBarImage extends MinuetoImage {
 
 		MinuetoCircle circleImage = new MinuetoCircle(10, color, true);
 		MinuetoText resourceNameImage = new MinuetoText("" + r, resourceFont, MinuetoColor.BLACK, true);
+
 		MinuetoText typeAmountImage = new MinuetoText("" + resources.get(r), amountFont, MinuetoColor.BLACK, true);
+		if (resources.get(r) == null) {
+			typeAmountImage = new MinuetoText("0", amountFont, MinuetoColor.BLACK, true);
+		}
 
 		draw(circleImage, x, y);
 		draw(resourceNameImage, x + circleImage.getWidth() + 10, y);
