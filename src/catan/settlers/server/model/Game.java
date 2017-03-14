@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import catan.settlers.network.client.commands.TurnResponseCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
+import catan.settlers.network.client.commands.game.UpdatePlayerResourcesCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
 import catan.settlers.server.model.Player.ResourceType;
@@ -21,7 +22,7 @@ public class Game implements Serializable {
 		READYTOJOIN, SETUPPHASEONE, SETUPPHASETWO, TURNPHASEONE
 	}
 
-	public static final int MAX_NB_OF_PLAYERS = 3;
+	public static final int MAX_NB_OF_PLAYERS = 1;
 	private static final long serialVersionUID = 1L;
 
 	private int id;
@@ -92,14 +93,16 @@ public class Game implements Serializable {
 				updateAllPlayers();
 
 				// In second setup phase, give resources to the player
-//				if (!isPhaseOne) {
-//					for (Hexagon h : selectedIntersection.getHexagons()) {
-//						ResourceType r = terrainToResource(h.getType());
-//						if (r != null) {
-//							currentPlayer.giveResource(r, 1);
-//						}
-//					}
-//				}
+				if (!isPhaseOne) {
+					for (Hexagon h : selectedIntersection.getHexagons()) {
+						ResourceType r = terrainToResource(h.getType());
+						if (r != null) {
+							currentPlayer.giveResource(r, 1);
+						}
+					}
+
+					currentPlayer.sendCommand(new UpdatePlayerResourcesCommand(currentPlayer.getResources()));
+				}
 
 				// Stopping condition for phase one. Initialize setup phase two.
 				if (isPhaseOne && currentPlayer == participants.get(participants.size() - 1)) {
@@ -116,7 +119,7 @@ public class Game implements Serializable {
 
 				// Stopping condition for phase two. Initialize turn phase one.
 				if (!isPhaseOne && currentPlayer == participants.get(0)) {
-					currentPhase = GamePhase.SETUPPHASETWO;
+					currentPhase = GamePhase.TURNPHASEONE;
 					for (Player p : participants) {
 						p.sendCommand(new TurnResponseCommand("Going to turn phase one", true));
 					}

@@ -49,6 +49,7 @@ public class Session extends Thread {
 			}
 		} catch (Exception e) {
 			// Ignore
+			e.printStackTrace();
 		} finally {
 			close();
 		}

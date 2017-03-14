@@ -11,25 +11,21 @@ import catan.settlers.network.server.Session;
 
 public class Player implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
-	/*
-	 * Non-progress cards (ie: resources and commodities) will be stored in a
-	 * simple integer array. Each value in the array corresponds to the amount
-	 * of each type of card possessed by the player. The convention for card
-	 * types is alphabetical, resource before commodities: [0] BRICK, [1] GRAIN,
-	 * [2] LUMBER, [3] ORE, [4] WOOL, [5] CLOTH, [6] COIN, [7] PAPER
-	 */
 	public enum ResourceType {
 		BRICK, GRAIN, LUMBER, ORE, WOOL, CLOTH, COIN, PAPER
 	}
 
+	private static final long serialVersionUID = 1L;
 	private HashMap<ResourceType, Integer> resources;
 	private Credentials credentials;
 
 	public Player(Credentials credentials) {
 		this.credentials = credentials;
 		this.resources = new HashMap<>();
+
+		for (ResourceType resType : ResourceType.values()) {
+			resources.put(resType, 0);
+		}
 	}
 
 	public Credentials getCredentials() {
@@ -44,7 +40,7 @@ public class Player implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public int getResourceAmount(ResourceType res) {
 		return resources.get(res);
 	}
@@ -60,5 +56,15 @@ public class Player implements Serializable {
 
 	public Session getSession() {
 		return Server.getInstance().getPlayerManager().getSessionByPlayer(this);
+	}
+
+	public HashMap<ResourceType, Integer> getResources() {
+		HashMap<ResourceType, Integer> res = new HashMap<>();
+
+		for (ResourceType type : resources.keySet()) {
+			res.put(type, resources.get(type));
+		}
+
+		return res;
 	}
 }
