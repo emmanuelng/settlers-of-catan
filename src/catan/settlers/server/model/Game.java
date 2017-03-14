@@ -8,6 +8,7 @@ import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
 import catan.settlers.network.client.commands.game.UpdatePlayerResourcesCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
+import catan.settlers.network.server.Credentials;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
@@ -32,7 +33,7 @@ public class Game implements Serializable {
 	private Player currentPlayer;
 	private GamePhase currentPhase;
 
-	public Game(int id, Player owner) {
+	public Game(int id, Credentials owner) {
 		this.id = id;
 		this.currentPhase = GamePhase.READYTOJOIN;
 		this.participants = new ArrayList<>();
@@ -55,13 +56,14 @@ public class Game implements Serializable {
 
 	}
 
-	public void receiveResponse(Player sender, TurnData data) {
+	public void receiveResponse(Credentials credentials, TurnData data) {
+		Player player = gamePlayersManager.getPlayerByCredentials(credentials);
 		switch (currentPhase) {
 		case SETUPPHASEONE:
-			setupPhase(sender, data, true);
+			setupPhase(player, data, true);
 			break;
 		case SETUPPHASETWO:
-			setupPhase(sender, data, false);
+			setupPhase(player, data, false);
 			break;
 		default:
 			break;

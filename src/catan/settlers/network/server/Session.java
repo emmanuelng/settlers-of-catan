@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.commands.ClientToServerCommand;
-import catan.settlers.server.model.Player;
 
 public class Session extends Thread {
 
@@ -67,10 +66,10 @@ public class Session extends Thread {
 		sessionActive = false;
 
 		for (SessionObserver obs : observers) {
-			obs.sessionWasClosed(getPlayer());
+			obs.sessionWasClosed(getCredentials());
 		}
 
-		host.getPlayerManager().removeSession(this);
+		host.getAuthManager().removeSession(this);
 
 		try {
 			socket.close();
@@ -79,7 +78,7 @@ public class Session extends Thread {
 		}
 	}
 
-	public Player getPlayer() {
-		return host.getPlayerManager().getPlayerBySession(this);
+	public Credentials getCredentials() {
+		return host.getAuthManager().getCredentialsBySession(this);
 	}
 }

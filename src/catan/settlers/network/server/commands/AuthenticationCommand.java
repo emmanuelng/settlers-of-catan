@@ -21,9 +21,9 @@ public class AuthenticationCommand implements ClientToServerCommand {
 	@Override
 	public void execute(Session sender, Server server) {
 		try {
-			Status status = server.getPlayerManager().authenticate(username, password, sender);
+			Status status = server.getAuthManager().authenticate(username, password, sender);
 			if (status == Status.SUCCESS) {
-				server.writeToConsole("Player " + sender.getPlayer().getUsername() + " was authenticated");
+				server.writeToConsole("Player " + sender.getCredentials().getUsername() + " was authenticated");
 			}
 			sender.sendCommand(new AuthenticationResponseCommand(username, status));
 		} catch (IOException e) {

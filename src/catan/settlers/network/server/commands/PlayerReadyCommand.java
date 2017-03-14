@@ -16,8 +16,7 @@ public class PlayerReadyCommand implements ClientToServerCommand {
 	@Override
 	public void execute(Session sender, Server server) {
 		Game game = server.getGameManager().getGameById(gameId);
-		game.getPlayersManager().playerIsReady(sender.getPlayer());
-		// TODO
+		game.getPlayersManager().playerIsReady(sender.getCredentials());
 	}
 
 }

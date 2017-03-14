@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.setup.WaitingRoom;
+import catan.settlers.server.model.Game;
 
 public class PlayerJoinedGameCommand implements ServerToClientCommand {
 
@@ -14,12 +15,11 @@ public class PlayerJoinedGameCommand implements ServerToClientCommand {
 	private int readyPlayers;
 	private int maxPlayers;
 
-	public PlayerJoinedGameCommand(ArrayList<String> currentListOfPlayers, int gameID, int readyPlayers,
-			int maxPlayers) {
-		this.currentListOfPlayers = currentListOfPlayers;
-		this.gameID = gameID;
-		this.readyPlayers = readyPlayers;
-		this.maxPlayers = maxPlayers;
+	public PlayerJoinedGameCommand(Game game) {
+		this.currentListOfPlayers = game.getPlayersManager().getParticipantsUsernames();
+		this.gameID = game.getGameId();
+		this.readyPlayers = game.getPlayersManager().getNbOfReadyPlayers();
+		this.maxPlayers = Game.MAX_NB_OF_PLAYERS;
 	}
 
 	@Override

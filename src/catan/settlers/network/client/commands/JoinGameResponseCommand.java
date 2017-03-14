@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.setup.WaitingRoom;
+import catan.settlers.server.model.Game;
 
 public class JoinGameResponseCommand implements ServerToClientCommand {
 
@@ -17,13 +18,16 @@ public class JoinGameResponseCommand implements ServerToClientCommand {
 	private int readyPlayers;
 	private int maxPlayers;
 
-	public JoinGameResponseCommand(boolean success, ArrayList<String> participants, int gameID, int readyPlayers,
-			int maxPlayers) {
-		this.success = success;
-		this.currentListOfPlayers = participants;
-		this.gameID = gameID;
-		this.readyPlayers = readyPlayers;
-		this.maxPlayers = maxPlayers;
+	public JoinGameResponseCommand(boolean success, Game game) {
+		if (success) {
+			this.success = success;
+			this.currentListOfPlayers = game.getPlayersManager().getParticipantsUsernames();
+			this.gameID = game.getGameId();
+			this.readyPlayers = game.getPlayersManager().getNbOfReadyPlayers();
+			this.maxPlayers = Game.MAX_NB_OF_PLAYERS;
+		} else {
+			success = false;
+		}
 	}
 
 	@Override

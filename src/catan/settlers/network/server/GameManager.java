@@ -3,7 +3,6 @@ package catan.settlers.network.server;
 import java.util.ArrayList;
 
 import catan.settlers.server.model.Game;
-import catan.settlers.server.model.Player;
 
 public class GameManager {
 
@@ -15,7 +14,7 @@ public class GameManager {
 		this.games = new ArrayList<>();
 	}
 
-	public synchronized Game createGame(Player owner) {
+	public synchronized Game createGame(Credentials owner) {
 		Game game = new Game(lastId, owner);
 		games.add(game);
 		lastId++;

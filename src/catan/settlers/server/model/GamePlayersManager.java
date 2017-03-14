@@ -8,6 +8,7 @@ import java.util.HashMap;
 import catan.settlers.network.client.commands.MoreReadyPlayersCommand;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.client.commands.StartGameCommand;
+import catan.settlers.network.server.Credentials;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.SessionObserver;
 import catan.settlers.server.model.Game.GamePhase;
@@ -16,10 +17,10 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Player> participants;
-	private HashMap<Player, Boolean> readyPlayers;
+	private HashMap<Credentials, Boolean> readyPlayers;
 	private int gameId;
 
-	public GamePlayersManager(Player owner, ArrayList<Player> participants, int gameId) {
+	public GamePlayersManager(Credentials owner, ArrayList<Player> participants, int gameId) {
 		this.participants = participants;
 		this.readyPlayers = new HashMap<>();
 		this.gameId = gameId;
@@ -27,26 +28,27 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 		addPlayer(owner);
 	}
 
-	public boolean addPlayer(Player player) {
+	public boolean addPlayer(Credentials playerCred) {
 		if (getGame() != null) {
 			if (getGame().getGamePhase() != GamePhase.READYTOJOIN) {
 				return false;
 			}
 		}
 
-		if (!participants.contains(player) && participants.size() <= Game.MAX_NB_OF_PLAYERS) {
-			participants.add(player);
-			readyPlayers.put(player, false);
-			player.getSession().registerObserver(this);
+		if (!participants.contains(playerCred) && participants.size() <= Game.MAX_NB_OF_PLAYERS) {
+			Player new_player = new Player(playerCred);
+			participants.add(new_player);
+			readyPlayers.put(playerCred, false);
+			new_player.getSession().registerObserver(this);
 			return true;
 		}
 
 		return false;
 	}
 
-	public void removePlayer(Player player) {
-		participants.remove(player); 
-		readyPlayers.remove(player);
+	public void removePlayer(Credentials cred) {
+		participants.remove(getPlayerByCredentials(cred));
+		readyPlayers.remove(cred);
 	}
 
 	public ArrayList<String> getParticipantsUsernames() {
@@ -57,19 +59,19 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 
 		return list;
 	}
-	
+
 	public ArrayList<Player> getParticipants() {
 		return participants;
 	}
 
-	public boolean isParticipant(Player player) {
-		return participants.contains(player);
+	public boolean isParticipant(Credentials credentials) {
+		return getPlayerByCredentials(credentials) != null;
 	}
 
-	public void playerIsReady(Player player) {
-		if (participants.contains(player)) {
-			readyPlayers.put(player, true);
-			if (canStartGame()) {
+	public void playerIsReady(Credentials cred) {
+		if (participants.contains(getPlayerByCredentials(cred))) {
+			readyPlayers.put(cred, true);
+			if (allPlayersReady() && participants.size() == Game.MAX_NB_OF_PLAYERS) {
 				Collections.shuffle(participants);
 				sendToAll(new StartGameCommand());
 				getGame().startGame();
@@ -82,8 +84,19 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 		}
 	}
 
-	public boolean canStartGame() {
-		return allPlayersReady() && participants.size() == Game.MAX_NB_OF_PLAYERS;
+	public int getNbOfReadyPlayers() {
+		int result = 0;
+		for (Credentials cred : readyPlayers.keySet()) {
+			if (readyPlayers.get(cred)) {
+				result++;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public void sessionWasClosed(Credentials credentials) {
+		// TODO Handle player left the game
 	}
 
 	private void sendToAll(ServerToClientCommand cmd) {
@@ -93,8 +106,8 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 	}
 
 	private boolean allPlayersReady() {
-		for (Player p : readyPlayers.keySet()) {
-			if (!readyPlayers.get(p)) {
+		for (Credentials cred : readyPlayers.keySet()) {
+			if (!readyPlayers.get(cred)) {
 				return false;
 			}
 		}
@@ -105,18 +118,13 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 		return Server.getInstance().getGameManager().getGameById(gameId);
 	}
 
-	public int getNbOfReadyPlayers() {
-		int result = 0;
-		for (Player p : readyPlayers.keySet()) {
-			if (readyPlayers.get(p)) {
-				result++;
+	public Player getPlayerByCredentials(Credentials cred) {
+		for (Player player : participants) {
+			if (player.getUsername().equals(cred.getUsername())) {
+				return player;
 			}
 		}
-		return result;
+		return null;
 	}
 
-	@Override
-	public void sessionWasClosed(Player player) {
-		removePlayer(player);
-	}
 }

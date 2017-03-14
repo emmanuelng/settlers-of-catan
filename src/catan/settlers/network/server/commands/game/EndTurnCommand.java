@@ -21,7 +21,7 @@ public class EndTurnCommand implements ClientToServerCommand {
 	@Override
 	public void execute(Session sender, Server server) {
 		Game game = server.getGameManager().getGameById(gameId);
-		game.receiveResponse(sender.getPlayer(), turnData);
+		game.receiveResponse(sender.getCredentials(), turnData);
 	}
 
 }

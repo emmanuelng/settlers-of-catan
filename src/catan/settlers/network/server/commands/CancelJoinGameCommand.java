@@ -7,7 +7,6 @@ import catan.settlers.network.client.commands.PlayerJoinedGameCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.server.model.Game;
-import catan.settlers.server.model.Player;
 
 public class CancelJoinGameCommand implements ClientToServerCommand {
 
@@ -22,16 +21,14 @@ public class CancelJoinGameCommand implements ClientToServerCommand {
 	@Override
 	public void execute(Session sender, Server server) {
 		Game game = server.getGameManager().getGameById(gameId);
-		game.getPlayersManager().removePlayer(sender.getPlayer());
+		game.getPlayersManager().removePlayer(sender.getCredentials());
 
 		try {
 			sender.sendCommand(new CancelJoinGameResponseCommand(server.getGameManager().getListOfGames()));
 			for (String username : game.getPlayersManager().getParticipantsUsernames()) {
-				Player curPlayer = server.getPlayerManager().getPlayerByUsername(username);
-				if (curPlayer != sender.getPlayer()) {
-					curPlayer.sendCommand(new PlayerJoinedGameCommand(
-							game.getPlayersManager().getParticipantsUsernames(), game.getGameId(),
-							game.getPlayersManager().getNbOfReadyPlayers(), Game.MAX_NB_OF_PLAYERS));
+				if (username != sender.getCredentials().getUsername()) {
+					Session playerSession = server.getAuthManager().getSessionByUsername(username);
+					playerSession.sendCommand(new PlayerJoinedGameCommand(game));
 				}
 			}
 		} catch (IOException e) {

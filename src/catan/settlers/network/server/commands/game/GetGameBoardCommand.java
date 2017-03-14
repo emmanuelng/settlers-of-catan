@@ -19,7 +19,7 @@ public class GetGameBoardCommand implements ClientToServerCommand {
 	public void execute(Session sender, Server server) {
 		try {
 			Game game = server.getGameManager().getGameById(id);
-			if (game.getPlayersManager().isParticipant(sender.getPlayer())) {
+			if (game.getPlayersManager().isParticipant(sender.getCredentials())) {
 				sender.sendCommand(new UpdateGameBoardCommand(game.getGameBoardManager().getBoard()));
 			}
 		} catch (Exception e) {

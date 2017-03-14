@@ -44,7 +44,7 @@ public class Server extends Thread {
 	private ServerSocket listener;
 
 	private ServerWindow gui;
-	private PlayerManager playerManager;
+	private AuthenticationManager playerManager;
 	private GameManager gameManager;
 
 	/**
@@ -59,7 +59,7 @@ public class Server extends Thread {
 	 *             reason
 	 */
 	public Server() throws IOException {
-		this.playerManager = new PlayerManager();
+		this.playerManager = new AuthenticationManager();
 		this.gameManager = new GameManager();
 
 		settingsFile = new File(SETTINGS_FILE);
@@ -134,7 +134,7 @@ public class Server extends Thread {
 		writeToConsole("Server settings updated");
 	}
 
-	public PlayerManager getPlayerManager() {
+	public AuthenticationManager getAuthManager() {
 		return playerManager;
 	}
 

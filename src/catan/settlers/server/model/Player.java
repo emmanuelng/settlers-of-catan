@@ -33,7 +33,7 @@ public class Player implements Serializable {
 	}
 
 	public void sendCommand(ServerToClientCommand cmd) {
-		Session s = Server.instance.getPlayerManager().getSessionByPlayer(this);
+		Session s = Server.instance.getAuthManager().getSessionByCredentials(credentials);
 		try {
 			s.sendCommand(cmd);
 		} catch (IOException e) {
@@ -55,7 +55,7 @@ public class Player implements Serializable {
 	}
 
 	public Session getSession() {
-		return Server.getInstance().getPlayerManager().getSessionByPlayer(this);
+		return Server.getInstance().getAuthManager().getSessionByCredentials(credentials);
 	}
 
 	public HashMap<ResourceType, Integer> getResources() {
@@ -66,5 +66,14 @@ public class Player implements Serializable {
 		}
 
 		return res;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Player) {
+			Player other = (Player) obj;
+			return credentials.getUsername().equals(other.credentials.getUsername());
+		}
+		return false;
 	}
 }

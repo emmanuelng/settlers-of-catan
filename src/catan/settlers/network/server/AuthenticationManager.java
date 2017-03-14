@@ -5,25 +5,22 @@ import java.util.HashMap;
 
 import catan.settlers.common.utils.File;
 import catan.settlers.network.client.commands.AuthenticationResponseCommand.Status;
-import catan.settlers.server.model.Player;
 
-public class PlayerManager {
+public class AuthenticationManager {
 
 	private static final String registeredPlayersFileName = "players.dat";
 
 	private File registeredPlayersFile;
-	private HashMap<Credentials, Player> registeredPlayers;
-	private HashMap<Session, Player> sessionPlayerMap;
+	private HashMap<Credentials, Session> registeredPlayers;
 
-	public PlayerManager() throws IOException {
+	public AuthenticationManager() throws IOException {
 		registeredPlayersFile = new File(registeredPlayersFileName);
-		sessionPlayerMap = new HashMap<>();
 		registeredPlayers = loadRegisteredPlayers();
 	}
 
 	public boolean register(String username, String password) {
-		for (Credentials p : registeredPlayers.keySet()) {
-			if (p.getUsername().equals(username)) {
+		for (Credentials cred : registeredPlayers.keySet()) {
+			if (cred.getUsername().equals(username)) {
 				return false;
 			}
 		}
@@ -37,13 +34,12 @@ public class PlayerManager {
 	public Status authenticate(String username, String password, Session sender) {
 		for (Credentials cred : registeredPlayers.keySet()) {
 			if (cred.getUsername().equals(username) && cred.comparePassword(password)) {
-				Player curPlayer = registeredPlayers.get(cred);
-				if (curPlayer != null) {
+				Session curSession = registeredPlayers.get(cred);
+				if (curSession != null) {
+					// A player is logged in if he/she has an active session
 					return Status.ALREADY_CONNECTED;
 				} else {
-					Player player = new Player(cred);
-					registeredPlayers.put(cred, player);
-					sessionPlayerMap.put(sender, player);
+					registeredPlayers.put(cred, sender);
 					return Status.SUCCESS;
 				}
 			}
@@ -51,39 +47,26 @@ public class PlayerManager {
 		return Status.INVALID_CREDENTIALS;
 	}
 
-	public Player getPlayerByUsername(String username) {
+	public Session getSessionByCredentials(Credentials cred) {
+		return registeredPlayers.get(cred);
+	}
+
+	public Credentials getCredentialsBySession(Session s) {
 		for (Credentials cred : registeredPlayers.keySet()) {
-			if (cred.getUsername().equals(username)) {
-				return registeredPlayers.get(cred);
-			}
-		}
-
-		return null;
-	}
-
-	public Session getSessionByPlayer(Player player) {
-		for (Session session : sessionPlayerMap.keySet()) {
-			if (sessionPlayerMap.get(session) == player) {
-				return session;
+			if (registeredPlayers.get(cred) == s) {
+				return cred;
 			}
 		}
 		return null;
 	}
 
-	public Player getPlayerBySession(Session s) {
-		return sessionPlayerMap.get(s);
-	}
-
-	public boolean isPlayerConnected(Player player) {
-		return registeredPlayers.get(player) != null;
+	public boolean isConnected(Credentials cred) {
+		return registeredPlayers.get(cred) != null;
 	}
 
 	public void removeSession(Session session) {
-		Player player = sessionPlayerMap.get(session);
-		sessionPlayerMap.remove(session);
-
 		for (Credentials cred : registeredPlayers.keySet()) {
-			if (registeredPlayers.get(cred) == player) {
+			if (registeredPlayers.get(cred) == session) {
 				registeredPlayers.put(cred, null);
 				return;
 			}
@@ -99,17 +82,28 @@ public class PlayerManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	private HashMap<Credentials, Player> loadRegisteredPlayers() {
-		HashMap<Credentials, Player> loadedList = (HashMap<Credentials, Player>) registeredPlayersFile.read();
+	private HashMap<Credentials, Session> loadRegisteredPlayers() {
+		Object readObj = registeredPlayersFile.read();
+		HashMap<Credentials, Session> loadedList = (HashMap<Credentials, Session>) readObj;
 
 		if (loadedList == null) {
 			loadedList = new HashMap<>();
 		}
 
+		// Initialize all the players with empty session
 		for (Credentials cred : loadedList.keySet()) {
 			loadedList.put(cred, null);
 		}
 
 		return loadedList;
+	}
+
+	public Session getSessionByUsername(String username) {
+		for (Credentials cred : registeredPlayers.keySet()) {
+			if (cred.getUsername().equals(username)) {
+				return registeredPlayers.get(cred);
+			}
+		}
+		return null;
 	}
 }
