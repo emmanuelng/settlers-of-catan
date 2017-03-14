@@ -6,12 +6,12 @@ import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.Clickable;
 import catan.settlers.server.model.map.Intersection;
+import catan.settlers.server.model.units.Village;
 
 public class IntersectionImage extends MinuetoImage implements Clickable {
-
-	private static MinuetoImageFile settlementImage;
 
 	private int relativeX;
 	private int relativeY;
@@ -36,10 +36,22 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 			}
 		} else {
 			try {
-				if (settlementImage == null) {
-					settlementImage = new MinuetoImageFile("images/building.png");
+				if (intersection.getUnit() instanceof Village) {
+					Village village = (Village) intersection.getUnit();
+
+					switch (village.getKind()) {
+					case SETTLEMENT:
+						draw(new MinuetoImageFile("images/building.png"), 0, 0);
+						break;
+					case CITY:
+						int playerNo = ClientWindow.getInstance().getGameWindow()
+								.getPlayerNumber(village.getOwner().getUsername());
+						draw(new MinuetoImageFile("images/city" + playerNo + ".png"), 0, 0);
+						break;
+					default:
+						break;
+					}
 				}
-				draw(settlementImage, 0, 0);
 			} catch (MinuetoFileException e) {
 				e.printStackTrace();
 			}

@@ -32,13 +32,11 @@ public class Village implements IntersectionUnit {
 
 	@Override
 	public boolean isKnight() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isVillage() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 }

@@ -86,6 +86,10 @@ public class GameWindow extends MinuetoFrame {
 		render();
 	}
 
+	public int getPlayerNumber(String username) {
+		return participants.indexOf(username) + 1;
+	}
+
 	public MinuetoColor getColorByUsername(String username) {
 		int index = participants.indexOf(username);
 

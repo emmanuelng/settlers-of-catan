@@ -92,6 +92,10 @@ public class Game implements Serializable {
 				Village v = new Village(currentPlayer);
 				selectedIntersection.setUnit(v);
 				edgeSelect.setOwner(currentPlayer);
+				
+				if (!isPhaseOne)
+					v.upgradeToCity();
+				
 				updateAllPlayers();
 
 				// In second setup phase, give resources to the player
