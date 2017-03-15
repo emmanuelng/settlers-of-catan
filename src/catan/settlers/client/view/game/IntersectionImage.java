@@ -1,9 +1,9 @@
 package catan.settlers.client.view.game;
 
+import java.util.HashMap;
+
 import org.minueto.MinuetoColor;
-import org.minueto.MinuetoFileException;
 import org.minueto.image.MinuetoImage;
-import org.minueto.image.MinuetoImageFile;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
@@ -12,12 +12,21 @@ import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Village;
 
 public class IntersectionImage extends MinuetoImage implements Clickable {
+	
+	private static final HashMap<Intersection, IntersectionImage> intersectionImages = new HashMap<>();
+
+	public static IntersectionImage getHexImage(Intersection intersection, int relativeX, int relativeY) {
+		if (intersectionImages.get(intersection) == null) {
+			intersectionImages.put(intersection, new IntersectionImage(intersection, relativeX, relativeY));
+		}
+		return intersectionImages.get(intersection);
+	}
 
 	private int relativeX;
 	private int relativeY;
 	private Intersection intersectionModel;
 
-	public IntersectionImage(int relativeX, int relativeY, Intersection intersection) {
+	private IntersectionImage(Intersection intersection, int relativeX, int relativeY) {
 		super(20, 20);
 
 		this.relativeX = relativeX;
@@ -35,25 +44,21 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 				drawCircle(MinuetoColor.RED, 0, 0, 20);
 			}
 		} else {
-			try {
-				if (intersection.getUnit() instanceof Village) {
-					Village village = (Village) intersection.getUnit();
+			if (intersection.getUnit() instanceof Village) {
+				Village village = (Village) intersection.getUnit();
 
-					switch (village.getKind()) {
-					case SETTLEMENT:
-						draw(new MinuetoImageFile("images/building.png"), 0, 0);
-						break;
-					case CITY:
-						int playerNo = ClientWindow.getInstance().getGameWindow()
-								.getPlayerNumber(village.getOwner().getUsername());
-						draw(new MinuetoImageFile("images/city" + playerNo + ".png"), 0, 0);
-						break;
-					default:
-						break;
-					}
+				switch (village.getKind()) {
+				case SETTLEMENT:
+					draw(ClientModel.instance.getImageManager().load("images/building.png"), 0, 0);
+					break;
+				case CITY:
+					int playerNo = ClientWindow.getInstance().getGameWindow()
+							.getPlayerNumber(village.getOwner().getUsername());
+					draw(ClientModel.instance.getImageManager().load("images/city" + playerNo + ".png"), 0, 0);
+					break;
+				default:
+					break;
 				}
-			} catch (MinuetoFileException e) {
-				e.printStackTrace();
 			}
 		}
 	}

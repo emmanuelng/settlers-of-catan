@@ -1,5 +1,7 @@
 package catan.settlers.client.view.game;
 
+import java.util.HashMap;
+
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoImage;
@@ -9,6 +11,15 @@ import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
 
 public class HexagonImage extends MinuetoImage {
+
+	private static final HashMap<Hexagon, HexagonImage> hexImages = new HashMap<>();
+
+	public static HexagonImage getHexImage(Hexagon hex) {
+		if (hexImages.get(hex) == null) {
+			hexImages.put(hex, new HexagonImage(hex));
+		}
+		return hexImages.get(hex);
+	}
 
 	public static final int SIZE = 125;
 	private static int BORDERS = 25; // default number of pixels for the border
@@ -25,7 +36,7 @@ public class HexagonImage extends MinuetoImage {
 	private static int r = 0; // radius-center to middle of each side
 	private MinuetoColor color;
 
-	public HexagonImage(Hexagon hex) {
+	private HexagonImage(Hexagon hex) {
 		super(SIZE, SIZE);
 		HexagonImage.setSide(HEXSIZE);
 		drawPolygon(getColorByTerrainType(hex.getType()), drawCoordinates(0, 0));
