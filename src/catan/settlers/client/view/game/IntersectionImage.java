@@ -25,7 +25,7 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 		this.intersectionModel = intersection;
 
 		if (intersection.getUnit() == null) {
-			if (intersection != ClientModel.instance.getCurrentIntersection()) {
+			if (intersection != ClientModel.instance.getGameStateManager().getSelectedIntersection()) {
 				if (intersectionModel.isMaritime()) {
 					drawCircle(new MinuetoColor(182, 215, 255), 0, 0, 20);
 				} else {
@@ -65,10 +65,10 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 
 	@Override
 	public void onclick() {
-		if (intersectionModel != ClientModel.instance.getCurrentIntersection()) {
-			ClientModel.instance.setCurrentIntersection(intersectionModel);
+		if (intersectionModel != ClientModel.instance.getGameStateManager().getSelectedIntersection()) {
+			ClientModel.instance.getGameStateManager().setSelectedIntersection(intersectionModel);
 		} else {
-			ClientModel.instance.setCurrentIntersection(null);
+			ClientModel.instance.getGameStateManager().setSelectedIntersection(null);
 		}
 
 	}

@@ -21,7 +21,7 @@ public class TradeMenu extends MinuetoImage{
 	private boolean isOffer;
 	
 	public TradeMenu(){
-		super(ClientModel.WINDOW_WIDTH,ClientModel.WINDOW_HEIGHT);
+		super(ClientWindow.WINDOW_WIDTH,ClientWindow.WINDOW_HEIGHT);
 		//display the trade
 		drawSurface();
 
@@ -42,14 +42,14 @@ public class TradeMenu extends MinuetoImage{
 		drawResource(ResourceType.PAPER, 100, 475);
 		drawResource(ResourceType.COIN, 100, 550);
 		isOffer=false;
-		drawResource(ResourceType.GRAIN, ClientModel.WINDOW_WIDTH-300, 25);
-		drawResource(ResourceType.LUMBER, ClientModel.WINDOW_WIDTH-300, 100);
-		drawResource(ResourceType.ORE, ClientModel.WINDOW_WIDTH-300, 175);
-		drawResource(ResourceType.WOOL, ClientModel.WINDOW_WIDTH-300, 250);
-		drawResource(ResourceType.BRICK, ClientModel.WINDOW_WIDTH-300, 325);
-		drawResource(ResourceType.CLOTH, ClientModel.WINDOW_WIDTH-300, 400);
-		drawResource(ResourceType.PAPER, ClientModel.WINDOW_WIDTH-300, 475);
-		drawResource(ResourceType.COIN, ClientModel.WINDOW_WIDTH-300, 550);
+		drawResource(ResourceType.GRAIN, ClientWindow.WINDOW_WIDTH-300, 25);
+		drawResource(ResourceType.LUMBER, ClientWindow.WINDOW_WIDTH-300, 100);
+		drawResource(ResourceType.ORE, ClientWindow.WINDOW_WIDTH-300, 175);
+		drawResource(ResourceType.WOOL, ClientWindow.WINDOW_WIDTH-300, 250);
+		drawResource(ResourceType.BRICK, ClientWindow.WINDOW_WIDTH-300, 325);
+		drawResource(ResourceType.CLOTH, ClientWindow.WINDOW_WIDTH-300, 400);
+		drawResource(ResourceType.PAPER, ClientWindow.WINDOW_WIDTH-300, 475);
+		drawResource(ResourceType.COIN, ClientWindow.WINDOW_WIDTH-300, 550);
 	}
 	
 	private void drawResource(ResourceType r, int x, int y) {
@@ -174,7 +174,7 @@ public class TradeMenu extends MinuetoImage{
 		
 		surface.draw(offerResource,400,150);
 		surface.draw(desiredResource,550,150);
-		surface.draw(confirm, ClientModel.WINDOW_WIDTH/2, 110);
+		surface.draw(confirm, ClientWindow.WINDOW_WIDTH/2, 110);
 		draw(surface,0,0);
 	}
 

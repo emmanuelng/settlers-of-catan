@@ -44,9 +44,9 @@ public class EdgeImage extends MinuetoRectangle implements Clickable {
 		selected = !selected;
 
 		if (selected) {
-			ClientModel.instance.setCurrentEdge(edgeModel);
+			ClientModel.instance.getGameStateManager().setSelectedEdge(edgeModel);
 		} else {
-			ClientModel.instance.setCurrentEdge(null);
+			ClientModel.instance.getGameStateManager().setSelectedEdge(null);
 		}
 	}
 

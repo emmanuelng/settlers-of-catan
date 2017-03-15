@@ -6,12 +6,12 @@ import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoRectangle;
 import org.minueto.image.MinuetoText;
 
-import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.ClientWindow;
 
 public class DialogBox extends MinuetoImage {
 
 	public DialogBox(String title, String message) {
-		super(ClientModel.WINDOW_WIDTH, ClientModel.WINDOW_HEIGHT);
+		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT);
 
 		MinuetoFont titleFont = new MinuetoFont("arial", 20, true, false);
 		MinuetoFont messageFont = new MinuetoFont("arial", 16, false, false);

@@ -10,13 +10,13 @@ import org.minueto.image.MinuetoText;
 import org.minueto.window.MinuetoFrame;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.BoardKeyboardHandler;
 import catan.settlers.client.view.game.handlers.BoardMouseHandler;
 import catan.settlers.client.view.game.handlers.BoardWindowHandler;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;
 import catan.settlers.network.server.commands.game.GetListOfPlayersCommand;
 import catan.settlers.server.model.Player.ResourceType;
-import catan.settlers.server.model.map.GameBoard;
 
 public class GameWindow extends MinuetoFrame {
 
@@ -30,11 +30,10 @@ public class GameWindow extends MinuetoFrame {
 	private TradeMenu tradeMenu;
 
 	private ArrayList<String> participants;
-	private GameBoard board;
 	private HashMap<ResourceType, Integer> resources;
 
 	public GameWindow() {
-		super(ClientModel.WINDOW_WIDTH, ClientModel.WINDOW_HEIGHT, true);
+		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
 		mouseHandler = new BoardMouseHandler();
 		keyboardHandler = new BoardKeyboardHandler();
 	}
@@ -49,8 +48,8 @@ public class GameWindow extends MinuetoFrame {
 		while (open) {
 			while (eventQueue.hasNext())
 				eventQueue.handle();
-			if (board != null)
-				updateWindow(board);
+
+			updateWindow();
 			Thread.yield();
 		}
 
@@ -67,8 +66,8 @@ public class GameWindow extends MinuetoFrame {
 		this.resources = new HashMap<>();
 	}
 
-	public void updateWindow(GameBoard board) {
-		GameBoardImage gameBoard = new GameBoardImage(board);
+	public void updateWindow() {
+		GameBoardImage gameBoard = new GameBoardImage();
 		TopBarImage topBar = new TopBarImage(resources);
 
 		draw(topBar, 0, 0);
@@ -104,10 +103,6 @@ public class GameWindow extends MinuetoFrame {
 		return MinuetoColor.BLACK;
 	}
 
-	public void updateGameBoard(GameBoard board) {
-		this.board = board;
-	}
-
 	public void updateResources(HashMap<ResourceType, Integer> resources) {
 		this.resources = resources;
 	}
@@ -141,12 +136,13 @@ public class GameWindow extends MinuetoFrame {
 	}
 
 	private void requestGameBoard() {
-		GetGameBoardCommand req = new GetGameBoardCommand(ClientModel.instance.getCurGameId());
+		GetGameBoardCommand req = new GetGameBoardCommand(ClientModel.instance.getGameStateManager().getGameId());
 		ClientModel.instance.getNetworkManager().sendCommand(req);
 	}
 
 	private void requestPlayers() {
-		GetListOfPlayersCommand req = new GetListOfPlayersCommand(ClientModel.instance.getCurGameId());
+		GetListOfPlayersCommand req = new GetListOfPlayersCommand(
+				ClientModel.instance.getGameStateManager().getGameId());
 		ClientModel.instance.getNetworkManager().sendCommand(req);
 	}
 

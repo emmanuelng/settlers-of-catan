@@ -5,6 +5,8 @@ import catan.settlers.client.view.setup.SetupWindow;
 
 public class ClientWindow {
 
+	public static final int WINDOW_HEIGHT = 768;
+	public static final int WINDOW_WIDTH = 1366;
 	private static ClientWindow instance;
 
 	private SetupWindow setupWindow;

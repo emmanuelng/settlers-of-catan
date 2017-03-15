@@ -14,7 +14,7 @@ public class EndTurnCommand implements ClientToServerCommand {
 	private int gameId;
 	
 	public EndTurnCommand() {
-		this.gameId = ClientModel.instance.getCurGameId();
+		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 		this.turnData = new TurnData(ClientModel.instance);
 	}
 

@@ -20,8 +20,8 @@ public class TurnData implements Serializable {
 	private Edge selectedEdge;
 
 	public TurnData(ClientModel clientModel) {
-		this.selectedIntersection = clientModel.getCurrentIntersection();
-		this.selectedEdge = clientModel.getCurrentEdge();
+		this.selectedIntersection = clientModel.getGameStateManager().getSelectedIntersection();
+		this.selectedEdge = clientModel.getGameStateManager().getSelectedEdge();
 	}
 
 	public Intersection getIntersectionSelection() {

@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
-import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.ClientWindow;
 
 public class SetupWindow extends JFrame {
 
@@ -24,7 +24,7 @@ public class SetupWindow extends JFrame {
 
 		// Setup the window
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setSize(ClientModel.WINDOW_WIDTH, ClientModel.WINDOW_HEIGHT);
+		setSize(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT);
 		setTitle(WINDOW_TITLE);
 
 		// Initialize the frame with the connect screen

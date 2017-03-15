@@ -44,8 +44,8 @@ public class EndTurnImage extends MinuetoImage implements Clickable {
 		ClientModel.instance.getNetworkManager().sendCommand(new EndTurnCommand());
 		
 		// Reset the client model
-		ClientModel.instance.setCurrentEdge(null);
-		ClientModel.instance.setCurrentIntersection(null);
+		ClientModel.instance.getGameStateManager().setSelectedEdge(null);
+		ClientModel.instance.getGameStateManager().setSelectedIntersection(null);
 		ClientWindow.getInstance().getGameWindow().setDialogBox(null);
 	}
 

@@ -21,10 +21,13 @@ public class GameBoardImage extends MinuetoImage {
 	private HashMap<Edge, Hexagon> visitedEdges;
 	private HashMap<Intersection, Boolean> visitedIntersections;
 
-	public GameBoardImage(GameBoard board) {
+	public GameBoardImage() {
 		super(1366, 700);
-		this.board = board;
-		compose();
+
+		this.board = ClientModel.instance.getGameStateManager().getBoard();
+		if (board != null) {
+			compose();
+		}
 	}
 
 	private void compose() {
@@ -160,7 +163,7 @@ public class GameBoardImage extends MinuetoImage {
 			MinuetoColor edgeMColor = new MinuetoColor(230, 230, 230);
 
 			if (curEdge.getOwner() == null) {
-				if (curEdge != ClientModel.instance.getCurrentEdge()) {
+				if (curEdge != ClientModel.instance.getGameStateManager().getSelectedEdge()) {
 					if (!curEdge.isMaritime()) {
 						edgeMColor = new MinuetoColor(230, 230, 230);
 					} else {

@@ -1,8 +1,10 @@
-package catan.settlers.network.client.commands;
+package catan.settlers.network.client.commands.game;
 
 import java.util.ArrayList;
 
+import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
+import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class PlayerListResponseCommand implements ServerToClientCommand {
 	

@@ -16,10 +16,10 @@ public class BoardKeyboardHandler implements MinuetoKeyboardHandler{
 		switch(value) {
 		
 		case MinuetoKeyboard.KEY_ENTER:
-			if(ClientModel.instance.getCurrentIntersection() != null){
+			if(ClientModel.instance.getGameStateManager().getSelectedIntersection() != null){
 				System.out.println("Perfrom command instantaneously"); //send build settlement command
 				ClientWindow.getInstance().getGameWindow().setDialogBox(null);
-				ClientModel.instance.setCurrentIntersection(null);
+				ClientModel.instance.getGameStateManager().setSelectedIntersection(null);
 			}
 			if(ClientWindow.getInstance().getGameWindow().getTradeMenu().getSurface()!=null){
 				System.out.println("Perfrom command instantaneously"); //send resource offer

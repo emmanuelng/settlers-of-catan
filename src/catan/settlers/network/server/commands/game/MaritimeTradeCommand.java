@@ -12,7 +12,7 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 	private ResourceType rGet, rGive;
 
 	public MaritimeTradeCommand(ResourceType rGet, ResourceType rGive) {
-		ClientModel.instance.getCurGameId();
+		ClientModel.instance.getGameStateManager().getGameId();
 		this.rGet = rGet;
 		this.rGive = rGive;
 	}
