@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import catan.settlers.network.client.commands.TurnResponseCommand;
+import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
 import catan.settlers.network.client.commands.game.UpdatePlayerResourcesCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
@@ -133,7 +134,8 @@ public class Game implements Serializable {
 				}
 
 				// Get the next player
-				currentPlayer = isPhaseOne ? nextPlayer() : previousPlayer();
+				Player new_player = isPhaseOne ? nextPlayer() : previousPlayer();
+				setCurrentPlayer(new_player);
 
 				// Send commands to the players
 				for (Player p : participants) {
@@ -162,6 +164,16 @@ public class Game implements Serializable {
 
 	public int getGameId() {
 		return id;
+	}
+	
+	public void setCurrentPlayer(Player player) {
+		if (participants.contains(player)) {
+			currentPlayer = player;
+			
+			for (Player p: participants) {
+				p.sendCommand(new CurrentPlayerChangedCommand(player));
+			}
+		}
 	}
 
 	public Player nextPlayer() {
