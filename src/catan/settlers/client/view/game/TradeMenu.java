@@ -112,8 +112,6 @@ public class TradeMenu extends MinuetoImage{
 		draw(typeOfResource, x + 90, y + 10);
 		
 		
-	
-
 	}
 
 	public void updateTradeMenu(ResourceType resourceType, String text, boolean isOfferUpdate) {
@@ -174,7 +172,7 @@ public class TradeMenu extends MinuetoImage{
 		
 		surface.draw(offerResource,400,150);
 		surface.draw(desiredResource,550,150);
-		surface.draw(confirm, ClientWindow.WINDOW_WIDTH/2, 110);
+		surface.draw(confirm, 400, 110);
 		draw(surface,0,0);
 	}
 
@@ -187,6 +185,9 @@ public class TradeMenu extends MinuetoImage{
 	}
 	public void confirmTradeOffer() {
 		this.clear();
+		if(offer.size() == 0 || desired.size() == 0){
+			return;
+		}
 		if(offer.size()>=4){
 			if(offer.get(0).toString()==offer.get(1).toString() && offer.get(1).toString()==offer.get(2).toString() && offer.get(2).toString()==offer.get(3).toString()){
 				ClientModel.instance.getNetworkManager().sendCommand(new MaritimeTradeCommand(desired.get(0),offer.get(0)));
