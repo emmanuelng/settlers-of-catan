@@ -115,6 +115,7 @@ public class GameWindow extends MinuetoFrame {
 	}
 
 	public void setDialogBox(DialogBox dbox) {
+		this.dbox = dbox;
 	}
 
 	public BoardKeyboardHandler getKeyBoardHandler() {
