@@ -24,7 +24,7 @@ public class Game implements Serializable {
 		READYTOJOIN, SETUPPHASEONE, SETUPPHASETWO, TURNPHASEONE
 	}
 
-	public static final int MAX_NB_OF_PLAYERS = 1;
+	public static final int MAX_NB_OF_PLAYERS = 3;
 	private static final long serialVersionUID = 1L;
 
 	private int id;
@@ -48,12 +48,12 @@ public class Game implements Serializable {
 		this.currentPlayer = participants.get(0);
 
 		for (Player p : participants) {
+			p.sendCommand(new CurrentPlayerChangedCommand(currentPlayer.getUsername()));
 			if (p == currentPlayer) {
 				p.sendCommand(new PlaceElmtsSetupPhaseCommand(true));
 			} else {
 				p.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
 			}
-			p.sendCommand(new CurrentPlayerChangedCommand(currentPlayer.getUsername()));
 		}
 
 	}
