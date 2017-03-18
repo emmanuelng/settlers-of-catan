@@ -22,7 +22,7 @@ public class TradeImage extends MinuetoImage implements Clickable {
 		this.relativeY = relativeY;
 
 		ImageFileManager ifm = ClientModel.instance.getImageFileManager();
-		draw(ifm.load("images/trade.png"), 0, 0);
+		draw(ifm.load("images/trade-new.png"), 0, 0);
 		draw(new MinuetoText("Trade", new MinuetoFont("arial", 10, false, false), MinuetoColor.BLACK), 0, 50);
 
 		this.selected = false;

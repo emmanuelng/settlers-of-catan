@@ -27,7 +27,7 @@ public class GameBoardImage extends MinuetoImage {
 			return;
 
 		int offsetX = (int) (((board.getLength() + 0.5) * HexagonImage.WIDTH) / 2);
-		int offsetY = 50;
+		int offsetY = 60;
 
 		clear(MinuetoColor.WHITE);
 		int hex_height = HexagonImage.HEIGHT, hex_width = HexagonImage.WIDTH;

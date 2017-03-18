@@ -22,7 +22,7 @@ public class EndTurnImage extends MinuetoImage implements Clickable {
 		this.relativeY = relativeY;
 
 		ImageFileManager ifm = ClientModel.instance.getImageFileManager();
-		draw(ifm.load("images/endturn.png"), 0, 0);
+		draw(ifm.load("images/endturn-new.png"), 0, 0);
 		draw(new MinuetoText("End Turn", new MinuetoFont("arial", 10, false, false), MinuetoColor.BLACK), 0, 50);
 	}
 

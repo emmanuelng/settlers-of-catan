@@ -6,6 +6,7 @@ import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoCircle;
 import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoImage;
+import org.minueto.image.MinuetoRectangle;
 import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.model.ClientModel;
@@ -18,7 +19,7 @@ public class TopBarImage extends MinuetoImage {
 	private HashMap<ResourceType, Integer> resources;
 
 	public TopBarImage() {
-		super(ClientWindow.getInstance().getGameWindow().getWidth(), 100);
+		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT);
 
 		this.resources = ClientModel.instance.getGameStateManager().getResources();
 
@@ -33,7 +34,8 @@ public class TopBarImage extends MinuetoImage {
 	}
 
 	private void compose() {
-		clear(new MinuetoColor(249, 249, 249));
+		draw(new MinuetoRectangle(ClientWindow.WINDOW_WIDTH, 105, new MinuetoColor(236, 236, 236), true), 0, 0);
+		draw(new MinuetoRectangle(ClientWindow.WINDOW_WIDTH, 100, new MinuetoColor(249, 249, 249), true), 0, 0);
 
 		drawResource(ResourceType.GRAIN, 100, 25);
 		drawResource(ResourceType.LUMBER, 250, 25);
@@ -47,7 +49,7 @@ public class TopBarImage extends MinuetoImage {
 		drawDice(900, 25);
 		drawTrade(1000, 25);
 		drawEndTurn(1100, 25);
-		drawVP(1200, 25);
+		drawVP(1200, 0);
 	}
 
 	private void drawResource(ResourceType r, int x, int y) {
@@ -115,7 +117,8 @@ public class TopBarImage extends MinuetoImage {
 
 	private void drawVP(int x, int y) {
 		ImageFileManager ifm = ClientModel.instance.getImageFileManager();
-		draw(ifm.load("images/vp.png"), x, y);
-		draw(new MinuetoText("0", new MinuetoFont("arial", 25, false, false), MinuetoColor.BLACK), x + 60, y + 10);
+		draw(ifm.load("images/vp-new.png"), x, y);
+		draw(new MinuetoText("0", new MinuetoFont("arial", 25, true, false), new MinuetoColor(200, 171, 55), true),
+				x + 75, y + 35);
 	}
 }

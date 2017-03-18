@@ -78,12 +78,12 @@ public class GameWindow extends MinuetoFrame {
 			playerChanged = false;
 		}
 
-		draw(topBar, 0, 0);
 		draw(board, 0, 100);
+		draw(topBar, 0, 0);
 		draw(playersList, 0, 100);
 
 		if (dbox != null) {
-			draw(dbox, 0, 100);
+			draw(dbox, 0, 110);
 		}
 
 		if (tradeMenu != null) {
