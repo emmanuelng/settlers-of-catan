@@ -72,11 +72,14 @@ public class GameStateManager {
 
 	public void setParticipants(ArrayList<String> participants) {
 		this.participants = participants;
+		if (gameWindow != null)
+			gameWindow.notifyCurPlayerHasChanged();
 	}
 
 	public void setCurrentPlayer(String player) {
 		currentPlayer = player;
-		gameWindow.notifyCurPlayerHasChanged();
+		if (gameWindow != null)
+			gameWindow.notifyCurPlayerHasChanged();
 	}
 
 	public String getCurrentPlayer() {

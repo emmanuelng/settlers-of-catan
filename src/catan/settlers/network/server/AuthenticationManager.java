@@ -1,6 +1,7 @@
 package catan.settlers.network.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import catan.settlers.common.utils.File;
@@ -73,31 +74,6 @@ public class AuthenticationManager {
 		}
 	}
 
-	/**
-	 * Save/Load the list of players
-	 */
-
-	private void saveRegisteredPlayers() {
-		registeredPlayersFile.write(registeredPlayers);
-	}
-
-	@SuppressWarnings("unchecked")
-	private HashMap<Credentials, Session> loadRegisteredPlayers() {
-		Object readObj = registeredPlayersFile.read();
-		HashMap<Credentials, Session> loadedList = (HashMap<Credentials, Session>) readObj;
-
-		if (loadedList == null) {
-			loadedList = new HashMap<>();
-		}
-
-		// Initialize all the players with empty session
-		for (Credentials cred : loadedList.keySet()) {
-			loadedList.put(cred, null);
-		}
-
-		return loadedList;
-	}
-
 	public Session getSessionByUsername(String username) {
 		for (Credentials cred : registeredPlayers.keySet()) {
 			if (cred.getUsername().equals(username)) {
@@ -105,5 +81,34 @@ public class AuthenticationManager {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Save/Load the list of players
+	 */
+
+	private void saveRegisteredPlayers() {
+		ArrayList<Credentials> credentials = new ArrayList<>();
+		for (Credentials cred : registeredPlayers.keySet()) {
+			credentials.add(cred);
+		}
+		registeredPlayersFile.write(credentials);
+	}
+
+	@SuppressWarnings("unchecked")
+	private HashMap<Credentials, Session> loadRegisteredPlayers() {
+		Object readObj = registeredPlayersFile.read();
+		HashMap<Credentials, Session> result = new HashMap<>();
+
+		ArrayList<Credentials> loadedList = (ArrayList<Credentials>) readObj;
+
+		if (loadedList != null) {
+			// Initialize all the players with empty session
+			for (Credentials cred : loadedList) {
+				result.put(cred, null);
+			}
+		}
+
+		return result;
 	}
 }
