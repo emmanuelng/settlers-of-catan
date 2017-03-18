@@ -108,7 +108,10 @@ public class GameBoardImage extends MinuetoImage {
 				break;
 			}
 
-			IntersectionImage intersecImg = new IntersectionImage(curIntersection, shift_x + x, shift_y + y);
+			boolean isSelected = ClientModel.instance.getGameStateManager()
+					.getSelectedIntersection() == curIntersection;
+			IntersectionImage intersecImg = IntersectionImage.getIntersectionImage(curIntersection, shift_x + x,
+					shift_y + y, isSelected);
 			draw(intersecImg, shift_x + x, shift_y + y);
 			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(intersecImg);
 		}
@@ -160,24 +163,8 @@ public class GameBoardImage extends MinuetoImage {
 				break;
 			}
 
-			MinuetoColor edgeMColor = new MinuetoColor(230, 230, 230);
-
-			if (curEdge.getOwner() == null) {
-				if (curEdge != ClientModel.instance.getGameStateManager().getSelectedEdge()) {
-					if (!curEdge.isMaritime()) {
-						edgeMColor = new MinuetoColor(230, 230, 230);
-					} else {
-						edgeMColor = new MinuetoColor(170, 218, 255);
-					}
-				} else {
-					edgeMColor = MinuetoColor.RED;
-				}
-			} else {
-				String username = curEdge.getOwner().getUsername();
-				edgeMColor = ClientWindow.getInstance().getGameWindow().getColorByUsername(username);
-			}
-
-			EdgeImage edgeImg = new EdgeImage(curEdge, rotation, shift_x + x, shift_y + y, edgeMColor);
+			boolean isSelected = curEdge == ClientModel.instance.getGameStateManager().getSelectedEdge();
+			EdgeImage edgeImg = EdgeImage.getEdgeImage(curEdge, rotation, shift_x + x, shift_y + y, isSelected);
 			draw(edgeImg.rotate(rotation), shift_x + x, shift_y + y);
 
 			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(edgeImg);

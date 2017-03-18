@@ -1,5 +1,7 @@
 package catan.settlers.client.view.game;
 
+import java.util.HashMap;
+
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
@@ -12,11 +14,23 @@ import catan.settlers.server.model.units.Village;
 
 public class IntersectionImage extends MinuetoImage implements Clickable {
 
+	private static final HashMap<Intersection, IntersectionImage> intersections = new HashMap<>();
+	private static final HashMap<Intersection, IntersectionImage> selected_intersections = new HashMap<>();
+
+	public static IntersectionImage getIntersectionImage(Intersection intersection, int x, int y, boolean isSelected) {
+		HashMap<Intersection, IntersectionImage> list = isSelected ? selected_intersections : intersections;
+
+		if (list.get(intersection) == null)
+			list.put(intersection, new IntersectionImage(intersection, x, y, isSelected));
+
+		return list.get(intersection);
+	}
+
 	private int relativeX;
 	private int relativeY;
 	private Intersection intersectionModel;
 
-	public IntersectionImage(Intersection intersection, int relativeX, int relativeY) {
+	private IntersectionImage(Intersection intersection, int relativeX, int relativeY, boolean isSelected) {
 		super(20, 20);
 
 		this.relativeX = relativeX;
@@ -24,7 +38,7 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 		this.intersectionModel = intersection;
 
 		if (intersection.getUnit() == null) {
-			if (intersection != ClientModel.instance.getGameStateManager().getSelectedIntersection()) {
+			if (!isSelected) {
 				if (intersectionModel.isMaritime()) {
 					drawCircle(new MinuetoColor(182, 215, 255), 0, 0, 20);
 				} else {
