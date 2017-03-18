@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoImage;
-import org.minueto.image.MinuetoImageFile;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.ImageFileManager;
