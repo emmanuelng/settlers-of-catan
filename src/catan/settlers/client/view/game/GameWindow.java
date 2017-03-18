@@ -5,9 +5,7 @@ import java.util.HashMap;
 
 import org.minueto.MinuetoColor;
 import org.minueto.MinuetoEventQueue;
-import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoImage;
-import org.minueto.image.MinuetoText;
 import org.minueto.window.MinuetoFrame;
 
 import catan.settlers.client.model.ClientModel;
@@ -24,12 +22,15 @@ public class GameWindow extends MinuetoFrame {
 	private MinuetoEventQueue eventQueue;
 	private BoardMouseHandler mouseHandler;
 	private BoardKeyboardHandler keyboardHandler;
-	private boolean boardChanged;
 
 	private GameBoardImage board;
 	private TopBarImage topBar;
+	private PlayerListImage playersList;
 	private TradeMenu tradeMenu;
 	private MinuetoImage dbox;
+
+	private boolean boardChanged;
+	private boolean playerChanged;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
@@ -60,6 +61,7 @@ public class GameWindow extends MinuetoFrame {
 
 		this.board = new GameBoardImage();
 		this.topBar = new TopBarImage();
+		this.playersList = new PlayerListImage();
 
 		registerWindowHandler(new BoardWindowHandler(), eventQueue);
 		registerMouseHandler(mouseHandler, eventQueue);
@@ -67,14 +69,18 @@ public class GameWindow extends MinuetoFrame {
 
 	public void updateWindow() {
 		if (boardChanged) {
-			board.compose();
+			board = new GameBoardImage();
 			boardChanged = false;
+		}
+		
+		if (playerChanged) {
+			playersList = new PlayerListImage();
+			playerChanged = false;
 		}
 
 		draw(topBar, 0, 0);
 		draw(board, 0, 100);
-
-		printListOfPlayers(1200, 300);
+		draw(playersList, 0, 100);
 
 		if (dbox != null) {
 			draw(dbox, 0, 100);
@@ -134,18 +140,11 @@ public class GameWindow extends MinuetoFrame {
 		return tradeMenu;
 	}
 
-	private void printListOfPlayers(int x, int y) {
-		ArrayList<String> participants = ClientModel.instance.getGameStateManager().getParticipants();
-
-		if (participants != null) {
-			for (int i = 0; i < participants.size(); i++) {
-				draw(new MinuetoText(participants.get(i), new MinuetoFont("arial", 30, false, false),
-						MinuetoColor.BLACK), x, y + i * 200);
-			}
-		}
-	}
-
 	public void notifyBoardHasChanged() {
 		boardChanged = true;
+	}
+	
+	public void notifyCurPlayerHasChanged() {
+		playerChanged = true;
 	}
 }

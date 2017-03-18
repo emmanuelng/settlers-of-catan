@@ -1,12 +1,12 @@
 package catan.settlers.client.view.game;
 
 import org.minueto.MinuetoColor;
-import org.minueto.MinuetoFileException;
 import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoImage;
-import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoText;
 
+import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.ImageFileManager;
 import catan.settlers.client.view.game.handlers.Clickable;
 
 public class DiceImage extends MinuetoImage implements Clickable {
@@ -20,14 +20,8 @@ public class DiceImage extends MinuetoImage implements Clickable {
 		this.relativeX = relativeX;
 		this.relativeY = relativeY;
 
-		MinuetoImage dice;
-		try {
-			dice = new MinuetoImageFile("images/dice.png");
-			draw(dice, 0, 0);
-		} catch (MinuetoFileException e) {
-			System.out.println("Could not load image file");
-			return;
-		}
+		ImageFileManager ifm = ClientModel.instance.getImageFileManager();
+		draw(ifm.load("images/dice.png"), 0, 0);
 		draw(new MinuetoText("Roll Dice", new MinuetoFont("arial", 10, false, false), MinuetoColor.BLACK), 0, 50);
 	}
 

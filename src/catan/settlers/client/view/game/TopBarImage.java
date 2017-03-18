@@ -3,14 +3,13 @@ package catan.settlers.client.view.game;
 import java.util.HashMap;
 
 import org.minueto.MinuetoColor;
-import org.minueto.MinuetoFileException;
 import org.minueto.image.MinuetoCircle;
 import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoImage;
-import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.ImageFileManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.server.model.Player.ResourceType;
 
@@ -115,14 +114,8 @@ public class TopBarImage extends MinuetoImage {
 	}
 
 	private void drawVP(int x, int y) {
-		MinuetoImage vp;
-		try {
-			vp = new MinuetoImageFile("images/vp.png");
-			draw(vp, x, y);
-		} catch (MinuetoFileException e) {
-			System.out.println("Could not load image file");
-			return;
-		}
+		ImageFileManager ifm = ClientModel.instance.getImageFileManager();
+		draw(ifm.load("images/vp.png"), x, y);
 		draw(new MinuetoText("0", new MinuetoFont("arial", 25, false, false), MinuetoColor.BLACK), x + 60, y + 10);
 	}
 }

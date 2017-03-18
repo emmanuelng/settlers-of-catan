@@ -1,13 +1,12 @@
 package catan.settlers.client.view.game;
 
 import org.minueto.MinuetoColor;
-import org.minueto.MinuetoFileException;
 import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoImage;
-import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.ImageFileManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.Clickable;
 import catan.settlers.network.server.commands.game.EndTurnCommand;
@@ -22,14 +21,8 @@ public class EndTurnImage extends MinuetoImage implements Clickable {
 		this.relativeX = relativeX;
 		this.relativeY = relativeY;
 
-		MinuetoImage endturn;
-		try {
-			endturn = new MinuetoImageFile("images/endturn.png");
-			draw(endturn, 0, 0);
-		} catch (MinuetoFileException e) {
-			System.out.println("Could not load image file");
-			return;
-		}
+		ImageFileManager ifm = ClientModel.instance.getImageFileManager();
+		draw(ifm.load("images/endturn.png"), 0, 0);
 		draw(new MinuetoText("End Turn", new MinuetoFont("arial", 10, false, false), MinuetoColor.BLACK), 0, 50);
 	}
 

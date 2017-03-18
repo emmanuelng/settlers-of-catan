@@ -2,14 +2,13 @@ package catan.settlers.network.client.commands.game;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.network.client.commands.ServerToClientCommand;
-import catan.settlers.server.model.Player;
 
 public class CurrentPlayerChangedCommand implements ServerToClientCommand {
 
 	private static final long serialVersionUID = 1L;
-	private Player player;
+	private String player;
 
-	public CurrentPlayerChangedCommand(Player player) {
+	public CurrentPlayerChangedCommand(String player) {
 		this.player = player;
 	}
 

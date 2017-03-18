@@ -8,25 +8,27 @@ public class ClientModel {
 
 	private NetworkManager networkManager;
 	private GameStateManager gameStateManager;
-	
+	private ImageFileManager imageFileManager;
+
 	private String username;
 
 	private ClientModel() {
 		this.networkManager = new NetworkManager();
+		this.imageFileManager = new ImageFileManager();
 	}
 
 	public NetworkManager getNetworkManager() {
 		return networkManager;
 	}
-	
+
 	public GameStateManager getGameStateManager() {
 		return gameStateManager;
 	}
-	
+
 	public void joinGame(int gameId) {
 		networkManager.sendCommand(new JoinGameCommand(gameId));
 	}
-	
+
 	public void joinGameSuccess(int gameId) {
 		gameStateManager = new GameStateManager(gameId);
 	}
@@ -37,5 +39,9 @@ public class ClientModel {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public ImageFileManager getImageFileManager() {
+		return imageFileManager;
 	}
 }

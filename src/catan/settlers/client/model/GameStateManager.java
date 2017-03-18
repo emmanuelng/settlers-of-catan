@@ -8,7 +8,6 @@ import catan.settlers.client.view.game.GameWindow;
 import catan.settlers.network.server.commands.ClientToServerCommand;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;
 import catan.settlers.network.server.commands.game.GetListOfPlayersCommand;
-import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
@@ -21,7 +20,7 @@ public class GameStateManager {
 	private Edge selectedEdge;
 	private GameBoard board;
 	private ArrayList<String> participants;
-	private Player currentPlayer;
+	private String currentPlayer;
 	private HashMap<ResourceType, Integer> resources;
 
 	private GameWindow gameWindow;
@@ -75,11 +74,12 @@ public class GameStateManager {
 		this.participants = participants;
 	}
 
-	public void setCurrentPlayer(Player player) {
+	public void setCurrentPlayer(String player) {
 		currentPlayer = player;
+		gameWindow.notifyCurPlayerHasChanged();
 	}
 
-	public Player getCurrentPlayer() {
+	public String getCurrentPlayer() {
 		return currentPlayer;
 	}
 
@@ -91,7 +91,7 @@ public class GameStateManager {
 		this.resources = resources;
 	}
 
-	private void sync() {
+	public void sync() {
 		ArrayList<ClientToServerCommand> cmds = new ArrayList<>();
 
 		cmds.add(new GetListOfPlayersCommand(gameId));
