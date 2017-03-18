@@ -1,8 +1,13 @@
 package catan.settlers.client.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import catan.settlers.network.server.commands.ClientToServerCommand;
+import catan.settlers.network.server.commands.game.GetGameBoardCommand;
+import catan.settlers.network.server.commands.game.GetListOfPlayersCommand;
 import catan.settlers.server.model.Player;
+import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Intersection;
@@ -15,9 +20,11 @@ public class GameStateManager {
 	private GameBoard board;
 	private ArrayList<String> participants;
 	private Player currentPlayer;
+	private HashMap<ResourceType, Integer> resources;
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
+		sync();
 	}
 
 	public int getGameId() {
@@ -57,11 +64,30 @@ public class GameStateManager {
 	}
 
 	public void setCurrentPlayer(Player player) {
-		currentPlayer = player;		
+		currentPlayer = player;
 	}
-	
+
 	public Player getCurrentPlayer() {
 		return currentPlayer;
+	}
+	
+	public HashMap<ResourceType, Integer> getResources() {
+		return resources;
+	}
+
+	public void setResources(HashMap<ResourceType, Integer> resources) {
+		this.resources = resources;
+	}
+
+	private void sync() {
+		ArrayList<ClientToServerCommand> cmds = new ArrayList<>();
+
+		cmds.add(new GetListOfPlayersCommand(gameId));
+		cmds.add(new GetGameBoardCommand(gameId));
+
+		for (ClientToServerCommand cmd : cmds) {
+			ClientModel.instance.getNetworkManager().sendCommand(cmd);
+		}
 	}
 
 }

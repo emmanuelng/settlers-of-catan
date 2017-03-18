@@ -10,6 +10,7 @@ import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoText;
 
+import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.server.model.Player.ResourceType;
 
@@ -17,29 +18,37 @@ public class TopBarImage extends MinuetoImage {
 
 	private HashMap<ResourceType, Integer> resources;
 
-	public TopBarImage(HashMap<ResourceType, Integer> resources) {
+	public TopBarImage() {
 		super(ClientWindow.getInstance().getGameWindow().getWidth(), 100);
 
-		this.resources = resources;
-		compose(0, 0);
+		this.resources = ClientModel.instance.getGameStateManager().getResources();
+
+		if (resources == null) {
+			this.resources = new HashMap<>();
+			for (ResourceType r : ResourceType.values()) {
+				this.resources.put(r, 0);
+			}
+		}
+
+		compose();
 	}
 
-	private void compose(int x, int y) {
+	private void compose() {
 		clear(new MinuetoColor(249, 249, 249));
 
-		drawResource(ResourceType.GRAIN, x + 100, 25);
-		drawResource(ResourceType.LUMBER, x + 250, 25);
-		drawResource(ResourceType.ORE, x + 400, 25);
-		drawResource(ResourceType.WOOL, x + 550, 25);
-		drawResource(ResourceType.BRICK, x + 700, 25);
-		drawResource(ResourceType.CLOTH, x + 100, 65);
-		drawResource(ResourceType.PAPER, x + 250, 65);
-		drawResource(ResourceType.COIN, x + 400, 65);
+		drawResource(ResourceType.GRAIN, 100, 25);
+		drawResource(ResourceType.LUMBER, 250, 25);
+		drawResource(ResourceType.ORE, 400, 25);
+		drawResource(ResourceType.WOOL, 550, 25);
+		drawResource(ResourceType.BRICK, 700, 25);
+		drawResource(ResourceType.CLOTH, 100, 65);
+		drawResource(ResourceType.PAPER, 250, 65);
+		drawResource(ResourceType.COIN, 400, 65);
 
-		drawDice(x + 900, 25);
-		drawTrade(x + 1000, 25);
-		drawEndTurn(x + 1100, 25);
-		drawVP(x + 1200, 25);
+		drawDice(900, 25);
+		drawTrade(1000, 25);
+		drawEndTurn(1100, 25);
+		drawVP(1200, 25);
 	}
 
 	private void drawResource(ResourceType r, int x, int y) {

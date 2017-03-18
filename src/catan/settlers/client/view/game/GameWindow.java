@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.minueto.MinuetoColor;
 import org.minueto.MinuetoEventQueue;
 import org.minueto.image.MinuetoFont;
+import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoText;
 import org.minueto.window.MinuetoFrame;
 
@@ -14,8 +15,6 @@ import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.BoardKeyboardHandler;
 import catan.settlers.client.view.game.handlers.BoardMouseHandler;
 import catan.settlers.client.view.game.handlers.BoardWindowHandler;
-import catan.settlers.network.server.commands.game.GetGameBoardCommand;
-import catan.settlers.network.server.commands.game.GetListOfPlayersCommand;
 import catan.settlers.server.model.Player.ResourceType;
 
 public class GameWindow extends MinuetoFrame {
@@ -25,12 +24,8 @@ public class GameWindow extends MinuetoFrame {
 	private MinuetoEventQueue eventQueue;
 	private BoardMouseHandler mouseHandler;
 	private BoardKeyboardHandler keyboardHandler;
-
-	private DialogBox dbox;
 	private TradeMenu tradeMenu;
-
-	private ArrayList<String> participants;
-	private HashMap<ResourceType, Integer> resources;
+	private MinuetoImage dbox;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
@@ -40,8 +35,6 @@ public class GameWindow extends MinuetoFrame {
 
 	public void start() {
 		initialize();
-		requestGameBoard();
-		requestPlayers();
 		open = true;
 
 		// Event loop
@@ -50,12 +43,6 @@ public class GameWindow extends MinuetoFrame {
 				eventQueue.handle();
 
 			updateWindow();
-			try {
-				Thread.sleep(300);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			Thread.yield();
 		}
 
@@ -67,18 +54,15 @@ public class GameWindow extends MinuetoFrame {
 		eventQueue = new MinuetoEventQueue();
 		this.registerWindowHandler(new BoardWindowHandler(), eventQueue);
 		this.registerMouseHandler(mouseHandler, eventQueue);
-
-		this.participants = new ArrayList<>();
-		this.resources = new HashMap<>();
 	}
 
 	public void updateWindow() {
 		GameBoardImage gameBoard = new GameBoardImage();
-		TopBarImage topBar = new TopBarImage(resources);
+		TopBarImage topBar = new TopBarImage();
 
 		draw(topBar, 0, 0);
 		draw(gameBoard, 0, 100);
-		printListOfPlayers(participants, 1200, 300);
+		printListOfPlayers(1200, 300);
 
 		if (dbox != null) {
 			draw(dbox, 0, 100);
@@ -86,16 +70,17 @@ public class GameWindow extends MinuetoFrame {
 
 		if (tradeMenu != null) {
 			draw(tradeMenu, 0, 100);
-			printListOfPlayers(participants, 1200, 300);
 		}
 		render();
 	}
 
 	public int getPlayerNumber(String username) {
+		ArrayList<String> participants = ClientModel.instance.getGameStateManager().getParticipants();
 		return participants.indexOf(username) + 1;
 	}
 
 	public MinuetoColor getColorByUsername(String username) {
+		ArrayList<String> participants = ClientModel.instance.getGameStateManager().getParticipants();
 		int index = participants.indexOf(username);
 
 		if (index == 0) {
@@ -110,19 +95,13 @@ public class GameWindow extends MinuetoFrame {
 	}
 
 	public void updateResources(HashMap<ResourceType, Integer> resources) {
-		this.resources = resources;
 	}
 
 	public BoardMouseHandler getMouseHandler() {
 		return mouseHandler;
 	}
 
-	public void setListOfPlayers(ArrayList<String> players) {
-		this.participants = players;
-	}
-
 	public void setDialogBox(DialogBox dbox) {
-		this.dbox = dbox;
 	}
 
 	public BoardKeyboardHandler getKeyBoardHandler() {
@@ -141,21 +120,14 @@ public class GameWindow extends MinuetoFrame {
 		return tradeMenu;
 	}
 
-	private void requestGameBoard() {
-		GetGameBoardCommand req = new GetGameBoardCommand(ClientModel.instance.getGameStateManager().getGameId());
-		ClientModel.instance.getNetworkManager().sendCommand(req);
-	}
+	private void printListOfPlayers(int x, int y) {
+		ArrayList<String> participants = ClientModel.instance.getGameStateManager().getParticipants();
 
-	private void requestPlayers() {
-		GetListOfPlayersCommand req = new GetListOfPlayersCommand(
-				ClientModel.instance.getGameStateManager().getGameId());
-		ClientModel.instance.getNetworkManager().sendCommand(req);
-	}
-
-	private void printListOfPlayers(ArrayList<String> players, int x, int y) {
-		for (int i = 0; i < players.size(); i++) {
-			draw(new MinuetoText(players.get(i), new MinuetoFont("arial", 30, false, false), MinuetoColor.BLACK), x,
-					y + i * 200);
+		if (participants != null) {
+			for (int i = 0; i < participants.size(); i++) {
+				draw(new MinuetoText(participants.get(i), new MinuetoFont("arial", 30, false, false),
+						MinuetoColor.BLACK), x, y + i * 200);
+			}
 		}
 	}
 }
