@@ -13,7 +13,7 @@ import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Village;
 
 public class IntersectionImage extends MinuetoImage implements Clickable {
-	
+
 	public static final int SIZE = 20;
 
 	private static final HashMap<Intersection, IntersectionImage> intersections = new HashMap<>();
@@ -55,19 +55,15 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 				ImageFileManager imf = ClientModel.instance.getImageFileManager();
 				int playerNo = ClientWindow.getInstance().getGameWindow()
 						.getPlayerNumber(village.getOwner().getUsername());
-				try {
-					switch (village.getKind()) {
-					case SETTLEMENT:
-						draw(imf.load("images/settlement" + playerNo + ".png"), 0, 0);
-						break;
-					case CITY:
-						draw(imf.load("images/city" + playerNo + ".png"), 0, 0);
-						break;
-					default:
-						break;
-					}
-				} catch (Exception e) {
-					// TODO: Failed to load images
+				switch (village.getKind()) {
+				case SETTLEMENT:
+					draw(imf.load("images/settlement" + playerNo + ".png"), 0, 0);
+					break;
+				case CITY:
+					draw(imf.load("images/city" + playerNo + ".png"), 0, 0);
+					break;
+				default:
+					break;
 				}
 			}
 		}
