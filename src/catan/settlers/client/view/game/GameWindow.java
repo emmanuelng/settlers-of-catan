@@ -24,13 +24,15 @@ public class GameWindow extends MinuetoFrame {
 	private MinuetoEventQueue eventQueue;
 	private BoardMouseHandler mouseHandler;
 	private BoardKeyboardHandler keyboardHandler;
+	private boolean boardChanged;
+
+	private GameBoardImage board;
+	private TopBarImage topBar;
 	private TradeMenu tradeMenu;
 	private MinuetoImage dbox;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
-		mouseHandler = new BoardMouseHandler();
-		keyboardHandler = new BoardKeyboardHandler();
 	}
 
 	public void start() {
@@ -51,17 +53,27 @@ public class GameWindow extends MinuetoFrame {
 
 	private void initialize() {
 		this.setTitle("Settlers of Catan");
-		eventQueue = new MinuetoEventQueue();
-		this.registerWindowHandler(new BoardWindowHandler(), eventQueue);
-		this.registerMouseHandler(mouseHandler, eventQueue);
+		this.eventQueue = new MinuetoEventQueue();
+		this.mouseHandler = new BoardMouseHandler();
+		this.keyboardHandler = new BoardKeyboardHandler();
+		this.boardChanged = true;
+
+		this.board = new GameBoardImage();
+		this.topBar = new TopBarImage();
+
+		registerWindowHandler(new BoardWindowHandler(), eventQueue);
+		registerMouseHandler(mouseHandler, eventQueue);
 	}
 
 	public void updateWindow() {
-		GameBoardImage gameBoard = new GameBoardImage();
-		TopBarImage topBar = new TopBarImage();
+		if (boardChanged) {
+			board.compose();
+			boardChanged = false;
+		}
 
 		draw(topBar, 0, 0);
-		draw(gameBoard, 0, 100);
+		draw(board, 0, 100);
+
 		printListOfPlayers(1200, 300);
 
 		if (dbox != null) {
@@ -71,6 +83,7 @@ public class GameWindow extends MinuetoFrame {
 		if (tradeMenu != null) {
 			draw(tradeMenu, 0, 100);
 		}
+
 		render();
 	}
 
@@ -129,5 +142,9 @@ public class GameWindow extends MinuetoFrame {
 						MinuetoColor.BLACK), x, y + i * 200);
 			}
 		}
+	}
+
+	public void notifyBoardHasChanged() {
+		boardChanged = true;
 	}
 }

@@ -3,6 +3,8 @@ package catan.settlers.client.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import catan.settlers.client.view.ClientWindow;
+import catan.settlers.client.view.game.GameWindow;
 import catan.settlers.network.server.commands.ClientToServerCommand;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;
 import catan.settlers.network.server.commands.game.GetListOfPlayersCommand;
@@ -22,8 +24,12 @@ public class GameStateManager {
 	private Player currentPlayer;
 	private HashMap<ResourceType, Integer> resources;
 
+	private GameWindow gameWindow;
+
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
+		this.gameWindow = ClientWindow.getInstance().getGameWindow();
+
 		sync();
 	}
 
@@ -37,6 +43,8 @@ public class GameStateManager {
 
 	public void setSelectedIntersection(Intersection selectedIntersection) {
 		this.selectedIntersection = selectedIntersection;
+		if (gameWindow != null)
+			gameWindow.notifyBoardHasChanged();
 	}
 
 	public Edge getSelectedEdge() {
@@ -45,6 +53,8 @@ public class GameStateManager {
 
 	public void setSelectedEdge(Edge selectedEdge) {
 		this.selectedEdge = selectedEdge;
+		if (gameWindow != null)
+			gameWindow.notifyBoardHasChanged();
 	}
 
 	public GameBoard getBoard() {
@@ -53,6 +63,8 @@ public class GameStateManager {
 
 	public void setBoard(GameBoard board) {
 		this.board = board;
+		if (gameWindow != null)
+			gameWindow.notifyBoardHasChanged();
 	}
 
 	public ArrayList<String> getParticipants() {
@@ -70,7 +82,7 @@ public class GameStateManager {
 	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
-	
+
 	public HashMap<ResourceType, Integer> getResources() {
 		return resources;
 	}

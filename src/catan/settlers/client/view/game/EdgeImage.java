@@ -16,6 +16,11 @@ public class EdgeImage extends MinuetoRectangle implements Clickable {
 	private static final HashMap<Edge, EdgeImage> edges = new HashMap<>();
 	private static final HashMap<Edge, EdgeImage> selected_edges = new HashMap<>();
 
+	/**
+	 * This hash map is used to get the size of rotated rectangles
+	 */
+	private static final HashMap<Double, MinuetoRectangle> rotatedRectangles = new HashMap<>();
+
 	public static EdgeImage getEdgeImage(Edge edge, double rotation, int x, int y, boolean isSelected) {
 		HashMap<Edge, EdgeImage> list = isSelected ? selected_edges : edges;
 
@@ -45,7 +50,7 @@ public class EdgeImage extends MinuetoRectangle implements Clickable {
 	private boolean selected;
 
 	private EdgeImage(Edge edge, double rotation, int relativeX, int relativeY, MinuetoColor edgeMColor) {
-		super(40, 10, edgeMColor, true);
+		super(HexagonImage.HEXSIDE, 10, edgeMColor, true);
 
 		MinuetoImage rotated = rotate(rotation);
 		this.rot_width = rotated.getWidth();
@@ -88,6 +93,28 @@ public class EdgeImage extends MinuetoRectangle implements Clickable {
 	@Override
 	public int getHeight() {
 		return rot_height;
+	}
+
+	/**
+	 * Get the dimensions of a rotated edge
+	 */
+
+	public static int getWidthByRotation(double rotation) {
+		if (rotatedRectangles.get(rotation) == null) {
+			MinuetoRectangle rotated = new MinuetoRectangle(HexagonImage.HEXSIDE, 10, MinuetoColor.BLACK, false);
+			rotated.rotate(rotation);
+			rotatedRectangles.put(rotation, rotated);
+		}
+		return rotatedRectangles.get(rotation).getWidth();
+	}
+
+	public static int getHeightByRotation(double rotation) {
+		if (rotatedRectangles.get(rotation) == null) {
+			MinuetoRectangle rotated = new MinuetoRectangle(HexagonImage.HEXSIDE, 10, MinuetoColor.BLACK, false);
+			rotated.rotate(rotation);
+			rotatedRectangles.put(rotation, rotated);
+		}
+		return rotatedRectangles.get(rotation).getHeight();
 	}
 
 }

@@ -1,10 +1,9 @@
 package catan.settlers.client.view.game;
 
-import java.util.HashMap;
-
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoImage;
 
+import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
@@ -12,33 +11,44 @@ import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.Direction;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.map.Intersection;
-import catan.settlers.client.model.ClientModel;
 
 public class GameBoardImage extends MinuetoImage {
 
 	private GameBoard board;
-	private HashMap<Hexagon, Boolean> visitedHexes;
-	private HashMap<Edge, Hexagon> visitedEdges;
-	private HashMap<Intersection, Boolean> visitedIntersections;
 
 	public GameBoardImage() {
-		super(1366, 700);
-
-		this.board = ClientModel.instance.getGameStateManager().getBoard();
-		if (board != null) {
-			compose();
-		}
+		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT);
+		compose();
 	}
 
-	private void compose() {
-		clear(MinuetoColor.WHITE);
-		visitedHexes = new HashMap<>();
-		visitedEdges = new HashMap<>();
-		visitedIntersections = new HashMap<>();
+	public void compose() {
+		board = ClientModel.instance.getGameStateManager().getBoard();
+		if (board == null)
+			return;
 
+		int offsetX = (int) (((board.getLength() + 0.5) * HexagonImage.WIDTH) / 2);
+		int offsetY = 50;
+
+		clear(MinuetoColor.WHITE);
+		int hex_height = HexagonImage.HEIGHT, hex_width = HexagonImage.WIDTH;
 		for (int x = 0; x < board.getLength(); x++) {
 			for (int y = 0; y < board.getHeight(); y++) {
-				drawHex(board.getHexagonAt(x, y), 70 + x * 1366, 70 + y * 700);
+				int pos_x = (int) (x * hex_width + 0.5 * hex_width * (1 - (y % 2))) + offsetX;
+				int pos_y = (int) (y * 0.75 * hex_height) + offsetY;
+				drawHex(board.getHexagonAt(x, y), pos_x, pos_y);
+				drawEdges(board.getHexagonAt(x, y), pos_x, pos_y);
+			}
+		}
+
+		/*
+		 * Do a second loop to make sure that the intersection are the latest
+		 * registered clickables
+		 */
+		for (int x = 0; x < board.getLength(); x++) {
+			for (int y = 0; y < board.getHeight(); y++) {
+				int pos_x = (int) (x * hex_width + 0.5 * hex_width * (1 - (y % 2))) + offsetX;
+				int pos_y = (int) (y * 0.75 * hex_height) + offsetY;
+				drawIntersections(board.getHexagonAt(x, y), pos_x, pos_y);
 			}
 		}
 	}
@@ -47,27 +57,8 @@ public class GameBoardImage extends MinuetoImage {
 		if (hex == null)
 			return;
 
-		if (visitedHexes.get(hex) != null)
-			return;
-
-		HexagonImage image = new HexagonImage(hex);
+		HexagonImage image = HexagonImage.getHexagonImage(hex);
 		draw(image, x, y);
-		visitedHexes.put(hex, true);
-
-		int hexsize = image.getHexSize();
-		int s = hexsize;
-		int t = (int) hexsize / 2;
-		int r = (int) (hexsize * 0.8660254037844);
-
-		drawHex(board.getHexNeighborInDir(hex, Direction.WEST), x - r - r, y);
-		drawHex(board.getHexNeighborInDir(hex, Direction.NORTHWEST), x - r, y - s - t);
-		drawHex(board.getHexNeighborInDir(hex, Direction.NORTHEAST), x + r, y - s - t);
-		drawHex(board.getHexNeighborInDir(hex, Direction.EAST), x + r + r, y);
-		drawHex(board.getHexNeighborInDir(hex, Direction.SOUTHEAST), x + r, y + s + t);
-		drawHex(board.getHexNeighborInDir(hex, Direction.SOUTHWEST), x - r, y + s + t);
-
-		drawEdges(hex, x, y);
-		drawIntersections(hex, x, y);
 	}
 
 	private void drawIntersections(Hexagon hex, int x, int y) {
@@ -77,42 +68,42 @@ public class GameBoardImage extends MinuetoImage {
 		for (IntersectionLoc loc : IntersectionLoc.values()) {
 			Intersection curIntersection = hex.getIntersection(loc);
 
-			if (visitedIntersections.get(curIntersection) != null)
-				continue;
-
 			int shift_x = 0, shift_y = 0;
 			switch (loc) {
 			case TOPLEFT:
-				shift_x = 15;
-				shift_y = 15;
+				shift_x = 0;
+				shift_y = (int) (0.25 * HexagonImage.HEIGHT);
 				break;
 			case TOP:
-				shift_x = 58;
-				shift_y = -7;
+				shift_x = (int) ((0.5 * HexagonImage.WIDTH));
+				shift_y = 5;
 				break;
 			case TOPRIGHT:
-				shift_x = 100;
-				shift_y = 15;
+				shift_x = HexagonImage.WIDTH;
+				shift_y = (int) (0.25 * HexagonImage.HEIGHT);
 				break;
 			case BOTTOMRIGHT:
-				shift_x = 100;
-				shift_y = 67;
+				shift_x = HexagonImage.WIDTH;
+				shift_y = (int) (0.75 * HexagonImage.HEIGHT) + 5;
 				break;
 			case BOTTOM:
-				shift_x = 58;
-				shift_y = 90;
+				shift_x = (int) ((0.5 * HexagonImage.WIDTH));
+				shift_y = HexagonImage.HEIGHT;
 				break;
 			default:
-				shift_x = 15;
-				shift_y = 67;
+				shift_x = 0;
+				shift_y = (int) (0.75 * HexagonImage.HEIGHT) + 5;
 				break;
 			}
 
+			int posX = (int) (x + shift_x - 0.5 * (IntersectionImage.SIZE));
+			int posY = (int) (y + shift_y - 0.5 * (IntersectionImage.SIZE));
+
 			boolean isSelected = ClientModel.instance.getGameStateManager()
 					.getSelectedIntersection() == curIntersection;
-			IntersectionImage intersecImg = IntersectionImage.getIntersectionImage(curIntersection, shift_x + x,
-					shift_y + y, isSelected);
-			draw(intersecImg, shift_x + x, shift_y + y);
+			IntersectionImage intersecImg = IntersectionImage.getIntersectionImage(curIntersection, posX, posY,
+					isSelected);
+			draw(intersecImg, posX, posY);
 			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(intersecImg);
 		}
 	}
@@ -124,51 +115,50 @@ public class GameBoardImage extends MinuetoImage {
 		for (Direction dir : Direction.values()) {
 			Edge curEdge = hex.getEdge(dir);
 
-			if (visitedEdges.keySet().contains(curEdge))
-				continue;
-
 			double rotation;
 			int shift_x = 0, shift_y = 0;
 
 			switch (dir) {
 			case WEST:
 				rotation = Math.PI / 2;
-				shift_x = 20;
-				shift_y = 30;
+				shift_x = 0;
+				shift_y = (int) (0.25 * HexagonImage.HEIGHT);
 				break;
 			case NORTHWEST:
 				rotation = -30 * Math.PI / 180;
-				shift_x = 27;
+				shift_x = 0;
 				shift_y = 0;
 				break;
 			case NORTHEAST:
 				rotation = 30 * Math.PI / 180;
-				shift_x = 70;
+				shift_x = (int) (0.5 * HexagonImage.WIDTH);
 				shift_y = 0;
 				break;
 			case EAST:
 				rotation = Math.PI / 2;
-				shift_x = 105;
-				shift_y = 30;
+				shift_x = HexagonImage.WIDTH;
+				shift_y = (int) (0.25 * HexagonImage.HEIGHT);
 				break;
 			case SOUTHEAST:
 				rotation = -30 * Math.PI / 180;
-				shift_x = 70;
-				shift_y = 75;
+				shift_x = (int) (0.5 * HexagonImage.WIDTH);
+				shift_y = (int) (0.75 * HexagonImage.HEIGHT);
 				break;
 			default:
 				rotation = 30 * Math.PI / 180;
-				shift_x = 25;
-				shift_y = 75;
+				shift_x = 0;
+				shift_y = (int) (0.75 * HexagonImage.HEIGHT);
 				break;
 			}
 
+			int posX = (int) (x + shift_x - 0.1 * EdgeImage.getWidthByRotation(rotation));
+			int posY = (int) (y + shift_y - 0.1 * EdgeImage.getHeightByRotation(rotation));
 			boolean isSelected = curEdge == ClientModel.instance.getGameStateManager().getSelectedEdge();
-			EdgeImage edgeImg = EdgeImage.getEdgeImage(curEdge, rotation, shift_x + x, shift_y + y, isSelected);
-			draw(edgeImg.rotate(rotation), shift_x + x, shift_y + y);
+
+			EdgeImage edgeImg = EdgeImage.getEdgeImage(curEdge, rotation, posX, posY, isSelected);
+			draw(edgeImg.rotate(rotation), posX, posY);
 
 			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(edgeImg);
-			visitedEdges.put(curEdge, hex);
 		}
 	}
 

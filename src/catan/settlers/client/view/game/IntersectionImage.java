@@ -13,6 +13,8 @@ import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Village;
 
 public class IntersectionImage extends MinuetoImage implements Clickable {
+	
+	public static final int SIZE = 20;
 
 	private static final HashMap<Intersection, IntersectionImage> intersections = new HashMap<>();
 	private static final HashMap<Intersection, IntersectionImage> selected_intersections = new HashMap<>();
@@ -31,7 +33,7 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 	private Intersection intersectionModel;
 
 	private IntersectionImage(Intersection intersection, int relativeX, int relativeY, boolean isSelected) {
-		super(20, 20);
+		super(SIZE, SIZE);
 
 		this.relativeX = relativeX;
 		this.relativeY = relativeY;

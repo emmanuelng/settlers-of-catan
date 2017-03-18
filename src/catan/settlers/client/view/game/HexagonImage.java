@@ -1,5 +1,7 @@
 package catan.settlers.client.view.game;
 
+import java.util.HashMap;
+
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoImage;
@@ -10,9 +12,18 @@ import catan.settlers.server.model.map.Hexagon.TerrainType;
 
 public class HexagonImage extends MinuetoImage {
 
-	public static final int SIZE = 125;
-	private static int BORDERS = 25; // default number of pixels for the border
-	private final static int HEXSIZE = 50;
+	private static final HashMap<Hexagon, HexagonImage> hexagons = new HashMap<>();
+
+	public static HexagonImage getHexagonImage(Hexagon hex) {
+		if (hexagons.get(hex) == null) {
+			hexagons.put(hex, new HexagonImage(hex));
+		}
+		return hexagons.get(hex);
+	}
+
+	public static final int HEIGHT = 100;
+	public static final int WIDTH = (int) (0.8660254037844 * HEIGHT);
+	public final static int HEXSIDE = 50;
 	/**
 	 * if this is true it means that the coordinate (0,0) are coordinates of the
 	 * first vertex. if it is false it means that the coordinate are coordinates
@@ -25,14 +36,20 @@ public class HexagonImage extends MinuetoImage {
 	private static int r = 0; // radius-center to middle of each side
 	private MinuetoColor color;
 
-	public HexagonImage(Hexagon hex) {
-		super(SIZE, SIZE);
-		HexagonImage.setSide(HEXSIZE);
+	private HexagonImage(Hexagon hex) {
+		super(WIDTH, HEIGHT);
+
+		HexagonImage.setSide(HEXSIDE);
 		drawPolygon(getColorByTerrainType(hex.getType()), drawCoordinates(0, 0));
 
 		if (hex.getNumber() > 0) {
-			draw(new MinuetoText("" + hex.getNumber(), new MinuetoFont("arial", 20, false, false), MinuetoColor.BLACK),
-					HEXSIZE + 10, r);
+			MinuetoFont font = new MinuetoFont("arial", 20, true, false);
+			MinuetoColor color = MinuetoColor.BLACK;
+			MinuetoText text = new MinuetoText("" + hex.getNumber(), font, color, true);
+			int posX = HexagonImage.WIDTH / 2 - text.getWidth() / 2;
+			int posY = HexagonImage.HEIGHT / 2 - text.getHeight() / 2;
+
+			draw(text, posX, posY);
 		}
 	}
 
@@ -51,16 +68,15 @@ public class HexagonImage extends MinuetoImage {
 	}
 
 	public int getHexSize() {
-		return HEXSIZE;
+		return HEXSIDE;
 	}
 
 	public static void setBorders(int b) {
-		BORDERS = b;
 	}
 
 	public int[] drawCoordinates(int x0, int y0) {
-		int x = x0 + BORDERS;
-		int y = y0 + BORDERS;
+		int x = x0;
+		int y = (int) (y0 + (0.25 * HEIGHT));
 
 		int[] coordinates = new int[] { x, y, x + r, y - t, x + r + r, y, x + r + r, y + s, x + r, y + s + t, x,
 				y + s };
