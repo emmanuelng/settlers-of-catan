@@ -176,6 +176,10 @@ public class Game implements Serializable {
 			}
 		}
 	}
+	
+	public Player CurrentPlayer() {
+		return currentPlayer;
+	}
 
 	public Player nextPlayer() {
 		int index = (participants.indexOf(currentPlayer) + 1) % participants.size();

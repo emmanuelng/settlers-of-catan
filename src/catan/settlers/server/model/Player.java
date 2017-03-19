@@ -49,6 +49,10 @@ public class Player implements Serializable {
 		int currentAmount = resources.get(r);
 		resources.put(r, currentAmount + amount);
 	}
+	
+	public void removeResource(ResourceType r, int amount) {
+		resources.remove(r, amount);
+	}
 
 	public String getUsername() {
 		return credentials.getUsername();
