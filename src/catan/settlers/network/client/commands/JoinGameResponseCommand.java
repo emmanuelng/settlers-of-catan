@@ -18,8 +18,9 @@ public class JoinGameResponseCommand implements ServerToClientCommand {
 	private int gameID;
 	private int readyPlayers;
 	private int maxPlayers;
+	private String message;
 
-	public JoinGameResponseCommand(boolean success, Game game) {
+	public JoinGameResponseCommand(boolean success, String message, Game game) {
 		if (success) {
 			this.success = success;
 			this.currentListOfPlayers = game.getPlayersManager().getParticipantsUsernames();
@@ -27,7 +28,8 @@ public class JoinGameResponseCommand implements ServerToClientCommand {
 			this.readyPlayers = game.getPlayersManager().getNbOfReadyPlayers();
 			this.maxPlayers = Game.MAX_NB_OF_PLAYERS;
 		} else {
-			success = false;
+			this.success = false;
+			this.message = message;
 		}
 	}
 
@@ -38,7 +40,7 @@ public class JoinGameResponseCommand implements ServerToClientCommand {
 			ClientWindow.getInstance().getSetupWindow().setScreen(room);
 			ClientModel.instance.joinGameSuccess(gameID);
 		} else {
-			JOptionPane.showMessageDialog(new JLabel(), "Room full");
+			JOptionPane.showMessageDialog(new JLabel(), message);
 		}
 	}
 }

@@ -15,6 +15,10 @@ import catan.settlers.server.model.Game.GamePhase;
 
 public class GamePlayersManager implements Serializable, SessionObserver {
 
+	public static enum JoinStatus {
+		SUCCESS, INVALID_GAME_STATUS, ROOM_FULL, ALREADY_JOINED, FAILURE
+	};
+
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Player> participants;
 	private HashMap<Credentials, Boolean> readyPlayers;
@@ -28,10 +32,10 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 		addPlayer(owner);
 	}
 
-	public boolean addPlayer(Credentials playerCred) {
+	public JoinStatus addPlayer(Credentials playerCred) {
 		if (getGame() != null) {
 			if (getGame().getGamePhase() != GamePhase.READYTOJOIN) {
-				return false;
+				return JoinStatus.INVALID_GAME_STATUS;
 			}
 		}
 
@@ -40,10 +44,15 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 			participants.add(new_player);
 			readyPlayers.put(playerCred, false);
 			new_player.getSession().registerObserver(this);
-			return true;
+			return JoinStatus.SUCCESS;
+		} else {
+			if (participants.contains(playerCred))
+				return JoinStatus.ALREADY_JOINED;
+			if (participants.size() <= Game.MAX_NB_OF_PLAYERS)
+				return JoinStatus.ROOM_FULL;
 		}
 
-		return false;
+		return JoinStatus.FAILURE;
 	}
 
 	public void removePlayer(Credentials cred) {
