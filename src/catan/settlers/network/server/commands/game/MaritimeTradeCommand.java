@@ -19,7 +19,6 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 	private int gameid;
 
 	public MaritimeTradeCommand(ArrayList<ResourceType> rGet, ArrayList<ResourceType> rGive, int gameid) {
-		ClientModel.instance.getGameStateManager().getGameId();
 		this.rGet = rGet;
 		this.rGive = rGive;
 		this.gameid = gameid;
@@ -30,8 +29,9 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 	
 		try {
 			Game game = server.getGameManager().getGameById(gameid);
-			if(rGive.get(0) == rGive.get(1) && rGive.get(1) == rGive.get(2) && rGive.get(2) == rGive.get(3)){
-				game.CurrentPlayer().removeResource(rGive.get(0), 4);
+			System.out.println(rGet);
+			if(rGive.get(0) != null){
+				game.CurrentPlayer().removeResource(rGive.get(0), 1);
 				game.CurrentPlayer().giveResource(rGet.get(0), 1);
 				sender.sendCommand(new UpdatePlayerResourcesCommand(game.CurrentPlayer().getResources()));
 			}else{

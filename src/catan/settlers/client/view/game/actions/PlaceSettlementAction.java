@@ -20,13 +20,19 @@ public class PlaceSettlementAction implements Action {
 	@Override
 	public String getDescription() {
 		
-		return "Build Settlement here at this intersection";
+		return "Build Settlement here";
 	}
 
 	@Override
 	public String getTitle() {
 		// TODO Auto-generated method stub
 		return "Build Settlement";
+	}
+
+	@Override
+	public void sendCommand() {
+		// TODO Auto-generated method stub
+		System.out.println(getDescription());
 	}
 
 }

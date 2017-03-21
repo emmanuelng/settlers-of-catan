@@ -22,6 +22,8 @@ public class ActionBoxImage extends MinuetoImage {
 	private MinuetoText title;
 
 	private int box_x, box_y;
+	
+	private ArrayList<ActionButtons> allButtons;
 
 	public ActionBoxImage() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT);
@@ -36,6 +38,7 @@ public class ActionBoxImage extends MinuetoImage {
 
 		draw(background, box_x, box_y);
 		draw(title, box_x + PADDING_LEFT, box_y + PADDING_TOP);
+		allButtons = new ArrayList<ActionButtons>();
 		compose();
 		
 		
@@ -43,9 +46,12 @@ public class ActionBoxImage extends MinuetoImage {
 	
 	public void compose(){
 		ArrayList<Action> list = ClientModel.instance.getActionManager().getPossibleActions();
-		String des, title;
+		for(ActionButtons a: allButtons){
+			ClientWindow.getInstance().getGameWindow().getMouseHandler().unregister(a);
+			allButtons.remove(a);
+		}
+		String des;
 		int bgbutt_x, bgbutt_y;
-		System.out.print(list);
 		for(int i = 0;i<list.size();i++){
 			MinuetoRectangle buttBackground = new MinuetoRectangle(WIDTH-50, ClientWindow.WINDOW_HEIGHT/10, new MinuetoColor(233, 221, 175).lighten(100),
 					true);
@@ -54,6 +60,10 @@ public class ActionBoxImage extends MinuetoImage {
 			bgbutt_y = (box_y+ PADDING_TOP)+i*(buttBackground.getHeight()+10);
 			MinuetoText description = new MinuetoText(des, new MinuetoFont("arial", 15, true, false),
 				new MinuetoColor(72, 62, 55));
+			
+			ActionButtons actionButton = new ActionButtons(list.get(i), bgbutt_x, bgbutt_y , buttBackground.getWidth(), buttBackground.getHeight());
+			allButtons.add(actionButton);
+			
 			draw(buttBackground,bgbutt_x,bgbutt_y);
 			draw(description,bgbutt_x+10,bgbutt_y+10); //need to do some text wrapping
 			

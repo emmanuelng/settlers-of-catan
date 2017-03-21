@@ -5,4 +5,5 @@ public interface Action{
 	public boolean isPossible();
 	public String getDescription();
 	public String getTitle();
+	public void sendCommand();
 }

@@ -188,11 +188,9 @@ public class TradeMenu extends MinuetoImage{
 		if(offer.size() == 0 || desired.size() == 0){
 			return;
 		}
-		if(offer.size()>=4){
-			if(offer.get(0).toString()==offer.get(1).toString() && offer.get(1).toString()==offer.get(2).toString() && offer.get(2).toString()==offer.get(3).toString()){
-				ClientModel.instance.getNetworkManager().sendCommand(new MaritimeTradeCommand(desired,offer, ClientModel.instance.getGameStateManager().getGameId()));
-			}
-		}
+		
+		ClientModel.instance.getNetworkManager().sendCommand(new MaritimeTradeCommand(desired,offer, ClientModel.instance.getGameStateManager().getGameId()));
+
 		offer.removeAll(offer);
 		desired.removeAll(desired);
 		drawSurface();
