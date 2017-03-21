@@ -59,12 +59,15 @@ public class GameBoardManager implements Serializable {
 								switch (((Village) u).getKind()) {
 								case SETTLEMENT:
 									p.giveResource(terrainToResource(hex.getType())[0], 1);
+									break;
 								case CITY:
 									p.giveResource(terrainToResource(hex.getType())[0], 1);
 									p.giveResource(terrainToResource(hex.getType())[1], 1);
+									break;
 								case METROPOLIS:
 									p.giveResource(terrainToResource(hex.getType())[0], 1);
 									p.giveResource(terrainToResource(hex.getType())[1], 1);
+									break;
 								}
 							}
 						}

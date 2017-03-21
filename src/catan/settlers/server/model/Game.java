@@ -73,6 +73,8 @@ public class Game implements Serializable {
 		case SETUPPHASETWO:
 			setupPhase(player, data, false);
 			break;
+		case ROLLDICEPHASE:
+			rollDicePhase(player, data);
 		default:
 			break;
 		}
@@ -133,7 +135,8 @@ public class Game implements Serializable {
 
 				// Stopping condition for phase two. Initialize turn phase one.
 				if (!isPhaseOne && currentPlayer == participants.get(0)) {
-					currentPhase = GamePhase.TURNPHASEONE;
+					//currentPhase = GamePhase.TURNPHASEONE;
+					currentPhase = GamePhase.ROLLDICEPHASE;
 					for (Player p : participants) {
 						p.sendCommand(new TurnResponseCommand("Going to turn phase one", true));
 					}
@@ -167,9 +170,15 @@ public class Game implements Serializable {
 		}
 	}
 	
-	private void rollDicePhase(Player sender) {
-		redDie = (int)(Math.ceil(Math.random()*6));
-		yellowDie = (int)(Math.ceil(Math.random()*6));
+	private void rollDicePhase(Player sender, TurnData data) {
+//		if (data.getProgressCard() == ProgressCardType.ALCHEMIST) {
+//			redDie = data.getDiceRoll();
+//			yellowDie = 0;
+//		} else {
+			redDie = (int)(Math.ceil(Math.random()*6));
+			yellowDie = (int)(Math.ceil(Math.random()*6));
+			sender.sendCommand(new TurnResponseCommand("Rolled a " + (redDie+yellowDie), true));
+//		}
 		eventDie = (int)(Math.ceil(Math.random()*6));
 		if (redDie + yellowDie == 7) {
 			for (Player p : participants) {
@@ -179,18 +188,21 @@ public class Game implements Serializable {
 						count += res.getValue();
 				}
 				if (count > 7) {
-					p.sendCommand(new DiscardHalfCommand());
+					//p.sendCommand(new DiscardHalfCommand());
 				}
 			}
 			for (Player p : participants) {
 				if (p == sender) {
-					p.sendCommand(new MoveRobberCommand());
+					//p.sendCommand(new MoveRobberCommand());
 				} else {
 					p.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
 				}
 			}
 		} else {
 			gameBoardManager.drawForRoll(redDie+yellowDie);
+			for (Player p : participants) {
+				p.sendCommand(new UpdatePlayerResourcesCommand(p.getResources()));
+			}
 		}
 		
 		if (eventDie < 4) {
