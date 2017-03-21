@@ -9,12 +9,14 @@ public class ClientModel {
 	private NetworkManager networkManager;
 	private GameStateManager gameStateManager;
 	private ImageFileManager imageFileManager;
+	private ActionManager actionManager;
 
 	private String username;
 
 	private ClientModel() {
 		this.networkManager = new NetworkManager();
 		this.imageFileManager = new ImageFileManager();
+		this.actionManager = new ActionManager();
 	}
 
 	public NetworkManager getNetworkManager() {
@@ -24,7 +26,12 @@ public class ClientModel {
 	public GameStateManager getGameStateManager() {
 		return gameStateManager;
 	}
+	
+	public ActionManager getActionManager() {
+		return actionManager;
+	}
 
+	
 	public void joinGame(int gameId) {
 		networkManager.sendCommand(new JoinGameCommand(gameId));
 	}

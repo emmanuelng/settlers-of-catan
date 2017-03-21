@@ -1,12 +1,16 @@
 package catan.settlers.client.view.game;
 
+import java.util.ArrayList;
+
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoRectangle;
 import org.minueto.image.MinuetoText;
 
+import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
+import catan.settlers.client.view.game.actions.Action;
 
 public class ActionBoxImage extends MinuetoImage {
 
@@ -32,5 +36,27 @@ public class ActionBoxImage extends MinuetoImage {
 
 		draw(background, box_x, box_y);
 		draw(title, box_x + PADDING_LEFT, box_y + PADDING_TOP);
+		compose();
+		
+		
+	}
+	
+	public void compose(){
+		ArrayList<Action> list = ClientModel.instance.getActionManager().getPossibleActions();
+		String des, title;
+		int bgbutt_x, bgbutt_y;
+		System.out.print(list);
+		for(int i = 0;i<list.size();i++){
+			MinuetoRectangle buttBackground = new MinuetoRectangle(WIDTH-50, ClientWindow.WINDOW_HEIGHT/10, new MinuetoColor(233, 221, 175).lighten(100),
+					true);
+			des = list.get(i).getDescription();
+			bgbutt_x = box_x+PADDING_LEFT;
+			bgbutt_y = (box_y+ PADDING_TOP)+i*(buttBackground.getHeight()+10);
+			MinuetoText description = new MinuetoText(des, new MinuetoFont("arial", 15, true, false),
+				new MinuetoColor(72, 62, 55));
+			draw(buttBackground,bgbutt_x,bgbutt_y);
+			draw(description,bgbutt_x+10,bgbutt_y+10); //need to do some text wrapping
+			
+		}
 	}
 }
