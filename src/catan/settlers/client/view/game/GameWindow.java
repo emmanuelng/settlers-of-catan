@@ -33,6 +33,7 @@ public class GameWindow extends MinuetoFrame {
 	private boolean boardChanged;
 	private boolean playerChanged;
 	private boolean resourcesChanged;
+	private boolean updateActions;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
@@ -68,6 +69,7 @@ public class GameWindow extends MinuetoFrame {
 		this.boardChanged = true;
 		this.playerChanged = true;
 		this.resourcesChanged = true;
+		this.updateActions = true;
 
 		registerWindowHandler(new BoardWindowHandler(), eventQueue);
 		registerMouseHandler(mouseHandler, eventQueue);
@@ -87,6 +89,11 @@ public class GameWindow extends MinuetoFrame {
 		if (resourcesChanged) {
 			topBar = new TopBarImage();
 			resourcesChanged = false;
+		}
+		
+		if (updateActions) {
+			actionBox = new ActionBoxImage();
+			updateActions = false;
 		}
 
 		draw(board, 0, 100);
@@ -162,5 +169,9 @@ public class GameWindow extends MinuetoFrame {
 
 	public void notifyResourcesHaveChanged() {
 		resourcesChanged = true;
+	}
+
+	public void notifyUpdateActions() {
+		updateActions = true;		
 	}
 }

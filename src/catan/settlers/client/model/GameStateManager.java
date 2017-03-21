@@ -42,8 +42,10 @@ public class GameStateManager {
 
 	public void setSelectedIntersection(Intersection selectedIntersection) {
 		this.selectedIntersection = selectedIntersection;
-		if (gameWindow != null)
+		if (gameWindow != null) {
 			gameWindow.notifyBoardHasChanged();
+			gameWindow.notifyUpdateActions();
+		}
 	}
 
 	public Edge getSelectedEdge() {
