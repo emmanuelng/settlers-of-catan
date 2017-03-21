@@ -2,6 +2,8 @@ package catan.settlers.server.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import catan.settlers.network.client.commands.TurnResponseCommand;
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
@@ -21,7 +23,7 @@ import catan.settlers.server.model.units.Village;
 public class Game implements Serializable {
 
 	public static enum GamePhase {
-		READYTOJOIN, SETUPPHASEONE, SETUPPHASETWO, TURNPHASEONE
+		READYTOJOIN, SETUPPHASEONE, SETUPPHASETWO, TURNPHASEONE, ROLLDICEPHASE,TURNPHASETWO
 	}
 
 	public static final int MAX_NB_OF_PLAYERS = 1;
@@ -33,6 +35,10 @@ public class Game implements Serializable {
 	private GameBoardManager gameBoardManager;
 	private Player currentPlayer;
 	private GamePhase currentPhase;
+	
+	private int redDie;
+	private int yellowDie;
+	private int eventDie;
 
 	public Game(int id, Credentials owner) {
 		this.id = id;
@@ -159,6 +165,44 @@ public class Game implements Serializable {
 		} else {
 			sender.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
 		}
+	}
+	
+	private void rollDicePhase(Player sender) {
+		redDie = (int)(Math.ceil(Math.random()*6));
+		yellowDie = (int)(Math.ceil(Math.random()*6));
+		eventDie = (int)(Math.ceil(Math.random()*6));
+		if (redDie + yellowDie == 7) {
+			for (Player p : participants) {
+				HashMap<ResourceType, Integer> resToCheck = p.getResources();
+				int count = 0;
+				for (Map.Entry<ResourceType, Integer> res : resToCheck.entrySet()) {
+						count += res.getValue();
+				}
+				if (count > 7) {
+					p.sendCommand(new DiscardHalfCommand());
+				}
+			}
+			for (Player p : participants) {
+				if (p == sender) {
+					p.sendCommand(new MoveRobberCommand());
+				} else {
+					p.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
+				}
+			}
+		} else {
+			gameBoardManager.drawForRoll(redDie+yellowDie);
+		}
+		
+		if (eventDie < 4) {
+			//barbarian horde approaches
+		} else if (eventDie == 4) {
+			//yellow improvement check
+		} else if (eventDie == 5) {
+			//blue
+		} else if (eventDie == 6) {
+			//green
+		}
+		currentPhase = GamePhase.TURNPHASETWO;
 	}
 
 	/* ============ End of game phases ============ */

@@ -51,7 +51,7 @@ public class GameBoardManager implements Serializable {
 			for (int y = 0; y < board.getHeight(); y++) {
 				Hexagon hex = board.getHexagonAt(x, y);
 				if (hex != null) {
-					if (hex.getNumber() == i) {
+					if (hex.getNumber() == i && hex != board.getRobberHex()) {
 						for (IntersectionLoc loc : IntersectionLoc.values()) {
 							IntersectionUnit u = hex.getIntersection(loc).getUnit();
 							if (u instanceof Village) {

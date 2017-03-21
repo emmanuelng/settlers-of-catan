@@ -16,6 +16,7 @@ public class GameBoard implements Serializable {
 	private Hexagon hexagons[][];
 	private ArrayList<Edge> edges;
 	private ArrayList<Intersection> intersections;
+	private Hexagon robberHex;
 
 	private int height = 7; // TODO: Make this value customizable
 	private int length = 7; // TODO: Make this value customizable
@@ -184,6 +185,7 @@ public class GameBoard implements Serializable {
 						if (t == TerrainType.DESERT) {
 							hexagons[x][y].setType(t);
 							hexagons[x][y].setNumber(0);
+							robberHex = hexagons[x][y];
 						} else {
 							hexagons[x][y].setType(t);
 							hexagons[x][y].setNumber(diceValues.remove(0));
@@ -296,6 +298,14 @@ public class GameBoard implements Serializable {
 		}
 
 		return null;
+	}
+	
+	public Hexagon getRobberHex() {
+		return robberHex;
+	}
+	
+	public void setRobberHex(Hexagon h) {
+		robberHex = h;
 	}
 
 	/**
