@@ -28,6 +28,7 @@ public class GameWindow extends MinuetoFrame {
 	private PlayerListImage playersList;
 	private TradeMenu tradeMenu;
 	private MinuetoImage dbox;
+	private ActionBoxImage actionBox;
 
 	private boolean boardChanged;
 	private boolean playerChanged;
@@ -62,6 +63,7 @@ public class GameWindow extends MinuetoFrame {
 		this.board = new GameBoardImage();
 		this.topBar = new TopBarImage();
 		this.playersList = new PlayerListImage();
+		this.actionBox = new ActionBoxImage();
 
 		registerWindowHandler(new BoardWindowHandler(), eventQueue);
 		registerMouseHandler(mouseHandler, eventQueue);
@@ -79,8 +81,8 @@ public class GameWindow extends MinuetoFrame {
 		}
 
 		draw(board, 0, 100);
-		draw(topBar, 0, 0);
 		draw(playersList, 0, 100);
+		draw(actionBox, 0, 100);
 
 		if (dbox != null) {
 			draw(dbox, 0, 110);
@@ -89,7 +91,8 @@ public class GameWindow extends MinuetoFrame {
 		if (tradeMenu != null) {
 			draw(tradeMenu, 0, 100);
 		}
-
+		
+		draw(topBar, 0, 0);
 		render();
 	}
 
