@@ -92,6 +92,8 @@ public class GameStateManager {
 
 	public void setResources(HashMap<ResourceType, Integer> resources) {
 		this.resources = resources;
+		if (gameWindow != null)
+			gameWindow.notifyResourcesHaveChanged();
 	}
 
 	public void sync() {

@@ -32,6 +32,7 @@ public class GameWindow extends MinuetoFrame {
 
 	private boolean boardChanged;
 	private boolean playerChanged;
+	private boolean resourcesChanged;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
@@ -58,12 +59,15 @@ public class GameWindow extends MinuetoFrame {
 		this.eventQueue = new MinuetoEventQueue();
 		this.mouseHandler = new BoardMouseHandler();
 		this.keyboardHandler = new BoardKeyboardHandler();
-		this.boardChanged = true;
 
 		this.board = new GameBoardImage();
 		this.topBar = new TopBarImage();
 		this.playersList = new PlayerListImage();
 		this.actionBox = new ActionBoxImage();
+
+		this.boardChanged = true;
+		this.playerChanged = true;
+		this.resourcesChanged = true;
 
 		registerWindowHandler(new BoardWindowHandler(), eventQueue);
 		registerMouseHandler(mouseHandler, eventQueue);
@@ -74,10 +78,15 @@ public class GameWindow extends MinuetoFrame {
 			board = new GameBoardImage();
 			boardChanged = false;
 		}
-		
+
 		if (playerChanged) {
 			playersList = new PlayerListImage();
 			playerChanged = false;
+		}
+		
+		if (resourcesChanged) {
+			topBar = new TopBarImage();
+			resourcesChanged = false;
 		}
 
 		draw(board, 0, 100);
@@ -91,7 +100,7 @@ public class GameWindow extends MinuetoFrame {
 		if (tradeMenu != null) {
 			draw(tradeMenu, 0, 100);
 		}
-		
+
 		draw(topBar, 0, 0);
 		render();
 	}
@@ -146,8 +155,12 @@ public class GameWindow extends MinuetoFrame {
 	public void notifyBoardHasChanged() {
 		boardChanged = true;
 	}
-	
+
 	public void notifyCurPlayerHasChanged() {
 		playerChanged = true;
+	}
+
+	public void notifyResourcesHaveChanged() {
+		resourcesChanged = true;
 	}
 }
