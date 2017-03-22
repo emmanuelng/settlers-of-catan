@@ -9,10 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.GameRepresentation;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.network.server.commands.CreateGameCommand;
 import catan.settlers.network.server.commands.JoinGameCommand;
-import catan.settlers.server.model.Game;
 
 public class Lobby extends JPanel implements ActionListener {
 
@@ -20,7 +20,7 @@ public class Lobby extends JPanel implements ActionListener {
 	private JButton backButton, createGameButton;
 	private JLabel publicGamesLabel;
 
-	public Lobby(ArrayList<Game> games) {
+	public Lobby(ArrayList<GameRepresentation> games) {
 		backButton = new JButton("Back");
 		createGameButton = new JButton("Create new game");
 		publicGamesLabel = new JLabel("Public Games");
@@ -55,10 +55,10 @@ public class Lobby extends JPanel implements ActionListener {
  */
 class JoinGameActionListener implements ActionListener {
 
-	private Game game;
+	private GameRepresentation game;
 
-	public JoinGameActionListener(Game game) {
-		this.game = game;
+	public JoinGameActionListener(GameRepresentation gameRepresentation) {
+		this.game = gameRepresentation;
 	}
 
 	@Override

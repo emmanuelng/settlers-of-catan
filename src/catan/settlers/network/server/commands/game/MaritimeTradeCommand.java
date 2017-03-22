@@ -3,7 +3,6 @@ package catan.settlers.network.server.commands.game;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import catan.settlers.client.model.ClientModel;
 import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.UpdatePlayerResourcesCommand;
 import catan.settlers.network.server.Server;

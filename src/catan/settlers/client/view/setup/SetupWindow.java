@@ -25,6 +25,7 @@ public class SetupWindow extends JFrame {
 		// Setup the window
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setSize(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT);
+		setResizable(false);
 		setTitle(WINDOW_TITLE);
 
 		// Initialize the frame with the connect screen

@@ -16,6 +16,7 @@ public class GetListOfGamesCommand implements ClientToServerCommand {
 			sender.sendCommand(new GameListResponseCommand(server.getGameManager().getListOfGames()));
 		} catch (IOException e) {
 			// Ignore
+			e.printStackTrace();
 		}
 	}
 
