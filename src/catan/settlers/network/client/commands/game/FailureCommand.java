@@ -13,6 +13,7 @@ public class FailureCommand implements ServerToClientCommand {
 	public FailureCommand(String reasonOfFailure) {
 		this.reasonOfFailure = reasonOfFailure;
 	}
+
 	@Override
 	public void execute() {
 		dbox = new DialogBox("Failure", reasonOfFailure);

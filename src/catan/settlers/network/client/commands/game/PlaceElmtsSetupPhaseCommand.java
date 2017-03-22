@@ -21,7 +21,7 @@ public class PlaceElmtsSetupPhaseCommand implements ServerToClientCommand {
 				"Select an edge and an intersection and click on \"End Turn\" to confirm");
 
 		if (!isPhaseOne) {
-			dbox = new DialogBox("Place your second settlement and road",
+			dbox = new DialogBox("Place your first city and second road",
 					"Select an edge and an intersection and click on \"End Turn\" to confirm");
 		}
 		window.setDialogBox(dbox);
