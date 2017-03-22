@@ -3,7 +3,9 @@ package catan.settlers.client.model;
 import java.util.ArrayList;
 
 import catan.settlers.client.view.game.actions.Action;
+import catan.settlers.client.view.game.actions.BuildRoadAction;
 import catan.settlers.client.view.game.actions.PlaceSettlementAction;
+import catan.settlers.client.view.game.actions.UpgradeToCityAction;
 
 public class ActionManager {
 
@@ -16,6 +18,8 @@ public class ActionManager {
 
 	public void init() {
 		actions.add(new PlaceSettlementAction());
+		actions.add(new UpgradeToCityAction());
+		actions.add(new BuildRoadAction());
 	}
 
 	public ArrayList<Action> getPossibleActions() {

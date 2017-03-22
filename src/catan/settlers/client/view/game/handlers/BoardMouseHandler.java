@@ -32,7 +32,7 @@ public class BoardMouseHandler implements MinuetoMouseHandler {
 		}
 	}
 
-	public void unregister(Clickable c) {
+	public void unregister(InteractiveElement c) {
 		clickableElmts.remove(c);
 		addedElements.remove(c.getName());
 	}

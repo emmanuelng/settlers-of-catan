@@ -13,6 +13,7 @@ import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.actions.Action;
 import catan.settlers.client.view.game.handlers.BoardMouseHandler;
 import catan.settlers.client.view.game.handlers.Clickable;
+import catan.settlers.client.view.game.handlers.InteractiveElement;
 
 public class ActionBoxImage extends MinuetoImage {
 
@@ -90,7 +91,7 @@ public class ActionBoxImage extends MinuetoImage {
 
 			@Override
 			public void onclick() {
-				action.sendCommand();
+				action.perform();
 			}
 
 			@Override
@@ -109,7 +110,7 @@ public class ActionBoxImage extends MinuetoImage {
 	}
 
 	private void unregisterAllButtons() {
-		for (Clickable c : allButtons)
+		for (InteractiveElement c : allButtons)
 			ClientWindow.getInstance().getGameWindow().getMouseHandler().unregister(c);
 	}
 }

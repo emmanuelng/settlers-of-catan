@@ -13,7 +13,7 @@ public interface Action {
 	public String getDescription();
 	
 	/**
-	 * Sends the corresponding command to the server
+	 * Perform the action
 	 */
-	public void sendCommand();
+	public void perform();
 }

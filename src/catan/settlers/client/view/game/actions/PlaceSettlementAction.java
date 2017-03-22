@@ -24,7 +24,7 @@ public class PlaceSettlementAction implements Action {
 	}
 
 	@Override
-	public void sendCommand() {
+	public void perform() {
 		// TODO send the command
 		System.out.println(this);
 	}
