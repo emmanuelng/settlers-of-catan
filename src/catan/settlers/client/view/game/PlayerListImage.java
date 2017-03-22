@@ -37,10 +37,10 @@ public class PlayerListImage extends MinuetoImage {
 				boolean isCurrentPlayer = ClientModel.instance.getGameStateManager().getCurrentPlayer()
 						.equals(participants.get(i));
 				String userStr = isCurrentPlayer ? "> " + participants.get(i) : participants.get(i);
-				MinuetoText username = new MinuetoText(userStr, unameFont, MinuetoColor.BLACK, true);
+				MinuetoText username = new MinuetoText(userStr, unameFont, MinuetoColor.BLACK);
 
 				// TODO: Update the victory points
-				MinuetoText vps = new MinuetoText("0 victory points", vpFont, MinuetoColor.BLACK, true);
+				MinuetoText vps = new MinuetoText("0 victory points", vpFont, MinuetoColor.BLACK);
 
 				draw(logo, offsetX, offsetY + i * spaceBetweenPlayers);
 				draw(username, logo.getWidth() + 10 + offsetX, offsetY + i * spaceBetweenPlayers);

@@ -92,7 +92,7 @@ public class GameWindow extends MinuetoFrame {
 		}
 		
 		if (updateActions) {
-			actionBox = new ActionBoxImage();
+			actionBox.compose();
 			updateActions = false;
 		}
 
