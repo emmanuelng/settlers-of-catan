@@ -38,6 +38,7 @@ public class ClientModel {
 
 	public void joinGameSuccess(int gameId) {
 		gameStateManager = new GameStateManager(gameId);
+		gameStateManager.sync();
 	}
 
 	public void setUsername(String username) {

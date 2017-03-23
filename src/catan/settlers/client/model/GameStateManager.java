@@ -35,8 +35,6 @@ public class GameStateManager {
 		this.gameId = gameId;
 		this.gameWindow = ClientWindow.getInstance().getGameWindow();
 		this.canMoveRobber = true;
-
-		sync();
 	}
 
 	public int getGameId() {
