@@ -3,6 +3,7 @@ package catan.settlers.network.server.commands.game;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import catan.settlers.client.model.ClientModel;
 import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.UpdatePlayerResourcesCommand;
 import catan.settlers.network.server.Server;
@@ -18,10 +19,10 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 	private int gameid;
 	private int valueToRemove;
 
-	public MaritimeTradeCommand(ArrayList<ResourceType> rGet, ArrayList<ResourceType> rGive, int valueToRemove, int gameid) {
+	public MaritimeTradeCommand(ArrayList<ResourceType> rGet, ArrayList<ResourceType> rGive, int valueToRemove) {
 		this.rGet = rGet;
 		this.rGive = rGive;
-		this.gameid = gameid;
+		this.gameid = ClientModel.instance.getGameStateManager().getGameId();
 		this.valueToRemove = valueToRemove;
 	}
 

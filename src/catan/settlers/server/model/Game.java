@@ -26,7 +26,7 @@ import catan.settlers.server.model.units.Village.VillageKind;
 public class Game implements Serializable {
 	
 	public enum turnAction {
-		BUILDSETTLEMENT, BUILDKNIGHT, UPGRADESETTLEMENT, UPGRADEKNIGHT, ENDTURN
+		BUILDSETTLEMENT, BUILDKNIGHT, BUILDROAD, UPGRADESETTLEMENT, UPGRADEKNIGHT, ENDTURN
 	}
 
 	public static enum GamePhase {
@@ -229,6 +229,10 @@ public class Game implements Serializable {
 	
 	private void turnPhase(Player sender, TurnData data) {
 		switch (data.getAction()) {
+		case BUILDSETTLEMENT:
+			
+		case BUILDROAD:
+			
 		case ENDTURN:
 			currentPlayer = nextPlayer();
 		default:
