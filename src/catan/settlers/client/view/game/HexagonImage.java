@@ -7,18 +7,29 @@ import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoText;
 
+import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.GameStateManager;
+import catan.settlers.client.view.ClientWindow;
+import catan.settlers.client.view.game.handlers.Clickable;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
 
-public class HexagonImage extends MinuetoImage {
+public class HexagonImage extends MinuetoImage implements Clickable {
 
 	private static final HashMap<Hexagon, HexagonImage> hexagons = new HashMap<>();
+	private static final HashMap<Hexagon, HexagonImage> selected_hexagons = new HashMap<>();
 
-	public static HexagonImage getHexagonImage(Hexagon hex) {
-		if (hexagons.get(hex) == null) {
-			hexagons.put(hex, new HexagonImage(hex));
+	public static HexagonImage getHexagonImage(Hexagon hex, int relativeX, int relativeY) {
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		boolean selected = gsm.getSelectedHex() == hex;
+		HashMap<Hexagon, HexagonImage> list = selected ? selected_hexagons : hexagons;
+
+		if (list.get(hex) == null) {
+			HexagonImage hexImage = new HexagonImage(hex, relativeX, relativeY, selected);
+			list.put(hex, hexImage);
+			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(hexImage);
 		}
-		return hexagons.get(hex);
+		return list.get(hex);
 	}
 
 	public static final int HEIGHT = 100;
@@ -34,13 +45,24 @@ public class HexagonImage extends MinuetoImage {
 	private static int s = 0; // length of side
 	private static int t = 0; // short side of the 30 degree triangle
 	private static int r = 0; // radius-center to middle of each side
-	private MinuetoColor color;
 
-	private HexagonImage(Hexagon hex) {
+	private Hexagon hexagonModel;
+	private int relativeX, relativeY;
+
+	private HexagonImage(Hexagon hex, int relativeX, int relativeY, boolean selected) {
 		super(WIDTH, HEIGHT);
 
+		this.hexagonModel = hex;
+		this.relativeX = relativeX;
+		this.relativeY = relativeY;
+
 		HexagonImage.setSide(HEXSIDE);
-		drawPolygon(getColorByTerrainType(hex.getType()), drawCoordinates(0, 0));
+
+		MinuetoColor hexColor = getColorByTerrainType(hex.getType());
+		if (selected)
+			hexColor = hexColor.darken(0.1);
+
+		drawPolygon(hexColor, drawCoordinates(0, 0));
 
 		if (hex.getNumber() > 0) {
 			MinuetoFont font = new MinuetoFont("arial", 20, true, false);
@@ -53,28 +75,17 @@ public class HexagonImage extends MinuetoImage {
 		}
 	}
 
-	public MinuetoColor getColor() {
-		return color;
+	public int getHexSize() {
+		return HEXSIDE;
 	}
 
-	public void setColor(MinuetoColor color) {
-		this.color = color;
-	}
-
-	public static void setSide(int side) {
+	private static void setSide(int side) {
 		s = side;
 		t = (int) (s / 2);
 		r = (int) (s * 0.8660254037844);
 	}
 
-	public int getHexSize() {
-		return HEXSIDE;
-	}
-
-	public static void setBorders(int b) {
-	}
-
-	public int[] drawCoordinates(int x0, int y0) {
+	private int[] drawCoordinates(int x0, int y0) {
 		int x = x0;
 		int y = (int) (y0 + (0.25 * HEIGHT));
 
@@ -104,6 +115,27 @@ public class HexagonImage extends MinuetoImage {
 			return new MinuetoColor(229, 255, 128);
 		default:
 			return new MinuetoColor(236, 236, 236);
+		}
+	}
+
+	@Override
+	public boolean isClicked(int x, int y) {
+		return x > relativeX && x < relativeX + getWidth() && y > relativeY + 100 && y < relativeY + 100 + getHeight();
+	}
+
+	@Override
+	public String getName() {
+		return "Hexagon" + hexagonModel;
+	}
+
+	@Override
+	public void onclick() {
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+
+		if (gsm.getSelectedHex() != hexagonModel) {
+			gsm.setSelectedHex(hexagonModel);
+		} else {
+			gsm.setSelectedHex(null);
 		}
 	}
 }
