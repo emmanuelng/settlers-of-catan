@@ -7,6 +7,7 @@ import java.util.Map;
 
 import catan.settlers.network.client.commands.TurnResponseCommand;
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
+import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdatePlayerResourcesCommand;
@@ -193,7 +194,7 @@ public class Game implements Serializable {
 			}
 			for (Player p : participants) {
 				if (p == sender) {
-					// p.sendCommand(new MoveRobberCommand());
+					p.sendCommand(new MoveRobberCommand());
 				} else {
 					p.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
 				}
