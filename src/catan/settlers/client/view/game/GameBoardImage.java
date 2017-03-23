@@ -31,11 +31,19 @@ public class GameBoardImage extends MinuetoImage {
 
 		clear(MinuetoColor.WHITE);
 		int hex_height = HexagonImage.HEIGHT, hex_width = HexagonImage.WIDTH;
+
 		for (int x = 0; x < board.getLength(); x++) {
 			for (int y = 0; y < board.getHeight(); y++) {
 				int pos_x = (int) (x * hex_width + 0.5 * hex_width * (1 - (y % 2))) + offsetX;
 				int pos_y = (int) (y * 0.75 * hex_height) + offsetY;
 				drawHex(board.getHexagonAt(x, y), pos_x, pos_y);
+			}
+		}
+
+		for (int x = 0; x < board.getLength(); x++) {
+			for (int y = 0; y < board.getHeight(); y++) {
+				int pos_x = (int) (x * hex_width + 0.5 * hex_width * (1 - (y % 2))) + offsetX;
+				int pos_y = (int) (y * 0.75 * hex_height) + offsetY;
 				drawEdges(board.getHexagonAt(x, y), pos_x, pos_y);
 			}
 		}

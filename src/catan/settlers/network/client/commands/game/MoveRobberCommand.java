@@ -1,5 +1,7 @@
 package catan.settlers.network.client.commands.game;
 
+import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.DialogBox;
 import catan.settlers.client.view.game.GameWindow;
@@ -11,6 +13,9 @@ public class MoveRobberCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		gsm.setCanMoveRobber(true);
+		
 		GameWindow window = ClientWindow.getInstance().getGameWindow();
 		DialogBox dbox = new DialogBox("Select a hexagon to block with the robber",
 				"Also select a settlement/city to steal a random resource from.");
