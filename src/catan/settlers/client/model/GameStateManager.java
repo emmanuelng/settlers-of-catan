@@ -103,8 +103,8 @@ public class GameStateManager {
 	public void sync() {
 		ArrayList<ClientToServerCommand> cmds = new ArrayList<>();
 
-		cmds.add(new GetListOfPlayersCommand(gameId));
-		cmds.add(new GetGameBoardCommand(gameId));
+		cmds.add(new GetListOfPlayersCommand());
+		cmds.add(new GetGameBoardCommand());
 
 		for (ClientToServerCommand cmd : cmds) {
 			ClientModel.instance.getNetworkManager().sendCommand(cmd);

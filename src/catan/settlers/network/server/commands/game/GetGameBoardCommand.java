@@ -1,5 +1,6 @@
 package catan.settlers.network.server.commands.game;
 
+import catan.settlers.client.model.ClientModel;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
@@ -9,16 +10,16 @@ import catan.settlers.server.model.Game;
 public class GetGameBoardCommand implements ClientToServerCommand {
 
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private int gameId;
 
-	public GetGameBoardCommand(int gameId) {
-		this.id = gameId;
+	public GetGameBoardCommand() {
+		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 	}
 
 	@Override
 	public void execute(Session sender, Server server) {
 		try {
-			Game game = server.getGameManager().getGameById(id);
+			Game game = server.getGameManager().getGameById(gameId);
 			if (game.getPlayersManager().isParticipant(sender.getCredentials())) {
 				sender.sendCommand(new UpdateGameBoardCommand(game.getGameBoardManager().getBoard()));
 			}

@@ -19,12 +19,12 @@ public class BuildRoadAction implements Action {
 
 	@Override
 	public String getDescription() {
-		return "Build a road";
+		return "Build a road. Costs 1 brick and 1 lumber";
 	}
 
 	@Override
 	public void perform() {
-		System.out.println(this);
+		
 	}
 
 }

@@ -2,6 +2,7 @@ package catan.settlers.network.server.commands.game;
 
 import java.io.IOException;
 
+import catan.settlers.client.model.ClientModel;
 import catan.settlers.network.client.commands.game.PlayerListResponseCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
@@ -13,8 +14,8 @@ public class GetListOfPlayersCommand implements ClientToServerCommand {
 	private static final long serialVersionUID = 1L;
 	private int gameID;
 
-	public GetListOfPlayersCommand(int gameId) {
-		gameID = gameId;
+	public GetListOfPlayersCommand() {
+		gameID = ClientModel.instance.getGameStateManager().getGameId();
 	}
 
 	@Override
