@@ -8,22 +8,21 @@ import java.util.Map;
 import catan.settlers.network.client.commands.TurnResponseCommand;
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
-import catan.settlers.network.client.commands.game.UpdatePlayerResourcesCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
+import catan.settlers.network.client.commands.game.UpdatePlayerResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
 import catan.settlers.network.server.Credentials;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
-import catan.settlers.server.model.map.Hexagon.TerrainType;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Village;
 
 public class Game implements Serializable {
 
 	public static enum GamePhase {
-		READYTOJOIN, SETUPPHASEONE, SETUPPHASETWO, TURNPHASEONE, ROLLDICEPHASE,TURNPHASETWO
+		READYTOJOIN, SETUPPHASEONE, SETUPPHASETWO, TURNPHASEONE, ROLLDICEPHASE, TURNPHASETWO
 	}
 
 	public static final int MAX_NB_OF_PLAYERS = 1;
@@ -35,7 +34,7 @@ public class Game implements Serializable {
 	private GameBoardManager gameBoardManager;
 	private Player currentPlayer;
 	private GamePhase currentPhase;
-	
+
 	private int redDie;
 	private int yellowDie;
 	private int eventDie;
@@ -75,6 +74,7 @@ public class Game implements Serializable {
 			break;
 		case ROLLDICEPHASE:
 			rollDicePhase(player, data);
+			break;
 		default:
 			break;
 		}
@@ -111,7 +111,7 @@ public class Game implements Serializable {
 				// In second setup phase, give resources to the player
 				if (!isPhaseOne) {
 					for (Hexagon h : selectedIntersection.getHexagons()) {
-						ResourceType r = terrainToResource(h.getType());
+						ResourceType r = Hexagon.terrainToResource(h.getType());
 						if (r != null) {
 							currentPlayer.giveResource(r, 1);
 						}
@@ -135,7 +135,7 @@ public class Game implements Serializable {
 
 				// Stopping condition for phase two. Initialize turn phase one.
 				if (!isPhaseOne && currentPlayer == participants.get(0)) {
-					//currentPhase = GamePhase.TURNPHASEONE;
+					// currentPhase = GamePhase.TURNPHASEONE;
 					currentPhase = GamePhase.ROLLDICEPHASE;
 					for (Player p : participants) {
 						p.sendCommand(new TurnResponseCommand("Going to turn phase one", true));
@@ -169,50 +169,50 @@ public class Game implements Serializable {
 			sender.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
 		}
 	}
-	
+
 	private void rollDicePhase(Player sender, TurnData data) {
-//		if (data.getProgressCard() == ProgressCardType.ALCHEMIST) {
-//			redDie = data.getDiceRoll();
-//			yellowDie = 0;
-//		} else {
-			redDie = (int)(Math.ceil(Math.random()*6));
-			yellowDie = (int)(Math.ceil(Math.random()*6));
-			sender.sendCommand(new TurnResponseCommand("Rolled a " + (redDie+yellowDie), true));
-//		}
-		eventDie = (int)(Math.ceil(Math.random()*6));
+		// if (data.getProgressCard() == ProgressCardType.ALCHEMIST) {
+		// redDie = data.getDiceRoll();
+		// yellowDie = 0;
+		// } else {
+		redDie = (int) (Math.ceil(Math.random() * 6));
+		yellowDie = (int) (Math.ceil(Math.random() * 6));
+		sender.sendCommand(new TurnResponseCommand("Rolled a " + (redDie + yellowDie), true));
+		// }
+		eventDie = (int) (Math.ceil(Math.random() * 6));
 		if (redDie + yellowDie == 7) {
 			for (Player p : participants) {
 				HashMap<ResourceType, Integer> resToCheck = p.getResources();
 				int count = 0;
 				for (Map.Entry<ResourceType, Integer> res : resToCheck.entrySet()) {
-						count += res.getValue();
+					count += res.getValue();
 				}
 				if (count > 7) {
-					//p.sendCommand(new DiscardHalfCommand());
+					// p.sendCommand(new DiscardHalfCommand());
 				}
 			}
 			for (Player p : participants) {
 				if (p == sender) {
-					//p.sendCommand(new MoveRobberCommand());
+					// p.sendCommand(new MoveRobberCommand());
 				} else {
 					p.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
 				}
 			}
 		} else {
-			gameBoardManager.drawForRoll(redDie+yellowDie);
+			gameBoardManager.drawForRoll(redDie + yellowDie);
 			for (Player p : participants) {
 				p.sendCommand(new UpdatePlayerResourcesCommand(p.getResources()));
 			}
 		}
-		
+
 		if (eventDie < 4) {
-			//barbarian horde approaches
+			// barbarian horde approaches
 		} else if (eventDie == 4) {
-			//yellow improvement check
+			// yellow improvement check
 		} else if (eventDie == 5) {
-			//blue
+			// blue
 		} else if (eventDie == 6) {
-			//green
+			// green
 		}
 		currentPhase = GamePhase.TURNPHASETWO;
 	}
@@ -232,12 +232,12 @@ public class Game implements Serializable {
 			}
 		}
 	}
-	
-	public Player CurrentPlayer() {
+
+	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
 
-	public Player nextPlayer() {
+	private Player nextPlayer() {
 		int index = (participants.indexOf(currentPlayer) + 1) % participants.size();
 		return participants.get(index);
 	}
@@ -250,34 +250,12 @@ public class Game implements Serializable {
 		return participants.get(index);
 	}
 
-	public void prevPlayer() {
-		int index = (participants.indexOf(currentPlayer) + (participants.size() - 1)) % participants.size();
-		currentPlayer = participants.get(index);
-	}
-
 	public GamePlayersManager getPlayersManager() {
 		return gamePlayersManager;
 	}
 
 	public GameBoardManager getGameBoardManager() {
 		return gameBoardManager;
-	}
-
-	public ResourceType terrainToResource(TerrainType t) {
-		switch (t) {
-		case FOREST:
-			return ResourceType.LUMBER;
-		case MOUNTAIN:
-			return ResourceType.ORE;
-		case PASTURE:
-			return ResourceType.WOOL;
-		case HILLS:
-			return ResourceType.BRICK;
-		case FIELD:
-			return ResourceType.GRAIN;
-		default:
-			return null;
-		}
 	}
 
 	public GamePhase getGamePhase() {

@@ -30,9 +30,9 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 			Game game = server.getGameManager().getGameById(gameid);
 			System.out.println(rGet);
 			if(rGive.get(0) != null){
-				game.CurrentPlayer().removeResource(rGive.get(0), 1);
-				game.CurrentPlayer().giveResource(rGet.get(0), 1);
-				sender.sendCommand(new UpdatePlayerResourcesCommand(game.CurrentPlayer().getResources()));
+				game.getCurrentPlayer().removeResource(rGive.get(0), 1);
+				game.getCurrentPlayer().giveResource(rGet.get(0), 1);
+				sender.sendCommand(new UpdatePlayerResourcesCommand(game.getCurrentPlayer().getResources()));
 			}else{
 				sender.sendCommand(new FailureCommand("Not enough resources"));
 			}

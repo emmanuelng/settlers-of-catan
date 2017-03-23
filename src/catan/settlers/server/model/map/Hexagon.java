@@ -3,6 +3,8 @@ package catan.settlers.server.model.map;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import catan.settlers.server.model.Player.ResourceType;
+
 public class Hexagon implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -30,7 +32,7 @@ public class Hexagon implements Serializable {
 		this.myEdges = new Edge[Direction.values().length];
 		this.myIntersections = new Intersection[IntersectionLoc.values().length];
 	}
-	
+
 	public void setType(TerrainType t) {
 		type = t;
 	}
@@ -38,7 +40,7 @@ public class Hexagon implements Serializable {
 	public TerrainType getType() {
 		return type;
 	}
-	
+
 	public void setNumber(int n) {
 		number = n;
 	}
@@ -139,6 +141,26 @@ public class Hexagon implements Serializable {
 			return dir == Direction.SOUTHWEST ? IntersectionLoc.TOPRIGHT : IntersectionLoc.TOPLEFT;
 		default:
 			return dir == Direction.WEST ? IntersectionLoc.BOTTOMRIGHT : IntersectionLoc.TOP;
+		}
+	}
+
+	/**
+	 * Get the corresponding resource, given a terrain type
+	 */
+	public static ResourceType terrainToResource(TerrainType t) {
+		switch (t) {
+		case FOREST:
+			return ResourceType.LUMBER;
+		case MOUNTAIN:
+			return ResourceType.ORE;
+		case PASTURE:
+			return ResourceType.WOOL;
+		case HILLS:
+			return ResourceType.BRICK;
+		case FIELD:
+			return ResourceType.GRAIN;
+		default:
+			return null;
 		}
 	}
 
