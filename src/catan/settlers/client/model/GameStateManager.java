@@ -54,8 +54,10 @@ public class GameStateManager {
 
 	public void setSelectedEdge(Edge selectedEdge) {
 		this.selectedEdge = selectedEdge;
-		if (gameWindow != null)
+		if (gameWindow != null) {
 			gameWindow.notifyBoardHasChanged();
+			gameWindow.notifyUpdateActions();
+		}
 	}
 
 	public GameBoard getBoard() {
