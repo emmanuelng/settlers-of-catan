@@ -1,7 +1,10 @@
 package catan.settlers.client.view.game.actions;
 
+import java.util.HashMap;
+
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
+import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Intersection;
 
 public class PlaceSettlementAction implements Action {
@@ -10,9 +13,16 @@ public class PlaceSettlementAction implements Action {
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		Intersection selectedIntersection = gsm.getSelectedIntersection();
-
-		if (selectedIntersection != null) {
-			return selectedIntersection.canBuild();
+		HashMap<ResourceType, Integer> resources = ClientModel.instance.getGameStateManager().getResources();
+		
+		
+		if (selectedIntersection != null && resources != null) {
+			boolean hasResources = false;
+			if(resources.get(ResourceType.BRICK)>0 && resources.get(ResourceType.GRAIN)>0 && resources.get(ResourceType.LUMBER)>0 && resources.get(ResourceType.WOOL)>0){
+				hasResources = true;
+			}
+			return selectedIntersection.canBuild() && hasResources;
+			
 		}
 
 		return false;
