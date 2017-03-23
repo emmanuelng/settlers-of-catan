@@ -29,11 +29,12 @@ public class GameStateManager {
 	private Edge selectedEdge;
 	private Hexagon selectedHex;
 
+	private boolean canMoveRobber;
+
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
 		this.gameWindow = ClientWindow.getInstance().getGameWindow();
-
-		sync();
+		this.canMoveRobber = true;
 	}
 
 	public int getGameId() {
@@ -125,6 +126,14 @@ public class GameStateManager {
 		for (ClientToServerCommand cmd : cmds) {
 			ClientModel.instance.getNetworkManager().sendCommand(cmd);
 		}
+	}
+
+	public void setCanMoveRobber(boolean b) {
+		this.canMoveRobber = b;
+	}
+
+	public boolean canMoveRobber() {
+		return canMoveRobber;
 	}
 
 }
