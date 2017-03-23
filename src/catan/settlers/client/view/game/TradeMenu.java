@@ -189,7 +189,7 @@ public class TradeMenu extends MinuetoImage{
 			return;
 		}
 		
-		ClientModel.instance.getNetworkManager().sendCommand(new MaritimeTradeCommand(desired,offer, ClientModel.instance.getGameStateManager().getGameId()));
+		ClientModel.instance.getNetworkManager().sendCommand(new MaritimeTradeCommand(desired, offer, 1 /* normally 4 modify base on port*/,  ClientModel.instance.getGameStateManager().getGameId()));
 
 		offer.removeAll(offer);
 		desired.removeAll(desired);

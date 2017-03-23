@@ -16,11 +16,13 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<ResourceType> rGet, rGive;
 	private int gameid;
+	private int valueToRemove;
 
-	public MaritimeTradeCommand(ArrayList<ResourceType> rGet, ArrayList<ResourceType> rGive, int gameid) {
+	public MaritimeTradeCommand(ArrayList<ResourceType> rGet, ArrayList<ResourceType> rGive, int valueToRemove, int gameid) {
 		this.rGet = rGet;
 		this.rGive = rGive;
 		this.gameid = gameid;
+		this.valueToRemove = valueToRemove;
 	}
 
 	@Override
@@ -28,9 +30,10 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 	
 		try {
 			Game game = server.getGameManager().getGameById(gameid);
-			System.out.println(rGet);
-			if(rGive.get(0) != null){
-				game.getCurrentPlayer().removeResource(rGive.get(0), 1);
+			server.writeToConsole("" + game.getCurrentPlayer().getResourceAmount(rGive.get(0)));
+			if(rGive.get(0) != null && game.getCurrentPlayer().getResourceAmount(rGive.get(0))>valueToRemove){
+				server.writeToConsole("executed");
+				game.getCurrentPlayer().removeResource(rGive.get(0), valueToRemove);
 				game.getCurrentPlayer().giveResource(rGet.get(0), 1);
 				sender.sendCommand(new UpdatePlayerResourcesCommand(game.getCurrentPlayer().getResources()));
 			}else{
