@@ -232,7 +232,9 @@ public class Game implements Serializable {
 		case BUILDSETTLEMENT:
 			
 		case BUILDROAD:
-			
+			data.getEdgeSelection().setOwner(sender);
+			sender.removeResource(ResourceType.BRICK, 1);
+			sender.removeResource(ResourceType.LUMBER, 1);
 		case ENDTURN:
 			currentPlayer = nextPlayer();
 		default:

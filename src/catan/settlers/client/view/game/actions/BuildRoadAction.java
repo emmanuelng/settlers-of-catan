@@ -2,6 +2,7 @@ package catan.settlers.client.view.game.actions;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
+import catan.settlers.network.server.commands.game.BuildRoadCommand;
 import catan.settlers.server.model.map.Edge;
 
 public class BuildRoadAction implements Action {
@@ -24,7 +25,7 @@ public class BuildRoadAction implements Action {
 
 	@Override
 	public void perform() {
-		
+		ClientModel.instance.getNetworkManager().sendCommand(new BuildRoadCommand());
 	}
 
 }
