@@ -230,13 +230,26 @@ public class Game implements Serializable {
 	private void turnPhase(Player sender, TurnData data) {
 		switch (data.getAction()) {
 		case BUILDSETTLEMENT:
-			
+			Intersection selected = data.getIntersectionSelection();
+			if (selected.canBuild()) {
+				if (sender.getResourceAmount(ResourceType.BRICK) > 0 && sender.getResourceAmount(ResourceType.GRAIN) > 0 && sender.getResourceAmount(ResourceType.WOOL) > 0 && sender.getResourceAmount(ResourceType.LUMBER) > 0) {
+					Village v = new Village(sender);
+					selected.setUnit(v);
+					sender.removeResource(ResourceType.BRICK, 1);
+					sender.removeResource(ResourceType.GRAIN, 1);
+					sender.removeResource(ResourceType.WOOL, 1);
+					sender.removeResource(ResourceType.LUMBER, 1);
+				}
+			}
+			break;
 		case BUILDROAD:
 			data.getEdgeSelection().setOwner(sender);
 			sender.removeResource(ResourceType.BRICK, 1);
 			sender.removeResource(ResourceType.LUMBER, 1);
+			break;
 		case ENDTURN:
 			currentPlayer = nextPlayer();
+			break;
 		default:
 				
 		}

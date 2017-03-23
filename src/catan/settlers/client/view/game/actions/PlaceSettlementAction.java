@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
+import catan.settlers.network.server.commands.game.BuildRoadCommand;
+import catan.settlers.network.server.commands.game.BuildSettlementCommand;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Intersection;
 
@@ -35,8 +37,7 @@ public class PlaceSettlementAction implements Action {
 
 	@Override
 	public void perform() {
-		// TODO send the command
-		System.out.println(this);
+		ClientModel.instance.getNetworkManager().sendCommand(new BuildSettlementCommand());
 	}
 
 }
