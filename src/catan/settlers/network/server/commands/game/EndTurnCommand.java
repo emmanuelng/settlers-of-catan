@@ -6,6 +6,7 @@ import catan.settlers.network.server.Session;
 import catan.settlers.network.server.commands.ClientToServerCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.TurnData;
+import catan.settlers.server.model.Game.turnAction;
 
 public class EndTurnCommand implements ClientToServerCommand {
 
@@ -16,6 +17,7 @@ public class EndTurnCommand implements ClientToServerCommand {
 	public EndTurnCommand() {
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 		this.turnData = new TurnData(ClientModel.instance);
+		turnData.setAction(turnAction.ENDTURN);
 	}
 
 	@Override

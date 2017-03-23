@@ -18,12 +18,19 @@ import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Intersection;
+import catan.settlers.server.model.units.IntersectionUnit;
+import catan.settlers.server.model.units.Knight;
 import catan.settlers.server.model.units.Village;
+import catan.settlers.server.model.units.Village.VillageKind;
 
 public class Game implements Serializable {
+	
+	public enum turnAction {
+		BUILDSETTLEMENT, BUILDKNIGHT, UPGRADESETTLEMENT, UPGRADEKNIGHT, ENDTURN
+	}
 
 	public static enum GamePhase {
-		READYTOJOIN, SETUPPHASEONE, SETUPPHASETWO, TURNPHASEONE, ROLLDICEPHASE, TURNPHASETWO
+		READYTOJOIN, SETUPPHASEONE, SETUPPHASETWO, ROLLDICEPHASE, TURNPHASE
 	}
 
 	public static final int MAX_NB_OF_PLAYERS = 1;
@@ -76,6 +83,8 @@ public class Game implements Serializable {
 		case ROLLDICEPHASE:
 			rollDicePhase(player, data);
 			break;
+		case TURNPHASE:
+			turnPhase(player, data);
 		default:
 			break;
 		}
@@ -215,7 +224,62 @@ public class Game implements Serializable {
 		} else if (eventDie == 6) {
 			// green
 		}
-		currentPhase = GamePhase.TURNPHASETWO;
+		currentPhase = GamePhase.TURNPHASE;
+	}
+	
+	private void turnPhase(Player sender, TurnData data) {
+		switch (data.getAction()) {
+		case ENDTURN:
+			currentPlayer = nextPlayer();
+		default:
+				
+		}
+	}
+	
+	private void barbarianAttack() {
+		int barbarianStrength = 0;
+		HashMap<Player, Integer> playerStrength = new HashMap<>();
+		for (Player p : participants) {
+			playerStrength.put(p, 0);
+		}
+		// Checks all intersections. If city, +1 to barbarian strength. If active knight, +1/2/3 to player strength
+		ArrayList<Intersection> intersections = gameBoardManager.getBoard().getIntersections();
+		for (Intersection i : intersections) {
+			IntersectionUnit unit = i.getUnit();
+			if (unit instanceof Village) {
+				if (((Village) unit).getKind() != VillageKind.SETTLEMENT) {
+					barbarianStrength++;
+				}
+			} else if (unit instanceof Knight) {
+				if (((Knight) unit).isActive()) {
+					int current = 0;
+					switch (((Knight)unit).getKnightType()) {
+					case BASICKNIGHT:
+						current = playerStrength.get(unit.getOwner());
+						playerStrength.put(unit.getOwner(), current+1);
+						break;
+					case STRONGKNIGHT:
+						current = playerStrength.get(unit.getOwner());
+						playerStrength.put(unit.getOwner(), current+2);
+						break;
+					case MIGHTYKNIGHT:
+						current = playerStrength.get(unit.getOwner());
+						playerStrength.put(unit.getOwner(), current+3);
+						break;
+					}
+				}
+			}
+		}
+		int totalStrength = 0;
+		for (Map.Entry<Player, Integer> entry : playerStrength.entrySet()) {
+			totalStrength += entry.getValue();
+		}
+		if (barbarianStrength > totalStrength) {
+			//remove cities from weakest players
+		} else {
+			// top player gets VP or top players get prog cards
+		}
+		
 	}
 
 	/* ============ End of game phases ============ */
