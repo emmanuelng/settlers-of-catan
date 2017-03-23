@@ -8,6 +8,7 @@ import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.Credentials;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
+import catan.settlers.server.model.units.Knight.KnightType;
 
 public class Player implements Serializable {
 
@@ -18,6 +19,7 @@ public class Player implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private HashMap<ResourceType, Integer> resources;
 	private Credentials credentials;
+	private int basicKnightCount, strongKnightCount, mightyKnightCount;
 
 	public Player(Credentials credentials) {
 		this.credentials = credentials;
@@ -80,5 +82,26 @@ public class Player implements Serializable {
 			return credentials.getUsername().equals(other.credentials.getUsername());
 		}
 		return false;
+	}
+	
+	public int getKnightCount(KnightType kType){
+		if(kType == KnightType.BASICKNIGHT){
+			return basicKnightCount;
+		}else if(kType == KnightType.STRONGKNIGHT){
+			return strongKnightCount;
+		}else if(kType == KnightType.MIGHTYKNIGHT){
+			return mightyKnightCount;
+		}
+		return 0;
+	}
+	
+	public void setKnightCount(KnightType kType, int kCount){
+		if(kType == KnightType.BASICKNIGHT){
+			basicKnightCount = kCount;
+		}else if(kType == KnightType.STRONGKNIGHT){
+			strongKnightCount = kCount;
+		}else if(kType == KnightType.MIGHTYKNIGHT){
+			mightyKnightCount = kCount;
+		}
 	}
 }
