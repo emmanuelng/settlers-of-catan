@@ -11,19 +11,23 @@ import catan.settlers.network.server.commands.game.GetListOfPlayersCommand;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
+import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Intersection;
 
 public class GameStateManager {
 
 	private int gameId;
-	private Intersection selectedIntersection;
-	private Edge selectedEdge;
+
 	private GameBoard board;
 	private ArrayList<String> participants;
 	private String currentPlayer;
 	private HashMap<ResourceType, Integer> resources;
 
 	private GameWindow gameWindow;
+
+	private Intersection selectedIntersection;
+	private Edge selectedEdge;
+	private Hexagon selectedHex;
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
@@ -62,6 +66,18 @@ public class GameStateManager {
 
 	public GameBoard getBoard() {
 		return board;
+	}
+
+	public void setSelectedHex(Hexagon hexagon) {
+		this.selectedHex = hexagon;
+		if (gameWindow != null) {
+			gameWindow.notifyBoardHasChanged();
+			gameWindow.notifyUpdateActions();
+		}
+	}
+
+	public Hexagon getSelectedHex() {
+		return selectedHex;
 	}
 
 	public void setBoard(GameBoard board) {
