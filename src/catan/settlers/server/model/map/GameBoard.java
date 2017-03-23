@@ -347,4 +347,8 @@ public class GameBoard implements Serializable {
 	public int getHeight() {
 		return height;
 	}
+	
+	public ArrayList<Intersection> getIntersections() {
+		return intersections;
+	}
 }

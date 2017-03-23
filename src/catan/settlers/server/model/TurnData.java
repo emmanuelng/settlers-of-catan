@@ -3,6 +3,7 @@ package catan.settlers.server.model;
 import java.io.Serializable;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.server.model.Game.turnAction;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.Intersection;
 
@@ -13,11 +14,15 @@ import catan.settlers.server.model.map.Intersection;
  * method in the Game class)
  *
  */
+
+
+
 public class TurnData implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Intersection selectedIntersection;
 	private Edge selectedEdge;
+	private turnAction myAction;
 
 	public TurnData(ClientModel clientModel) {
 		this.selectedIntersection = clientModel.getGameStateManager().getSelectedIntersection();
@@ -30,5 +35,13 @@ public class TurnData implements Serializable {
 
 	public Edge getEdgeSelection() {
 		return selectedEdge;
+	}
+	
+	public void setAction(turnAction t) {
+		myAction = t;
+	}
+	
+	public turnAction getAction() {
+		return myAction;
 	}
 }

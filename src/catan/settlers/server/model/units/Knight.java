@@ -80,5 +80,9 @@ public class Knight implements IntersectionUnit {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	public boolean isActive() {
+		return activated;
+	}
 
 }
