@@ -23,7 +23,7 @@ public class Intersection implements Serializable {
 	}
 
 	public void addEdge(Edge e) {
-		if (e != null) {
+		if (e != null && myEdges.size() < 3) {
 			if (!myEdges.contains(e)) {
 				myEdges.add(e);
 			}
@@ -40,6 +40,10 @@ public class Intersection implements Serializable {
 
 	public ArrayList<Hexagon> getHexagons() {
 		return myHexagons;
+	}
+
+	public ArrayList<Edge> getEdges() {
+		return myEdges;
 	}
 
 	public IntersectionUnit getUnit() {

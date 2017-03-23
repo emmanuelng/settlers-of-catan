@@ -12,8 +12,7 @@ public class BuildRoadAction implements Action {
 		Edge selectedEdge = gsm.getSelectedEdge();
 
 		if (selectedEdge != null) {
-			// TODO: check the rules
-			return selectedEdge.getOwner() == null;
+			return selectedEdge.canBuild(ClientModel.instance.getUsername());
 		}
 		return false;
 	}

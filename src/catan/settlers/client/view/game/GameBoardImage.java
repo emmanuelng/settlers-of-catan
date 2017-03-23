@@ -54,11 +54,9 @@ public class GameBoardImage extends MinuetoImage {
 	}
 
 	private void drawHex(Hexagon hex, int x, int y) {
-		if (hex == null)
-			return;
-
-		HexagonImage image = HexagonImage.getHexagonImage(hex);
-		draw(image, x, y);
+		if (hex != null) {
+			draw(HexagonImage.getHexagonImage(hex), x, y);
+		}
 	}
 
 	private void drawIntersections(Hexagon hex, int x, int y) {

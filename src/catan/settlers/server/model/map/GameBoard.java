@@ -299,11 +299,11 @@ public class GameBoard implements Serializable {
 
 		return null;
 	}
-	
+
 	public Hexagon getRobberHex() {
 		return robberHex;
 	}
-	
+
 	public void setRobberHex(Hexagon h) {
 		robberHex = h;
 	}
