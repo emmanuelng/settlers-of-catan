@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.network.client.commands.game.FailureCommand;
-import catan.settlers.network.client.commands.game.UpdatePlayerResourcesCommand;
+import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.network.server.commands.ClientToServerCommand;
@@ -36,7 +36,7 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 				server.writeToConsole("executed");
 				game.getCurrentPlayer().removeResource(rGive.get(0), valueToRemove);
 				game.getCurrentPlayer().giveResource(rGet.get(0), 1);
-				sender.sendCommand(new UpdatePlayerResourcesCommand(game.getCurrentPlayer().getResources()));
+				sender.sendCommand(new UpdateResourcesCommand(game.getCurrentPlayer().getResources()));
 			}else{
 				sender.sendCommand(new FailureCommand("Not enough resources"));
 			}

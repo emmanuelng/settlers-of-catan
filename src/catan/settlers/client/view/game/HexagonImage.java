@@ -60,7 +60,7 @@ public class HexagonImage extends MinuetoImage implements Clickable {
 
 		MinuetoColor hexColor = getColorByTerrainType(hex.getType());
 		if (selected)
-			hexColor = hexColor.darken(0.1);
+			hexColor = hexColor.darken(0.2);
 
 		drawPolygon(hexColor, drawCoordinates(0, 0));
 

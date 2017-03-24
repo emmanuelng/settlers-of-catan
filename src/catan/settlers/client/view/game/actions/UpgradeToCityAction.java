@@ -21,8 +21,8 @@ public class UpgradeToCityAction implements Action {
 		if (selectedIntersection != null && resources != null) {
 			IntersectionUnit unit = selectedIntersection.getUnit();
 			boolean hasResources = false;
-			if(resources.get(ResourceType.GRAIN)>=2 && resources.get(ResourceType.ORE)>=3){
-				hasResources=true;
+			if (resources.get(ResourceType.GRAIN) >= 2 && resources.get(ResourceType.ORE) >= 3) {
+				hasResources = true;
 			}
 			if (unit != null) {
 				if (unit instanceof Village) {

@@ -4,83 +4,81 @@ import catan.settlers.server.model.Player;
 
 public class Knight implements IntersectionUnit {
 
-	public enum KnightType {
-		BASICKNIGHT, STRONGKNIGHT, MIGHTYKNIGHT
+	private static final long serialVersionUID = 1L;
+
+	public static enum KnightType {
+		BASIC_KNIGHT, STRONG_KNIGHT, MIGHTY_KNIGHT
 	}
-	
+
 	private Player myOwner;
 	private KnightType knightType;
 	private boolean activated;
-	
+
 	public Knight(Player p) {
-		if(canHire(KnightType.BASICKNIGHT)){
-			myOwner = p; 
-			knightType = KnightType.BASICKNIGHT;
-			activated = false; //need one wool and one ore to activate this kid
+		if (canHire(KnightType.BASIC_KNIGHT)) {
+			myOwner = p;
+			knightType = KnightType.BASIC_KNIGHT;
+			activated = false; // need one wool and one ore to activate this kid
 		}
 	}
 
-	
-	public void upgradeKnight(Knight k){
-		if (k.getKnightType() == KnightType.BASICKNIGHT && canHire(KnightType.STRONGKNIGHT)){
-			k.setKnightType(KnightType.STRONGKNIGHT);
+	public void upgradeKnight(Knight k) {
+		if (k.getKnightType() == KnightType.BASIC_KNIGHT && canHire(KnightType.STRONG_KNIGHT)) {
+			k.setKnightType(KnightType.STRONG_KNIGHT);
 		}
-		if (k.getKnightType() == KnightType.STRONGKNIGHT && canHire(KnightType.MIGHTYKNIGHT)){
-			k.setKnightType(KnightType.MIGHTYKNIGHT);
+		if (k.getKnightType() == KnightType.STRONG_KNIGHT && canHire(KnightType.MIGHTY_KNIGHT)) {
+			k.setKnightType(KnightType.MIGHTY_KNIGHT);
 		}
 	}
-	
-	public boolean canHire(KnightType kType){
-		if(kType == KnightType.BASICKNIGHT){
-			if(myOwner.getKnightCount(kType)<2){
+
+	public boolean canHire(KnightType type) {
+		if (type == KnightType.BASIC_KNIGHT) {
+			if (myOwner.getKnightCount(type) < 2) {
 				return true;
 			}
 			return false;
-		}
-		else if(kType == KnightType.STRONGKNIGHT){
-			if(myOwner.getKnightCount(kType)<2){
+		} else if (type == KnightType.STRONG_KNIGHT) {
+			if (myOwner.getKnightCount(type) < 2) {
 				return true;
 			}
 			return false;
-		}
-		else if(kType == KnightType.MIGHTYKNIGHT){
-			if(myOwner.getKnightCount(kType)<2){
+		} else if (type == KnightType.MIGHTY_KNIGHT) {
+			if (myOwner.getKnightCount(type) < 2) {
 				return true;
 			}
 			return false;
 		}
 		return true;
 	}
+
 	@Override
 	public Player getOwner() {
-		// TODO Auto-generated method stub
 		return myOwner;
 	}
 
-	public KnightType getKnightType(){
+	public KnightType getKnightType() {
 		return knightType;
 	}
-	
-	private void setKnightType(KnightType kType){
+
+	private void setKnightType(KnightType kType) {
 		knightType = kType;
 	}
-	
-	public void activateKnight(){ //need to pay one grain to activate
+
+	public void activateKnight() {
+		// TODO: need to pay one grain to activate
 		activated = true;
 	}
-	
+
 	@Override
 	public boolean isKnight() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isVillage() {
-		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	public boolean isActive() {
 		return activated;
 	}

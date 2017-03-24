@@ -34,13 +34,15 @@ public class Player implements Serializable {
 		return credentials;
 	}
 
-	public void sendCommand(ServerToClientCommand cmd) {
-		Session s = Server.instance.getAuthManager().getSessionByCredentials(credentials);
-		try {
-			s.sendCommand(cmd);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public String getUsername() {
+		return credentials.getUsername();
+	}
+
+	public HashMap<ResourceType, Integer> getResources() {
+		HashMap<ResourceType, Integer> res = new HashMap<>();
+		for (ResourceType type : resources.keySet())
+			res.put(type, resources.get(type));
+		return res;
 	}
 
 	public int getResourceAmount(ResourceType res) {
@@ -57,22 +59,46 @@ public class Player implements Serializable {
 		resources.put(r, previous - amount);
 	}
 
-	public String getUsername() {
-		return credentials.getUsername();
+	public int getNbResourceCards() {
+		int count = 0;
+		for (ResourceType rt : ResourceType.values()) {
+			count += resources.get(rt);
+		}
+		return count;
+	}
+
+	public int getKnightCount(KnightType kType) {
+		if (kType == KnightType.BASIC_KNIGHT) {
+			return basicKnightCount;
+		} else if (kType == KnightType.STRONG_KNIGHT) {
+			return strongKnightCount;
+		} else if (kType == KnightType.MIGHTY_KNIGHT) {
+			return mightyKnightCount;
+		}
+		return 0;
+	}
+
+	public void setKnightCount(KnightType kType, int kCount) {
+		if (kType == KnightType.BASIC_KNIGHT) {
+			basicKnightCount = kCount;
+		} else if (kType == KnightType.STRONG_KNIGHT) {
+			strongKnightCount = kCount;
+		} else if (kType == KnightType.MIGHTY_KNIGHT) {
+			mightyKnightCount = kCount;
+		}
 	}
 
 	public Session getSession() {
 		return Server.getInstance().getAuthManager().getSessionByCredentials(credentials);
 	}
 
-	public HashMap<ResourceType, Integer> getResources() {
-		HashMap<ResourceType, Integer> res = new HashMap<>();
-
-		for (ResourceType type : resources.keySet()) {
-			res.put(type, resources.get(type));
+	public void sendCommand(ServerToClientCommand cmd) {
+		Session s = Server.instance.getAuthManager().getSessionByCredentials(credentials);
+		try {
+			s.sendCommand(cmd);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
-		return res;
 	}
 
 	@Override
@@ -83,25 +109,5 @@ public class Player implements Serializable {
 		}
 		return false;
 	}
-	
-	public int getKnightCount(KnightType kType){
-		if(kType == KnightType.BASICKNIGHT){
-			return basicKnightCount;
-		}else if(kType == KnightType.STRONGKNIGHT){
-			return strongKnightCount;
-		}else if(kType == KnightType.MIGHTYKNIGHT){
-			return mightyKnightCount;
-		}
-		return 0;
-	}
-	
-	public void setKnightCount(KnightType kType, int kCount){
-		if(kType == KnightType.BASICKNIGHT){
-			basicKnightCount = kCount;
-		}else if(kType == KnightType.STRONGKNIGHT){
-			strongKnightCount = kCount;
-		}else if(kType == KnightType.MIGHTYKNIGHT){
-			mightyKnightCount = kCount;
-		}
-	}
+
 }

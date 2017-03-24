@@ -7,13 +7,15 @@ import java.util.Map;
 
 import catan.settlers.network.client.commands.TurnResponseCommand;
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
+import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
-import catan.settlers.network.client.commands.game.UpdatePlayerResourcesCommand;
+import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
 import catan.settlers.network.server.Credentials;
 import catan.settlers.server.model.Player.ResourceType;
+import catan.settlers.server.model.SetOfOpponentMove.MoveType;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
@@ -24,7 +26,7 @@ import catan.settlers.server.model.units.Village;
 import catan.settlers.server.model.units.Village.VillageKind;
 
 public class Game implements Serializable {
-	
+
 	public enum turnAction {
 		BUILDSETTLEMENT, BUILDKNIGHT, BUILDROAD, UPGRADESETTLEMENT, UPGRADEKNIGHT, ENDTURN
 	}
@@ -42,6 +44,7 @@ public class Game implements Serializable {
 	private GameBoardManager gameBoardManager;
 	private Player currentPlayer;
 	private GamePhase currentPhase;
+	private SetOfOpponentMove currentSetOfOpponentMove;
 
 	private int redDie;
 	private int yellowDie;
@@ -73,39 +76,56 @@ public class Game implements Serializable {
 
 	public void receiveResponse(Credentials credentials, TurnData data) {
 		Player player = gamePlayersManager.getPlayerByCredentials(credentials);
-		switch (currentPhase) {
-		case SETUPPHASEONE:
-			setupPhase(player, data, true);
-			break;
-		case SETUPPHASETWO:
-			setupPhase(player, data, false);
-			break;
-		case ROLLDICEPHASE:
-			rollDicePhase(player, data);
-			break;
-		case TURNPHASE:
-			turnPhase(player, data);
-		default:
-			break;
+
+		/*
+		 * Handle the current set of opponent move if any. Otherwise follow the
+		 * normal game logic
+		 */
+
+		if (currentSetOfOpponentMove != null) {
+			if (currentSetOfOpponentMove.contains(player)) {
+				// TODO: handle the set of opponent move
+			} else {
+				// TODO: Tell to the player to wait
+			}
+		} else {
+			switch (currentPhase) {
+			case SETUPPHASEONE:
+				setupPhase(player, data, true);
+				break;
+			case SETUPPHASETWO:
+				setupPhase(player, data, false);
+				break;
+			case ROLLDICEPHASE:
+				rollDicePhase(player, data);
+				break;
+			case TURNPHASE:
+				turnPhase(player, data);
+			default:
+				break;
+			}
 		}
 
 	}
 
-	/* ============ Game phases logic ============ */
+	/* ======================== Game phases logic ======================== */
 
 	private void setupPhase(Player sender, TurnData data, boolean isPhaseOne) {
 		if (sender == currentPlayer) {
 			// If no edge or intersection selected, reject
 			if (data.getEdgeSelection() == null || data.getIntersectionSelection() == null) {
-				currentPlayer.sendCommand(new TurnResponseCommand("Please select an edge and an intersection", false));
+				String message = "Please select an edge and an intersection";
+				currentPlayer.sendCommand(new TurnResponseCommand(message, false));
 				return;
 			}
 
 			// Get the selected intersection and edge
 			GameBoard board = gameBoardManager.getBoard();
-			Intersection selectedIntersection = board.getIntersectionById(data.getIntersectionSelection().getId());
+			int intersectionId = data.getIntersectionSelection().getId();
+			Intersection selectedIntersection = board.getIntersectionById(intersectionId);
 			Edge edgeSelect = board.getEdgeById(data.getEdgeSelection().getId());
 
+			// Check if the selected intersection and edge are valid
 			if (edgeSelect.hasIntersection(selectedIntersection) && edgeSelect.getOwner() == null
 					&& selectedIntersection.canBuild()) {
 				// Update the board and send it to all the players
@@ -127,7 +147,8 @@ public class Game implements Serializable {
 						}
 					}
 
-					currentPlayer.sendCommand(new UpdatePlayerResourcesCommand(currentPlayer.getResources()));
+					UpdateResourcesCommand cmd = new UpdateResourcesCommand(currentPlayer.getResources());
+					currentPlayer.sendCommand(cmd);
 				}
 
 				// Stopping condition for phase one. Initialize setup phase two.
@@ -145,11 +166,7 @@ public class Game implements Serializable {
 
 				// Stopping condition for phase two. Initialize turn phase one.
 				if (!isPhaseOne && currentPlayer == participants.get(0)) {
-					// currentPhase = GamePhase.TURNPHASEONE;
 					currentPhase = GamePhase.ROLLDICEPHASE;
-					for (Player p : participants) {
-						p.sendCommand(new TurnResponseCommand("Going to turn phase one", true));
-					}
 					return;
 				}
 
@@ -181,26 +198,40 @@ public class Game implements Serializable {
 	}
 
 	private void rollDicePhase(Player sender, TurnData data) {
-		// if (data.getProgressCard() == ProgressCardType.ALCHEMIST) {
-		// redDie = data.getDiceRoll();
-		// yellowDie = 0;
-		// } else {
+		// TODO: Play alchemist card
+
+		/* ==== Assign random numbers to dice ==== */
+
 		redDie = (int) (Math.ceil(Math.random() * 6));
 		yellowDie = (int) (Math.ceil(Math.random() * 6));
-		sender.sendCommand(new TurnResponseCommand("Rolled a " + (redDie + yellowDie), true));
-		// }
 		eventDie = (int) (Math.ceil(Math.random() * 6));
+
+		/* ==== Red and yellow dice events ==== */
+
+		// If a seven is rolled, discard cards and move the robber
 		if (redDie + yellowDie == 7) {
+			/*
+			 * Count the number of resource cards for each player. Every player
+			 * with more than 7 must select half of them and return them to the
+			 * bank.
+			 */
+			SetOfOpponentMove set = new SetOfOpponentMove(MoveType.DISCARD_CARDS);
 			for (Player p : participants) {
-				HashMap<ResourceType, Integer> resToCheck = p.getResources();
-				int count = 0;
-				for (Map.Entry<ResourceType, Integer> res : resToCheck.entrySet()) {
-					count += res.getValue();
-				}
-				if (count > 7) {
-					// p.sendCommand(new DiscardHalfCommand());
+				int nbResourceCards = p.getNbResourceCards();
+				if (nbResourceCards > 7) {
+					p.sendCommand(new DiscardCardsCommand());
+					set.waitForPlayer(p);
 				}
 			}
+			if (!set.isEmpty())
+				currentSetOfOpponentMove = set;
+
+			/*
+			 * Once all players have discarded their cards, ask the current
+			 * player to move the robber
+			 * 
+			 * TODO: this must be allowed only after the first barbarian attack
+			 */
 			for (Player p : participants) {
 				if (p == sender) {
 					p.sendCommand(new MoveRobberCommand());
@@ -209,11 +240,14 @@ public class Game implements Serializable {
 				}
 			}
 		} else {
+			// If the rolled number is not seven, produce the resources
 			gameBoardManager.drawForRoll(redDie + yellowDie);
 			for (Player p : participants) {
-				p.sendCommand(new UpdatePlayerResourcesCommand(p.getResources()));
+				p.sendCommand(new UpdateResourcesCommand(p.getResources()));
 			}
 		}
+
+		/* ==== Event dice events ==== */
 
 		if (eventDie < 4) {
 			// barbarian horde approaches
@@ -226,13 +260,15 @@ public class Game implements Serializable {
 		}
 		currentPhase = GamePhase.TURNPHASE;
 	}
-	
+
 	private void turnPhase(Player sender, TurnData data) {
 		switch (data.getAction()) {
 		case BUILDSETTLEMENT:
 			Intersection selected = data.getIntersectionSelection();
 			if (selected.canBuild()) {
-				if (sender.getResourceAmount(ResourceType.BRICK) > 0 && sender.getResourceAmount(ResourceType.GRAIN) > 0 && sender.getResourceAmount(ResourceType.WOOL) > 0 && sender.getResourceAmount(ResourceType.LUMBER) > 0) {
+				if (sender.getResourceAmount(ResourceType.BRICK) > 0 && sender.getResourceAmount(ResourceType.GRAIN) > 0
+						&& sender.getResourceAmount(ResourceType.WOOL) > 0
+						&& sender.getResourceAmount(ResourceType.LUMBER) > 0) {
 					Village v = new Village(sender);
 					selected.setUnit(v);
 					sender.removeResource(ResourceType.BRICK, 1);
@@ -251,17 +287,18 @@ public class Game implements Serializable {
 			currentPlayer = nextPlayer();
 			break;
 		default:
-				
+
 		}
 	}
-	
+
 	private void barbarianAttack() {
 		int barbarianStrength = 0;
 		HashMap<Player, Integer> playerStrength = new HashMap<>();
 		for (Player p : participants) {
 			playerStrength.put(p, 0);
 		}
-		// Checks all intersections. If city, +1 to barbarian strength. If active knight, +1/2/3 to player strength
+		// Checks all intersections. If city, +1 to barbarian strength. If
+		// active knight, +1/2/3 to player strength
 		ArrayList<Intersection> intersections = gameBoardManager.getBoard().getIntersections();
 		for (Intersection i : intersections) {
 			IntersectionUnit unit = i.getUnit();
@@ -272,18 +309,18 @@ public class Game implements Serializable {
 			} else if (unit instanceof Knight) {
 				if (((Knight) unit).isActive()) {
 					int current = 0;
-					switch (((Knight)unit).getKnightType()) {
-					case BASICKNIGHT:
+					switch (((Knight) unit).getKnightType()) {
+					case BASIC_KNIGHT:
 						current = playerStrength.get(unit.getOwner());
-						playerStrength.put(unit.getOwner(), current+1);
+						playerStrength.put(unit.getOwner(), current + 1);
 						break;
-					case STRONGKNIGHT:
+					case STRONG_KNIGHT:
 						current = playerStrength.get(unit.getOwner());
-						playerStrength.put(unit.getOwner(), current+2);
+						playerStrength.put(unit.getOwner(), current + 2);
 						break;
-					case MIGHTYKNIGHT:
+					case MIGHTY_KNIGHT:
 						current = playerStrength.get(unit.getOwner());
-						playerStrength.put(unit.getOwner(), current+3);
+						playerStrength.put(unit.getOwner(), current + 3);
 						break;
 					}
 				}
@@ -294,14 +331,14 @@ public class Game implements Serializable {
 			totalStrength += entry.getValue();
 		}
 		if (barbarianStrength > totalStrength) {
-			//remove cities from weakest players
+			// remove cities from weakest players
 		} else {
 			// top player gets VP or top players get prog cards
 		}
-		
+
 	}
 
-	/* ============ End of game phases ============ */
+	/* ======================== End of game phases ======================== */
 
 	public int getGameId() {
 		return id;
