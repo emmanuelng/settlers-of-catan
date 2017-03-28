@@ -74,6 +74,8 @@ public class GameStateManager {
 
 	public void setSelectedHex(Hexagon hexagon) {
 		this.selectedHex = hexagon;
+		this.updateBoard = true;
+		this.updateActions = true;
 	}
 
 	public Hexagon getSelectedHex() {

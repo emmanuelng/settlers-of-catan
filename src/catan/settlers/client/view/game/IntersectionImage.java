@@ -28,14 +28,16 @@ public class IntersectionImage extends MinuetoImage {
 	}
 
 	private Intersection intersectionModel;
+	private boolean selected;
 
-	private IntersectionImage(Intersection intersection, boolean isSelected) {
+	private IntersectionImage(Intersection intersection, boolean selected) {
 		super(SIZE, SIZE);
 
 		this.intersectionModel = intersection;
+		this.selected = selected;
 
 		if (intersection.getUnit() == null) {
-			if (!isSelected) {
+			if (!selected) {
 				if (intersectionModel.isMaritime()) {
 					drawCircle(new MinuetoColor(182, 215, 255), 0, 0, 20);
 				} else {
@@ -66,6 +68,10 @@ public class IntersectionImage extends MinuetoImage {
 
 	public Intersection getModel() {
 		return intersectionModel;
+	}
+
+	public boolean isSelectedImage() {
+		return selected;
 	}
 
 }

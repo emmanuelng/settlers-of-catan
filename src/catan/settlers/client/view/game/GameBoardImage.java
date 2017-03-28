@@ -59,7 +59,21 @@ public class GameBoardImage extends ImageLayer {
 
 	private void drawHex(Hexagon hex, int x, int y) {
 		if (hex != null) {
-			draw(HexagonImage.getHexagonImage(hex), x, y);
+			HexagonImage hexImg = HexagonImage.getHexagonImage(hex);
+			draw(hexImg, x, y);
+			if (!hexImg.isSelectedImage()) {
+				registerClickable(hexImg, new ClickListener() {
+					@Override
+					public void onClick() {
+						GameStateManager gsm = ClientModel.instance.getGameStateManager();
+						if (gsm.getSelectedHex() != hex) {
+							gsm.setSelectedHex(hex);
+						} else {
+							gsm.setSelectedHex(null);
+						}
+					}
+				});
+			}
 		}
 	}
 
@@ -106,17 +120,19 @@ public class GameBoardImage extends ImageLayer {
 			IntersectionImage intersecImg = IntersectionImage.getIntersectionImage(curIntersection, isSelected);
 			draw(intersecImg, posX, posY);
 
-			registerClickable(intersecImg, new ClickListener() {
-				@Override
-				public void onClick() {
-					GameStateManager gsm = ClientModel.instance.getGameStateManager();
-					if (gsm.getSelectedIntersection() != intersecImg.getModel()) {
-						gsm.setSelectedIntersection(intersecImg.getModel());
-					} else {
-						gsm.setSelectedIntersection(null);
+			if (!intersecImg.isSelectedImage()) {
+				registerClickable(intersecImg, new ClickListener() {
+					@Override
+					public void onClick() {
+						GameStateManager gsm = ClientModel.instance.getGameStateManager();
+						if (gsm.getSelectedIntersection() != intersecImg.getModel()) {
+							gsm.setSelectedIntersection(intersecImg.getModel());
+						} else {
+							gsm.setSelectedIntersection(null);
+						}
 					}
-				}
-			});
+				});
+			}
 		}
 	}
 
@@ -170,17 +186,19 @@ public class GameBoardImage extends ImageLayer {
 
 			draw(edgeImg.getImage(), posX, posY);
 
-			registerClickable(edgeImg.getImage(), new ClickListener() {
-				@Override
-				public void onClick() {
-					GameStateManager gsm = ClientModel.instance.getGameStateManager();
-					if (gsm.getSelectedEdge() != edgeImg.getModel()) {
-						gsm.setSelectedEdge(edgeImg.getModel());
-					} else {
-						gsm.setSelectedEdge(null);
+			if (!edgeImg.isSelectedImage()) {
+				registerClickable(edgeImg.getImage(), new ClickListener() {
+					@Override
+					public void onClick() {
+						GameStateManager gsm = ClientModel.instance.getGameStateManager();
+						if (gsm.getSelectedEdge() != edgeImg.getModel()) {
+							gsm.setSelectedEdge(edgeImg.getModel());
+						} else {
+							gsm.setSelectedEdge(null);
+						}
 					}
-				}
-			});
+				});
+			}
 		}
 	}
 }

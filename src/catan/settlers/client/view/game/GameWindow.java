@@ -80,7 +80,7 @@ public class GameWindow extends MinuetoFrame {
 		drawLayer(board, 0, 100);
 		drawLayer(playersList, 0, 100);
 		drawLayer(actionBox, 0, 100);
-		drawLayer(dbox, 0, 100);
+		drawLayer(dbox, 0, 105);
 		drawLayer(topBar, 0, 0);
 		render();
 	}

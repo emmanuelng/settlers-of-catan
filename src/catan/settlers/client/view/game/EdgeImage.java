@@ -27,7 +27,7 @@ public class EdgeImage {
 				color = ClientWindow.getInstance().getGameWindow().getColorByUsername(username);
 			}
 
-			list.put(edge, new EdgeImage(edge, color, rotation));
+			list.put(edge, new EdgeImage(edge, color, rotation, isSelected));
 		}
 
 		return list.get(edge);
@@ -37,11 +37,13 @@ public class EdgeImage {
 	private MinuetoImage image;
 	private double rotation;
 	private MinuetoColor color;
+	private boolean selected;
 
-	private EdgeImage(Edge edge, MinuetoColor color, double rotation) {
+	private EdgeImage(Edge edge, MinuetoColor color, double rotation, boolean selected) {
 		this.edgeModel = edge;
 		this.color = color;
 		this.rotation = rotation;
+		this.selected = selected;
 
 	}
 
@@ -55,6 +57,10 @@ public class EdgeImage {
 			image = image.rotate(rotation);
 		}
 		return image;
+	}
+
+	public boolean isSelectedImage() {
+		return selected;
 	}
 
 }

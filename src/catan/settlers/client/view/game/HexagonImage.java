@@ -39,11 +39,14 @@ public class HexagonImage extends MinuetoImage {
 	private static int r = 0; // radius-center to middle of each side
 
 	private Hexagon hexagonModel;
+	private boolean selected;
 
 	private HexagonImage(Hexagon hex, boolean selected) {
 		super(WIDTH, HEIGHT);
 
 		this.hexagonModel = hex;
+		this.selected = selected;
+		
 		HexagonImage.setSide(HEXSIDE);
 
 		MinuetoColor hexColor = getColorByTerrainType(hex.getType());
@@ -108,5 +111,9 @@ public class HexagonImage extends MinuetoImage {
 
 	public Hexagon getModel() {
 		return hexagonModel;
+	}
+
+	public boolean isSelectedImage() {
+		return selected;
 	}
 }
