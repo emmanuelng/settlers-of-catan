@@ -105,6 +105,7 @@ public class GameBoardImage extends ImageLayer {
 					.getSelectedIntersection() == curIntersection;
 			IntersectionImage intersecImg = IntersectionImage.getIntersectionImage(curIntersection, isSelected);
 			draw(intersecImg, posX, posY);
+
 			registerClickable(intersecImg, new ClickListener() {
 				@Override
 				public void onClick() {

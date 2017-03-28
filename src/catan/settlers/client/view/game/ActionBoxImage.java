@@ -4,18 +4,16 @@ import java.util.ArrayList;
 
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoFont;
-import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoRectangle;
 import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.actions.Action;
-import catan.settlers.client.view.game.handlers.MouseHandler;
-import catan.settlers.client.view.game.handlers.Clickable;
-import catan.settlers.client.view.game.handlers.InteractiveElement;
+import catan.settlers.client.view.game.handlers.ClickListener;
 
-public class ActionBoxImage extends MinuetoImage {
+public class ActionBoxImage extends ImageLayer {
 
 	private static final int WIDTH = 300;
 	private static final int PADDING_TOP = 30;
@@ -30,25 +28,26 @@ public class ActionBoxImage extends MinuetoImage {
 	private MinuetoRectangle background_shadow;
 	private MinuetoText title;
 	private int box_x, box_y;
-	private ArrayList<Clickable> allButtons;
 
 	public ActionBoxImage() {
-		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT);
+		super();
 
 		this.box_x = ClientWindow.WINDOW_WIDTH - WIDTH;
 		this.box_y = 0;
-		this.allButtons = new ArrayList<>();
 
 		this.background = new MinuetoRectangle(WIDTH, ClientWindow.WINDOW_HEIGHT, BACKGROUND_COLOR, true);
 		this.background_shadow = new MinuetoRectangle(WIDTH, ClientWindow.WINDOW_HEIGHT, SHADOW_COLOR, true);
 		this.title = new MinuetoText("ACTIONS", new MinuetoFont("arial", 15, true, false), TITLE_COLOR);
-
-		compose();
 	}
 
-	public void compose() {
+	@Override
+	public void compose(GameStateManager gsm) {
+		if (!gsm.doUpdateActions())
+			return;
+		
+		ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);
 		clear();
-		unregisterAllButtons();
+
 		ArrayList<Action> list = ClientModel.instance.getActionManager().getPossibleActions();
 
 		if (list.size() > 0) {
@@ -62,6 +61,7 @@ public class ActionBoxImage extends MinuetoImage {
 				cur_y += addActionButton(currentAction, cur_x, cur_y) + 5;
 			}
 		}
+
 	}
 
 	private int addActionButton(Action action, int x, int y) {
@@ -84,33 +84,14 @@ public class ActionBoxImage extends MinuetoImage {
 		draw(btnBackground, x, y);
 		draw(description, desc_x, desc_y);
 
-		// Register in mouseManager
-		MouseHandler mouseHandler = ClientWindow.getInstance().getGameWindow().getMouseHandler();
-		int btn_x = x, btn_y = y;
-		Clickable clickable = new Clickable() {
-
+		// Register the button
+		registerClickable(btnBackground, new ClickListener() {
 			@Override
-			public void onclick() {
+			public void onClick() {
 				action.perform();
 			}
+		});
 
-			@Override
-			public boolean isClicked(int x, int y) {
-				return x > btn_x && x < btn_x + btn_width && y > btn_y + 100 && y < btn_y + btn_height + 100;
-			}
-
-			@Override
-			public String getName() {
-				return "ActionButton" + action;
-			}
-		};
-		mouseHandler.register(clickable);
-		allButtons.add(clickable);
 		return btn_height;
-	}
-
-	private void unregisterAllButtons() {
-		for (InteractiveElement c : allButtons)
-			ClientWindow.getInstance().getGameWindow().getMouseHandler().unregister(c);
 	}
 }

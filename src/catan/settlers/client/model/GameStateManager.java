@@ -28,6 +28,8 @@ public class GameStateManager {
 	private boolean canMoveRobber;
 	private boolean updateResources;
 	private boolean updateBoard;
+	private boolean updatePlayers;
+	private boolean updateActions;
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
@@ -35,6 +37,8 @@ public class GameStateManager {
 		
 		this.updateResources = true;
 		this.updateBoard = true;
+		this.updatePlayers = true;
+		this.updateActions = true;
 	}
 
 	public int getGameId() {
@@ -48,6 +52,7 @@ public class GameStateManager {
 	public void setSelectedIntersection(Intersection selectedIntersection) {
 		this.selectedIntersection = selectedIntersection;
 		this.updateBoard = true;
+		this.updateActions = true;
 	}
 
 	public Edge getSelectedEdge() {
@@ -57,6 +62,7 @@ public class GameStateManager {
 	public void setSelectedEdge(Edge selectedEdge) {
 		this.selectedEdge = selectedEdge;
 		this.updateBoard = true;
+		this.updateActions = true;
 	}
 
 	public GameBoard getBoard() {
@@ -129,6 +135,18 @@ public class GameStateManager {
 	public boolean doUpdateBoard() {
 		boolean update = updateBoard;
 		updateBoard = false;
+		return update;
+	}
+
+	public boolean doUpdatePlayers() {
+		boolean update = updatePlayers;
+		updatePlayers = false;
+		return update;
+	}
+
+	public boolean doUpdateActions() {
+		boolean update = updateActions;
+		updateActions = false;
 		return update;
 	}
 

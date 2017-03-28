@@ -1,6 +1,7 @@
 package catan.settlers.client.view.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.minueto.MinuetoColor;
 import org.minueto.MinuetoEventQueue;
@@ -24,6 +25,10 @@ public class GameWindow extends MinuetoFrame {
 
 	private TopBarImage topBar;
 	private GameBoardImage board;
+	private PlayerListImage playersList;
+	private ActionBoxImage actionBox;
+
+	private HashMap<MinuetoImage, Clickable> imageClickableMap;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
@@ -56,17 +61,24 @@ public class GameWindow extends MinuetoFrame {
 
 		registerWindowHandler(new BoardWindowHandler(), eventQueue);
 		registerMouseHandler(mouseHandler, eventQueue);
+		registerKeyboardHandler(keyboardHandler, eventQueue);
 
 		// Initialize layers
 		this.topBar = new TopBarImage();
 		this.board = new GameBoardImage();
-		// this.playersList = new PlayerListImage();
-		// this.actionBox = new ActionBoxImage();
+		this.playersList = new PlayerListImage();
+		this.actionBox = new ActionBoxImage();
+
+		this.imageClickableMap = new HashMap<>();
 	}
 
 	public void updateWindow() {
-		drawLayer(topBar, 0, 0);
+		clear();
+
 		drawLayer(board, 0, 100);
+		drawLayer(playersList, 0, 100);
+		drawLayer(actionBox, 0, 100);
+		drawLayer(topBar, 0, 0);
 		render();
 	}
 
@@ -80,7 +92,7 @@ public class GameWindow extends MinuetoFrame {
 			draw(image, window_x_coord, window_y_coord);
 
 			if (layer.isClickable(image)) {
-				mouseHandler.register(new Clickable() {
+				Clickable clickable = new Clickable() {
 
 					@Override
 					public boolean isClicked(int x, int y) {
@@ -98,7 +110,12 @@ public class GameWindow extends MinuetoFrame {
 					public void onclick() {
 						layer.getClickListener(image).onClick();
 					}
-				});
+				};
+
+				if (imageClickableMap.get(image) == null) {
+					imageClickableMap.put(image, clickable);
+					mouseHandler.register(clickable);
+				}
 			}
 		}
 	}
@@ -121,6 +138,16 @@ public class GameWindow extends MinuetoFrame {
 		}
 
 		return MinuetoColor.BLACK;
+	}
+
+	public void clearLayerClickables(ImageLayer layer) {
+		for (MinuetoImage image : layer) {
+			if (layer.isClickable(image)) {
+				Clickable clickable = imageClickableMap.get(image);
+				if (image != null)
+					mouseHandler.unregister(clickable);
+			}
+		}
 	}
 
 	public void setDialogBox(DialogBox dbox) {

@@ -46,6 +46,12 @@ public abstract class ImageLayer implements Iterable<MinuetoImage> {
 		return clickableElmts.get(image);
 	}
 
+	public void clear() {
+		images = new ArrayList<>();
+		imagesCoordsMap = new HashMap<>();
+		clickableElmts = new HashMap<>();
+	}
+
 	@Override
 	public Iterator<MinuetoImage> iterator() {
 		return images.iterator();

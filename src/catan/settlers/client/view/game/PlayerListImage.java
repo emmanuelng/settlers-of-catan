@@ -4,22 +4,23 @@ import java.util.ArrayList;
 
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoFont;
-import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.model.ImageFileManager;
-import catan.settlers.client.view.ClientWindow;
 
-public class PlayerListImage extends MinuetoImage {
+public class PlayerListImage extends ImageLayer {
 
 	public PlayerListImage() {
-		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT);
-		compose();
+		super();
 	}
 
-	public void compose() {
+	@Override
+	public void compose(GameStateManager gsm) {
+		if (!gsm.doUpdatePlayers()) return;
+		
 		ArrayList<String> participants = ClientModel.instance.getGameStateManager().getParticipants();
 		int offsetX = 30, offsetY = 100, spaceBetweenPlayers = 100;
 
