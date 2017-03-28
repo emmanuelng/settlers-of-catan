@@ -11,7 +11,7 @@ import org.minueto.image.MinuetoText;
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.actions.Action;
-import catan.settlers.client.view.game.handlers.BoardMouseHandler;
+import catan.settlers.client.view.game.handlers.MouseHandler;
 import catan.settlers.client.view.game.handlers.Clickable;
 import catan.settlers.client.view.game.handlers.InteractiveElement;
 
@@ -85,7 +85,7 @@ public class ActionBoxImage extends MinuetoImage {
 		draw(description, desc_x, desc_y);
 
 		// Register in mouseManager
-		BoardMouseHandler mouseHandler = ClientWindow.getInstance().getGameWindow().getMouseHandler();
+		MouseHandler mouseHandler = ClientWindow.getInstance().getGameWindow().getMouseHandler();
 		int btn_x = x, btn_y = y;
 		Clickable clickable = new Clickable() {
 

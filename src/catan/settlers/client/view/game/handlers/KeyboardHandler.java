@@ -6,10 +6,10 @@ import org.minueto.handlers.MinuetoKeyboardHandler;
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
 
-public class BoardKeyboardHandler implements MinuetoKeyboardHandler{
+public class KeyboardHandler implements MinuetoKeyboardHandler{
 
 	
-	public BoardKeyboardHandler(){
+	public KeyboardHandler(){
 	}
 	@Override
 	public void handleKeyPress(int value) {

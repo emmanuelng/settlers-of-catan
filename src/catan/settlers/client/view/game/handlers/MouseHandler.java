@@ -5,12 +5,12 @@ import java.util.HashSet;
 
 import org.minueto.handlers.MinuetoMouseHandler;
 
-public class BoardMouseHandler implements MinuetoMouseHandler {
+public class MouseHandler implements MinuetoMouseHandler {
 
 	private ArrayList<Clickable> clickableElmts;
 	private HashSet<String> addedElements;
 
-	public BoardMouseHandler() {
+	public MouseHandler() {
 		clickableElmts = new ArrayList<>();
 		addedElements = new HashSet<>();
 	}

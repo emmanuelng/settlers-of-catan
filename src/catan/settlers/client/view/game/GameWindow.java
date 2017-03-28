@@ -10,8 +10,8 @@ import org.minueto.window.MinuetoFrame;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
-import catan.settlers.client.view.game.handlers.BoardKeyboardHandler;
-import catan.settlers.client.view.game.handlers.BoardMouseHandler;
+import catan.settlers.client.view.game.handlers.KeyboardHandler;
+import catan.settlers.client.view.game.handlers.MouseHandler;
 import catan.settlers.client.view.game.handlers.BoardWindowHandler;
 import catan.settlers.server.model.Player.ResourceType;
 
@@ -20,8 +20,8 @@ public class GameWindow extends MinuetoFrame {
 	private boolean open;
 
 	private MinuetoEventQueue eventQueue;
-	private BoardMouseHandler mouseHandler;
-	private BoardKeyboardHandler keyboardHandler;
+	private MouseHandler mouseHandler;
+	private KeyboardHandler keyboardHandler;
 
 	private GameBoardImage board;
 	private TopBarImage topBar;
@@ -58,8 +58,8 @@ public class GameWindow extends MinuetoFrame {
 	private void initialize() {
 		this.setTitle("Settlers of Catan");
 		this.eventQueue = new MinuetoEventQueue();
-		this.mouseHandler = new BoardMouseHandler();
-		this.keyboardHandler = new BoardKeyboardHandler();
+		this.mouseHandler = new MouseHandler();
+		this.keyboardHandler = new KeyboardHandler();
 
 		this.board = new GameBoardImage();
 		this.topBar = new TopBarImage();
@@ -135,7 +135,7 @@ public class GameWindow extends MinuetoFrame {
 	public void updateResources(HashMap<ResourceType, Integer> resources) {
 	}
 
-	public BoardMouseHandler getMouseHandler() {
+	public MouseHandler getMouseHandler() {
 		return mouseHandler;
 	}
 
@@ -143,7 +143,7 @@ public class GameWindow extends MinuetoFrame {
 		this.dbox = dbox;
 	}
 
-	public BoardKeyboardHandler getKeyBoardHandler() {
+	public KeyboardHandler getKeyBoardHandler() {
 		return keyboardHandler;
 	}
 
