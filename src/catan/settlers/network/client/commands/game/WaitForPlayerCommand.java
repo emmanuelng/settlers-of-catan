@@ -1,8 +1,7 @@
 package catan.settlers.network.client.commands.game;
 
-import catan.settlers.client.view.ClientWindow;
-import catan.settlers.client.view.game.DialogBox;
-import catan.settlers.client.view.game.GameWindow;
+import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.GameStateManager;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class WaitForPlayerCommand implements ServerToClientCommand {
@@ -16,11 +15,8 @@ public class WaitForPlayerCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
-		// TODO Display message on the client
-		// Also disable buttons? Or have a myTurn state?
-		GameWindow window = ClientWindow.getInstance().getGameWindow();
-		DialogBox dbox = new DialogBox("Waiting for " + username, "Please wait until the turn is done");
-		window.setDialogBox(dbox);
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		gsm.setdBox("Waiting for " + username, "Please wait until the turn is done");
 	}
 
 }

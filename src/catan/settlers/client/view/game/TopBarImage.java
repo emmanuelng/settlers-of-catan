@@ -111,7 +111,7 @@ public class TopBarImage extends ImageLayer {
 				// Reset the client model
 				ClientModel.instance.getGameStateManager().setSelectedEdge(null);
 				ClientModel.instance.getGameStateManager().setSelectedIntersection(null);
-				ClientWindow.getInstance().getGameWindow().setDialogBox(null);
+				ClientModel.instance.getGameStateManager().setdBox(null, null);
 			}
 		});
 

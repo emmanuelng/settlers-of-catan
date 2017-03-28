@@ -27,6 +27,7 @@ public class GameWindow extends MinuetoFrame {
 	private GameBoardImage board;
 	private PlayerListImage playersList;
 	private ActionBoxImage actionBox;
+	private DialogBox dbox;
 
 	private HashMap<MinuetoImage, Clickable> imageClickableMap;
 
@@ -68,6 +69,7 @@ public class GameWindow extends MinuetoFrame {
 		this.board = new GameBoardImage();
 		this.playersList = new PlayerListImage();
 		this.actionBox = new ActionBoxImage();
+		this.dbox = new DialogBox();
 
 		this.imageClickableMap = new HashMap<>();
 	}
@@ -78,6 +80,7 @@ public class GameWindow extends MinuetoFrame {
 		drawLayer(board, 0, 100);
 		drawLayer(playersList, 0, 100);
 		drawLayer(actionBox, 0, 100);
+		drawLayer(dbox, 0, 100);
 		drawLayer(topBar, 0, 0);
 		render();
 	}
@@ -148,10 +151,5 @@ public class GameWindow extends MinuetoFrame {
 					mouseHandler.unregister(clickable);
 			}
 		}
-	}
-
-	public void setDialogBox(DialogBox dbox) {
-		// TODO Auto-generated method stub
-
 	}
 }

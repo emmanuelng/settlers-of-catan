@@ -21,6 +21,8 @@ public class PlayerListImage extends ImageLayer {
 	public void compose(GameStateManager gsm) {
 		if (!gsm.doUpdatePlayers()) return;
 		
+		clear();
+		
 		ArrayList<String> participants = ClientModel.instance.getGameStateManager().getParticipants();
 		int offsetX = 30, offsetY = 100, spaceBetweenPlayers = 100;
 

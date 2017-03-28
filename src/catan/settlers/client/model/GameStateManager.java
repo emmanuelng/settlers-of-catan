@@ -31,10 +31,13 @@ public class GameStateManager {
 	private boolean updatePlayers;
 	private boolean updateActions;
 
+	private String dboxTitle;
+	private String dBoxMessage;
+
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
 		this.canMoveRobber = false;
-		
+
 		this.updateResources = true;
 		this.updateBoard = true;
 		this.updatePlayers = true;
@@ -148,6 +151,19 @@ public class GameStateManager {
 		boolean update = updateActions;
 		updateActions = false;
 		return update;
+	}
+
+	public String getdBoxTitle() {
+		return dboxTitle;
+	}
+
+	public String getdBoxMessage() {
+		return dBoxMessage;
+	}
+
+	public void setdBox(String title, String message) {
+		dboxTitle = title;
+		dBoxMessage = message;
 	}
 
 }

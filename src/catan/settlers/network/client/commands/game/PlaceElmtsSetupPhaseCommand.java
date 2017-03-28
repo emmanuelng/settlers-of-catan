@@ -1,8 +1,7 @@
 package catan.settlers.network.client.commands.game;
 
-import catan.settlers.client.view.ClientWindow;
-import catan.settlers.client.view.game.DialogBox;
-import catan.settlers.client.view.game.GameWindow;
+import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.GameStateManager;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class PlaceElmtsSetupPhaseCommand implements ServerToClientCommand {
@@ -16,14 +15,13 @@ public class PlaceElmtsSetupPhaseCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
-		GameWindow window = ClientWindow.getInstance().getGameWindow();
-		DialogBox dbox = new DialogBox("Place your first settlement and road",
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		gsm.setdBox("Place your first settlement and road",
 				"Select an edge and an intersection and click on \"End Turn\" to confirm");
 
 		if (!isPhaseOne) {
-			dbox = new DialogBox("Place your first city and second road",
+			gsm.setdBox("Place your first city and second road",
 					"Select an edge and an intersection and click on \"End Turn\" to confirm");
 		}
-		window.setDialogBox(dbox);
 	}
 }
