@@ -161,18 +161,17 @@ public class GameBoardImage extends ImageLayer {
 				shift_y = (int) (0.75 * HexagonImage.HEIGHT);
 				break;
 			}
-			
+
 			boolean isSelected = curEdge == ClientModel.instance.getGameStateManager().getSelectedEdge();
 			EdgeImage edgeImg = EdgeImage.getEdgeImage(curEdge, rotation, isSelected);
-			int posX = (int) (x + shift_x - 0.1 * edgeImg.getImage().getWidth());
-			int posY = (int) (y + shift_y - 0.1 * edgeImg.getImage().getHeight());
+			int posX = (int) (x + shift_x - 5);
+			int posY = (int) (y + shift_y);
 
 			draw(edgeImg.getImage(), posX, posY);
 
 			registerClickable(edgeImg.getImage(), new ClickListener() {
 				@Override
 				public void onClick() {
-					System.out.println("Clicked");
 					GameStateManager gsm = ClientModel.instance.getGameStateManager();
 					if (gsm.getSelectedEdge() != edgeImg.getModel()) {
 						gsm.setSelectedEdge(edgeImg.getModel());
