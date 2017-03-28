@@ -2,7 +2,7 @@ package catan.settlers.network.client.commands.game;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
-import catan.settlers.client.view.game.DialogBox;
+import catan.settlers.client.view.game.DialogBoxLayer;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class FailureCommand implements ServerToClientCommand {

@@ -18,7 +18,7 @@ import catan.settlers.network.server.commands.game.EndTurnCommand;
 import catan.settlers.network.server.commands.game.RollDiceCommand;
 import catan.settlers.server.model.Player.ResourceType;
 
-public class TopBarImage extends ImageLayer {
+public class TopBarLayer extends ImageLayer {
 
 	private static final MinuetoColor shadow_color = new MinuetoColor(236, 236, 236);
 	private static final MinuetoColor bg_color = new MinuetoColor(249, 249, 249);
@@ -38,7 +38,7 @@ public class TopBarImage extends ImageLayer {
 	private MinuetoImageFile endTurnImage;
 	private MinuetoImageFile tradeImage;
 
-	public TopBarImage() {
+	public TopBarLayer() {
 		super();
 		initializeResources();
 

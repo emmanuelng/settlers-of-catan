@@ -8,13 +8,13 @@ import org.minueto.image.MinuetoText;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.view.ClientWindow;
 
-public class DialogBox extends ImageLayer {
+public class DialogBoxLayer extends ImageLayer {
 
 	private static final MinuetoFont title_font = new MinuetoFont("arial", 20, true, false);
 	private static final MinuetoFont message_font = new MinuetoFont("arial", 16, false, false);
 	private static final MinuetoColor bg_color = new MinuetoColor(238, 255, 170);
 
-	public DialogBox() {
+	public DialogBoxLayer() {
 		super();
 	}
 

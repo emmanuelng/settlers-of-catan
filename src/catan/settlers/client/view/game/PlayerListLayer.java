@@ -11,9 +11,9 @@ import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.model.ImageFileManager;
 
-public class PlayerListImage extends ImageLayer {
+public class PlayerListLayer extends ImageLayer {
 
-	public PlayerListImage() {
+	public PlayerListLayer() {
 		super();
 	}
 

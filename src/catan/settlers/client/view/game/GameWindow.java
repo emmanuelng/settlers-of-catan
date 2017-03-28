@@ -23,11 +23,11 @@ public class GameWindow extends MinuetoFrame {
 	private MouseHandler mouseHandler;
 	private KeyboardHandler keyboardHandler;
 
-	private TopBarImage topBar;
+	private TopBarLayer topBar;
 	private GameBoardImage board;
-	private PlayerListImage playersList;
-	private ActionBoxImage actionBox;
-	private DialogBox dbox;
+	private PlayerListLayer playersList;
+	private ActionBoxLayer actionBox;
+	private DialogBoxLayer dbox;
 
 	private HashMap<MinuetoImage, Clickable> imageClickableMap;
 
@@ -65,11 +65,11 @@ public class GameWindow extends MinuetoFrame {
 		registerKeyboardHandler(keyboardHandler, eventQueue);
 
 		// Initialize layers
-		this.topBar = new TopBarImage();
+		this.topBar = new TopBarLayer();
 		this.board = new GameBoardImage();
-		this.playersList = new PlayerListImage();
-		this.actionBox = new ActionBoxImage();
-		this.dbox = new DialogBox();
+		this.playersList = new PlayerListLayer();
+		this.actionBox = new ActionBoxLayer();
+		this.dbox = new DialogBoxLayer();
 
 		this.imageClickableMap = new HashMap<>();
 	}

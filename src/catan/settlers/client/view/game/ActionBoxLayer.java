@@ -13,7 +13,7 @@ import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.actions.Action;
 import catan.settlers.client.view.game.handlers.ClickListener;
 
-public class ActionBoxImage extends ImageLayer {
+public class ActionBoxLayer extends ImageLayer {
 
 	private static final int WIDTH = 300;
 	private static final int PADDING_TOP = 30;
@@ -29,7 +29,7 @@ public class ActionBoxImage extends ImageLayer {
 	private MinuetoText title;
 	private int box_x, box_y;
 
-	public ActionBoxImage() {
+	public ActionBoxLayer() {
 		super();
 
 		this.box_x = ClientWindow.WINDOW_WIDTH - WIDTH;

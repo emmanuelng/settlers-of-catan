@@ -1,7 +1,7 @@
 package catan.settlers.network.client.commands;
 
 import catan.settlers.client.view.ClientWindow;
-import catan.settlers.client.view.game.DialogBox;
+import catan.settlers.client.view.game.DialogBoxLayer;
 
 public class TurnResponseCommand implements ServerToClientCommand {
 
@@ -16,10 +16,10 @@ public class TurnResponseCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
-		DialogBox dbox = new DialogBox("Success!", message);
+		DialogBoxLayer dbox = new DialogBoxLayer("Success!", message);
 
 		if (!success) {
-			dbox = new DialogBox("Failure", message);
+			dbox = new DialogBoxLayer("Failure", message);
 		}
 
 		ClientWindow.getInstance().getGameWindow().setDialogBox(dbox);
