@@ -29,6 +29,8 @@ public class MouseHandler implements MinuetoMouseHandler {
 		if (!addedElements.contains(c.getName())) {
 			clickableElmts.add(c);
 			addedElements.add(c.getName());
+			if (clickableElmts.size() > 1000)
+				System.out.println("WARNING: Too many elements are registered!");
 		}
 	}
 

@@ -8,35 +8,30 @@ import org.minueto.image.MinuetoImage;
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.ImageFileManager;
 import catan.settlers.client.view.ClientWindow;
-import catan.settlers.client.view.game.handlers.Clickable;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Village;
 
-public class IntersectionImage extends MinuetoImage implements Clickable {
+public class IntersectionImage extends MinuetoImage {
 
 	public static final int SIZE = 20;
 
 	private static final HashMap<Intersection, IntersectionImage> intersections = new HashMap<>();
 	private static final HashMap<Intersection, IntersectionImage> selected_intersections = new HashMap<>();
 
-	public static IntersectionImage getIntersectionImage(Intersection intersection, int x, int y, boolean isSelected) {
+	public static IntersectionImage getIntersectionImage(Intersection intersection, boolean isSelected) {
 		HashMap<Intersection, IntersectionImage> list = isSelected ? selected_intersections : intersections;
 
 		if (list.get(intersection) == null)
-			list.put(intersection, new IntersectionImage(intersection, x, y, isSelected));
+			list.put(intersection, new IntersectionImage(intersection, isSelected));
 
 		return list.get(intersection);
 	}
 
-	private int relativeX;
-	private int relativeY;
 	private Intersection intersectionModel;
 
-	private IntersectionImage(Intersection intersection, int relativeX, int relativeY, boolean isSelected) {
+	private IntersectionImage(Intersection intersection, boolean isSelected) {
 		super(SIZE, SIZE);
 
-		this.relativeX = relativeX;
-		this.relativeY = relativeY;
 		this.intersectionModel = intersection;
 
 		if (intersection.getUnit() == null) {
@@ -69,24 +64,8 @@ public class IntersectionImage extends MinuetoImage implements Clickable {
 		}
 	}
 
-	@Override
-	public boolean isClicked(int x, int y) {
-		return x > relativeX && x < relativeX + getWidth() && y > relativeY + 100 && y < relativeY + 100 + getHeight();
-	}
-
-	@Override
-	public void onclick() {
-		if (intersectionModel != ClientModel.instance.getGameStateManager().getSelectedIntersection()) {
-			ClientModel.instance.getGameStateManager().setSelectedIntersection(intersectionModel);
-		} else {
-			ClientModel.instance.getGameStateManager().setSelectedIntersection(null);
-		}
-
-	}
-
-	@Override
-	public String getName() {
-		return "Intersection" + intersectionModel;
+	public Intersection getModel() {
+		return intersectionModel;
 	}
 
 }

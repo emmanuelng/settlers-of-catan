@@ -3,8 +3,6 @@ package catan.settlers.client.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import catan.settlers.client.view.ClientWindow;
-import catan.settlers.client.view.game.GameWindow;
 import catan.settlers.network.server.commands.ClientToServerCommand;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;
 import catan.settlers.network.server.commands.game.GetListOfPlayersCommand;
@@ -23,18 +21,20 @@ public class GameStateManager {
 	private String currentPlayer;
 	private HashMap<ResourceType, Integer> resources;
 
-	private GameWindow gameWindow;
-
 	private Intersection selectedIntersection;
 	private Edge selectedEdge;
 	private Hexagon selectedHex;
 
 	private boolean canMoveRobber;
+	private boolean updateResources;
+	private boolean updateBoard;
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
-		this.gameWindow = ClientWindow.getInstance().getGameWindow();
-		this.canMoveRobber = true;
+		this.canMoveRobber = false;
+		
+		this.updateResources = true;
+		this.updateBoard = true;
 	}
 
 	public int getGameId() {
@@ -47,10 +47,7 @@ public class GameStateManager {
 
 	public void setSelectedIntersection(Intersection selectedIntersection) {
 		this.selectedIntersection = selectedIntersection;
-		if (gameWindow != null) {
-			gameWindow.notifyBoardHasChanged();
-			gameWindow.notifyUpdateActions();
-		}
+		this.updateBoard = true;
 	}
 
 	public Edge getSelectedEdge() {
@@ -59,10 +56,7 @@ public class GameStateManager {
 
 	public void setSelectedEdge(Edge selectedEdge) {
 		this.selectedEdge = selectedEdge;
-		if (gameWindow != null) {
-			gameWindow.notifyBoardHasChanged();
-			gameWindow.notifyUpdateActions();
-		}
+		this.updateBoard = true;
 	}
 
 	public GameBoard getBoard() {
@@ -71,10 +65,6 @@ public class GameStateManager {
 
 	public void setSelectedHex(Hexagon hexagon) {
 		this.selectedHex = hexagon;
-		if (gameWindow != null) {
-			gameWindow.notifyBoardHasChanged();
-			gameWindow.notifyUpdateActions();
-		}
 	}
 
 	public Hexagon getSelectedHex() {
@@ -83,8 +73,7 @@ public class GameStateManager {
 
 	public void setBoard(GameBoard board) {
 		this.board = board;
-		if (gameWindow != null)
-			gameWindow.notifyBoardHasChanged();
+		this.updateBoard = true;
 	}
 
 	public ArrayList<String> getParticipants() {
@@ -93,14 +82,10 @@ public class GameStateManager {
 
 	public void setParticipants(ArrayList<String> participants) {
 		this.participants = participants;
-		if (gameWindow != null)
-			gameWindow.notifyCurPlayerHasChanged();
 	}
 
 	public void setCurrentPlayer(String player) {
 		currentPlayer = player;
-		if (gameWindow != null)
-			gameWindow.notifyCurPlayerHasChanged();
 	}
 
 	public String getCurrentPlayer() {
@@ -113,8 +98,7 @@ public class GameStateManager {
 
 	public void setResources(HashMap<ResourceType, Integer> resources) {
 		this.resources = resources;
-		if (gameWindow != null)
-			gameWindow.notifyResourcesHaveChanged();
+		this.updateResources = true;
 	}
 
 	public void sync() {
@@ -134,6 +118,18 @@ public class GameStateManager {
 
 	public boolean canMoveRobber() {
 		return canMoveRobber;
+	}
+
+	public boolean doUpdateResources() {
+		boolean update = updateResources;
+		updateResources = false;
+		return update;
+	}
+
+	public boolean doUpdateBoard() {
+		boolean update = updateBoard;
+		updateBoard = false;
+		return update;
 	}
 
 }

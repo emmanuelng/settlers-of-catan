@@ -1,7 +1,6 @@
 package catan.settlers.client.view.game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.minueto.MinuetoColor;
 import org.minueto.MinuetoEventQueue;
@@ -10,10 +9,10 @@ import org.minueto.window.MinuetoFrame;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
+import catan.settlers.client.view.game.handlers.BoardWindowHandler;
+import catan.settlers.client.view.game.handlers.Clickable;
 import catan.settlers.client.view.game.handlers.KeyboardHandler;
 import catan.settlers.client.view.game.handlers.MouseHandler;
-import catan.settlers.client.view.game.handlers.BoardWindowHandler;
-import catan.settlers.server.model.Player.ResourceType;
 
 public class GameWindow extends MinuetoFrame {
 
@@ -23,17 +22,8 @@ public class GameWindow extends MinuetoFrame {
 	private MouseHandler mouseHandler;
 	private KeyboardHandler keyboardHandler;
 
-	private GameBoardImage board;
 	private TopBarImage topBar;
-	private PlayerListImage playersList;
-	private TradeMenu tradeMenu;
-	private MinuetoImage dbox;
-	private ActionBoxImage actionBox;
-
-	private boolean boardChanged;
-	private boolean playerChanged;
-	private boolean resourcesChanged;
-	private boolean updateActions;
+	private GameBoardImage board;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
@@ -43,7 +33,7 @@ public class GameWindow extends MinuetoFrame {
 		initialize();
 		open = true;
 
-		// Event loop
+		// Game loop
 		while (open) {
 			while (eventQueue.hasNext())
 				eventQueue.handle();
@@ -56,60 +46,61 @@ public class GameWindow extends MinuetoFrame {
 	}
 
 	private void initialize() {
-		this.setTitle("Settlers of Catan");
+		// Window setup
+		setTitle("Settlers of Catan");
+
+		// Register handlers
 		this.eventQueue = new MinuetoEventQueue();
 		this.mouseHandler = new MouseHandler();
 		this.keyboardHandler = new KeyboardHandler();
 
-		this.board = new GameBoardImage();
-		this.topBar = new TopBarImage();
-		this.playersList = new PlayerListImage();
-		this.actionBox = new ActionBoxImage();
-
-		this.boardChanged = true;
-		this.playerChanged = true;
-		this.resourcesChanged = true;
-		this.updateActions = true;
-
 		registerWindowHandler(new BoardWindowHandler(), eventQueue);
 		registerMouseHandler(mouseHandler, eventQueue);
+
+		// Initialize layers
+		this.topBar = new TopBarImage();
+		this.board = new GameBoardImage();
+		// this.playersList = new PlayerListImage();
+		// this.actionBox = new ActionBoxImage();
 	}
 
 	public void updateWindow() {
-		if (boardChanged) {
-			board = new GameBoardImage();
-			boardChanged = false;
-		}
-
-		if (playerChanged) {
-			playersList = new PlayerListImage();
-			playerChanged = false;
-		}
-		
-		if (resourcesChanged) {
-			topBar = new TopBarImage();
-			resourcesChanged = false;
-		}
-		
-		if (updateActions) {
-			actionBox.compose();
-			updateActions = false;
-		}
-
-		draw(board, 0, 100);
-		draw(playersList, 0, 100);
-		draw(actionBox, 0, 100);
-
-		if (dbox != null) {
-			draw(dbox, 0, 110);
-		}
-
-		if (tradeMenu != null) {
-			draw(tradeMenu, 0, 100);
-		}
-
-		draw(topBar, 0, 0);
+		drawLayer(topBar, 0, 0);
+		drawLayer(board, 0, 100);
 		render();
+	}
+
+	private void drawLayer(ImageLayer layer, int x, int y) {
+		layer.compose(ClientModel.instance.getGameStateManager());
+
+		// Draw images
+		for (MinuetoImage image : layer) {
+			int window_x_coord = layer.getCoordinates(image).getX() + x;
+			int window_y_coord = layer.getCoordinates(image).getY() + y;
+			draw(image, window_x_coord, window_y_coord);
+
+			if (layer.isClickable(image)) {
+				mouseHandler.register(new Clickable() {
+
+					@Override
+					public boolean isClicked(int x, int y) {
+						boolean isInXrange = x > window_x_coord && x < window_x_coord + image.getWidth();
+						boolean isInYRange = y > window_y_coord && y < window_y_coord + image.getHeight();
+						return isInXrange && isInYRange;
+					}
+
+					@Override
+					public String getName() {
+						return image.hashCode() + "";
+					}
+
+					@Override
+					public void onclick() {
+						layer.getClickListener(image).onClick();
+					}
+				});
+			}
+		}
 	}
 
 	public int getPlayerNumber(String username) {
@@ -132,46 +123,8 @@ public class GameWindow extends MinuetoFrame {
 		return MinuetoColor.BLACK;
 	}
 
-	public void updateResources(HashMap<ResourceType, Integer> resources) {
-	}
-
-	public MouseHandler getMouseHandler() {
-		return mouseHandler;
-	}
-
 	public void setDialogBox(DialogBox dbox) {
-		this.dbox = dbox;
-	}
+		// TODO Auto-generated method stub
 
-	public KeyboardHandler getKeyBoardHandler() {
-		return keyboardHandler;
-	}
-
-	public MinuetoEventQueue getEventQueue() {
-		return eventQueue;
-	}
-
-	public void setTradeMenu(TradeMenu tradeMenu) {
-		this.tradeMenu = tradeMenu;
-	}
-
-	public TradeMenu getTradeMenu() {
-		return tradeMenu;
-	}
-
-	public void notifyBoardHasChanged() {
-		boardChanged = true;
-	}
-
-	public void notifyCurPlayerHasChanged() {
-		playerChanged = true;
-	}
-
-	public void notifyResourcesHaveChanged() {
-		resourcesChanged = true;
-	}
-
-	public void notifyUpdateActions() {
-		updateActions = true;		
 	}
 }

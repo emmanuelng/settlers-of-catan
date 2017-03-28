@@ -9,25 +9,22 @@ import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
-import catan.settlers.client.view.ClientWindow;
-import catan.settlers.client.view.game.handlers.Clickable;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
 
-public class HexagonImage extends MinuetoImage implements Clickable {
+public class HexagonImage extends MinuetoImage {
 
 	private static final HashMap<Hexagon, HexagonImage> hexagons = new HashMap<>();
 	private static final HashMap<Hexagon, HexagonImage> selected_hexagons = new HashMap<>();
 
-	public static HexagonImage getHexagonImage(Hexagon hex, int relativeX, int relativeY) {
+	public static HexagonImage getHexagonImage(Hexagon hex) {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		boolean selected = gsm.getSelectedHex() == hex;
 		HashMap<Hexagon, HexagonImage> list = selected ? selected_hexagons : hexagons;
 
 		if (list.get(hex) == null) {
-			HexagonImage hexImage = new HexagonImage(hex, relativeX, relativeY, selected);
+			HexagonImage hexImage = new HexagonImage(hex, selected);
 			list.put(hex, hexImage);
-			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(hexImage);
 		}
 		return list.get(hex);
 	}
@@ -35,11 +32,6 @@ public class HexagonImage extends MinuetoImage implements Clickable {
 	public static final int HEIGHT = 100;
 	public static final int WIDTH = (int) (0.8660254037844 * HEIGHT);
 	public final static int HEXSIDE = 50;
-	/**
-	 * if this is true it means that the coordinate (0,0) are coordinates of the
-	 * first vertex. if it is false it means that the coordinate are coordinates
-	 * of the top left rectangle.
-	 */
 	public static boolean notAlternateVertex = true;
 
 	private static int s = 0; // length of side
@@ -47,15 +39,11 @@ public class HexagonImage extends MinuetoImage implements Clickable {
 	private static int r = 0; // radius-center to middle of each side
 
 	private Hexagon hexagonModel;
-	private int relativeX, relativeY;
 
-	private HexagonImage(Hexagon hex, int relativeX, int relativeY, boolean selected) {
+	private HexagonImage(Hexagon hex, boolean selected) {
 		super(WIDTH, HEIGHT);
 
 		this.hexagonModel = hex;
-		this.relativeX = relativeX;
-		this.relativeY = relativeY;
-
 		HexagonImage.setSide(HEXSIDE);
 
 		MinuetoColor hexColor = getColorByTerrainType(hex.getType());
@@ -118,24 +106,7 @@ public class HexagonImage extends MinuetoImage implements Clickable {
 		}
 	}
 
-	@Override
-	public boolean isClicked(int x, int y) {
-		return x > relativeX && x < relativeX + getWidth() && y > relativeY + 100 && y < relativeY + 100 + getHeight();
-	}
-
-	@Override
-	public String getName() {
-		return "Hexagon" + hexagonModel;
-	}
-
-	@Override
-	public void onclick() {
-		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-
-		if (gsm.getSelectedHex() != hexagonModel) {
-			gsm.setSelectedHex(hexagonModel);
-		} else {
-			gsm.setSelectedHex(null);
-		}
+	public Hexagon getModel() {
+		return hexagonModel;
 	}
 }

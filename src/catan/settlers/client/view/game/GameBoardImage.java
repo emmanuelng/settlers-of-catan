@@ -1,10 +1,8 @@
 package catan.settlers.client.view.game;
 
-import org.minueto.MinuetoColor;
-import org.minueto.image.MinuetoImage;
-
 import catan.settlers.client.model.ClientModel;
-import catan.settlers.client.view.ClientWindow;
+import catan.settlers.client.model.GameStateManager;
+import catan.settlers.client.view.game.handlers.ClickListener;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
@@ -12,16 +10,19 @@ import catan.settlers.server.model.map.Hexagon.Direction;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.map.Intersection;
 
-public class GameBoardImage extends MinuetoImage {
+public class GameBoardImage extends ImageLayer {
 
 	private GameBoard board;
 
 	public GameBoardImage() {
-		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT);
-		compose();
+		super();
 	}
 
-	public void compose() {
+	@Override
+	public void compose(GameStateManager gsm) {
+		if (!gsm.doUpdateBoard())
+			return;
+
 		board = ClientModel.instance.getGameStateManager().getBoard();
 		if (board == null)
 			return;
@@ -29,7 +30,6 @@ public class GameBoardImage extends MinuetoImage {
 		int offsetX = (int) (((board.getLength() + 0.5) * HexagonImage.WIDTH) / 2);
 		int offsetY = 60;
 
-		clear(MinuetoColor.WHITE);
 		int hex_height = HexagonImage.HEIGHT, hex_width = HexagonImage.WIDTH;
 
 		for (int x = 0; x < board.getLength(); x++) {
@@ -48,10 +48,6 @@ public class GameBoardImage extends MinuetoImage {
 			}
 		}
 
-		/*
-		 * Do a second loop to make sure that the intersection are the latest
-		 * registered clickables
-		 */
 		for (int x = 0; x < board.getLength(); x++) {
 			for (int y = 0; y < board.getHeight(); y++) {
 				int pos_x = (int) (x * hex_width + 0.5 * hex_width * (1 - (y % 2))) + offsetX;
@@ -63,7 +59,7 @@ public class GameBoardImage extends MinuetoImage {
 
 	private void drawHex(Hexagon hex, int x, int y) {
 		if (hex != null) {
-			draw(HexagonImage.getHexagonImage(hex, x, y), x, y);
+			draw(HexagonImage.getHexagonImage(hex), x, y);
 		}
 	}
 
@@ -107,10 +103,19 @@ public class GameBoardImage extends MinuetoImage {
 
 			boolean isSelected = ClientModel.instance.getGameStateManager()
 					.getSelectedIntersection() == curIntersection;
-			IntersectionImage intersecImg = IntersectionImage.getIntersectionImage(curIntersection, posX, posY,
-					isSelected);
+			IntersectionImage intersecImg = IntersectionImage.getIntersectionImage(curIntersection, isSelected);
 			draw(intersecImg, posX, posY);
-			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(intersecImg);
+			registerClickable(intersecImg, new ClickListener() {
+				@Override
+				public void onClick() {
+					GameStateManager gsm = ClientModel.instance.getGameStateManager();
+					if (gsm.getSelectedIntersection() != intersecImg.getModel()) {
+						gsm.setSelectedIntersection(intersecImg.getModel());
+					} else {
+						gsm.setSelectedIntersection(null);
+					}
+				}
+			});
 		}
 	}
 
@@ -157,15 +162,22 @@ public class GameBoardImage extends MinuetoImage {
 				break;
 			}
 
-			int posX = (int) (x + shift_x - 0.1 * EdgeImage.getWidthByRotation(rotation));
-			int posY = (int) (y + shift_y - 0.1 * EdgeImage.getHeightByRotation(rotation));
 			boolean isSelected = curEdge == ClientModel.instance.getGameStateManager().getSelectedEdge();
 
-			EdgeImage edgeImg = EdgeImage.getEdgeImage(curEdge, rotation, posX, posY, isSelected);
+			EdgeImage edgeImg = EdgeImage.getEdgeImage(curEdge, rotation, isSelected);
 			draw(edgeImg.rotate(rotation), posX, posY);
 
-			ClientWindow.getInstance().getGameWindow().getMouseHandler().register(edgeImg);
+			registerClickable(edgeImg, new ClickListener() {
+				@Override
+				public void onClick() {
+					GameStateManager gsm = ClientModel.instance.getGameStateManager();
+					if (gsm.getSelectedEdge() != edgeImg.getModel()) {
+						gsm.setSelectedEdge(edgeImg.getModel());
+					} else {
+						gsm.setSelectedEdge(null);
+					}
+				}
+			});
 		}
 	}
-
 }
