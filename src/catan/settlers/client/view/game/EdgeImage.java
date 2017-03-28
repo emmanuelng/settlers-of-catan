@@ -34,12 +34,13 @@ public class EdgeImage {
 	}
 
 	private Edge edgeModel;
-	private MinuetoRectangle image;
+	private MinuetoImage image;
 	private double rotation;
+	private MinuetoColor color;
 
-	private EdgeImage(Edge edge, MinuetoColor edgeMColor, double rotation) {
-		this.image = new MinuetoRectangle(HexagonImage.HEXSIDE, 10, edgeMColor, true);
+	private EdgeImage(Edge edge, MinuetoColor color, double rotation) {
 		this.edgeModel = edge;
+		this.color = color;
 		this.rotation = rotation;
 
 	}
@@ -49,7 +50,11 @@ public class EdgeImage {
 	}
 	
 	public MinuetoImage getImage() {
-		return image.rotate(rotation);
+		if (image == null) {
+			image = new MinuetoRectangle(HexagonImage.HEXSIDE, 10, color, true);
+			image = image.rotate(rotation);
+		}
+		return image;
 	}
 
 }
