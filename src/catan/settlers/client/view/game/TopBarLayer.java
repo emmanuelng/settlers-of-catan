@@ -74,7 +74,7 @@ public class TopBarLayer extends ImageLayer {
 
 		MinuetoText vpAmt = new MinuetoText("0", vp_font, vp_color, true);
 		draw(vpAmt, 1275, 35);
-		
+
 		setClickables();
 	}
 
@@ -119,8 +119,9 @@ public class TopBarLayer extends ImageLayer {
 		registerClickable(tradeImage, new ClickListener() {
 			@Override
 			public void onClick() {
-				// TODO: set a tag in the model to display the trade menu
-				System.out.println("Trade was clicked");
+				GameStateManager gsm = ClientModel.instance.getGameStateManager();
+				boolean showWindow = !gsm.doShowTradeMenu();
+				gsm.setShowTradeMenu(showWindow);
 			}
 		});
 	}

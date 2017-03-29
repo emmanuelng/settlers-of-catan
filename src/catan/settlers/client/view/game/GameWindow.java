@@ -11,6 +11,7 @@ import org.minueto.window.MinuetoFrame;
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.BoardWindowHandler;
+import catan.settlers.client.view.game.handlers.ClickListener;
 import catan.settlers.client.view.game.handlers.Clickable;
 import catan.settlers.client.view.game.handlers.KeyboardHandler;
 import catan.settlers.client.view.game.handlers.MouseHandler;
@@ -28,6 +29,7 @@ public class GameWindow extends MinuetoFrame {
 	private PlayerListLayer playersList;
 	private ActionBoxLayer actionBox;
 	private DialogBoxLayer dbox;
+	private TradeMenuLayer tradeMenu;
 
 	private HashMap<MinuetoImage, Clickable> imageClickableMap;
 
@@ -70,6 +72,7 @@ public class GameWindow extends MinuetoFrame {
 		this.playersList = new PlayerListLayer();
 		this.actionBox = new ActionBoxLayer();
 		this.dbox = new DialogBoxLayer();
+		this.tradeMenu = new TradeMenuLayer();
 
 		this.imageClickableMap = new HashMap<>();
 	}
@@ -81,20 +84,24 @@ public class GameWindow extends MinuetoFrame {
 		drawLayer(playersList, 0, 100);
 		drawLayer(actionBox, 0, 100);
 		drawLayer(dbox, 0, 105);
+		drawLayer(tradeMenu, 0, 0);
 		drawLayer(topBar, 0, 0);
 		render();
 	}
 
 	private void drawLayer(ImageLayer layer, int x, int y) {
 		layer.compose(ClientModel.instance.getGameStateManager());
+		ArrayList<MinuetoImage> images = layer.getImages();
 
-		// Draw images
-		for (MinuetoImage image : layer) {
-			int window_x_coord = layer.getCoordinates(image).getX() + x;
-			int window_y_coord = layer.getCoordinates(image).getY() + y;
+		for (int i = 0; i < images.size(); i++) {
+			MinuetoImage image = images.get(i);
+
+			int window_x_coord = layer.getCoordinatesAt(i).getX() + x;
+			int window_y_coord = layer.getCoordinatesAt(i).getY() + y;
 			draw(image, window_x_coord, window_y_coord);
 
 			if (layer.isClickable(image)) {
+				ClickListener listener = layer.getClickListener(image);
 				Clickable clickable = new Clickable() {
 
 					@Override
@@ -111,7 +118,12 @@ public class GameWindow extends MinuetoFrame {
 
 					@Override
 					public void onclick() {
-						layer.getClickListener(image).onClick();
+						if (listener != null) {
+							listener.onClick();
+						} else {
+							System.out.println("WARNING: The layer " + layer
+									+ " is not cleared correctly.\n\tMake sure that you call clearLayerClickables() BEFORE clear()");
+						}
 					}
 				};
 
@@ -147,8 +159,10 @@ public class GameWindow extends MinuetoFrame {
 		for (MinuetoImage image : layer) {
 			if (layer.isClickable(image)) {
 				Clickable clickable = imageClickableMap.get(image);
-				if (image != null)
+				if (clickable != null) {
 					mouseHandler.unregister(clickable);
+					imageClickableMap.remove(image);
+				}
 			}
 		}
 	}

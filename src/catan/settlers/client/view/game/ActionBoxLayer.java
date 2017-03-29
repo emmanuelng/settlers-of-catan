@@ -44,7 +44,7 @@ public class ActionBoxLayer extends ImageLayer {
 	public void compose(GameStateManager gsm) {
 		if (!gsm.doUpdateActions())
 			return;
-		
+
 		ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);
 		clear();
 

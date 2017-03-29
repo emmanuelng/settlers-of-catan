@@ -30,6 +30,7 @@ public class GameStateManager {
 	private boolean updateBoard;
 	private boolean updatePlayers;
 	private boolean updateActions;
+	private boolean showTradeMenu;
 
 	private String dboxTitle;
 	private String dBoxMessage;
@@ -42,6 +43,7 @@ public class GameStateManager {
 		this.updateBoard = true;
 		this.updatePlayers = true;
 		this.updateActions = true;
+		this.showTradeMenu = false;
 	}
 
 	public int getGameId() {
@@ -166,6 +168,14 @@ public class GameStateManager {
 	public void setdBox(String title, String message) {
 		dboxTitle = title;
 		dBoxMessage = message;
+	}
+
+	public boolean doShowTradeMenu() {
+		return showTradeMenu;
+	}
+
+	public void setShowTradeMenu(boolean b) {
+		showTradeMenu = b;
 	}
 
 }

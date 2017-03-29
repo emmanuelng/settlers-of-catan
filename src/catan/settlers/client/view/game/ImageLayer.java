@@ -11,45 +11,55 @@ import catan.settlers.client.view.game.handlers.ClickListener;
 
 public abstract class ImageLayer implements Iterable<MinuetoImage> {
 
-	ArrayList<MinuetoImage> images;
-	HashMap<MinuetoImage, WindowCoordinates> imagesCoordsMap;
-	HashMap<MinuetoImage, ClickListener> clickableElmts;
+	private ArrayList<MinuetoImage> images;
+	private ArrayList<WindowCoordinates> coordinates;
+	private HashMap<MinuetoImage, ClickListener> listeners;
 
 	public ImageLayer() {
 		this.images = new ArrayList<>();
-		this.imagesCoordsMap = new HashMap<>();
-		this.clickableElmts = new HashMap<>();
+		this.coordinates = new ArrayList<>();
+		this.listeners = new HashMap<>();
 	}
 
 	public abstract void compose(GameStateManager gsm);
 
 	public void draw(MinuetoImage image, int x, int y) {
 		images.add(image);
-		imagesCoordsMap.put(image, new WindowCoordinates(x, y));
-	}
-
-	public WindowCoordinates getCoordinates(MinuetoImage image) {
-		return imagesCoordsMap.get(image);
+		coordinates.add(new WindowCoordinates(x, y));
 	}
 
 	public boolean isClickable(MinuetoImage image) {
-		return clickableElmts.keySet().contains(image);
+		return listeners.get(image) != null;
 	}
 
 	public void registerClickable(MinuetoImage image, ClickListener listener) {
-		if (images.contains(image)) {
-			clickableElmts.put(image, listener);
+		if (listeners.get(image) == null) {
+			listeners.put(image, listener);
 		}
-	}
-
-	public ClickListener getClickListener(MinuetoImage image) {
-		return clickableElmts.get(image);
 	}
 
 	public void clear() {
 		images = new ArrayList<>();
-		imagesCoordsMap = new HashMap<>();
-		clickableElmts = new HashMap<>();
+		coordinates = new ArrayList<>();
+		listeners = new HashMap<>();
+	}
+
+	public MinuetoImage getImageAt(int i) {
+		return images.get(i);
+	}
+
+	public WindowCoordinates getCoordinatesAt(int i) {
+		return coordinates.get(i);
+	}
+
+	public ClickListener getClickListener(MinuetoImage image) {
+		return listeners.get(image);
+	}
+
+	public ArrayList<MinuetoImage> getImages() {
+		ArrayList<MinuetoImage> ret = new ArrayList<>();
+		ret.addAll(images);
+		return ret;
 	}
 
 	@Override
