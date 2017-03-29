@@ -41,10 +41,11 @@ public class TradeMenuLayer extends ImageLayer {
 	private MinuetoRectangle rAmtBox;
 	private MinuetoRectangle rAmtBoxBorder;
 	private Button playerConfirmButton;
+	private MinuetoText orText;
 
 	private boolean clear;
-
 	private int box_x, box_y;
+	private HashMap<ResourceType, Integer> offer, price;
 
 	public TradeMenuLayer() {
 		super();
@@ -62,12 +63,18 @@ public class TradeMenuLayer extends ImageLayer {
 		this.bankConfirmButton = new Button(this, "Trade with bank", bank_confirm_btn_color, getBankConfirmListener());
 		this.playerConfirmButton = new Button(this, "Send offer to the other players", player_confirm_btn_color,
 				getPlayerConfirmListener());
+		this.orText = new MinuetoText("or", description_font_bold, MinuetoColor.BLACK);
+
+		this.offer = resetResourceMap();
+		this.price = resetResourceMap();
 	}
 
 	@Override
 	public void compose(GameStateManager gsm) {
 		if (!gsm.doShowTradeMenu()) {
 			if (clear) {
+				offer = resetResourceMap();
+				price = resetResourceMap();
 				ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);
 				clear();
 				clear = false;
@@ -102,7 +109,9 @@ public class TradeMenuLayer extends ImageLayer {
 		y_offset += 200;
 
 		draw(playerConfirmButton.getImage(), (box_x + WIDTH - playerConfirmButton.getImage().getWidth() - 20)
-				- bankConfirmButton.getImage().getWidth() - 10, y_offset);
+				- bankConfirmButton.getImage().getWidth() - 10 - orText.getWidth() - 10, y_offset);
+		draw(orText, box_x + WIDTH - bankConfirmButton.getImage().getWidth() - 20 - orText.getWidth() - 10,
+				y_offset + bankConfirmButton.getImage().getHeight() / 2 - orText.getHeight() / 2);
 		draw(bankConfirmButton.getImage(), box_x + WIDTH - bankConfirmButton.getImage().getWidth() - 20, y_offset);
 	}
 
@@ -119,7 +128,9 @@ public class TradeMenuLayer extends ImageLayer {
 			rname = rname.substring(0, 1).toUpperCase() + rname.substring(1);
 
 			MinuetoText rnameImage = new MinuetoText(rname, description_font_bold, MinuetoColor.BLACK);
-			MinuetoText amtTextImage = new MinuetoText("0", title_font, MinuetoColor.BLACK);
+
+			int amt = isOffer ? offer.get(rType) : price.get(rType);
+			MinuetoText amtTextImage = new MinuetoText(amt + "", title_font, MinuetoColor.BLACK);
 
 			int y_offset = y;
 
@@ -159,16 +170,14 @@ public class TradeMenuLayer extends ImageLayer {
 		registerClickable(image, new ClickListener() {
 			@Override
 			public void onClick() {
+				GameStateManager gsm = ClientModel.instance.getGameStateManager();
+				HashMap<ResourceType, Integer> map = isOffer ? offer : price;
 				if (isPlus) {
-					System.out.print("Increased ");
+					if (!(isOffer && map.get(rType) >= gsm.getResources().get(rType)))
+						map.put(rType, map.get(rType) + 1);
 				} else {
-					System.out.print("Decreased ");
-				}
-
-				System.out.print(rType);
-
-				if (isOffer) {
-					System.out.println(" for offer");
+					if (map.get(rType) > 0)
+						map.put(rType, map.get(rType) - 1);
 				}
 			}
 		});
@@ -192,6 +201,14 @@ public class TradeMenuLayer extends ImageLayer {
 				System.out.println("Trade with players!");
 			}
 		};
+	}
+
+	private HashMap<ResourceType, Integer> resetResourceMap() {
+		HashMap<ResourceType, Integer> ret = new HashMap<>();
+		for (ResourceType rType : ResourceType.values()) {
+			ret.put(rType, 0);
+		}
+		return ret;
 	}
 
 	private void overrideClickables() {

@@ -106,6 +106,11 @@ public class GameStateManager {
 	}
 
 	public HashMap<ResourceType, Integer> getResources() {
+		if (resources == null) {
+			resources = new HashMap<>();
+			for (ResourceType rtype : ResourceType.values())
+				resources.put(rtype, 0);
+		}
 		return resources;
 	}
 
