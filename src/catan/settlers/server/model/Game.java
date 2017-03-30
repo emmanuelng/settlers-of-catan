@@ -26,6 +26,7 @@ import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.units.Knight;
+import catan.settlers.server.model.units.Knight.KnightType;
 import catan.settlers.server.model.units.Village;
 import catan.settlers.server.model.units.Village.VillageKind;
 
@@ -364,6 +365,34 @@ public class Game implements Serializable {
 					newKnight.setUnit(k);
 					sender.removeResource(ResourceType.ORE, 1);
 					sender.removeResource(ResourceType.WOOL, 1);
+				}
+			}
+			break;
+		case UPGRADEKNIGHT: 
+			IntersectionUnit knight = gameBoardManager.getBoard().getIntersectionById(data.getIntersectionSelection().getId()).getUnit();
+			if (knight instanceof Knight) {
+				switch (((Knight) knight).getKnightType()) {
+				case BASIC_KNIGHT:
+					if (sender.canHire(KnightType.STRONG_KNIGHT)) {
+						if (sender.getResourceAmount(ResourceType.WOOL) >= 1 && sender.getResourceAmount(ResourceType.GRAIN) >= 1) {
+							((Knight) knight).upgradeKnight();
+							sender.removeResource(ResourceType.WOOL, 1);
+							sender.removeResource(ResourceType.GRAIN, 1);
+						}
+					}
+					break;
+				case STRONG_KNIGHT:
+					if (sender.canHire(KnightType.MIGHTY_KNIGHT) && sender.hasBarracks()) {
+						if (sender.getResourceAmount(ResourceType.WOOL) >= 1 && sender.getResourceAmount(ResourceType.GRAIN) >= 1) {
+							((Knight) knight).upgradeKnight();
+							sender.removeResource(ResourceType.WOOL, 1);
+							sender.removeResource(ResourceType.GRAIN, 1);
+						}
+					}
+					break;
+				case MIGHTY_KNIGHT:
+					// Can't upgrade a mighty knight!
+					break;
 				}
 			}
 			break;

@@ -15,40 +15,21 @@ public class Knight implements IntersectionUnit {
 	private boolean activated;
 
 	public Knight(Player p) {
-		if (canHire(KnightType.BASIC_KNIGHT)) {
+		if (p.canHire(KnightType.BASIC_KNIGHT)) {
 			myOwner = p;
 			knightType = KnightType.BASIC_KNIGHT;
 			activated = false; // need one wool and one ore to activate this kid
 		}
 	}
 
-	public void upgradeKnight(Knight k) {
-		if (k.getKnightType() == KnightType.BASIC_KNIGHT && canHire(KnightType.STRONG_KNIGHT)) {
-			k.setKnightType(KnightType.STRONG_KNIGHT);
+	public void upgradeKnight() {
+		Player p = this.getOwner();
+		if (knightType == KnightType.BASIC_KNIGHT && p.canHire(KnightType.STRONG_KNIGHT)) {
+			knightType = KnightType.STRONG_KNIGHT;
 		}
-		if (k.getKnightType() == KnightType.STRONG_KNIGHT && canHire(KnightType.MIGHTY_KNIGHT)) {
-			k.setKnightType(KnightType.MIGHTY_KNIGHT);
+		if (knightType == KnightType.STRONG_KNIGHT && p.canHire(KnightType.MIGHTY_KNIGHT)) {
+			knightType = KnightType.MIGHTY_KNIGHT;
 		}
-	}
-
-	public boolean canHire(KnightType type) {
-		if (type == KnightType.BASIC_KNIGHT) {
-			if (myOwner.getKnightCount(type) < 2) {
-				return true;
-			}
-			return false;
-		} else if (type == KnightType.STRONG_KNIGHT) {
-			if (myOwner.getKnightCount(type) < 2) {
-				return true;
-			}
-			return false;
-		} else if (type == KnightType.MIGHTY_KNIGHT) {
-			if (myOwner.getKnightCount(type) < 2) {
-				return true;
-			}
-			return false;
-		}
-		return true;
 	}
 
 	@Override

@@ -127,6 +127,13 @@ public class Player implements Serializable {
 		drewThisTurn = b;
 	}
 
+	public boolean canHire(KnightType type) {
+		if (getKnightCount(type) < 2) {
+			return true;
+		}
+		return false;
+	}
+	
 	public Session getSession() {
 		return Server.getInstance().getAuthManager().getSessionByCredentials(credentials);
 	}
