@@ -286,6 +286,22 @@ public class Game implements Serializable {
 			sender.removeResource(ResourceType.BRICK, 1);
 			sender.removeResource(ResourceType.LUMBER, 1);
 			break;
+		case UPGRADESETTLEMENT: 
+			IntersectionUnit village = data.getIntersectionSelection().getUnit();
+			if (village instanceof Village) {
+				if (sender.getResourceAmount(ResourceType.ORE) >= 3 && sender.getResourceAmount(ResourceType.GRAIN) >= 2) {
+					((Village) village).upgradeToCity();
+					sender.removeResource(ResourceType.ORE, 3);
+					sender.removeResource(ResourceType.GRAIN, 2);
+				}
+			}
+			break;
+		case BUILDKNIGHT: 
+			Intersection newKnight = data.getIntersectionSelection();
+			if (newKnight.getUnit() == null) {
+				IntersectionUnit k = new Knight(sender);
+				newKnight.setUnit(k);
+			}
 		case ENDTURN:
 			currentPlayer = nextPlayer();
 			break;
