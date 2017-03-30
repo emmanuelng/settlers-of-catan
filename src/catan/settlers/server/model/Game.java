@@ -328,9 +328,9 @@ public class Game implements Serializable {
 			Intersection selected = gameBoardManager.getBoard()
 					.getIntersectionById(data.getIntersectionSelection().getId());
 			if (selected.canBuild()) {
-				if (sender.getResourceAmount(ResourceType.BRICK) > 0 && sender.getResourceAmount(ResourceType.GRAIN) > 0
+				/*if (sender.getResourceAmount(ResourceType.BRICK) > 0 && sender.getResourceAmount(ResourceType.GRAIN) > 0
 						&& sender.getResourceAmount(ResourceType.WOOL) > 0
-						&& sender.getResourceAmount(ResourceType.LUMBER) > 0) {
+						&& sender.getResourceAmount(ResourceType.LUMBER) > 0) {*/
 					if(selected.isPortable()){
 						Port v = new Port(sender);
 						selected.setUnit(v);
@@ -342,7 +342,7 @@ public class Game implements Serializable {
 					sender.removeResource(ResourceType.GRAIN, 1);
 					sender.removeResource(ResourceType.WOOL, 1);
 					sender.removeResource(ResourceType.LUMBER, 1);
-				}
+				//}
 			}
 			break;
 		case BUILDROAD:
@@ -350,7 +350,8 @@ public class Game implements Serializable {
 			edgeSelect.setOwner(sender);
 			sender.removeResource(ResourceType.BRICK, 1);
 			sender.removeResource(ResourceType.LUMBER, 1);
-			
+			currentPlayer.sendCommand(new UpdateResourcesCommand(currentPlayer.getResources()));
+			sender.sendCommand(new UpdateGameBoardCommand(gameBoardManager.getBoardDeepCopy()));
 			
 			break;
 		case UPGRADESETTLEMENT:
@@ -412,8 +413,8 @@ public class Game implements Serializable {
 		default:
 
 		}
-		currentPlayer.sendCommand(new UpdateResourcesCommand(currentPlayer.getResources()));
-		sender.sendCommand(new UpdateGameBoardCommand(gameBoardManager.getBoardDeepCopy()));
+		
+		
 	}
 
 	private void barbarianAttack() {
