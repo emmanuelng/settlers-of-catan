@@ -89,6 +89,19 @@ public class Player implements Serializable {
 			mightyKnightCount = kCount;
 		}
 	}
+	
+	public int getTradeLevel() {
+		return tradeImprovement;
+	}
+	
+	public int getPoliticsLevel() {
+		return politicsImprovement;
+	}
+	
+	public int getScienceLevel() {
+		return scienceImprovement;
+	}
+	
 
 	public Session getSession() {
 		return Server.getInstance().getAuthManager().getSessionByCredentials(credentials);

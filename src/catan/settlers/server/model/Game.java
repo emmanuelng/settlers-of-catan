@@ -275,13 +275,40 @@ public class Game implements Serializable {
 		/* ==== Event dice events ==== */
 
 		if (eventDie < 4) {
-			// barbarian horde approaches
+			barbarianHordeCounter++;
+			if (barbarianHordeCounter >= 7) {
+				barbarianAttack();
+			}
 		} else if (eventDie == 4) {
 			// yellow improvement check
+			for (Player p : participants) {
+				int lvl = p.getTradeLevel();
+				if (lvl != 0) {
+					if (lvl + 1 >= redDie) {
+						// TODO: p.drawTradeCard();
+					}
+				}
+			}
 		} else if (eventDie == 5) {
 			// blue
+			for (Player p : participants) {
+				int lvl = p.getTradeLevel();
+				if (lvl != 0) {
+					if (lvl + 1 >= redDie) {
+						// TODO: p.drawPoliticsCard();
+					}
+				}
+			}
 		} else if (eventDie == 6) {
 			// green
+			for (Player p : participants) {
+				int lvl = p.getTradeLevel();
+				if (lvl != 0) {
+					if (lvl + 1 >= redDie) {
+						// TODO: p.drawScienceCard();
+					}
+				}
+			}
 		}
 		currentPhase = GamePhase.TURNPHASE;
 	}
