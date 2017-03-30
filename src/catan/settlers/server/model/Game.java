@@ -51,6 +51,8 @@ public class Game implements Serializable {
 	private int redDie;
 	private int yellowDie;
 	private int eventDie;
+	
+	private int barbarianHordeCounter;
 
 	public Game(int id, Credentials owner) {
 		this.id = id;
@@ -253,7 +255,10 @@ public class Game implements Serializable {
 		/* ==== Event dice events ==== */
 
 		if (eventDie < 4) {
-			// barbarian horde approaches
+			barbarianHordeCounter++;
+			if (barbarianHordeCounter >= 7) {
+				barbarianAttack();
+			}
 		} else if (eventDie == 4) {
 			// yellow improvement check
 		} else if (eventDie == 5) {
@@ -267,7 +272,7 @@ public class Game implements Serializable {
 	private void turnPhase(Player sender, TurnData data) {
 		switch (data.getAction()) {
 		case BUILDSETTLEMENT:
-			Intersection selected = data.getIntersectionSelection();
+			Intersection selected = gameBoardManager.getBoard().getIntersectionById(data.getIntersectionSelection().getId());
 			if (selected.canBuild()) {
 				if (sender.getResourceAmount(ResourceType.BRICK) > 0 && sender.getResourceAmount(ResourceType.GRAIN) > 0
 						&& sender.getResourceAmount(ResourceType.WOOL) > 0
@@ -287,7 +292,7 @@ public class Game implements Serializable {
 			sender.removeResource(ResourceType.LUMBER, 1);
 			break;
 		case UPGRADESETTLEMENT: 
-			IntersectionUnit village = data.getIntersectionSelection().getUnit();
+			IntersectionUnit village = gameBoardManager.getBoard().getIntersectionById(data.getIntersectionSelection().getId()).getUnit();
 			if (village instanceof Village) {
 				if (sender.getResourceAmount(ResourceType.ORE) >= 3 && sender.getResourceAmount(ResourceType.GRAIN) >= 2) {
 					((Village) village).upgradeToCity();
@@ -297,11 +302,16 @@ public class Game implements Serializable {
 			}
 			break;
 		case BUILDKNIGHT: 
-			Intersection newKnight = data.getIntersectionSelection();
+			Intersection newKnight = gameBoardManager.getBoard().getIntersectionById(data.getIntersectionSelection().getId());
 			if (newKnight.getUnit() == null) {
-				IntersectionUnit k = new Knight(sender);
-				newKnight.setUnit(k);
+				if (sender.getResourceAmount(ResourceType.ORE) >= 1 && sender.getResourceAmount(ResourceType.WOOL) >= 1 && newKnight.connected(sender)) {
+					IntersectionUnit k = new Knight(sender);
+					newKnight.setUnit(k);
+					sender.removeResource(ResourceType.ORE, 1);
+					sender.removeResource(ResourceType.WOOL, 1);
+				}
 			}
+			break;
 		case ENDTURN:
 			currentPlayer = nextPlayer();
 			break;

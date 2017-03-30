@@ -20,6 +20,8 @@ public class Player implements Serializable {
 	private HashMap<ResourceType, Integer> resources;
 	private Credentials credentials;
 	private int basicKnightCount, strongKnightCount, mightyKnightCount;
+	private boolean hasCity;
+	private int tradeImprovement, politicsImprovement, scienceImprovement;
 
 	public Player(Credentials credentials) {
 		this.credentials = credentials;

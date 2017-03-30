@@ -3,6 +3,7 @@ package catan.settlers.server.model.map;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import catan.settlers.server.model.Player;
 import catan.settlers.server.model.units.IntersectionUnit;
 
 public class Intersection implements Serializable {
@@ -70,16 +71,25 @@ public class Intersection implements Serializable {
 				}
 			}
 		}
-
 		for (Hexagon hex : myHexagons) {
 			if (hex.getType() != Hexagon.TerrainType.SEA) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
+	public boolean connected(Player p) {
+		if (unit == null) {
+			for (Edge e : myEdges) {
+				if (e.getOwner() == p) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public boolean isMaritime() {
 		for (Hexagon hex : myHexagons) {
 			if (hex.getType() != Hexagon.TerrainType.SEA) {
