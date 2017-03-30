@@ -27,6 +27,7 @@ import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.units.Knight;
 import catan.settlers.server.model.units.Knight.KnightType;
+import catan.settlers.server.model.units.Port;
 import catan.settlers.server.model.units.Village;
 import catan.settlers.server.model.units.Village.VillageKind;
 
@@ -329,8 +330,13 @@ public class Game implements Serializable {
 				if (sender.getResourceAmount(ResourceType.BRICK) > 0 && sender.getResourceAmount(ResourceType.GRAIN) > 0
 						&& sender.getResourceAmount(ResourceType.WOOL) > 0
 						&& sender.getResourceAmount(ResourceType.LUMBER) > 0) {
-					Village v = new Village(sender);
-					selected.setUnit(v);
+					if(selected.isPortable()){
+						Port v = new Port(sender);
+						selected.setUnit(v);
+					}else{
+						Village v = new Village(sender);
+						selected.setUnit(v);
+					}
 					sender.removeResource(ResourceType.BRICK, 1);
 					sender.removeResource(ResourceType.GRAIN, 1);
 					sender.removeResource(ResourceType.WOOL, 1);

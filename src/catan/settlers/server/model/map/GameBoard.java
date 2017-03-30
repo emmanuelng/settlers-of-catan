@@ -8,6 +8,7 @@ import java.util.Collections;
 import catan.settlers.server.model.map.Hexagon.Direction;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
+import catan.settlers.server.model.units.Port.PortKind;
 
 public class GameBoard implements Serializable {
 
@@ -82,6 +83,7 @@ public class GameBoard implements Serializable {
 		populateAllEdgesAndIntersections();
 		randomizeHexes();
 		stitchEdgesAndIntersections();
+		setPortables();
 	}
 
 	private void populateAllEdgesAndIntersections() {
@@ -329,6 +331,27 @@ public class GameBoard implements Serializable {
 		return null;
 	}
 
+	private void setPortables() {
+		hexagons[2][1].getIntersection(IntersectionLoc.TOP).setPortable(PortKind.ALLPORT);
+		hexagons[2][1].getIntersection(IntersectionLoc.TOPLEFT).setPortable(PortKind.ALLPORT);
+		hexagons[1][2].getIntersection(IntersectionLoc.TOPLEFT).setPortable(PortKind.BRICKPORT);
+		hexagons[1][2].getIntersection(IntersectionLoc.BOTTOMLEFT).setPortable(PortKind.BRICKPORT);
+		hexagons[1][4].getIntersection(IntersectionLoc.TOPLEFT).setPortable(PortKind.LUMBERPORT);
+		hexagons[1][4].getIntersection(IntersectionLoc.BOTTOMLEFT).setPortable(PortKind.LUMBERPORT);
+		hexagons[2][5].getIntersection(IntersectionLoc.BOTTOMLEFT).setPortable(PortKind.ALLPORT);
+		hexagons[2][5].getIntersection(IntersectionLoc.BOTTOM).setPortable(PortKind.ALLPORT);
+		hexagons[3][5].getIntersection(IntersectionLoc.BOTTOM).setPortable(PortKind.OREPORT);
+		hexagons[3][5].getIntersection(IntersectionLoc.BOTTOMRIGHT).setPortable(PortKind.OREPORT);
+		hexagons[4][4].getIntersection(IntersectionLoc.BOTTOMRIGHT).setPortable(PortKind.SHEEPPORT);
+		hexagons[4][4].getIntersection(IntersectionLoc.BOTTOM).setPortable(PortKind.SHEEPPORT);
+		hexagons[5][3].getIntersection(IntersectionLoc.TOPRIGHT).setPortable(PortKind.ALLPORT);
+		hexagons[5][3].getIntersection(IntersectionLoc.BOTTOMRIGHT).setPortable(PortKind.ALLPORT);
+		hexagons[4][2].getIntersection(IntersectionLoc.TOP).setPortable(PortKind.WHEATPORT);
+		hexagons[4][2].getIntersection(IntersectionLoc.TOPRIGHT).setPortable(PortKind.WHEATPORT);
+		hexagons[3][1].getIntersection(IntersectionLoc.TOP).setPortable(PortKind.ALLPORT);
+		hexagons[3][1].getIntersection(IntersectionLoc.TOPRIGHT).setPortable(PortKind.ALLPORT);
+	}
+	
 	@Override
 	public String toString() {
 		String result = "";

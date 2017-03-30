@@ -3,12 +3,15 @@ package catan.settlers.client.view.game;
 import java.util.HashMap;
 
 import org.minueto.MinuetoColor;
+import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoImage;
+import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.ImageFileManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.server.model.map.Intersection;
+import catan.settlers.server.model.units.Port.PortKind;
 import catan.settlers.server.model.units.Village;
 
 public class IntersectionImage extends MinuetoImage {
@@ -38,11 +41,16 @@ public class IntersectionImage extends MinuetoImage {
 
 		if (intersection.getUnit() == null) {
 			if (!selected) {
-				if (intersectionModel.isMaritime()) {
+				if (intersectionModel.isPortable()){
+					
+					drawCircle(MinuetoColor.WHITE,0,0,20);
+					draw(new MinuetoText(""+intersectionModel.getPortKind(), new MinuetoFont("Arial", 10, false, false), MinuetoColor.BLACK), 0, 0);
+				}
+				else if (intersectionModel.isMaritime()) {
 					drawCircle(new MinuetoColor(182, 215, 255), 0, 0, 20);
 				} else {
 					drawCircle(new MinuetoColor(204, 204, 204), 0, 0, 20);
-				}
+				} 
 			} else {
 				drawCircle(MinuetoColor.RED, 0, 0, 20);
 			}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.units.IntersectionUnit;
+import catan.settlers.server.model.units.Port.PortKind;
 
 public class Intersection implements Serializable {
 
@@ -15,6 +16,8 @@ public class Intersection implements Serializable {
 	private ArrayList<Edge> myEdges;
 
 	private int id;
+	private boolean isPortable;
+	private PortKind pkind;
 
 	public Intersection(int id) {
 		this.id = id;
@@ -99,4 +102,16 @@ public class Intersection implements Serializable {
 		return true;
 	}
 
+	public boolean isPortable() {
+		return isPortable;
+	}
+	
+	public void setPortable(PortKind p){
+		isPortable = true;
+		pkind= p;
+	}
+	
+	public PortKind getPortKind() {
+		return pkind;
+	}
 }
