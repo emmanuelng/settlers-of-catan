@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.client.commands.TurnResponseCommand;
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
+import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
@@ -86,7 +88,7 @@ public class Game implements Serializable {
 			if (currentSetOfOpponentMove.contains(player)) {
 				// TODO: handle the set of opponent move
 			} else {
-				// TODO: Tell to the player to wait
+				// TODO: Ask to the player to wait
 			}
 		} else {
 			switch (currentPhase) {
@@ -164,9 +166,10 @@ public class Game implements Serializable {
 					return;
 				}
 
-				// Stopping condition for phase two. Initialize turn phase one.
+				// Stopping condition for phase two. Go to roll dice phase.
 				if (!isPhaseOne && currentPlayer == participants.get(0)) {
 					currentPhase = GamePhase.ROLLDICEPHASE;
+					sendToAllPlayers(new RollDicePhaseCommand(currentPlayer.getUsername()));
 					return;
 				}
 
@@ -386,6 +389,12 @@ public class Game implements Serializable {
 	private void updateAllPlayers() {
 		for (Player p : participants) {
 			p.sendCommand(new UpdateGameBoardCommand(gameBoardManager.getBoardDeepCopy()));
+		}
+	}
+
+	private void sendToAllPlayers(ServerToClientCommand cmd) {
+		for (Player p : participants) {
+			p.sendCommand(cmd);
 		}
 	}
 }

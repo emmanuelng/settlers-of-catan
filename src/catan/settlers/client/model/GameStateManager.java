@@ -31,9 +31,11 @@ public class GameStateManager {
 	private boolean updatePlayers;
 	private boolean updateActions;
 	private boolean showTradeMenu;
+	private boolean showSevenDiscardMenu;
 
 	private String dboxTitle;
 	private String dBoxMessage;
+	private String sevenDiscardMenuMsg;
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
@@ -44,6 +46,9 @@ public class GameStateManager {
 		this.updatePlayers = true;
 		this.updateActions = true;
 		this.showTradeMenu = false;
+		this.showSevenDiscardMenu = false;
+
+		this.sevenDiscardMenuMsg = "";
 	}
 
 	public int getGameId() {
@@ -181,6 +186,18 @@ public class GameStateManager {
 
 	public void setShowTradeMenu(boolean b) {
 		showTradeMenu = b;
+	}
+
+	public String getSevenDiscardMenuMsg() {
+		return sevenDiscardMenuMsg;
+	}
+
+	public void setSevenDiscardMenuMsg(String msg) {
+		sevenDiscardMenuMsg = msg;
+	}
+
+	public boolean doShowSevenDiscardMenu() {
+		return showSevenDiscardMenu;
 	}
 
 }
