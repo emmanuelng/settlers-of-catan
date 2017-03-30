@@ -1,7 +1,7 @@
 package catan.settlers.server.model;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.HashSet;
 
 import catan.settlers.network.server.Credentials;
 
@@ -16,20 +16,31 @@ import catan.settlers.network.server.Credentials;
 public class SetOfOpponentMove implements Serializable {
 
 	public static enum MoveType {
-		DISCARD_CARDS
+		SEVEN_DISCARD_CARDS
 	}
 
 	private static final long serialVersionUID = 1L;
-	private HashMap<Credentials, Boolean> responses;
+	private HashSet<Credentials> players;
 	private MoveType type;
+	private int totalNbOfPlayers;
 
 	public SetOfOpponentMove(MoveType type) {
-		this.responses = new HashMap<>();
+		this.players = new HashSet<>();
 		this.type = type;
+		this.totalNbOfPlayers = 0;
 	}
 
 	public void waitForPlayer(Credentials c) {
-		responses.put(c, false);
+		players.add(c);
+		totalNbOfPlayers++;
+	}
+
+	public void playerResponded(Credentials cred) {
+		players.remove(cred);
+	}
+
+	public void playerResponded(Player p) {
+		playerResponded(p.getCredentials());
 	}
 
 	public void waitForPlayer(Player p) {
@@ -37,24 +48,15 @@ public class SetOfOpponentMove implements Serializable {
 	}
 
 	public boolean allPlayersResponded() {
-		for (Credentials c : responses.keySet()) {
-			if (responses.get(c) == false)
-				return false;
-		}
-		return true;
+		return players.isEmpty();
 	}
 
 	public int nbOfResponses() {
-		int count = 0;
-		for (Credentials c : responses.keySet()) {
-			if (responses.get(c))
-				count++;
-		}
-		return count;
+		return totalNbOfPlayers - players.size();
 	}
 
 	public int nbOfPlayers() {
-		return responses.keySet().size();
+		return totalNbOfPlayers;
 	}
 
 	public MoveType getMoveType() {
@@ -62,11 +64,11 @@ public class SetOfOpponentMove implements Serializable {
 	}
 
 	public boolean contains(Player player) {
-		return responses.keySet().contains(player.getCredentials());
+		return players.contains(player.getCredentials());
 	}
 
 	public boolean isEmpty() {
-		return responses.keySet().isEmpty();
+		return players.isEmpty();
 	}
 
 }

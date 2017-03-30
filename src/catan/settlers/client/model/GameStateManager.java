@@ -200,4 +200,8 @@ public class GameStateManager {
 		return showSevenDiscardMenu;
 	}
 
+	public void setShowSevenDiscardMenu(boolean b) {
+		showSevenDiscardMenu = b;		
+	}
+
 }

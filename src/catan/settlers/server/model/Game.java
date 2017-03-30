@@ -10,11 +10,13 @@ import catan.settlers.network.client.commands.TurnResponseCommand;
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
+import catan.settlers.network.client.commands.game.NormalDiceRollCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
 import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
+import catan.settlers.network.client.commands.game.WaitForSevenDiscardCommand;
 import catan.settlers.network.server.Credentials;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.SetOfOpponentMove.MoveType;
@@ -51,7 +53,7 @@ public class Game implements Serializable {
 	private int redDie;
 	private int yellowDie;
 	private int eventDie;
-	
+
 	private int barbarianHordeCounter;
 
 	public Game(int id, Credentials owner) {
@@ -87,11 +89,8 @@ public class Game implements Serializable {
 		 */
 
 		if (currentSetOfOpponentMove != null) {
-			if (currentSetOfOpponentMove.contains(player)) {
-				// TODO: handle the set of opponent move
-			} else {
-				// TODO: Ask to the player to wait
-			}
+			if (currentSetOfOpponentMove.contains(player))
+				handleSetOfOpponentMove(player, data);
 		} else {
 			switch (currentPhase) {
 			case SETUPPHASEONE:
@@ -109,7 +108,17 @@ public class Game implements Serializable {
 				break;
 			}
 		}
+	}
 
+	private void handleSetOfOpponentMove(Player player, TurnData data) {
+		switch (currentSetOfOpponentMove.getMoveType()) {
+		case SEVEN_DISCARD_CARDS:
+			sevenDiscardCards(player, data.getSevenResources());
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	/* ======================== Game phases logic ======================== */
@@ -220,16 +229,26 @@ public class Game implements Serializable {
 			 * with more than 7 must select half of them and return them to the
 			 * bank.
 			 */
-			SetOfOpponentMove set = new SetOfOpponentMove(MoveType.DISCARD_CARDS);
+			SetOfOpponentMove set = new SetOfOpponentMove(MoveType.SEVEN_DISCARD_CARDS);
 			for (Player p : participants) {
 				int nbResourceCards = p.getNbResourceCards();
-				if (nbResourceCards > 7) {
+				if (nbResourceCards > 1) { // TODO Change to 7
 					p.sendCommand(new DiscardCardsCommand());
 					set.waitForPlayer(p);
 				}
 			}
-			if (!set.isEmpty())
+			if (!set.isEmpty()) {
 				currentSetOfOpponentMove = set;
+
+				// Ask to the other players to wait
+				for (Player p : participants) {
+					if (!set.contains(p)) {
+						p.sendCommand(new WaitForSevenDiscardCommand(currentSetOfOpponentMove.nbOfResponses(),
+								currentSetOfOpponentMove.nbOfPlayers()));
+					}
+				}
+				return;
+			}
 
 			/*
 			 * Once all players have discarded their cards, ask the current
@@ -248,6 +267,7 @@ public class Game implements Serializable {
 			// If the rolled number is not seven, produce the resources
 			gameBoardManager.drawForRoll(redDie + yellowDie);
 			for (Player p : participants) {
+				p.sendCommand(new NormalDiceRollCommand(redDie, yellowDie));
 				p.sendCommand(new UpdateResourcesCommand(p.getResources()));
 			}
 		}
@@ -255,10 +275,7 @@ public class Game implements Serializable {
 		/* ==== Event dice events ==== */
 
 		if (eventDie < 4) {
-			barbarianHordeCounter++;
-			if (barbarianHordeCounter >= 7) {
-				barbarianAttack();
-			}
+			// barbarian horde approaches
 		} else if (eventDie == 4) {
 			// yellow improvement check
 		} else if (eventDie == 5) {
@@ -272,7 +289,8 @@ public class Game implements Serializable {
 	private void turnPhase(Player sender, TurnData data) {
 		switch (data.getAction()) {
 		case BUILDSETTLEMENT:
-			Intersection selected = gameBoardManager.getBoard().getIntersectionById(data.getIntersectionSelection().getId());
+			Intersection selected = gameBoardManager.getBoard()
+					.getIntersectionById(data.getIntersectionSelection().getId());
 			if (selected.canBuild()) {
 				if (sender.getResourceAmount(ResourceType.BRICK) > 0 && sender.getResourceAmount(ResourceType.GRAIN) > 0
 						&& sender.getResourceAmount(ResourceType.WOOL) > 0
@@ -291,20 +309,24 @@ public class Game implements Serializable {
 			sender.removeResource(ResourceType.BRICK, 1);
 			sender.removeResource(ResourceType.LUMBER, 1);
 			break;
-		case UPGRADESETTLEMENT: 
-			IntersectionUnit village = gameBoardManager.getBoard().getIntersectionById(data.getIntersectionSelection().getId()).getUnit();
+		case UPGRADESETTLEMENT:
+			IntersectionUnit village = gameBoardManager.getBoard()
+					.getIntersectionById(data.getIntersectionSelection().getId()).getUnit();
 			if (village instanceof Village) {
-				if (sender.getResourceAmount(ResourceType.ORE) >= 3 && sender.getResourceAmount(ResourceType.GRAIN) >= 2) {
+				if (sender.getResourceAmount(ResourceType.ORE) >= 3
+						&& sender.getResourceAmount(ResourceType.GRAIN) >= 2) {
 					((Village) village).upgradeToCity();
 					sender.removeResource(ResourceType.ORE, 3);
 					sender.removeResource(ResourceType.GRAIN, 2);
 				}
 			}
 			break;
-		case BUILDKNIGHT: 
-			Intersection newKnight = gameBoardManager.getBoard().getIntersectionById(data.getIntersectionSelection().getId());
+		case BUILDKNIGHT:
+			Intersection newKnight = gameBoardManager.getBoard()
+					.getIntersectionById(data.getIntersectionSelection().getId());
 			if (newKnight.getUnit() == null) {
-				if (sender.getResourceAmount(ResourceType.ORE) >= 1 && sender.getResourceAmount(ResourceType.WOOL) >= 1 && newKnight.connected(sender)) {
+				if (sender.getResourceAmount(ResourceType.ORE) >= 1 && sender.getResourceAmount(ResourceType.WOOL) >= 1
+						&& newKnight.connected(sender)) {
 					IntersectionUnit k = new Knight(sender);
 					newKnight.setUnit(k);
 					sender.removeResource(ResourceType.ORE, 1);
@@ -365,6 +387,36 @@ public class Game implements Serializable {
 			// top player gets VP or top players get prog cards
 		}
 
+	}
+
+	private void sevenDiscardCards(Player player, HashMap<ResourceType, Integer> sevenResources) {
+		int nbSelectedResources = 0;
+		for (ResourceType rtype : ResourceType.values()) {
+			nbSelectedResources += sevenResources.get(rtype);
+		}
+
+		if (nbSelectedResources == Math.floor(player.getNbResourceCards() / 2)) {
+			System.out.println("Ok");
+			for (ResourceType rtype : ResourceType.values()) {
+				player.removeResource(rtype, sevenResources.get(rtype));
+			}
+			player.sendCommand(new UpdateResourcesCommand(player.getResources()));
+			currentSetOfOpponentMove.playerResponded(player);
+
+			if (!currentSetOfOpponentMove.allPlayersResponded()) {
+				for (Player p : participants) {
+					if (!currentSetOfOpponentMove.contains(p))
+						player.sendCommand(new WaitForSevenDiscardCommand(currentSetOfOpponentMove.nbOfResponses(),
+								currentSetOfOpponentMove.nbOfPlayers()));
+				}
+			} else {
+				currentSetOfOpponentMove = null;
+				// TODO Send next instructions to players
+			}
+		} else {
+			// In case of failure, re-send the discard card command
+			player.sendCommand(new DiscardCardsCommand());
+		}
 	}
 
 	/* ======================== End of game phases ======================== */

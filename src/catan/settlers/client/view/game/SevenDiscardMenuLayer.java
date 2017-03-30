@@ -11,8 +11,10 @@ import org.minueto.image.MinuetoText;
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.model.ImageFileManager;
+import catan.settlers.client.model.NetworkManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
+import catan.settlers.network.server.commands.game.SevenDiscardCommand;
 import catan.settlers.server.model.Player.ResourceType;
 
 public class SevenDiscardMenuLayer extends ImageLayer {
@@ -194,6 +196,8 @@ public class SevenDiscardMenuLayer extends ImageLayer {
 				if (nbSelectedResources != nbResToSelect) {
 					gsm.setSevenDiscardMenuMsg("You need to select exactly " + nbResToSelect + " resources.");
 				} else {
+					NetworkManager nm = ClientModel.instance.getNetworkManager();
+					nm.sendCommand(new SevenDiscardCommand(resources));
 					gsm.setSevenDiscardMenuMsg("Command sent!");
 				}
 			}

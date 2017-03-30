@@ -99,7 +99,6 @@ public class TopBarLayer extends ImageLayer {
 		registerClickable(diceImage, new ClickListener() {
 			@Override
 			public void onClick() {
-				System.out.println("Dice was clicked!");
 				ClientModel.instance.getNetworkManager().sendCommand(new RollDiceCommand());
 			}
 		});
