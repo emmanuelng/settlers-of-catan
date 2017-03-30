@@ -18,6 +18,7 @@ import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
 import catan.settlers.network.client.commands.game.WaitForSevenDiscardCommand;
 import catan.settlers.network.server.Credentials;
+import catan.settlers.network.server.Server;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.SetOfOpponentMove.MoveType;
 import catan.settlers.server.model.map.Edge;
@@ -345,9 +346,12 @@ public class Game implements Serializable {
 			}
 			break;
 		case BUILDROAD:
-			data.getEdgeSelection().setOwner(sender);
+			Edge edgeSelect = gameBoardManager.getBoard().getEdgeById(data.getEdgeSelection().getId());
+			edgeSelect.setOwner(sender);
 			sender.removeResource(ResourceType.BRICK, 1);
 			sender.removeResource(ResourceType.LUMBER, 1);
+			
+			
 			break;
 		case UPGRADESETTLEMENT:
 			IntersectionUnit village = gameBoardManager.getBoard()
@@ -408,6 +412,8 @@ public class Game implements Serializable {
 		default:
 
 		}
+		currentPlayer.sendCommand(new UpdateResourcesCommand(currentPlayer.getResources()));
+		sender.sendCommand(new UpdateGameBoardCommand(gameBoardManager.getBoardDeepCopy()));
 	}
 
 	private void barbarianAttack() {
