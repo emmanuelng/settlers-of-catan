@@ -1,8 +1,6 @@
 package catan.settlers.network.client.commands.game;
 
 import catan.settlers.client.model.ClientModel;
-import catan.settlers.client.view.ClientWindow;
-import catan.settlers.client.view.game.DialogBoxLayer;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class FailureCommand implements ServerToClientCommand {
@@ -16,7 +14,6 @@ public class FailureCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
-		ClientWindow.getInstance().getGameWindow().getTradeMenu().clear();
 		ClientModel.instance.getGameStateManager().setdBox("Failure", reasonOfFailure);
 	}
 

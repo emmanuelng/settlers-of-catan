@@ -18,6 +18,7 @@ import catan.settlers.client.view.game.handlers.MouseHandler;
 
 public class GameWindow extends MinuetoFrame {
 
+	private static final int FPS = 10;
 	private boolean open;
 
 	private MinuetoEventQueue eventQueue;
@@ -47,7 +48,12 @@ public class GameWindow extends MinuetoFrame {
 				eventQueue.handle();
 
 			updateWindow();
-			Thread.yield();
+
+			try {
+				Thread.sleep(1000 / FPS);
+			} catch (InterruptedException e) {
+				// Ignore
+			}
 		}
 
 		close();
@@ -86,6 +92,7 @@ public class GameWindow extends MinuetoFrame {
 		drawLayer(dbox, 0, 105);
 		drawLayer(tradeMenu, 0, 0);
 		drawLayer(topBar, 0, 0);
+
 		render();
 	}
 
@@ -113,7 +120,7 @@ public class GameWindow extends MinuetoFrame {
 
 					@Override
 					public String getName() {
-						return image.hashCode() + "";
+						return image.toString();
 					}
 
 					@Override

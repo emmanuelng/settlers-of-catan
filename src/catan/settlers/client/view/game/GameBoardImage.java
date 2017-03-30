@@ -13,7 +13,7 @@ import catan.settlers.server.model.map.Intersection;
 public class GameBoardImage extends ImageLayer {
 
 	private GameBoard board;
-
+	
 	public GameBoardImage() {
 		super();
 	}

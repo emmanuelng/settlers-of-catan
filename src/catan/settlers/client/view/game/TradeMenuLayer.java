@@ -63,7 +63,7 @@ public class TradeMenuLayer extends ImageLayer {
 		this.bankConfirmButton = new Button(this, "Trade with bank", bank_confirm_btn_color, getBankConfirmListener());
 		this.playerConfirmButton = new Button(this, "Send offer to the other players", player_confirm_btn_color,
 				getPlayerConfirmListener());
-		this.orText = new MinuetoText("or", description_font_bold, MinuetoColor.BLACK);
+		this.orText = new MinuetoText("or", description_font, MinuetoColor.BLACK);
 
 		this.offer = resetResourceMap();
 		this.price = resetResourceMap();
@@ -100,14 +100,15 @@ public class TradeMenuLayer extends ImageLayer {
 		y_offset += giveDesc.getHeight() + 10;
 
 		drawResourceBoxes(box_x + 10, y_offset, true);
-		y_offset += 190;
+		y_offset += 170;
 
 		draw(receiveDesc, box_x + 20, y_offset);
 		y_offset += receiveDesc.getHeight() + 10;
 
 		drawResourceBoxes(box_x + 10, y_offset, false);
 		y_offset += 200;
-
+		
+		y_offset = box_y + HEIGHT - playerConfirmButton.getImage().getHeight() - 20;
 		draw(playerConfirmButton.getImage(), (box_x + WIDTH - playerConfirmButton.getImage().getWidth() - 20)
 				- bankConfirmButton.getImage().getWidth() - 10 - orText.getWidth() - 10, y_offset);
 		draw(orText, box_x + WIDTH - bankConfirmButton.getImage().getWidth() - 20 - orText.getWidth() - 10,
@@ -189,7 +190,9 @@ public class TradeMenuLayer extends ImageLayer {
 		return new ClickListener() {
 			@Override
 			public void onClick() {
+				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				System.out.println("Trade with bank!");
+				gsm.setShowTradeMenu(false);				
 			}
 		};
 	}
@@ -198,7 +201,9 @@ public class TradeMenuLayer extends ImageLayer {
 		return new ClickListener() {
 			@Override
 			public void onClick() {
+				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				System.out.println("Trade with players!");
+				gsm.setShowTradeMenu(false);				
 			}
 		};
 	}
