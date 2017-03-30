@@ -56,6 +56,7 @@ public class GameBoardManager implements Serializable {
 							IntersectionUnit u = hex.getIntersection(loc).getUnit();
 							if (u instanceof Village) {
 								Player p = u.getOwner();
+								p.setDrew(true);
 								switch (((Village) u).getKind()) {
 								case SETTLEMENT:
 									p.giveResource(terrainToResource(hex.getType())[0], 1);

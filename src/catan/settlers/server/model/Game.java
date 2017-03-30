@@ -265,10 +265,16 @@ public class Game implements Serializable {
 			}
 		} else {
 			// If the rolled number is not seven, produce the resources
+			for (Player p : participants) {
+				p.setDrew(false);
+			}
 			gameBoardManager.drawForRoll(redDie + yellowDie);
 			for (Player p : participants) {
 				p.sendCommand(new NormalDiceRollCommand(redDie, yellowDie));
 				p.sendCommand(new UpdateResourcesCommand(p.getResources()));
+				if (!p.drewThisTurn() && p.hasAqueduct() ) {
+					// TODO: select a card
+				}
 			}
 		}
 
