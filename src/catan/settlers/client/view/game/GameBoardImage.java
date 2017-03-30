@@ -1,5 +1,7 @@
 package catan.settlers.client.view.game;
 
+import org.minueto.image.MinuetoImage;
+
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.view.game.handlers.ClickListener;
@@ -13,7 +15,7 @@ import catan.settlers.server.model.map.Intersection;
 public class GameBoardImage extends ImageLayer {
 
 	private GameBoard board;
-	
+
 	public GameBoardImage() {
 		super();
 	}
@@ -61,6 +63,13 @@ public class GameBoardImage extends ImageLayer {
 		if (hex != null) {
 			HexagonImage hexImg = HexagonImage.getHexagonImage(hex);
 			draw(hexImg, x, y);
+
+			if (hex == board.getRobberHex()) {
+				MinuetoImage robber = ClientModel.instance.getImageFileManager().load("images/robber.png");
+				draw(robber, x + hexImg.getWidth() / 2 - robber.getWidth() / 2,
+						y + hexImg.getHeight() / 2 - robber.getHeight() / 2 + 3);
+			}
+
 			if (!hexImg.isSelectedImage()) {
 				registerClickable(hexImg, new ClickListener() {
 					@Override
