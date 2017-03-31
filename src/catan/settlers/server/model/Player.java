@@ -22,7 +22,6 @@ public class Player implements Serializable {
 	private int basicKnightCount, strongKnightCount, mightyKnightCount;
 	private boolean hasCity;
 	private int tradeImprovement, politicsImprovement, scienceImprovement;
-	private boolean drewThisTurn;
 
 	public Player(Credentials credentials) {
 		this.credentials = credentials;
@@ -90,41 +89,32 @@ public class Player implements Serializable {
 			mightyKnightCount = kCount;
 		}
 	}
-	
+
 	public int getTradeLevel() {
 		return tradeImprovement;
 	}
-	
+
 	public int getPoliticsLevel() {
 		return politicsImprovement;
 	}
-	
+
 	public int getScienceLevel() {
 		return scienceImprovement;
 	}
-	
-	
+
 	// Can't build mighty knights without barracks
 	public boolean hasBarracks() {
 		return (politicsImprovement >= 3);
 	}
-	
+
 	// can trade any commodity at 2:1
 	public boolean hasMerchantGuild() {
 		return (tradeImprovement >= 3);
 	}
-	
+
 	// if player doesn't draw on a roll, can choose a resource
 	public boolean hasAqueduct() {
 		return (scienceImprovement >= 3);
-	}
-	
-	public boolean drewThisTurn() {
-		return drewThisTurn;
-	}
-	
-	public void setDrew(boolean b) {
-		drewThisTurn = b;
 	}
 
 	public boolean canHire(KnightType type) {
@@ -133,7 +123,7 @@ public class Player implements Serializable {
 		}
 		return false;
 	}
-	
+
 	public Session getSession() {
 		return Server.getInstance().getAuthManager().getSessionByCredentials(credentials);
 	}

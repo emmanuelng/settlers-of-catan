@@ -3,36 +3,27 @@ package catan.settlers.server.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
-import catan.settlers.network.client.commands.TurnResponseCommand;
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.EndOfSevenDiscardPhase;
-import catan.settlers.network.client.commands.game.MoveRobberCommand;
-import catan.settlers.network.client.commands.game.NormalDiceRollCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
-import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
 import catan.settlers.network.client.commands.game.WaitForSevenDiscardCommand;
 import catan.settlers.network.server.Credentials;
-import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.Player.ResourceType;
-import catan.settlers.server.model.SetOfOpponentMove.MoveType;
+import catan.settlers.server.model.game.handlers.RollDicePhaseHandler;
 import catan.settlers.server.model.game.handlers.SetupPhaseHandler;
 import catan.settlers.server.model.map.Edge;
-import catan.settlers.server.model.map.GameBoard;
-import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.units.Knight;
 import catan.settlers.server.model.units.Knight.KnightType;
 import catan.settlers.server.model.units.Port;
 import catan.settlers.server.model.units.Village;
-import catan.settlers.server.model.units.Village.VillageKind;
 
 public class Game implements Serializable {
 
@@ -55,11 +46,11 @@ public class Game implements Serializable {
 	private GamePhase currentPhase;
 	private SetOfOpponentMove currentSetOfOpponentMove;
 
-	private int redDie, yellowDie;
-	private int eventDie;
+	private int redDie, yellowDie, eventDie;
 	private int barbarianHordeCounter;
 
 	private SetupPhaseHandler setupPhaseHandler;
+	private RollDicePhaseHandler rollDicePhaseHandler;
 
 	public Game(int id, Credentials owner) {
 		this.id = id;
@@ -70,6 +61,7 @@ public class Game implements Serializable {
 		this.gameBoardManager = new GameBoardManager();
 
 		this.setupPhaseHandler = new SetupPhaseHandler(this);
+		this.rollDicePhaseHandler = new RollDicePhaseHandler(this);
 	}
 
 	public void startGame() {
@@ -103,7 +95,7 @@ public class Game implements Serializable {
 			setupPhaseHandler.handle(player, data, false);
 			break;
 		case ROLLDICEPHASE:
-			rollDicePhase(player, data);
+			rollDicePhaseHandler.handle(player, data);
 			break;
 		case TURNPHASE:
 			turnPhase(player, data);
@@ -117,124 +109,10 @@ public class Game implements Serializable {
 		case SEVEN_DISCARD_CARDS:
 			sevenDiscardCards(player, data.getSevenResources());
 			break;
-
-		default:
-			break;
 		}
 	}
 
 	/* ======================== Game phases logic ======================== */
-
-	private void rollDicePhase(Player sender, TurnData data) {
-		// TODO: Play alchemist card
-
-		/* ==== Assign random numbers to dice ==== */
-
-		redDie = (int) (Math.ceil(Math.random() * 6));
-		yellowDie = (int) (Math.ceil(Math.random() * 6));
-		eventDie = (int) (Math.ceil(Math.random() * 6));
-
-		/* ==== Red and yellow dice events ==== */
-
-		// If a seven is rolled, discard cards and move the robber
-		if (redDie + yellowDie == 7) {
-			/*
-			 * Count the number of resource cards for each player. Every player
-			 * with more than 7 must select half of them and return them to the
-			 * bank.
-			 */
-			SetOfOpponentMove set = new SetOfOpponentMove(MoveType.SEVEN_DISCARD_CARDS);
-			for (Player p : participants) {
-				int nbResourceCards = p.getNbResourceCards();
-				if (nbResourceCards > 7) {
-					p.sendCommand(new DiscardCardsCommand());
-					set.waitForPlayer(p);
-				}
-			}
-
-			// if some player need to discard resources, set the current set of
-			// opponent moves
-			if (!set.isEmpty()) {
-				currentSetOfOpponentMove = set;
-
-				// Ask to the other players to wait
-				for (Player p : participants) {
-					if (!set.contains(p)) {
-						p.sendCommand(new WaitForSevenDiscardCommand(currentSetOfOpponentMove.nbOfResponses(),
-								currentSetOfOpponentMove.nbOfPlayers()));
-					}
-				}
-				return;
-			}
-
-			/*
-			 * Once all players have discarded their cards, ask the current
-			 * player to move the robber
-			 * 
-			 * TODO: this must be allowed only after the first barbarian attack
-			 */
-			for (Player p : participants) {
-				if (p == sender) {
-					p.sendCommand(new MoveRobberCommand());
-				} else {
-					p.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
-				}
-			}
-		} else {
-			// If the rolled number is not seven, produce the resources
-			for (Player p : participants) {
-				p.setDrew(false);
-			}
-			gameBoardManager.drawForRoll(redDie + yellowDie);
-			for (Player p : participants) {
-				p.sendCommand(new NormalDiceRollCommand(redDie, yellowDie));
-				p.sendCommand(new UpdateResourcesCommand(p.getResources()));
-				if (!p.drewThisTurn() && p.hasAqueduct()) {
-					// TODO: select a card
-				}
-			}
-		}
-
-		/* ==== Event dice events ==== */
-
-		if (eventDie < 4) {
-			barbarianHordeCounter++;
-			if (barbarianHordeCounter >= 7) {
-				barbarianAttack();
-			}
-		} else if (eventDie == 4) {
-			// yellow improvement check
-			for (Player p : participants) {
-				int lvl = p.getTradeLevel();
-				if (lvl != 0) {
-					if (lvl + 1 >= redDie) {
-						// TODO: p.drawTradeCard();
-					}
-				}
-			}
-		} else if (eventDie == 5) {
-			// blue
-			for (Player p : participants) {
-				int lvl = p.getTradeLevel();
-				if (lvl != 0) {
-					if (lvl + 1 >= redDie) {
-						// TODO: p.drawPoliticsCard();
-					}
-				}
-			}
-		} else if (eventDie == 6) {
-			// green
-			for (Player p : participants) {
-				int lvl = p.getTradeLevel();
-				if (lvl != 0) {
-					if (lvl + 1 >= redDie) {
-						// TODO: p.drawScienceCard();
-					}
-				}
-			}
-		}
-		currentPhase = GamePhase.TURNPHASE;
-	}
 
 	private void turnPhase(Player sender, TurnData data) {
 		switch (data.getAction()) {
@@ -336,53 +214,6 @@ public class Game implements Serializable {
 
 	}
 
-	private void barbarianAttack() {
-		int barbarianStrength = 0;
-		HashMap<Player, Integer> playerStrength = new HashMap<>();
-		for (Player p : participants) {
-			playerStrength.put(p, 0);
-		}
-		// Checks all intersections. If city, +1 to barbarian strength. If
-		// active knight, +1/2/3 to player strength
-		ArrayList<Intersection> intersections = gameBoardManager.getBoard().getIntersections();
-		for (Intersection i : intersections) {
-			IntersectionUnit unit = i.getUnit();
-			if (unit instanceof Village) {
-				if (((Village) unit).getKind() != VillageKind.SETTLEMENT) {
-					barbarianStrength++;
-				}
-			} else if (unit instanceof Knight) {
-				if (((Knight) unit).isActive()) {
-					int current = 0;
-					switch (((Knight) unit).getKnightType()) {
-					case BASIC_KNIGHT:
-						current = playerStrength.get(unit.getOwner());
-						playerStrength.put(unit.getOwner(), current + 1);
-						break;
-					case STRONG_KNIGHT:
-						current = playerStrength.get(unit.getOwner());
-						playerStrength.put(unit.getOwner(), current + 2);
-						break;
-					case MIGHTY_KNIGHT:
-						current = playerStrength.get(unit.getOwner());
-						playerStrength.put(unit.getOwner(), current + 3);
-						break;
-					}
-				}
-			}
-		}
-		int totalStrength = 0;
-		for (Map.Entry<Player, Integer> entry : playerStrength.entrySet()) {
-			totalStrength += entry.getValue();
-		}
-		if (barbarianStrength > totalStrength) {
-			// remove cities from weakest players
-		} else {
-			// top player gets VP or top players get prog cards
-		}
-
-	}
-
 	private void sevenDiscardCards(Player player, HashMap<ResourceType, Integer> sevenResources) {
 		int nbSelectedResources = 0;
 		for (ResourceType rtype : ResourceType.values()) {
@@ -479,5 +310,31 @@ public class Game implements Serializable {
 
 	public void setGamePhase(GamePhase phase) {
 		this.currentPhase = phase;
+	}
+
+	public void setDice(int redDie, int yellowDie, int eventDie) {
+		this.redDie = redDie;
+		this.yellowDie = yellowDie;
+		this.eventDie = eventDie;
+	}
+
+	public SetOfOpponentMove getCurrentSetOfOpponentMove() {
+		return currentSetOfOpponentMove;
+	}
+
+	public void setCurSetOfOpponentMove(SetOfOpponentMove set) {
+		this.currentSetOfOpponentMove = set;
+	}
+
+	public int getBarbarianHordeCounter() {
+		return barbarianHordeCounter;
+	}
+
+	public void increaseBarbarianHordeCounter() {
+		this.barbarianHordeCounter++;
+	}
+
+	public void resetBarbarianHordeCounter() {
+		this.barbarianHordeCounter = 0;
 	}
 }

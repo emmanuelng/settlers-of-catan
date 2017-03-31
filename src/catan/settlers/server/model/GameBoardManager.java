@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.HashSet;
 
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.GameBoard;
@@ -45,18 +46,23 @@ public class GameBoardManager implements Serializable {
 		}
 	}
 
-	// Distributes resources to players for a roll of i
-	public void drawForRoll(int i) {
+	/**
+	 * Produces the resources for all the settlements and cities on the board.
+	 * Returns a list of all the players who received resources.
+	 */
+	public HashSet<Player> produceResources(int diceValue) {
+		HashSet<Player> playersWhoDrew = new HashSet<>();
+
 		for (int x = 0; x < board.getLength(); x++) {
 			for (int y = 0; y < board.getHeight(); y++) {
 				Hexagon hex = board.getHexagonAt(x, y);
 				if (hex != null) {
-					if (hex.getNumber() == i && hex != board.getRobberHex()) {
+					if (hex.getNumber() == diceValue && hex != board.getRobberHex()) {
 						for (IntersectionLoc loc : IntersectionLoc.values()) {
 							IntersectionUnit u = hex.getIntersection(loc).getUnit();
 							if (u instanceof Village) {
 								Player p = u.getOwner();
-								p.setDrew(true);
+								playersWhoDrew.add(p);
 								switch (((Village) u).getKind()) {
 								case SETTLEMENT:
 									p.giveResource(terrainToResource(hex.getType())[0], 1);
@@ -76,6 +82,8 @@ public class GameBoardManager implements Serializable {
 				}
 			}
 		}
+
+		return playersWhoDrew;
 	}
 
 	private ResourceType[] terrainToResource(TerrainType t) {
