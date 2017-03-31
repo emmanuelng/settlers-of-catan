@@ -66,11 +66,15 @@ public class TurnPhaseHandler {
 	private void getSelectedEdgeAndIntersectionInstances(TurnData data) {
 		GameBoard board = gameBoardManager.getBoard();
 
-		int selectedgeId = data.getEdgeSelection().getId();
-		this.selectedEdge = board.getEdgeById(selectedgeId);
+		if (data.getEdgeSelection() != null) {
+			int selectedgeId = data.getEdgeSelection().getId();
+			this.selectedEdge = board.getEdgeById(selectedgeId);
+		}
 
-		int selectedIntersectionId = data.getIntersectionSelection().getId();
-		this.selectedIntersection = board.getIntersectionById(selectedIntersectionId);
+		if (data.getIntersectionSelection() != null) {
+			int selectedIntersectionId = data.getIntersectionSelection().getId();
+			this.selectedIntersection = board.getIntersectionById(selectedIntersectionId);
+		}
 	}
 
 	private void buildSettlement(Player sender) {

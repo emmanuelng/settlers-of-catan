@@ -148,8 +148,8 @@ public class RollDicePhaseHandler {
 	 * resources.
 	 */
 	private void askOtherPlayersToWait(SetOfOpponentMove set) {
-		int nbOfResponses = currentSetOfOpponentMove.nbOfResponses();
-		int nbOfPlayers = currentSetOfOpponentMove.nbOfPlayers();
+		int nbOfResponses = set.nbOfResponses();
+		int nbOfPlayers = set.nbOfPlayers();
 		WaitForSevenDiscardCommand cmd = new WaitForSevenDiscardCommand(nbOfResponses, nbOfPlayers);
 
 		for (Player p : participants)
