@@ -26,7 +26,6 @@ public class RollDicePhaseHandler {
 	private Game game;
 
 	private ArrayList<Player> participants;
-	private SetOfOpponentMove currentSetOfOpponentMove;
 	private GameBoardManager gameBoardManager;
 	private int barbarianHordeCounter;
 	private int redDie, yellowDie, eventDie;
@@ -41,7 +40,6 @@ public class RollDicePhaseHandler {
 	 * step, and multiple events can occur as well.
 	 */
 	public void handle(Player sender, TurnData data) {
-		System.out.println("Handling roll dice");
 		updateDataFromGame();
 
 		// TODO: Play alchemist card
@@ -107,18 +105,16 @@ public class RollDicePhaseHandler {
 	 */
 	private void updateDataFromGame() {
 		this.participants = game.getParticipants();
-		this.currentSetOfOpponentMove = game.getCurrentSetOfOpponentMove();
 		this.gameBoardManager = game.getGameBoardManager();
 		this.barbarianHordeCounter = game.getBarbarianHordeCounter();
-		game.getCurrentPlayer();
 	}
 
 	/**
 	 * Generates random values for the dice and stores them in the Game class.
 	 */
 	private void assignRandomValuesToDice() {
-		this.redDie = (int) (Math.ceil(Math.random() * 6));
-		this.yellowDie = (int) (Math.ceil(Math.random() * 6));
+		this.redDie = 6;// (int) (Math.ceil(Math.random() * 6));
+		this.yellowDie = 1;// (int) (Math.ceil(Math.random() * 6));
 		this.eventDie = (int) (Math.ceil(Math.random() * 6));
 
 		game.setDice(redDie, yellowDie, eventDie);

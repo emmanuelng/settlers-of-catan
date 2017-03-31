@@ -6,6 +6,7 @@ import java.util.HashMap;
 import catan.settlers.network.server.commands.ClientToServerCommand;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;
 import catan.settlers.network.server.commands.game.GetListOfPlayersCommand;
+import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
@@ -36,6 +37,7 @@ public class GameStateManager {
 	private String dboxTitle;
 	private String dBoxMessage;
 	private String sevenDiscardMenuMsg;
+	private GamePhase currentPhase;
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
@@ -201,7 +203,15 @@ public class GameStateManager {
 	}
 
 	public void setShowSevenDiscardMenu(boolean b) {
-		showSevenDiscardMenu = b;		
+		showSevenDiscardMenu = b;
+	}
+
+	public void setCurrentPhase(GamePhase currentPhase) {
+		this.currentPhase = currentPhase;
+	}
+
+	public GamePhase getCurrentPhase() {
+		return currentPhase;
 	}
 
 }

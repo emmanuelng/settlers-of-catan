@@ -12,6 +12,7 @@ import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.actions.Action;
 import catan.settlers.client.view.game.handlers.ClickListener;
+import catan.settlers.server.model.Game.GamePhase;
 
 public class ActionBoxLayer extends ImageLayer {
 
@@ -42,7 +43,10 @@ public class ActionBoxLayer extends ImageLayer {
 
 	@Override
 	public void compose(GameStateManager gsm) {
-		if (!gsm.doUpdateActions())
+		if (!gsm.doUpdateActions() || gsm.getCurrentPhase() != GamePhase.TURNPHASE)
+			return;
+
+		if (!gsm.getCurrentPlayer().equals(ClientModel.instance.getUsername()))
 			return;
 
 		ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);

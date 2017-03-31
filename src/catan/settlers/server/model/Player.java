@@ -27,7 +27,7 @@ public class Player implements Serializable {
 		this.resources = new HashMap<>();
 
 		for (ResourceType resType : ResourceType.values()) {
-			resources.put(resType, 0);
+			resources.put(resType, 2);
 		}
 	}
 
