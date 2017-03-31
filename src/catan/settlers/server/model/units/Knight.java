@@ -1,6 +1,7 @@
 package catan.settlers.server.model.units;
 
 import catan.settlers.server.model.Player;
+import catan.settlers.server.model.Player.ResourceType;
 
 public class Knight implements IntersectionUnit {
 
@@ -14,12 +15,30 @@ public class Knight implements IntersectionUnit {
 	private KnightType knightType;
 	private boolean activated;
 
+	private Cost buildKnightCost;
+	private Cost updateKnightCost;
+
 	public Knight(Player p) {
-		if (p.canHire(KnightType.BASIC_KNIGHT)) {
-			myOwner = p;
-			knightType = KnightType.BASIC_KNIGHT;
-			activated = false; // need one wool and one ore to activate this kid
-		}
+		this.myOwner = p;
+		this.knightType = KnightType.BASIC_KNIGHT;
+		this.activated = false;
+		// need one wool and one ore to activate this kid
+
+		this.buildKnightCost = new Cost();
+		buildKnightCost.addPriceEntry(ResourceType.ORE, 1);
+		buildKnightCost.addPriceEntry(ResourceType.WOOL, 1);
+
+		this.updateKnightCost = new Cost();
+		updateKnightCost.addPriceEntry(ResourceType.GRAIN, 1);
+		updateKnightCost.addPriceEntry(ResourceType.WOOL, 1);
+	}
+
+	public Cost getBuildKnightCost() {
+		return new Cost(buildKnightCost);
+	}
+
+	public Cost getUpdateKnightCost() {
+		return new Cost(updateKnightCost);
 	}
 
 	public void upgradeKnight() {
@@ -39,10 +58,6 @@ public class Knight implements IntersectionUnit {
 
 	public KnightType getKnightType() {
 		return knightType;
-	}
-
-	private void setKnightType(KnightType kType) {
-		knightType = kType;
 	}
 
 	public void activateKnight() {

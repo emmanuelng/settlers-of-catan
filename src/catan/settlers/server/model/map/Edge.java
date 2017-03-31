@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import catan.settlers.server.model.Player;
+import catan.settlers.server.model.Player.ResourceType;
+import catan.settlers.server.model.units.Cost;
 import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.units.Village;
 
@@ -11,20 +13,27 @@ public class Edge implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private int id;
 	private ArrayList<Edge> leftEdges;
 	private ArrayList<Edge> rightEdges;
 	private Intersection[] myIntersections;
-
 	private Player roadOwner;
-
-	private int id;
+	private Cost buildRoadCost;
 
 	public Edge(int id) {
 		this.id = id;
-		myIntersections = new Intersection[2];
-		leftEdges = new ArrayList<Edge>();
-		rightEdges = new ArrayList<Edge>();
-		roadOwner = null;
+		this.myIntersections = new Intersection[2];
+		this.leftEdges = new ArrayList<Edge>();
+		this.rightEdges = new ArrayList<Edge>();
+		this.roadOwner = null;
+
+		this.buildRoadCost = new Cost();
+		this.buildRoadCost.addPriceEntry(ResourceType.BRICK, 1);
+		this.buildRoadCost.addPriceEntry(ResourceType.LUMBER, 1);
+	}
+	
+	public Cost getBuildRoadCost() {
+		return new Cost(buildRoadCost);
 	}
 
 	public void addLeftEdge(Edge e) {
@@ -117,7 +126,7 @@ public class Edge implements Serializable {
 		 */
 		for (int i = 0; i < myIntersections.length; i++) {
 			Intersection intersection = myIntersections[i];
-			
+
 			for (Edge edge : intersection.getEdges()) {
 				if (edge.getOwner() != null)
 					if (edge.getOwner().getUsername().equals(username)) {

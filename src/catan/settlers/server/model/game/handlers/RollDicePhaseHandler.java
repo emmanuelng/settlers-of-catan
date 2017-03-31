@@ -41,6 +41,7 @@ public class RollDicePhaseHandler {
 	 * step, and multiple events can occur as well.
 	 */
 	public void handle(Player sender, TurnData data) {
+		System.out.println("Handling roll dice");
 		updateDataFromGame();
 
 		// TODO: Play alchemist card
