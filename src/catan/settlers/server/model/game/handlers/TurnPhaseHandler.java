@@ -29,10 +29,11 @@ public class TurnPhaseHandler {
 	}
 
 	public void handle(Player sender, TurnData data) {
+		updateDataFromGame();
+
 		if (!currentPlayer.getUsername().equals(sender.getUsername()))
 			return;
 
-		updateDataFromGame();
 		getSelectedEdgeAndIntersectionInstances(data);
 
 		switch (data.getAction()) {
@@ -149,7 +150,7 @@ public class TurnPhaseHandler {
 	private void endTurn() {
 		Player nextPlayer = game.nextPlayer();
 		game.setCurrentPlayer(nextPlayer);
-		
+
 		// TODO send command to start next turn
 	}
 
