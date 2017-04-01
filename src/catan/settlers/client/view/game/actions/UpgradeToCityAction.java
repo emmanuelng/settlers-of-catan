@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
+import catan.settlers.network.server.commands.game.BuildSettlementCommand;
+import catan.settlers.network.server.commands.game.UpgradeVillageCommand;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.IntersectionUnit;
@@ -43,7 +45,7 @@ public class UpgradeToCityAction implements Action {
 
 	@Override
 	public void perform() {
-		System.out.println(this);
+		ClientModel.instance.getNetworkManager().sendCommand(new UpgradeVillageCommand());
 	}
 
 }

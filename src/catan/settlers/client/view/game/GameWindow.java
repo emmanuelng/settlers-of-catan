@@ -115,7 +115,7 @@ public class GameWindow extends MinuetoFrame {
 				Clickable clickable = new Clickable() {
 
 					@Override
-					public boolean isClicked(int x, int y) {
+					public boolean isInteracted(int x, int y) {
 						boolean isInXrange = x > window_x_coord && x < window_x_coord + image.getWidth();
 						boolean isInYRange = y > window_y_coord && y < window_y_coord + image.getHeight();
 						return isInXrange && isInYRange;
@@ -139,7 +139,7 @@ public class GameWindow extends MinuetoFrame {
 
 				if (imageClickableMap.get(image) == null) {
 					imageClickableMap.put(image, clickable);
-					mouseHandler.register(clickable);
+					mouseHandler.registerClickable(clickable);
 				}
 			}
 		}

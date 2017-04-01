@@ -113,6 +113,7 @@ public class TurnPhaseHandler {
 			if (cost.canPay(currentPlayer)) {
 				village.upgradeToCity();
 				cost.removeResources(currentPlayer);
+				updateResourcesAndBoard();
 			}
 		}
 	}
