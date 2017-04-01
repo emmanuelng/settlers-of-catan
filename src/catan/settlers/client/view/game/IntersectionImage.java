@@ -11,6 +11,7 @@ import catan.settlers.client.view.ClientWindow;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Knight;
 import catan.settlers.server.model.units.Village;
+import catan.settlers.server.model.units.Port.PortKind;
 
 public class IntersectionImage extends MinuetoImage {
 
@@ -40,7 +41,9 @@ public class IntersectionImage extends MinuetoImage {
 		if (intersection.getUnit() == null) {
 			if (!selected) {
 				if (intersectionModel.isPortable()) {
-					MinuetoImage portImage = ClientModel.instance.getImageFileManager().load("images/port.png");
+					ImageFileManager ifm = ClientModel.instance.getImageFileManager();
+					PortKind pkind = intersectionModel.getPortKind();
+					MinuetoImage portImage = ifm.load("images/port_" + pkind + ".png");
 					draw(portImage, 0, 0);
 				} else if (intersectionModel.isMaritime()) {
 					drawCircle(new MinuetoColor(182, 215, 255), 0, 0, 20);
