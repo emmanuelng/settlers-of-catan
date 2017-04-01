@@ -78,7 +78,7 @@ public class TurnPhaseHandler {
 	}
 
 	private void buildSettlement(Player sender) {
-		if (selectedIntersection.canBuild()) {
+		if (selectedIntersection.canBuild(sender, game.getGamePhase())) {
 			boolean isPortable = selectedIntersection.isPortable();
 			Village village = isPortable ? new Port(sender) : new Village(sender);
 			Cost cost = village.getBuildSettlementCost();
