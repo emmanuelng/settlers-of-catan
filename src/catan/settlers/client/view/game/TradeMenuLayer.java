@@ -139,7 +139,7 @@ public class TradeMenuLayer extends ImageLayer {
 
 		for (PortKind pkind : PortKind.values()) {
 			boolean ownsPortKind = gsm.getOwnedPorts().get(pkind);
-			if (!ownsPortKind) {
+			if (ownsPortKind) {
 				buttonAdded = true;
 				String portName = "";
 				switch (pkind) {
