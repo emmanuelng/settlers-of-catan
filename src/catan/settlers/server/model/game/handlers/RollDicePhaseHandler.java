@@ -113,8 +113,8 @@ public class RollDicePhaseHandler {
 	 * Generates random values for the dice and stores them in the Game class.
 	 */
 	private void assignRandomValuesToDice() {
-		this.redDie = 6;// (int) (Math.ceil(Math.random() * 6));
-		this.yellowDie = 1;// (int) (Math.ceil(Math.random() * 6));
+		this.redDie = (int) (Math.ceil(Math.random() * 6));
+		this.yellowDie = (int) (Math.ceil(Math.random() * 6));
 		this.eventDie = (int) (Math.ceil(Math.random() * 6));
 
 		game.setDice(redDie, yellowDie, eventDie);

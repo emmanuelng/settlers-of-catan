@@ -18,13 +18,11 @@ public class PlaceSettlementAction implements Action {
 
 		if (selectedIntersection != null && resources != null) {
 			boolean hasResources = false;
-			/*if (resources.get(ResourceType.BRICK) > 0 && resources.get(ResourceType.GRAIN) > 0
+			if (resources.get(ResourceType.BRICK) > 0 && resources.get(ResourceType.GRAIN) > 0
 					&& resources.get(ResourceType.LUMBER) > 0 && resources.get(ResourceType.WOOL) > 0) {
 				hasResources = true;
 			}
-			return selectedIntersection.canBuild() && hasResources;*/
-			return true;
-
+			return selectedIntersection.canBuild() && hasResources;
 		}
 
 		return false;

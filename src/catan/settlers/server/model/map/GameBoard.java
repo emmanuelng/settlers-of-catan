@@ -219,12 +219,12 @@ public class GameBoard implements Serializable {
 					h.getIntersection(IntersectionLoc.BOTTOM).addEdge(h.getEdge(Direction.SOUTHWEST));
 					h.getIntersection(IntersectionLoc.BOTTOM).addHex(h);
 
-					h.getIntersection(IntersectionLoc.BOTTOMLEFT).addEdge(h.getEdge(Direction.SOUTHEAST));
-					h.getIntersection(IntersectionLoc.BOTTOMLEFT).addEdge(h.getEdge(Direction.EAST));
+					h.getIntersection(IntersectionLoc.BOTTOMLEFT).addEdge(h.getEdge(Direction.SOUTHWEST));
+					h.getIntersection(IntersectionLoc.BOTTOMLEFT).addEdge(h.getEdge(Direction.WEST));
 					h.getIntersection(IntersectionLoc.BOTTOMLEFT).addHex(h);
 
-					h.getIntersection(IntersectionLoc.TOPLEFT).addEdge(h.getEdge(Direction.EAST));
-					h.getIntersection(IntersectionLoc.TOPLEFT).addEdge(h.getEdge(Direction.NORTHEAST));
+					h.getIntersection(IntersectionLoc.TOPLEFT).addEdge(h.getEdge(Direction.WEST));
+					h.getIntersection(IntersectionLoc.TOPLEFT).addEdge(h.getEdge(Direction.NORTHWEST));
 					h.getIntersection(IntersectionLoc.TOPLEFT).addHex(h);
 
 					h.getEdge(Direction.NORTHEAST).addLeftEdge(h.getEdge(Direction.NORTHWEST));

@@ -13,6 +13,7 @@ public class DialogBoxLayer extends ImageLayer {
 	private static final MinuetoFont title_font = new MinuetoFont("arial", 20, true, false);
 	private static final MinuetoFont message_font = new MinuetoFont("arial", 16, false, false);
 	private static final MinuetoColor bg_color = new MinuetoColor(238, 255, 170);
+	private boolean clear;
 
 	public DialogBoxLayer() {
 		super();
@@ -20,8 +21,15 @@ public class DialogBoxLayer extends ImageLayer {
 
 	@Override
 	public void compose(GameStateManager gsm) {
-		if (gsm.getdBoxTitle() == null && gsm.getdBoxMessage() == null)
+		if (gsm.getdBoxTitle() == null && gsm.getdBoxMessage() == null) {
+			if (clear) {
+				clear();
+				clear = false;
+			}
 			return;
+		} else {
+			clear = true;
+		}
 
 		clear();
 

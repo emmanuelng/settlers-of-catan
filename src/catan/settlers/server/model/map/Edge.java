@@ -129,9 +129,8 @@ public class Edge implements Serializable {
 
 			for (Edge edge : intersection.getEdges()) {
 				if (edge.getOwner() != null)
-					if (edge.getOwner().getUsername().equals(username)) {
+					if (edge.getOwner().getUsername().equals(username))
 						return true;
-					}
 			}
 		}
 

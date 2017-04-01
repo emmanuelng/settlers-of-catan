@@ -1,7 +1,7 @@
 package catan.settlers.server.model.map;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.units.IntersectionUnit;
@@ -12,8 +12,8 @@ public class Intersection implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private IntersectionUnit unit;
 
-	private ArrayList<Hexagon> myHexagons;
-	private ArrayList<Edge> myEdges;
+	private HashSet<Hexagon> myHexagons;
+	private HashSet<Edge> myEdges;
 
 	private int id;
 	private boolean isPortable;
@@ -22,16 +22,12 @@ public class Intersection implements Serializable {
 	public Intersection(int id) {
 		this.id = id;
 		unit = null;
-		myEdges = new ArrayList<Edge>();
-		myHexagons = new ArrayList<Hexagon>();
+		myEdges = new HashSet<>();
+		myHexagons = new HashSet<>();
 	}
 
 	public void addEdge(Edge e) {
-		if (e != null && myEdges.size() < 3) {
-			if (!myEdges.contains(e)) {
-				myEdges.add(e);
-			}
-		}
+		myEdges.add(e);
 	}
 
 	public void addHex(Hexagon h) {
@@ -42,12 +38,18 @@ public class Intersection implements Serializable {
 		}
 	}
 
-	public ArrayList<Hexagon> getHexagons() {
-		return myHexagons;
+	public HashSet<Hexagon> getHexagons() {
+		HashSet<Hexagon> ret = new HashSet<>();
+		for (Hexagon hex : myHexagons)
+			ret.add(hex);
+		return ret;
 	}
 
-	public ArrayList<Edge> getEdges() {
-		return myEdges;
+	public HashSet<Edge> getEdges() {
+		HashSet<Edge> ret = new HashSet<>();
+		for (Edge edge : myEdges)
+			ret.add(edge);
+		return ret;
 	}
 
 	public IntersectionUnit getUnit() {
@@ -92,7 +94,7 @@ public class Intersection implements Serializable {
 		}
 		return false;
 	}
-	
+
 	public boolean isMaritime() {
 		for (Hexagon hex : myHexagons) {
 			if (hex.getType() != Hexagon.TerrainType.SEA) {
@@ -105,12 +107,12 @@ public class Intersection implements Serializable {
 	public boolean isPortable() {
 		return isPortable;
 	}
-	
-	public void setPortable(PortKind p){
+
+	public void setPortable(PortKind p) {
 		isPortable = true;
-		pkind= p;
+		pkind = p;
 	}
-	
+
 	public PortKind getPortKind() {
 		return pkind;
 	}
