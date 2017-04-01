@@ -64,12 +64,11 @@ public class Knight implements IntersectionUnit {
 		return myOwner;
 	}
 
-	public KnightType getKnightType() {
+	public KnightType getType() {
 		return knightType;
 	}
 
 	public void activateKnight() {
-		// TODO: need to pay one grain to activate
 		activated = true;
 	}
 

@@ -127,6 +127,7 @@ public class TurnPhaseHandler {
 			if (cost.canPay(currentPlayer)) {
 				village.upgradeToCity();
 				cost.removeResources(currentPlayer);
+				updateResourcesAndBoard();
 			}
 		}
 	}
@@ -154,7 +155,7 @@ public class TurnPhaseHandler {
 				cost = knight.getUpdateKnightCost();
 			}
 
-			switch (knight.getKnightType()) {
+			switch (knight.getType()) {
 			case BASIC_KNIGHT:
 				if (currentPlayer.canHire(KnightType.STRONG_KNIGHT)) {
 					if (cost.canPay(currentPlayer)) {

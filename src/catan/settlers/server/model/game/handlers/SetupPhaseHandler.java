@@ -17,6 +17,7 @@ import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Intersection;
+import catan.settlers.server.model.units.Port;
 import catan.settlers.server.model.units.Village;
 
 public class SetupPhaseHandler {
@@ -118,12 +119,13 @@ public class SetupPhaseHandler {
 	 * to all the players.
 	 */
 	private void buildRoadAndVillage(boolean isPhaseOne) {
-		Village v = new Village(currentPlayer);
-		selectedIntersection.setUnit(v);
+		boolean isPortable = selectedIntersection.isPortable();
+		Village village = isPortable ? new Port(currentPlayer) : new Village(currentPlayer);
+		selectedIntersection.setUnit(village);
 		selectedEdge.setOwner(currentPlayer);
 
 		if (!isPhaseOne)
-			v.upgradeToCity();
+			village.upgradeToCity();
 
 		game.updateAllPlayers();
 	}

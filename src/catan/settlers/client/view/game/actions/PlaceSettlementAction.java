@@ -40,6 +40,7 @@ public class PlaceSettlementAction implements Action {
 	@Override
 	public void perform() {
 		ClientModel.instance.getNetworkManager().sendCommand(new BuildSettlementCommand());
+		ClientModel.instance.getGameStateManager().setSelectedIntersection(null);
 	}
 
 }

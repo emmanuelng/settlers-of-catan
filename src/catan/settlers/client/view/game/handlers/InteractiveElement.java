@@ -2,7 +2,7 @@ package catan.settlers.client.view.game.handlers;
 
 public interface InteractiveElement {
 
-	public boolean isClicked(int x, int y);
+	public boolean isInteracted(int x, int y);
 
 	/**
 	 * This method should rename a UNIQUE string. Two interactive elements cannot
