@@ -19,7 +19,7 @@ import catan.settlers.server.model.game.handlers.TurnPhaseHandler;
 public class Game implements Serializable {
 
 	public enum turnAction {
-		BUILDSETTLEMENT, BUILDKNIGHT, BUILDROAD, UPGRADESETTLEMENT, UPGRADEKNIGHT, ENDTURN
+		BUILDSETTLEMENT, BUILDKNIGHT, BUILDROAD, UPGRADESETTLEMENT, UPGRADEKNIGHT, ENDTURN, ACTIVATEKNIGHT
 	}
 
 	public static enum GamePhase {

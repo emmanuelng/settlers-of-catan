@@ -38,19 +38,22 @@ public class TurnPhaseHandler {
 
 		switch (data.getAction()) {
 		case BUILDSETTLEMENT:
-			buildSettlement(sender);
+			buildSettlement();
 			break;
 		case BUILDROAD:
-			buildRoad(sender);
+			buildRoad();
 			break;
 		case UPGRADESETTLEMENT:
-			upgradeSettlement(sender);
+			upgradeSettlement();
 			break;
 		case BUILDKNIGHT:
-			buildKnight(sender);
+			buildKnight();
 			break;
 		case UPGRADEKNIGHT:
-			updateKnight(sender);
+			updateKnight();
+			break;
+		case ACTIVATEKNIGHT:
+			activateKnight();
 			break;
 		case ENDTURN:
 			endTurn();
@@ -77,53 +80,53 @@ public class TurnPhaseHandler {
 		}
 	}
 
-	private void buildSettlement(Player sender) {
+	private void buildSettlement() {
 		if (selectedIntersection.canBuild()) {
 			boolean isPortable = selectedIntersection.isPortable();
-			Village village = isPortable ? new Port(sender) : new Village(sender);
+			Village village = isPortable ? new Port(currentPlayer) : new Village(currentPlayer);
 			Cost cost = village.getBuildSettlementCost();
 
-			if (cost.canPay(sender)) {
+			if (cost.canPay(currentPlayer)) {
 				selectedIntersection.setUnit(village);
-				updateResourcesAndBoard(sender);
+				updateResourcesAndBoard();
 			}
 		}
 	}
 
-	private void buildRoad(Player sender) {
+	private void buildRoad() {
 		Cost cost = selectedEdge.getBuildRoadCost();
 
-		if (cost.canPay(sender)) {
-			selectedEdge.setOwner(sender);
-			cost.removeResources(sender);
-			updateResourcesAndBoard(sender);
+		if (cost.canPay(currentPlayer)) {
+			selectedEdge.setOwner(currentPlayer);
+			cost.removeResources(currentPlayer);
+			updateResourcesAndBoard();
 		}
 	}
 
-	private void upgradeSettlement(Player sender) {
+	private void upgradeSettlement() {
 		IntersectionUnit unit = selectedIntersection.getUnit();
 		if (unit instanceof Village) {
 			Village village = (Village) unit;
 			Cost cost = village.getUpgradeToCityCost();
-			if (cost.canPay(sender)) {
+			if (cost.canPay(currentPlayer)) {
 				village.upgradeToCity();
-				cost.removeResources(sender);
+				cost.removeResources(currentPlayer);
 			}
 		}
 	}
 
-	private void buildKnight(Player sender) {
+	private void buildKnight() {
 		if (selectedIntersection.getUnit() == null) {
-			Knight knight = new Knight(sender);
+			Knight knight = new Knight(currentPlayer);
 			Cost cost = knight.getBuildKnightCost();
-			if (cost.canPay(sender) && selectedIntersection.connected(sender)) {
+			if (cost.canPay(currentPlayer) && selectedIntersection.connected(currentPlayer)) {
 				selectedIntersection.setUnit(knight);
-				cost.removeResources(sender);
+				cost.removeResources(currentPlayer);
 			}
 		}
 	}
 
-	private void updateKnight(Player sender) {
+	private void updateKnight() {
 		IntersectionUnit unit = selectedIntersection.getUnit();
 		if (unit instanceof Knight) {
 			Knight knight = (Knight) unit;
@@ -131,24 +134,31 @@ public class TurnPhaseHandler {
 
 			switch (knight.getKnightType()) {
 			case BASIC_KNIGHT:
-				if (sender.canHire(KnightType.STRONG_KNIGHT))
-					break;
+				if (currentPlayer.canHire(KnightType.STRONG_KNIGHT)) {
+					if (cost.canPay(currentPlayer)) {
+						knight.upgradeKnight();
+						cost.removeResources(currentPlayer);
+						updateResourcesAndBoard();
+					}
+				}
 				return;
 			case STRONG_KNIGHT:
-				if (sender.canHire(KnightType.MIGHTY_KNIGHT) && sender.hasBarracks())
-					break;
+				if (currentPlayer.canHire(KnightType.MIGHTY_KNIGHT) && currentPlayer.hasBarracks()) {
+					if (cost.canPay(currentPlayer)) {
+						knight.upgradeKnight();
+						cost.removeResources(currentPlayer);
+						updateResourcesAndBoard();
+					}
+				}
 				return;
 			case MIGHTY_KNIGHT:
 				return;
 			}
-
-			// Upgrade knight
-			if (cost.canPay(sender)) {
-				knight.upgradeKnight();
-				cost.removeResources(sender);
-				updateResourcesAndBoard(sender);
-			}
 		}
+	}
+	
+	private void activateKnight() {
+		
 	}
 
 	private void endTurn() {
@@ -158,9 +168,9 @@ public class TurnPhaseHandler {
 		// TODO send command to start next turn
 	}
 
-	private void updateResourcesAndBoard(Player sender) {
-		sender.sendCommand(new UpdateResourcesCommand(sender.getResources()));
-		sender.sendCommand(new UpdateGameBoardCommand(gameBoardManager.getBoardDeepCopy()));
+	private void updateResourcesAndBoard() {
+		currentPlayer.sendCommand(new UpdateResourcesCommand(currentPlayer.getResources()));
+		currentPlayer.sendCommand(new UpdateGameBoardCommand(gameBoardManager.getBoardDeepCopy()));
 	}
 
 }

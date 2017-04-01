@@ -12,6 +12,7 @@ public class PlaceSettlementAction implements Action {
 
 	@Override
 	public boolean isPossible() {
+		
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		Intersection selectedIntersection = gsm.getSelectedIntersection();
 		HashMap<ResourceType, Integer> resources = ClientModel.instance.getGameStateManager().getResources();
@@ -22,7 +23,7 @@ public class PlaceSettlementAction implements Action {
 					&& resources.get(ResourceType.LUMBER) > 0 && resources.get(ResourceType.WOOL) > 0) {
 				hasResources = true;
 			}
-			return selectedIntersection.canBuild() && hasResources;
+			return selectedIntersection.canBuild() && hasResources; // && selectedIntersection.connected(p);
 		}
 
 		return false;
