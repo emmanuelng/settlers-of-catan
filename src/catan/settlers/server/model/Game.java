@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
 import catan.settlers.network.client.commands.game.GamePhaseChangedCommand;
+import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
@@ -68,6 +69,7 @@ public class Game implements Serializable {
 
 			p.sendCommand(new CurrentPlayerChangedCommand(currentPlayer.getUsername()));
 			p.sendCommand(new UpdateResourcesCommand(p.getResources()));
+			p.sendCommand(new OwnedPortsChangedCommand(p.getOwnedPorts()));
 			sendToAllPlayers(new GamePhaseChangedCommand(currentPhase));
 
 			if (p == currentPlayer) {

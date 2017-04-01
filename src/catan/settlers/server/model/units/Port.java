@@ -7,7 +7,7 @@ public class Port extends Village {
 	private static final long serialVersionUID = 1L;
 
 	public enum PortKind {
-		ALLPORT, BRICKPORT, LUMBERPORT, OREPORT, SHEEPPORT, WHEATPORT
+		ALLPORT, BRICKPORT, LUMBERPORT, OREPORT, WOOLPORT, WHEATPORT
 	}
 
 	private PortKind myKind;

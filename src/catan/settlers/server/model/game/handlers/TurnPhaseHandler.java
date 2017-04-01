@@ -1,5 +1,6 @@
 package catan.settlers.server.model.game.handlers;
 
+import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.server.model.Game;
@@ -91,6 +92,7 @@ public class TurnPhaseHandler {
 			if(isPortable) {
 				village = new Port(currentPlayer);
 				currentPlayer.setPort(selectedIntersection.getPortKind());
+				currentPlayer.sendCommand(new OwnedPortsChangedCommand(currentPlayer.getOwnedPorts()));
 			}
 			
 			Cost cost = village.getBuildSettlementCost();

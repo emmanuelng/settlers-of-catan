@@ -342,8 +342,8 @@ public class GameBoard implements Serializable {
 		hexagons[2][5].getIntersection(IntersectionLoc.BOTTOM).setPortable(PortKind.ALLPORT);
 		hexagons[3][5].getIntersection(IntersectionLoc.BOTTOM).setPortable(PortKind.OREPORT);
 		hexagons[3][5].getIntersection(IntersectionLoc.BOTTOMRIGHT).setPortable(PortKind.OREPORT);
-		hexagons[4][4].getIntersection(IntersectionLoc.BOTTOMRIGHT).setPortable(PortKind.SHEEPPORT);
-		hexagons[4][4].getIntersection(IntersectionLoc.BOTTOM).setPortable(PortKind.SHEEPPORT);
+		hexagons[4][4].getIntersection(IntersectionLoc.BOTTOMRIGHT).setPortable(PortKind.WOOLPORT);
+		hexagons[4][4].getIntersection(IntersectionLoc.BOTTOM).setPortable(PortKind.WOOLPORT);
 		hexagons[5][3].getIntersection(IntersectionLoc.TOPRIGHT).setPortable(PortKind.ALLPORT);
 		hexagons[5][3].getIntersection(IntersectionLoc.BOTTOMRIGHT).setPortable(PortKind.ALLPORT);
 		hexagons[4][2].getIntersection(IntersectionLoc.TOP).setPortable(PortKind.WHEATPORT);

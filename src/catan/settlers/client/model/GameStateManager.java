@@ -12,6 +12,7 @@ import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Intersection;
+import catan.settlers.server.model.units.Port.PortKind;
 
 public class GameStateManager {
 
@@ -37,7 +38,10 @@ public class GameStateManager {
 	private String dboxTitle;
 	private String dBoxMessage;
 	private String sevenDiscardMenuMsg;
+	private String tradeMenuMsg;
 	private GamePhase currentPhase;
+
+	private HashMap<PortKind, Boolean> ownedPorts;
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
@@ -51,6 +55,7 @@ public class GameStateManager {
 		this.showSevenDiscardMenu = false;
 
 		this.sevenDiscardMenuMsg = "";
+		this.tradeMenuMsg = "";
 	}
 
 	public int getGameId() {
@@ -214,4 +219,23 @@ public class GameStateManager {
 		return currentPhase;
 	}
 
+	public void setOwnedPorts(HashMap<PortKind, Boolean> ownedPorts) {
+		this.ownedPorts = ownedPorts;
+	}
+
+	public HashMap<PortKind, Boolean> getOwnedPorts() {
+		HashMap<PortKind, Boolean> ret = new HashMap<>();
+		for (PortKind pkind : ownedPorts.keySet()) {
+			ret.put(pkind, ownedPorts.get(pkind));
+		}
+		return ret;
+	}
+
+	public void setTradeMenuMessage(String msg) {
+		this.tradeMenuMsg = msg;
+	}
+
+	public String getTradeMenuMsg() {
+		return tradeMenuMsg;
+	}
 }

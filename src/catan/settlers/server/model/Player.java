@@ -15,49 +15,40 @@ import catan.settlers.server.model.units.Port.PortKind;
 
 public class Player implements Serializable {
 
-	/*private HashMap<ResourceType, Integer> resources;
-	private ArrayList<ProgressCardType> ProgressCards;
-	private HashMap<PortKind, Boolean> ownedPorts;
-	
-	private Credentials credentials;
-	private int basicKnightCount, strongKnightCount, mightyKnightCount;
-	private int tradeImprovement, politicsImprovement, scienceImprovement;
+	/*
+	 * private HashMap<ResourceType, Integer> resources; private
+	 * ArrayList<ProgressCardType> ProgressCards; private HashMap<PortKind,
+	 * Boolean> ownedPorts;
+	 * 
+	 * private Credentials credentials; private int basicKnightCount,
+	 * strongKnightCount, mightyKnightCount; private int tradeImprovement,
+	 * politicsImprovement, scienceImprovement;
+	 * 
+	 * public Player(Credentials credentials) { this.credentials = credentials;
+	 * this.resources = new HashMap<>(); this.ownedPorts = new HashMap<>();
+	 * 
+	 * for (ResourceType resType : ResourceType.values()) {
+	 * resources.put(resType, 12); } for (PortKind portKind : PortKind.values())
+	 * { ownedPorts.put(portKind, false); } }
+	 * 
+	 * public boolean hasPort(PortKind portKind){ return
+	 * ownedPorts.get(portKind); }
+	 */
 
-	public Player(Credentials credentials) {
-		this.credentials = credentials;
-		this.resources = new HashMap<>();
-		this.ownedPorts = new HashMap<>();
-		
-		for (ResourceType resType : ResourceType.values()) {
-			resources.put(resType, 12);
-		}
-		for (PortKind portKind : PortKind.values()) {
-			ownedPorts.put(portKind, false);
-		}
-	}
-
-	public boolean hasPort(PortKind portKind){
-		return ownedPorts.get(portKind);
-	}*/
-	
-	
-	
-	
-	
 	public enum ResourceType {
 		BRICK, GRAIN, LUMBER, ORE, WOOL, CLOTH, COIN, PAPER
 	}
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private HashMap<ResourceType, Integer> resources;
 	private ArrayList<ProgressCardType> ProgressCards;
 	private HashMap<PortKind, Boolean> ownedPorts;
-	
+
 	private Credentials credentials;
 	private int basicKnightCount, strongKnightCount, mightyKnightCount;
 	private int tradeImprovement, politicsImprovement, scienceImprovement;
-	
+
 	private boolean medicine;
 	private boolean engineer;
 	private boolean crane;
@@ -77,14 +68,14 @@ public class Player implements Serializable {
 		}
 	}
 
-	public boolean hasPort(PortKind portKind){
+	public boolean hasPort(PortKind portKind) {
 		return ownedPorts.get(portKind);
 	}
-	
-	public void setPort(PortKind portKind){
+
+	public void setPort(PortKind portKind) {
 		ownedPorts.put(portKind, true);
 	}
-	
+
 	public Credentials getCredentials() {
 		return credentials;
 	}
@@ -121,11 +112,11 @@ public class Player implements Serializable {
 		}
 		return count;
 	}
-	
+
 	public void giveProgressCard(ProgressCardType pc) {
 		ProgressCards.add(pc);
 	}
-	
+
 	public void useProgressCard(ProgressCardType pc) {
 		ProgressCards.remove(pc);
 	}
@@ -177,66 +168,66 @@ public class Player implements Serializable {
 	public boolean hasAqueduct() {
 		return (scienceImprovement >= 3);
 	}
-	
+
 	public boolean hasMedicine() {
 		return medicine;
 	}
-	
+
 	public void playMedicine() {
 		medicine = true;
 	}
-	
+
 	public void useMedicine() {
 		medicine = false;
 	}
-	
+
 	public boolean hasEngineer() {
 		return engineer;
 	}
-	
+
 	public void playEngineer() {
 		engineer = true;
 	}
-	
+
 	public void useEngineer() {
 		engineer = false;
 	}
-	
+
 	public boolean hasCrane() {
 		return crane;
 	}
-	
+
 	public void playCrane() {
 		crane = true;
 	}
-	
+
 	public void useCrane() {
 		crane = false;
 	}
-	
+
 	public boolean hasSmith() {
 		return (smith > 0);
 	}
-	
+
 	public void playSmith() {
 		smith = 2;
 	}
-	
+
 	public void useSmith() {
 		smith--;
 	}
+
 	public boolean hasRoadBuilding() {
-		return (roadBuilding >0 );
+		return (roadBuilding > 0);
 	}
-	
+
 	public void playRoadBuilding() {
 		roadBuilding = 2;
 	}
-	
+
 	public void useRoadBuilding() {
 		roadBuilding--;
 	}
-	
 
 	public boolean canHire(KnightType type) {
 		if (getKnightCount(type) < 2) {
@@ -265,6 +256,14 @@ public class Player implements Serializable {
 			return credentials.getUsername().equals(other.credentials.getUsername());
 		}
 		return false;
+	}
+
+	public HashMap<PortKind, Boolean> getOwnedPorts() {
+		HashMap<PortKind, Boolean> ret = new HashMap<>();
+		for (PortKind pkind : PortKind.values()) {
+			ret.put(pkind, ownedPorts.get(pkind));
+		}
+		return ret;
 	}
 
 }

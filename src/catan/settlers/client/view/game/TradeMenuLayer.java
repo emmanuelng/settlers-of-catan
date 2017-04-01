@@ -15,6 +15,7 @@ import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
 import catan.settlers.network.server.commands.game.MaritimeTradeCommand;
 import catan.settlers.server.model.Player.ResourceType;
+import catan.settlers.server.model.units.Port.PortKind;
 
 public class TradeMenuLayer extends ImageLayer {
 
@@ -23,7 +24,7 @@ public class TradeMenuLayer extends ImageLayer {
 	private static final HashMap<ResourceType, MinuetoImage> plusButtons_price = new HashMap<>();
 	private static final HashMap<ResourceType, MinuetoImage> minusButtons_price = new HashMap<>();
 
-	private static final int WIDTH = 1000, HEIGHT = 625;
+	private static final int WIDTH = 1000, HEIGHT = 635;
 	private static final MinuetoColor bg_color = new MinuetoColor(249, 249, 249);
 	private static final MinuetoColor border_color = new MinuetoColor(179, 179, 179);
 	private static final MinuetoColor bank_confirm_btn_color = new MinuetoColor(55, 200, 113);
@@ -97,24 +98,94 @@ public class TradeMenuLayer extends ImageLayer {
 		draw(description, box_x + (WIDTH / 2 - description.getWidth() / 2), y_offset);
 		y_offset += description.getHeight() + 20;
 
+		if (!gsm.getTradeMenuMsg().isEmpty()) {
+			MinuetoText message = new MinuetoText(gsm.getTradeMenuMsg(), description_font_bold, MinuetoColor.GREEN);
+			draw(message, box_x + (WIDTH / 2 - message.getWidth() / 2), y_offset);
+			y_offset += message.getHeight() + 20;
+		}
+
+		y_offset += drawPortButtons(box_x + 20, y_offset);
+
 		draw(giveDesc, box_x + 20, y_offset);
 		y_offset += giveDesc.getHeight() + 10;
 
 		drawResourceBoxes(box_x + 10, y_offset, true);
-		y_offset += 170;
+		y_offset += 140;
 
 		draw(receiveDesc, box_x + 20, y_offset);
 		y_offset += receiveDesc.getHeight() + 10;
 
 		drawResourceBoxes(box_x + 10, y_offset, false);
 		y_offset += 200;
-		
+
 		y_offset = box_y + HEIGHT - playerConfirmButton.getImage().getHeight() - 20;
 		draw(playerConfirmButton.getImage(), (box_x + WIDTH - playerConfirmButton.getImage().getWidth() - 20)
 				- bankConfirmButton.getImage().getWidth() - 10 - orText.getWidth() - 10, y_offset);
 		draw(orText, box_x + WIDTH - bankConfirmButton.getImage().getWidth() - 20 - orText.getWidth() - 10,
 				y_offset + bankConfirmButton.getImage().getHeight() / 2 - orText.getHeight() / 2);
 		draw(bankConfirmButton.getImage(), box_x + WIDTH - bankConfirmButton.getImage().getWidth() - 20, y_offset);
+	}
+
+	private int drawPortButtons(int x, int y) {
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		boolean buttonAdded = false;
+
+		int y_offset = y;
+		int x_offset = x;
+
+		for (PortKind pkind : PortKind.values()) {
+			boolean ownsPortKind = gsm.getOwnedPorts().get(pkind);
+			if (!ownsPortKind) {
+				buttonAdded = true;
+				String portName = "";
+				switch (pkind) {
+				case ALLPORT:
+					portName = "General port (3:1)";
+					break;
+				case BRICKPORT:
+					portName = "Brick port (2:1)";
+					break;
+				case LUMBERPORT:
+					portName = "Lumber port (2:1)";
+					break;
+				case OREPORT:
+					portName = "Ore port (2:1)";
+					break;
+				case WOOLPORT:
+					portName = "Wool port (2:1)";
+					break;
+				case WHEATPORT:
+					portName = "Wheat port (2:1)";
+					break;
+				}
+
+				Button button = new Button(this, portName, new MinuetoColor(255, 238, 170), new ClickListener() {
+
+					@Override
+					public void onClick() {
+						switch (pkind) {
+						case ALLPORT:
+							gsm.setTradeMenuMessage(
+									"General port. Select 3 resources of any kind in your offer, and 1 resource that you want to receive in exchange.");
+							break;
+
+						default:
+							break;
+						}
+					}
+				});
+
+				draw(button.getImage(), x_offset, y_offset);
+
+				x_offset += button.getImage().getWidth() + 15;
+
+				if (x_offset > box_x + WIDTH) {
+					x_offset = x;
+					y_offset += button.getImage().getHeight() + 15;
+				}
+			}
+		}
+		return buttonAdded ? y - y_offset + 70 : 0;
 	}
 
 	private void drawResourceBoxes(int x, int y, boolean isOffer) {
@@ -194,7 +265,7 @@ public class TradeMenuLayer extends ImageLayer {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				System.out.println("Trade with bank!");
 				ClientModel.instance.getNetworkManager().sendCommand(new MaritimeTradeCommand(offer, price));
-				gsm.setShowTradeMenu(false);				
+				gsm.setShowTradeMenu(false);
 			}
 		};
 	}
@@ -205,7 +276,7 @@ public class TradeMenuLayer extends ImageLayer {
 			public void onClick() {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				System.out.println("Trade with players!");
-				gsm.setShowTradeMenu(false);				
+				gsm.setShowTradeMenu(false);
 			}
 		};
 	}
