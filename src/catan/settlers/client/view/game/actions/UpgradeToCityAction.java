@@ -46,6 +46,7 @@ public class UpgradeToCityAction implements Action {
 	@Override
 	public void perform() {
 		ClientModel.instance.getNetworkManager().sendCommand(new UpgradeVillageCommand());
+		ClientModel.instance.getGameStateManager().setSelectedIntersection(null);
 	}
 
 }

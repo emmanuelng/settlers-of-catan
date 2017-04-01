@@ -27,6 +27,7 @@ public class BuildRoadAction implements Action {
 	public void perform() {
 		System.out.println(this);
 		ClientModel.instance.getNetworkManager().sendCommand(new BuildRoadCommand());
+		ClientModel.instance.getGameStateManager().setSelectedEdge(null);
 	}
 
 }
