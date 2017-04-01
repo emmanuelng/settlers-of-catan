@@ -3,6 +3,7 @@ package catan.settlers.server.model.game.handlers;
 import java.util.ArrayList;
 
 import catan.settlers.network.client.commands.TurnResponseCommand;
+import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
 import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
@@ -120,7 +121,14 @@ public class SetupPhaseHandler {
 	 */
 	private void buildRoadAndVillage(boolean isPhaseOne) {
 		boolean isPortable = selectedIntersection.isPortable();
-		Village village = isPortable ? new Port(currentPlayer) : new Village(currentPlayer);
+		Village village = new Village(currentPlayer);
+
+		if (isPortable) {
+			village = new Port(currentPlayer);
+			currentPlayer.setPort(selectedIntersection.getPortKind());
+			currentPlayer.sendCommand(new OwnedPortsChangedCommand(currentPlayer.getOwnedPorts()));
+		}
+
 		selectedIntersection.setUnit(village);
 		selectedEdge.setOwner(currentPlayer);
 

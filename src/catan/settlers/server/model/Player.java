@@ -55,13 +55,14 @@ public class Player implements Serializable {
 		case BRICK:
 			return hasPort(PortKind.BRICKPORT);
 		case GRAIN:
-			return hasPort(PortKind.WHEATPORT);
+			return hasPort(PortKind.GRAINPORT);
 		case LUMBER:
 			return hasPort(PortKind.LUMBERPORT);
 		case ORE:
 			return hasPort(PortKind.OREPORT);
+		default:
+			return false;
 		}
-		return false;
 	}
 	
 	public boolean hasPort(PortKind portKind) {
