@@ -52,9 +52,11 @@ public class IntersectionImage extends MinuetoImage {
 		} else {
 			if (intersection.getUnit() instanceof Village) {
 				Village village = (Village) intersection.getUnit();
+
+				GameWindow gw = ClientWindow.getInstance().getGameWindow();
 				ImageFileManager imf = ClientModel.instance.getImageFileManager();
-				int playerNo = ClientWindow.getInstance().getGameWindow()
-						.getPlayerNumber(village.getOwner().getUsername());
+				int playerNo = gw.getPlayerNumber(village.getOwner().getUsername());
+
 				switch (village.getKind()) {
 				case SETTLEMENT:
 					draw(imf.load("images/settlement" + playerNo + ".png"), 0, 0);
