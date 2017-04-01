@@ -44,14 +44,19 @@ public class TradeMenuLayer extends ImageLayer {
 	private MinuetoRectangle rAmtBoxBorder;
 	private Button playerConfirmButton;
 	private MinuetoText orText;
+	private String greetingMessage;
 
 	private boolean clear;
 	private int box_x, box_y;
-	private HashMap<ResourceType, Integer> offer, price;
+	private HashMap<ResourceType, Integer> give, get;
 
 	public TradeMenuLayer() {
 		super();
-
+		
+		this.greetingMessage = "Welcome to the trade menu!";
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		gsm.setTradeMenuMessage(greetingMessage);
+		
 		this.box_x = ClientWindow.WINDOW_WIDTH / 2 - WIDTH / 2;
 		this.box_y = (ClientWindow.WINDOW_HEIGHT + 100) / 2 - HEIGHT / 2;
 
@@ -67,18 +72,19 @@ public class TradeMenuLayer extends ImageLayer {
 				getPlayerConfirmListener());
 		this.orText = new MinuetoText("or", description_font, MinuetoColor.BLACK);
 
-		this.offer = resetResourceMap();
-		this.price = resetResourceMap();
+		this.give = resetResourceMap();
+		this.get = resetResourceMap();
 	}
 
 	@Override
 	public void compose(GameStateManager gsm) {
 		if (!gsm.doShowTradeMenu()) {
 			if (clear) {
-				offer = resetResourceMap();
-				price = resetResourceMap();
+				give = resetResourceMap();
+				get = resetResourceMap();
 				ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);
 				clear();
+				gsm.setTradeMenuMessage(greetingMessage);
 				clear = false;
 			}
 			return;
@@ -98,11 +104,9 @@ public class TradeMenuLayer extends ImageLayer {
 		draw(description, box_x + (WIDTH / 2 - description.getWidth() / 2), y_offset);
 		y_offset += description.getHeight() + 20;
 
-		if (!gsm.getTradeMenuMsg().isEmpty()) {
-			MinuetoText message = new MinuetoText(gsm.getTradeMenuMsg(), description_font_bold, MinuetoColor.GREEN);
-			draw(message, box_x + (WIDTH / 2 - message.getWidth() / 2), y_offset);
-			y_offset += message.getHeight() + 20;
-		}
+		MinuetoText message = new MinuetoText(gsm.getTradeMenuMsg(), description_font_bold, MinuetoColor.BLACK);
+		draw(message, box_x + (WIDTH / 2 - message.getWidth() / 2), y_offset);
+		y_offset += message.getHeight() + 20;
 
 		y_offset += drawPortButtons(box_x + 20, y_offset);
 
@@ -110,7 +114,7 @@ public class TradeMenuLayer extends ImageLayer {
 		y_offset += giveDesc.getHeight() + 10;
 
 		drawResourceBoxes(box_x + 10, y_offset, true);
-		y_offset += 140;
+		y_offset += 150;
 
 		draw(receiveDesc, box_x + 20, y_offset);
 		y_offset += receiveDesc.getHeight() + 10;
@@ -154,7 +158,7 @@ public class TradeMenuLayer extends ImageLayer {
 				case WOOLPORT:
 					portName = "Wool port (2:1)";
 					break;
-				case WHEATPORT:
+				case GRAINPORT:
 					portName = "Wheat port (2:1)";
 					break;
 				}
@@ -163,12 +167,36 @@ public class TradeMenuLayer extends ImageLayer {
 
 					@Override
 					public void onClick() {
+						for (ResourceType rtype : ResourceType.values()) {
+							give.put(rtype, 0);
+							get.put(rtype, 0);
+						}
+
 						switch (pkind) {
 						case ALLPORT:
 							gsm.setTradeMenuMessage(
 									"General port. Select 3 resources of any kind in your offer, and 1 resource that you want to receive in exchange.");
 							break;
-
+						case LUMBERPORT:
+							give.put(ResourceType.LUMBER, 2);
+							gsm.setTradeMenuMessage("Lumber port. Select the resource that you want to get.");
+							break;
+						case BRICKPORT:
+							give.put(ResourceType.BRICK, 2);
+							gsm.setTradeMenuMessage("Brick port. Select the resource that you want to get.");
+							break;
+						case OREPORT:
+							give.put(ResourceType.ORE, 2);
+							gsm.setTradeMenuMessage("Ore port. Select the resource that you want to get.");
+							break;
+						case GRAINPORT:
+							give.put(ResourceType.GRAIN, 2);
+							gsm.setTradeMenuMessage("Grain port. Select the resource that you want to get.");
+							break;
+						case WOOLPORT:
+							give.put(ResourceType.WOOL, 2);
+							gsm.setTradeMenuMessage("Wool port. Select the resource that you want to get.");
+							break;
 						default:
 							break;
 						}
@@ -185,7 +213,7 @@ public class TradeMenuLayer extends ImageLayer {
 				}
 			}
 		}
-		return buttonAdded ? y - y_offset + 70 : 0;
+		return buttonAdded ? y - y_offset + 60 : 0;
 	}
 
 	private void drawResourceBoxes(int x, int y, boolean isOffer) {
@@ -202,7 +230,7 @@ public class TradeMenuLayer extends ImageLayer {
 
 			MinuetoText rnameImage = new MinuetoText(rname, description_font_bold, MinuetoColor.BLACK);
 
-			int amt = isOffer ? offer.get(rType) : price.get(rType);
+			int amt = isOffer ? give.get(rType) : get.get(rType);
 			MinuetoText amtTextImage = new MinuetoText(amt + "", title_font, MinuetoColor.BLACK);
 
 			int y_offset = y;
@@ -244,7 +272,7 @@ public class TradeMenuLayer extends ImageLayer {
 			@Override
 			public void onClick() {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
-				HashMap<ResourceType, Integer> map = isOffer ? offer : price;
+				HashMap<ResourceType, Integer> map = isOffer ? give : get;
 				if (isPlus) {
 					if (!(isOffer && map.get(rType) >= gsm.getResources().get(rType)))
 						map.put(rType, map.get(rType) + 1);
@@ -264,7 +292,7 @@ public class TradeMenuLayer extends ImageLayer {
 			public void onClick() {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				System.out.println("Trade with bank!");
-				ClientModel.instance.getNetworkManager().sendCommand(new MaritimeTradeCommand(offer, price));
+				ClientModel.instance.getNetworkManager().sendCommand(new MaritimeTradeCommand(give, get));
 				gsm.setShowTradeMenu(false);
 			}
 		};
