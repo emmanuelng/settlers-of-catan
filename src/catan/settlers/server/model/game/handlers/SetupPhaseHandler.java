@@ -46,8 +46,7 @@ public class SetupPhaseHandler {
 				return;
 			} else {
 				getIntersectionAndEdgeInstance(data);
-				if (canBuildOnEdgeAndIntersection()) {
-
+				if (canBuildOnEdgeAndIntersection(sender)) {
 					buildRoadAndVillage(isPhaseOne);
 					if (!isPhaseOne)
 						giveResourcesToPlayer();
@@ -105,10 +104,10 @@ public class SetupPhaseHandler {
 	/**
 	 * Checks if it is possible to build on the provided edge and intersection
 	 */
-	private boolean canBuildOnEdgeAndIntersection() {
+	private boolean canBuildOnEdgeAndIntersection(Player sender) {
 		boolean areAdjacent = selectedEdge.hasIntersection(selectedIntersection);
 		boolean isEdgeFree = selectedEdge.getOwner() == null;
-		boolean isIntersectionBuildable = selectedIntersection.canBuild();
+		boolean isIntersectionBuildable = selectedIntersection.canBuild(sender, game.getGamePhase());
 
 		return areAdjacent && isEdgeFree && isIntersectionBuildable;
 	}

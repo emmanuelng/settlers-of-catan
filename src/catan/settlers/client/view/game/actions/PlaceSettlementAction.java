@@ -5,6 +5,7 @@ import java.util.HashMap;
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.network.server.commands.game.BuildSettlementCommand;
+import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Intersection;
 
@@ -14,6 +15,8 @@ public class PlaceSettlementAction implements Action {
 	public boolean isPossible() {
 		
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		String username = ClientModel.instance.getUsername();
+		GamePhase curGamePhase = gsm.getCurrentPhase();
 		Intersection selectedIntersection = gsm.getSelectedIntersection();
 		HashMap<ResourceType, Integer> resources = ClientModel.instance.getGameStateManager().getResources();
 
@@ -23,7 +26,7 @@ public class PlaceSettlementAction implements Action {
 					&& resources.get(ResourceType.LUMBER) > 0 && resources.get(ResourceType.WOOL) > 0) {
 				hasResources = true;
 			}
-			return selectedIntersection.canBuild() && hasResources; // && selectedIntersection.connected(p);
+			return selectedIntersection.canBuild(username, curGamePhase) && hasResources;
 		}
 
 		return false;

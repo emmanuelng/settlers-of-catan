@@ -3,6 +3,7 @@ package catan.settlers.server.model.map;
 import java.io.Serializable;
 import java.util.HashSet;
 
+import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.units.Port.PortKind;
@@ -64,24 +65,47 @@ public class Intersection implements Serializable {
 		return id;
 	}
 
-	public boolean canBuild() {
-		if (unit != null) {
+	public boolean canBuild(String username, GamePhase curPhase) {
+		if (unit != null)
 			return false;
-		}
+
+		/**
+		 * It is not possible to build a settlement on the sea
+		 */
+		if (isMaritime())
+			return false;
+
+		/**
+		 * It is not possible to build two settlements on adjacent edges
+		 */
 		for (Edge e : myEdges) {
 			Intersection opp = e.getOppIntersection(this);
-			if (opp != null) {
-				if (opp.getUnit() != null) {
+			if (opp != null)
+				if (opp.getUnit() != null)
 					return false;
+		}
+
+		/**
+		 * If it is not the setup phase, there should be a road owned by the
+		 * player in the neighborhood
+		 */
+		for (Edge e : myEdges) {
+			if (curPhase != GamePhase.TURNPHASE)
+				return true;
+
+			if (e.getOwner() != null) {
+				if (e.getOwner().getUsername().equals(username)) {
+					return true;
 				}
 			}
+
 		}
-		for (Hexagon hex : myHexagons) {
-			if (hex.getType() != Hexagon.TerrainType.SEA) {
-				return true;
-			}
-		}
+
 		return false;
+	}
+
+	public boolean canBuild(Player player, GamePhase curPhase) {
+		return canBuild(player.getUsername(), curPhase);
 	}
 
 	public boolean connected(Player p) {
