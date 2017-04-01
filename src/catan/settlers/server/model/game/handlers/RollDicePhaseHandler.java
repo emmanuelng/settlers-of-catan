@@ -12,6 +12,7 @@ import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.GameBoardManager;
 import catan.settlers.server.model.Player;
+import catan.settlers.server.model.ProgressCards;
 import catan.settlers.server.model.SetOfOpponentMove;
 import catan.settlers.server.model.SetOfOpponentMove.MoveType;
 import catan.settlers.server.model.TurnData;
@@ -27,11 +28,13 @@ public class RollDicePhaseHandler {
 
 	private ArrayList<Player> participants;
 	private GameBoardManager gameBoardManager;
+	private ProgressCards ProgCards;
 	private int barbarianHordeCounter;
 	private int redDie, yellowDie, eventDie;
 
 	public RollDicePhaseHandler(Game game) {
 		this.game = game;
+		this.ProgCards = new ProgressCards();
 	}
 
 	/**
@@ -71,7 +74,7 @@ public class RollDicePhaseHandler {
 				int lvl = p.getTradeLevel();
 				if (lvl != 0) {
 					if (lvl + 1 >= redDie) {
-						// TODO: p.drawTradeCard();
+						p.giveProgressCard(ProgCards.drawTradeCard());
 					}
 				}
 			}
@@ -81,7 +84,7 @@ public class RollDicePhaseHandler {
 				int lvl = p.getTradeLevel();
 				if (lvl != 0) {
 					if (lvl + 1 >= redDie) {
-						// TODO: p.drawPoliticsCard();
+						p.giveProgressCard(ProgCards.drawPoliticsCard());
 					}
 				}
 			}
@@ -91,7 +94,7 @@ public class RollDicePhaseHandler {
 				int lvl = p.getTradeLevel();
 				if (lvl != 0) {
 					if (lvl + 1 >= redDie) {
-						// TODO: p.drawScienceCard();
+						p.giveProgressCard(ProgCards.drawScienceCard());
 					}
 				}
 			}
