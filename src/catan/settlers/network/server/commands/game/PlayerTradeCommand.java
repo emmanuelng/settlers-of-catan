@@ -12,24 +12,17 @@ import catan.settlers.server.model.Player.ResourceType;
 public class PlayerTradeCommand implements ClientToServerCommand {
 
 	private static final long serialVersionUID = 1L;
-	private HashMap<ResourceType,Integer> offer, price;
+	private HashMap<ResourceType, Integer> offer, price;
 	private int gameId;
 
-	public PlayerTradeCommand(HashMap<ResourceType, Integer> offer, HashMap<ResourceType, Integer> price){
+	public PlayerTradeCommand(HashMap<ResourceType, Integer> offer, HashMap<ResourceType, Integer> price) {
 		this.offer = offer;
 		this.price = price;
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 	}
-	
-	
+
 	@Override
 	public void execute(Session sender, Server server) {
-		try{
-			 
-		}
-		catch (IOException e){
-			
-		}
 	}
 
 }

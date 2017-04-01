@@ -74,7 +74,12 @@ public class IntersectionImage extends MinuetoImage {
 			} else if (intersection.getUnit() instanceof Knight) {
 				Knight knight = (Knight) intersection.getUnit();
 				int playerNo = gw.getPlayerNumber(knight.getOwner().getUsername());
-				draw(imf.load(knight.getType() + "_player" + playerNo + ".png"), 0, 0);
+				boolean isActive = knight.isActive();
+
+				String path = "images/";
+				path += isActive ? "active_" : "inactive_";
+				path += knight.getType() + "_p" + playerNo;
+				draw(imf.load(path + ".png"), 0, 0);
 			}
 		}
 	}
