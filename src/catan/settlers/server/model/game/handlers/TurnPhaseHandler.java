@@ -158,7 +158,16 @@ public class TurnPhaseHandler {
 	}
 	
 	private void activateKnight() {
-		
+		IntersectionUnit unit = selectedIntersection.getUnit();
+		if (unit instanceof Knight) {
+			Knight knight = (Knight) unit;
+			Cost cost = knight.getActivateKnightCost();
+			if (cost.canPay(currentPlayer)) {
+				knight.activateKnight();
+				cost.removeResources(currentPlayer);
+				updateResourcesAndBoard();
+			}
+		}
 	}
 
 	private void endTurn() {

@@ -17,6 +17,7 @@ public class Knight implements IntersectionUnit {
 
 	private Cost buildKnightCost;
 	private Cost updateKnightCost;
+	public Cost activateKnightCost;
 
 	public Knight(Player p) {
 		this.myOwner = p;
@@ -31,6 +32,9 @@ public class Knight implements IntersectionUnit {
 		this.updateKnightCost = new Cost();
 		updateKnightCost.addPriceEntry(ResourceType.GRAIN, 1);
 		updateKnightCost.addPriceEntry(ResourceType.WOOL, 1);
+		
+		this.activateKnightCost = new Cost();
+		activateKnightCost.addPriceEntry(ResourceType.GRAIN, 1);
 	}
 
 	public Cost getBuildKnightCost() {
@@ -39,6 +43,10 @@ public class Knight implements IntersectionUnit {
 
 	public Cost getUpdateKnightCost() {
 		return new Cost(updateKnightCost);
+	}
+	
+	public Cost getActivateKnightCost() {
+		return new Cost(activateKnightCost);
 	}
 
 	public void upgradeKnight() {
