@@ -26,6 +26,12 @@ public class Player implements Serializable {
 	private Credentials credentials;
 	private int basicKnightCount, strongKnightCount, mightyKnightCount;
 	private int tradeImprovement, politicsImprovement, scienceImprovement;
+	
+	private boolean medicine;
+	private boolean engineer;
+	private boolean crane;
+	private int smith;
+	private int roadBuilding;
 
 	public Player(Credentials credentials) {
 		this.credentials = credentials;
@@ -128,6 +134,66 @@ public class Player implements Serializable {
 	public boolean hasAqueduct() {
 		return (scienceImprovement >= 3);
 	}
+	
+	public boolean hasMedicine() {
+		return medicine;
+	}
+	
+	public void playMedicine() {
+		medicine = true;
+	}
+	
+	public void useMedicine() {
+		medicine = false;
+	}
+	
+	public boolean hasEngineer() {
+		return engineer;
+	}
+	
+	public void playEngineer() {
+		engineer = true;
+	}
+	
+	public void useEngineer() {
+		engineer = false;
+	}
+	
+	public boolean hasCrane() {
+		return crane;
+	}
+	
+	public void playCrane() {
+		crane = true;
+	}
+	
+	public void useCrane() {
+		crane = false;
+	}
+	
+	public boolean hasSmith() {
+		return (smith > 0);
+	}
+	
+	public void playSmith() {
+		smith = 2;
+	}
+	
+	public void useSmith() {
+		smith--;
+	}
+	public boolean hasRoadBuilding() {
+		return (roadBuilding >0 );
+	}
+	
+	public void playRoadBuilding() {
+		roadBuilding = 2;
+	}
+	
+	public void useRoadBuilding() {
+		roadBuilding--;
+	}
+	
 
 	public boolean canHire(KnightType type) {
 		if (getKnightCount(type) < 2) {

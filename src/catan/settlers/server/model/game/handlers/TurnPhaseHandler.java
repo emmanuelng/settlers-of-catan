@@ -5,6 +5,7 @@ import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.GameBoardManager;
 import catan.settlers.server.model.Player;
+import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.TurnData;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
@@ -96,8 +97,13 @@ public class TurnPhaseHandler {
 	}
 
 	private void buildRoad() {
-		Cost cost = selectedEdge.getBuildRoadCost();
-
+		Cost cost;
+		if (currentPlayer.hasRoadBuilding()) {
+			cost = new Cost();
+			currentPlayer.useRoadBuilding();
+		} else {
+			cost = selectedEdge.getBuildRoadCost();
+		}
 		if (cost.canPay(currentPlayer)) {
 			selectedEdge.setOwner(currentPlayer);
 			cost.removeResources(currentPlayer);
@@ -109,7 +115,15 @@ public class TurnPhaseHandler {
 		IntersectionUnit unit = selectedIntersection.getUnit();
 		if (unit instanceof Village) {
 			Village village = (Village) unit;
-			Cost cost = village.getUpgradeToCityCost();
+			Cost cost;
+			if (currentPlayer.hasMedicine()) {
+				cost = new Cost();
+				cost.addPriceEntry(ResourceType.ORE, 2);
+				cost.addPriceEntry(ResourceType.GRAIN, 1);
+				currentPlayer.useMedicine();
+			} else {
+				cost = village.getUpgradeToCityCost();
+			}
 			if (cost.canPay(currentPlayer)) {
 				village.upgradeToCity();
 				cost.removeResources(currentPlayer);
@@ -132,7 +146,13 @@ public class TurnPhaseHandler {
 		IntersectionUnit unit = selectedIntersection.getUnit();
 		if (unit instanceof Knight) {
 			Knight knight = (Knight) unit;
-			Cost cost = knight.getUpdateKnightCost();
+			Cost cost;
+			if (currentPlayer.hasSmith()) {
+				cost = new Cost();
+				currentPlayer.useSmith();
+			} else {
+				cost = knight.getUpdateKnightCost();
+			}
 
 			switch (knight.getKnightType()) {
 			case BASIC_KNIGHT:
