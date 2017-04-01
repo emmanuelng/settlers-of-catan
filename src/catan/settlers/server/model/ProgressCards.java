@@ -22,6 +22,9 @@ public class ProgressCards {
 	
 	public ProgressCards() {
 		// Add one of each card to each deck
+		TradeCards = new ArrayList<ProgressCardType>();
+		PoliticsCards = new ArrayList<ProgressCardType>();
+		ScienceCards = new ArrayList<ProgressCardType>();
 		ProgressCardType[] progCards = ProgressCardType.values();
 		for (int i = 0; i < progCards.length; i++) {
 			if (i < 6) {

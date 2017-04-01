@@ -55,6 +55,8 @@ public class TurnPhaseHandler {
 		case ACTIVATEKNIGHT:
 			activateKnight();
 			break;
+		case PROGRESSCARD:
+			break;
 		case ENDTURN:
 			endTurn();
 			break;
