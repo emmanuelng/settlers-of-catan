@@ -11,9 +11,39 @@ import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.units.Knight.KnightType;
+import catan.settlers.server.model.units.Port.PortKind;
 
 public class Player implements Serializable {
 
+	/*private HashMap<ResourceType, Integer> resources;
+	private ArrayList<ProgressCardType> ProgressCards;
+	private HashMap<PortKind, Boolean> ownedPorts;
+	
+	private Credentials credentials;
+	private int basicKnightCount, strongKnightCount, mightyKnightCount;
+	private int tradeImprovement, politicsImprovement, scienceImprovement;
+
+	public Player(Credentials credentials) {
+		this.credentials = credentials;
+		this.resources = new HashMap<>();
+		this.ownedPorts = new HashMap<>();
+		
+		for (ResourceType resType : ResourceType.values()) {
+			resources.put(resType, 12);
+		}
+		for (PortKind portKind : PortKind.values()) {
+			ownedPorts.put(portKind, false);
+		}
+	}
+
+	public boolean hasPort(PortKind portKind){
+		return ownedPorts.get(portKind);
+	}*/
+	
+	
+	
+	
+	
 	public enum ResourceType {
 		BRICK, GRAIN, LUMBER, ORE, WOOL, CLOTH, COIN, PAPER
 	}
@@ -22,6 +52,7 @@ public class Player implements Serializable {
 	
 	private HashMap<ResourceType, Integer> resources;
 	private ArrayList<ProgressCardType> ProgressCards;
+	private HashMap<PortKind, Boolean> ownedPorts;
 	
 	private Credentials credentials;
 	private int basicKnightCount, strongKnightCount, mightyKnightCount;
@@ -36,12 +67,24 @@ public class Player implements Serializable {
 	public Player(Credentials credentials) {
 		this.credentials = credentials;
 		this.resources = new HashMap<>();
+		this.ownedPorts = new HashMap<>();
 
 		for (ResourceType resType : ResourceType.values()) {
 			resources.put(resType, 12);
 		}
+		for (PortKind portKind : PortKind.values()) {
+			ownedPorts.put(portKind, false);
+		}
 	}
 
+	public boolean hasPort(PortKind portKind){
+		return ownedPorts.get(portKind);
+	}
+	
+	public void setPort(PortKind portKind){
+		ownedPorts.put(portKind, true);
+	}
+	
 	public Credentials getCredentials() {
 		return credentials;
 	}

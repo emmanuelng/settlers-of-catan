@@ -2,6 +2,7 @@ package catan.settlers.network.server.commands.game;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.network.client.commands.game.FailureCommand;
@@ -15,15 +16,13 @@ import catan.settlers.server.model.Player.ResourceType;
 public class MaritimeTradeCommand implements ClientToServerCommand {
 
 	private static final long serialVersionUID = 1L;
-	private ArrayList<ResourceType> rGet, rGive;
+	private HashMap<ResourceType, Integer> offer, price;
 	private int gameid;
-	private int valueToRemove;
 
-	public MaritimeTradeCommand(ArrayList<ResourceType> rGet, ArrayList<ResourceType> rGive, int valueToRemove) {
-		this.rGet = rGet;
-		this.rGive = rGive;
+	public MaritimeTradeCommand(HashMap<ResourceType, Integer> offer, HashMap<ResourceType, Integer> price) {
+		this.offer = offer;
+		this.price = price;
 		this.gameid = ClientModel.instance.getGameStateManager().getGameId();
-		this.valueToRemove = valueToRemove;
 	}
 
 	@Override
@@ -31,15 +30,22 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 	
 		try {
 			Game game = server.getGameManager().getGameById(gameid);
-			server.writeToConsole("" + game.getCurrentPlayer().getResourceAmount(rGive.get(0)));
-			if(rGive.get(0) != null && game.getCurrentPlayer().getResourceAmount(rGive.get(0))>valueToRemove){
-				server.writeToConsole("executed");
-				game.getCurrentPlayer().removeResource(rGive.get(0), valueToRemove);
-				game.getCurrentPlayer().giveResource(rGet.get(0), 1);
-				sender.sendCommand(new UpdateResourcesCommand(game.getCurrentPlayer().getResources()));
-			}else{
-				sender.sendCommand(new FailureCommand("Not enough resources"));
+			ArrayList<ResourceType> offerList, priceList;
+			for( ResourceType r: offer.keySet()){
+				offerList.add(r);
 			}
+			for( ResourceType s: price.keySet()){
+				priceList.add(s);
+			}
+				if(offer.get(r) != null && game.getCurrentPlayer().getResourceAmount(r) > offer.get(r)){
+					
+					game.getCurrentPlayer().removeResource(r, offer.get(r));
+					game.getCurrentPlayer().giveResource(s, price.get(s));
+					sender.sendCommand(new UpdateResourcesCommand(game.getCurrentPlayer().getResources()));
+				}else{
+					sender.sendCommand(new FailureCommand("Not enough resources"));
+				}
+				
 		} catch (IOException e) {
 			// Ignore
 		}

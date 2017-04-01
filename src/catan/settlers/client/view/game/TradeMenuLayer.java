@@ -13,6 +13,7 @@ import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.model.ImageFileManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
+import catan.settlers.network.server.commands.game.MaritimeTradeCommand;
 import catan.settlers.server.model.Player.ResourceType;
 
 public class TradeMenuLayer extends ImageLayer {
@@ -192,6 +193,7 @@ public class TradeMenuLayer extends ImageLayer {
 			public void onClick() {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				System.out.println("Trade with bank!");
+				ClientModel.instance.getNetworkManager().sendCommand(new MaritimeTradeCommand(offer, price));
 				gsm.setShowTradeMenu(false);				
 			}
 		};
