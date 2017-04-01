@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
-import catan.settlers.network.server.commands.game.BuildSettlementCommand;
 import catan.settlers.network.server.commands.game.UpgradeVillageCommand;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Intersection;

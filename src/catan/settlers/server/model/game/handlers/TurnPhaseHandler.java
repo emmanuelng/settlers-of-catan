@@ -135,7 +135,7 @@ public class TurnPhaseHandler {
 			Knight knight = (Knight) unit;
 			Cost cost = knight.getUpdateKnightCost();
 
-			switch (knight.getKnightType()) {
+			switch (knight.getType()) {
 			case BASIC_KNIGHT:
 				if (currentPlayer.canHire(KnightType.STRONG_KNIGHT)) {
 					if (cost.canPay(currentPlayer)) {

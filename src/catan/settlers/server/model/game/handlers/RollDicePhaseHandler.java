@@ -196,7 +196,7 @@ public class RollDicePhaseHandler {
 			} else if (unit instanceof Knight) {
 				if (((Knight) unit).isActive()) {
 					int current = 0;
-					switch (((Knight) unit).getKnightType()) {
+					switch (((Knight) unit).getType()) {
 					case BASIC_KNIGHT:
 						current = playerStrength.get(unit.getOwner());
 						playerStrength.put(unit.getOwner(), current + 1);
