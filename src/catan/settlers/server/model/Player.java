@@ -15,26 +15,6 @@ import catan.settlers.server.model.units.Port.PortKind;
 
 public class Player implements Serializable {
 
-	/*
-	 * private HashMap<ResourceType, Integer> resources; private
-	 * ArrayList<ProgressCardType> ProgressCards; private HashMap<PortKind,
-	 * Boolean> ownedPorts;
-	 * 
-	 * private Credentials credentials; private int basicKnightCount,
-	 * strongKnightCount, mightyKnightCount; private int tradeImprovement,
-	 * politicsImprovement, scienceImprovement;
-	 * 
-	 * public Player(Credentials credentials) { this.credentials = credentials;
-	 * this.resources = new HashMap<>(); this.ownedPorts = new HashMap<>();
-	 * 
-	 * for (ResourceType resType : ResourceType.values()) {
-	 * resources.put(resType, 12); } for (PortKind portKind : PortKind.values())
-	 * { ownedPorts.put(portKind, false); } }
-	 * 
-	 * public boolean hasPort(PortKind portKind){ return
-	 * ownedPorts.get(portKind); }
-	 */
-
 	public enum ResourceType {
 		BRICK, GRAIN, LUMBER, ORE, WOOL, CLOTH, COIN, PAPER
 	}
@@ -68,6 +48,22 @@ public class Player implements Serializable {
 		}
 	}
 
+	public boolean hasPortOfThisResource(ResourceType r){
+		switch(r){
+		case WOOL:
+			return hasPort(PortKind.WOOLPORT);
+		case BRICK:
+			return hasPort(PortKind.BRICKPORT);
+		case GRAIN:
+			return hasPort(PortKind.WHEATPORT);
+		case LUMBER:
+			return hasPort(PortKind.LUMBERPORT);
+		case ORE:
+			return hasPort(PortKind.OREPORT);
+		}
+		return false;
+	}
+	
 	public boolean hasPort(PortKind portKind) {
 		return ownedPorts.get(portKind);
 	}
