@@ -147,6 +147,7 @@ public class TurnPhaseHandler {
 			if (cost.canPay(currentPlayer) && selectedIntersection.connected(currentPlayer)) {
 				selectedIntersection.setUnit(knight);
 				cost.removeResources(currentPlayer);
+				updateResourcesAndBoard();
 			}
 		}
 	}
