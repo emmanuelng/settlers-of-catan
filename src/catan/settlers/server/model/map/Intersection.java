@@ -108,15 +108,19 @@ public class Intersection implements Serializable {
 		return canBuild(player.getUsername(), curPhase);
 	}
 
-	public boolean connected(Player p) {
+	public boolean connected(String username) {
 		if (unit == null) {
 			for (Edge e : myEdges) {
-				if (e.getOwner() == p) {
+				if (e.getOwner().getUsername().equals(username)) {
 					return true;
 				}
 			}
 		}
 		return false;
+	}
+
+	public boolean connected(Player p) {
+		return connected(p.getUsername());
 	}
 
 	public boolean isMaritime() {
