@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
+import catan.settlers.network.server.commands.game.UpgradeKnightCommand;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Knight;
@@ -37,6 +38,7 @@ public class UpgradeKnightAction implements Action {
 	@Override
 	public void perform() {
 		System.out.println("Upgraded Knight");
+		ClientModel.instance.getNetworkManager().sendCommand(new UpgradeKnightCommand());
 	}
 
 }
