@@ -111,8 +111,10 @@ public class Intersection implements Serializable {
 	public boolean connected(String username) {
 		if (unit == null) {
 			for (Edge e : myEdges) {
-				if (e.getOwner().getUsername().equals(username)) {
-					return true;
+				if(e.getOwner() != null){
+					if (e.getOwner().getUsername().equals(username)) {
+						return true;
+					}
 				}
 			}
 		}

@@ -15,7 +15,12 @@ public class BuildKnightAction implements Action {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		HashMap<ResourceType, Integer> resources = gsm.getResources();
 
-		return resources.get(ResourceType.ORE) > 0 && resources.get(ResourceType.WOOL) > 0;
+		if(gsm.getSelectedIntersection() != null){
+			if(gsm.getSelectedIntersection().connected(ClientModel.instance.getUsername())){
+				return resources.get(ResourceType.ORE) > 0 && resources.get(ResourceType.WOOL) > 0;
+			}
+		}
+		return false;
 	}
 
 	@Override
