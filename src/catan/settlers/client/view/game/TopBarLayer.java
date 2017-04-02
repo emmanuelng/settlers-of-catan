@@ -163,7 +163,7 @@ public class TopBarLayer extends ImageLayer {
 				color = new MinuetoColor(246, 255, 213);
 				break;
 			default:
-				color = new MinuetoColor(198, 233, 175);
+				color = new MinuetoColor(255, 215, 0);
 				break;
 			}
 			resourceColors.put(rtype, color);

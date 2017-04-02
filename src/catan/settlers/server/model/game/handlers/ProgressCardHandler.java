@@ -2,6 +2,7 @@ package catan.settlers.server.model.game.handlers;
 
 import java.util.ArrayList;
 
+import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
@@ -122,6 +123,7 @@ public class ProgressCardHandler {
 							}
 							if (onHex) {
 								sender.giveResource(ResourceType.GRAIN, 2);
+								sender.sendCommand(new UpdateResourcesCommand(currentPlayer.getResources()));
 							}
 						}
 					}
@@ -152,6 +154,7 @@ public class ProgressCardHandler {
 							}
 							if (onHex) {
 								sender.giveResource(ResourceType.ORE, 2);
+								sender.sendCommand(new UpdateResourcesCommand(currentPlayer.getResources()));
 							}
 						}
 					}
