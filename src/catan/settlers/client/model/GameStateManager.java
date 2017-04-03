@@ -72,6 +72,12 @@ public class GameStateManager {
 
 	public void setSelectedIntersection(Intersection selectedIntersection) {
 		this.selectedIntersection = selectedIntersection;
+
+		if (currentPhase == GamePhase.TURNPHASE) {
+			this.selectedEdge = null;
+			this.selectedHex = null;
+		}
+
 		this.updateBoard = true;
 		this.updateActions = true;
 	}
@@ -82,6 +88,12 @@ public class GameStateManager {
 
 	public void setSelectedEdge(Edge selectedEdge) {
 		this.selectedEdge = selectedEdge;
+
+		if (currentPhase == GamePhase.TURNPHASE) {
+			this.selectedIntersection = null;
+			this.selectedHex = null;
+		}
+
 		this.updateBoard = true;
 		this.updateActions = true;
 	}
@@ -91,9 +103,14 @@ public class GameStateManager {
 	}
 
 	public void setSelectedHex(Hexagon hexagon) {
-		this.selectedHex = hexagon;
-		this.updateBoard = true;
-		this.updateActions = true;
+		if (currentPhase == GamePhase.TURNPHASE) {
+			this.selectedHex = hexagon;
+			this.selectedEdge = null;
+			this.selectedIntersection = null;
+
+			this.updateBoard = true;
+			this.updateActions = true;
+		}
 	}
 
 	public Hexagon getSelectedHex() {
@@ -136,19 +153,19 @@ public class GameStateManager {
 	}
 
 	public HashMap<ProgressCardType, Integer> getProgressCards() {
-		if(progressCards == null) {
+		if (progressCards == null) {
 			progressCards = new HashMap<>();
-			for(ProgressCardType pCardType : ProgressCardType.values())
+			for (ProgressCardType pCardType : ProgressCardType.values())
 				progressCards.put(pCardType, 0);
 		}
 		return progressCards;
 	}
-	
+
 	public void setProgressCards(HashMap<ProgressCardType, Integer> progressCards) {
 		this.progressCards = progressCards;
 		this.updateProgressCards = true;
 	}
-	
+
 	public void sync() {
 		ArrayList<ClientToServerCommand> cmds = new ArrayList<>();
 
@@ -179,7 +196,7 @@ public class GameStateManager {
 		updateProgressCards = false;
 		return update;
 	}
-	
+
 	public boolean doUpdateBoard() {
 		boolean update = updateBoard;
 		updateBoard = false;
