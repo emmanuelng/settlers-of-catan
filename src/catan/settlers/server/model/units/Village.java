@@ -1,5 +1,6 @@
 package catan.settlers.server.model.units;
 
+import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Intersection;
@@ -17,12 +18,16 @@ public class Village implements IntersectionUnit {
 
 	private Cost buildSettlementCost;
 	private Cost upgradeToCityCost;
+	private Cost buildWallCost;
+	private boolean hasWall;
 	private Intersection locatedAt;
+	
 
 	public Village(Player p, Intersection location) {
 		this.myOwner = p;
 		this.myKind = VillageKind.SETTLEMENT;
 		this.locatedAt = location;
+		hasWall = false;
 
 		this.buildSettlementCost = new Cost();
 		buildSettlementCost.addPriceEntry(ResourceType.BRICK, 1);
@@ -33,6 +38,9 @@ public class Village implements IntersectionUnit {
 		this.upgradeToCityCost = new Cost();
 		upgradeToCityCost.addPriceEntry(ResourceType.ORE, 3);
 		upgradeToCityCost.addPriceEntry(ResourceType.GRAIN, 2);
+		
+		this.buildWallCost = new Cost();
+		buildWallCost.addPriceEntry(ResourceType.BRICK, 2);
 	}
 
 	public Player getOwner() {
@@ -47,12 +55,28 @@ public class Village implements IntersectionUnit {
 		myKind = VillageKind.CITY;
 	}
 	
+	public void buildWall(){
+		if(this.getKind() == VillageKind.SETTLEMENT){
+			myOwner.sendCommand(new FailureCommand("Cannot build walls on a settlement"));
+		}else if(myOwner.getNumberOfWalls()>=3){
+			myOwner.sendCommand(new FailureCommand("You cannot build walls anymore"));
+		}
+		else{
+			this.hasWall = true;
+			myOwner.setNumberOfWalls(myOwner.getNumberOfWalls()+1);
+		}
+	}
+	
 	public Cost getBuildSettlementCost() {
 		return new Cost(buildSettlementCost);
 	}
 	
 	public Cost getUpgradeToCityCost() {
 		return new Cost(upgradeToCityCost);
+	}
+	
+	public Cost getbuildWallCost(){
+		return new Cost(buildWallCost);
 	}
 
 	@Override

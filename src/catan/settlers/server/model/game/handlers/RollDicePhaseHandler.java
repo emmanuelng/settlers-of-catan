@@ -131,9 +131,10 @@ public class RollDicePhaseHandler {
 	 */
 	private SetOfOpponentMove buildDiscardResourcesSet() {
 		SetOfOpponentMove set = new SetOfOpponentMove(MoveType.SEVEN_DISCARD_CARDS);
+		int numThreshold = 7 + game.getCurrentPlayer().getNumberOfWalls()*2; 
 		for (Player p : participants) {
 			int nbResourceCards = p.getNbResourceCards();
-			if (nbResourceCards > 7) {
+			if (nbResourceCards > numThreshold) {
 				p.sendCommand(new DiscardCardsCommand());
 				set.waitForPlayer(p);
 			}

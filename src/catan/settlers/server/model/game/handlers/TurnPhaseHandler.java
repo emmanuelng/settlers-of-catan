@@ -1,5 +1,6 @@
 package catan.settlers.server.model.game.handlers;
 
+import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
@@ -15,6 +16,7 @@ import catan.settlers.server.model.units.Cost;
 import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.units.Knight;
 import catan.settlers.server.model.units.Knight.KnightType;
+import catan.settlers.server.model.units.Village.VillageKind;
 import catan.settlers.server.model.units.Port;
 import catan.settlers.server.model.units.Village;
 
@@ -57,6 +59,9 @@ public class TurnPhaseHandler {
 		case ACTIVATEKNIGHT:
 			activateKnight();
 			break;
+		case BUILDWALL:
+			buildWall();
+			break;
 		case PROGRESSCARD:
 			break;
 		case ENDTURN:
@@ -64,6 +69,8 @@ public class TurnPhaseHandler {
 			break;
 		}
 	}
+
+	
 
 	private void updateDataFromGame() {
 		this.gameBoardManager = game.getGameBoardManager();
@@ -140,6 +147,28 @@ public class TurnPhaseHandler {
 		}
 	}
 
+	
+	private void buildWall() {
+		IntersectionUnit unit = selectedIntersection.getUnit();
+		if(unit instanceof Village){
+			Village village = (Village) unit;
+			Cost cost;
+			//if some progress card changes cost here, dont know right now
+			cost = village.getbuildWallCost();
+			if(cost.canPay(currentPlayer)) {
+				if(village.getKind() == VillageKind.SETTLEMENT){
+					currentPlayer.sendCommand(new FailureCommand("Cannot build walls on a settlement"));
+				}else if(currentPlayer.getNumberOfWalls()>=3){
+					currentPlayer.sendCommand(new FailureCommand("You cannot build walls anymore"));
+				}else{
+					village.buildWall();
+					cost.removeResources(currentPlayer);
+					updateResourcesAndBoard();
+				}
+			}
+		}
+	}
+	
 	private void buildKnight() {
 		if (selectedIntersection.getUnit() == null) {
 			Knight knight = new Knight(currentPlayer, selectedIntersection);

@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.Credentials;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
+import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.units.Knight.KnightType;
 import catan.settlers.server.model.units.Port.PortKind;
 
@@ -24,7 +26,8 @@ public class Player implements Serializable {
 	private HashMap<ResourceType, Integer> resources;
 	private ArrayList<ProgressCardType> ProgressCards;
 	private HashMap<PortKind, Boolean> ownedPorts;
-
+	private int numberOfWalls;
+	
 	private Credentials credentials;
 	private int basicKnightCount, strongKnightCount, mightyKnightCount;
 	private int tradeImprovement, politicsImprovement, scienceImprovement;
@@ -137,6 +140,14 @@ public class Player implements Serializable {
 		} else if (kType == KnightType.MIGHTY_KNIGHT) {
 			mightyKnightCount = kCount;
 		}
+	}
+	
+	public void setNumberOfWalls(int num) {
+		numberOfWalls = num;
+	}
+	
+	public int getNumberOfWalls(){
+		return numberOfWalls;
 	}
 
 	public int getTradeLevel() {
