@@ -31,6 +31,7 @@ public class GameWindow extends MinuetoFrame {
 	private ActionBoxLayer actionBox;
 	private DialogBoxLayer dbox;
 	private TradeMenuLayer tradeMenu;
+	private TradeReceivedMenuLayer receiveTradeMenu;
 	private SevenDiscardMenuLayer sevenDiscardMenu;
 
 	private HashMap<MinuetoImage, Clickable> imageClickableMap;
@@ -80,6 +81,7 @@ public class GameWindow extends MinuetoFrame {
 		this.actionBox = new ActionBoxLayer();
 		this.dbox = new DialogBoxLayer();
 		this.tradeMenu = new TradeMenuLayer();
+		this.receiveTradeMenu = new TradeReceivedMenuLayer();
 		this.sevenDiscardMenu = new SevenDiscardMenuLayer();
 
 		this.imageClickableMap = new HashMap<>();
@@ -93,6 +95,7 @@ public class GameWindow extends MinuetoFrame {
 		drawLayer(actionBox, 0, 100);
 		drawLayer(dbox, 0, 105);
 		drawLayer(tradeMenu, 0, 0);
+		drawLayer(receiveTradeMenu, 0, 0);
 		drawLayer(sevenDiscardMenu, 0, 0);
 		drawLayer(topBar, 0, 0);
 

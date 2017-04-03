@@ -253,6 +253,10 @@ public class GameStateManager {
 		showReceiveTradeMenu = b;
 	}
 
+	public Player getProposedPlayer() {
+		return requestedPlayer;
+	}
+	
 	public void setReceivedTradeOffer(HashMap<ResourceType, Integer> whatYouGive,
 			HashMap<ResourceType, Integer> whatYouGet, Player requestedPlayer) {
 		this.receiveTradeOfferGet = whatYouGive;
