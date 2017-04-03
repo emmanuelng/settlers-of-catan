@@ -32,7 +32,7 @@ public class Knight implements IntersectionUnit {
 		this.updateKnightCost = new Cost();
 		updateKnightCost.addPriceEntry(ResourceType.GRAIN, 1);
 		updateKnightCost.addPriceEntry(ResourceType.WOOL, 1);
-		
+
 		this.activateKnightCost = new Cost();
 		activateKnightCost.addPriceEntry(ResourceType.GRAIN, 1);
 	}
@@ -44,18 +44,21 @@ public class Knight implements IntersectionUnit {
 	public Cost getUpdateKnightCost() {
 		return new Cost(updateKnightCost);
 	}
-	
+
 	public Cost getActivateKnightCost() {
 		return new Cost(activateKnightCost);
 	}
 
 	public void upgradeKnight() {
-		Player p = this.getOwner();
-		if (knightType == KnightType.BASIC_KNIGHT && p.canHire(KnightType.STRONG_KNIGHT)) {
+		switch (knightType) {
+		case BASIC_KNIGHT:
 			knightType = KnightType.STRONG_KNIGHT;
-		}
-		if (knightType == KnightType.STRONG_KNIGHT && p.canHire(KnightType.MIGHTY_KNIGHT)) {
+			break;
+		case STRONG_KNIGHT:
 			knightType = KnightType.MIGHTY_KNIGHT;
+			break;
+		case MIGHTY_KNIGHT:
+			break;
 		}
 	}
 

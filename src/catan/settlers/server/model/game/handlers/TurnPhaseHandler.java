@@ -52,7 +52,7 @@ public class TurnPhaseHandler {
 			buildKnight();
 			break;
 		case UPGRADEKNIGHT:
-			updateKnight();
+			promoteKnight();
 			break;
 		case ACTIVATEKNIGHT:
 			activateKnight();
@@ -152,7 +152,7 @@ public class TurnPhaseHandler {
 		}
 	}
 
-	private void updateKnight() {
+	private void promoteKnight() {
 		IntersectionUnit unit = selectedIntersection.getUnit();
 		if (unit instanceof Knight) {
 			Knight knight = (Knight) unit;
