@@ -1,12 +1,10 @@
 package catan.settlers.network.server.commands.game;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.network.client.commands.game.ReceiveTradeRequestCommand;
-import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.network.server.commands.ClientToServerCommand;

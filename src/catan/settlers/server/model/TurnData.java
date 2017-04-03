@@ -8,6 +8,7 @@ import catan.settlers.server.model.Game.turnAction;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.Intersection;
+import catan.settlers.server.model.units.Knight;
 
 /**
  * This class represents an Turn. For any game action, the client needs to build
@@ -24,10 +25,12 @@ public class TurnData implements Serializable {
 	private Edge selectedEdge;
 	private turnAction myAction;
 	private HashMap<ResourceType, Integer> sevenDiscardresources;
+	private Knight selectedKnight;
 
 	public TurnData(ClientModel clientModel) {
 		this.selectedIntersection = clientModel.getGameStateManager().getSelectedIntersection();
 		this.selectedEdge = clientModel.getGameStateManager().getSelectedEdge();
+		this.selectedKnight = clientModel.getGameStateManager().getSelectedKnight();
 	}
 
 	public Intersection getIntersectionSelection() {
@@ -59,5 +62,9 @@ public class TurnData implements Serializable {
 	
 	public HashMap<ResourceType, Integer> getSevenResources() {
 		return sevenDiscardresources;
+	}
+
+	public Knight getSelectedKnight() {
+		return selectedKnight;
 	}
 }

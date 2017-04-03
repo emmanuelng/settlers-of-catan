@@ -15,6 +15,8 @@ import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Intersection;
+import catan.settlers.server.model.units.IntersectionUnit;
+import catan.settlers.server.model.units.Knight;
 import catan.settlers.server.model.units.Port.PortKind;
 
 public class GameStateManager {
@@ -32,6 +34,7 @@ public class GameStateManager {
 	private Intersection selectedIntersection;
 	private Edge selectedEdge;
 	private Hexagon selectedHex;
+	private Knight selectedKnight;
 
 	private boolean canMoveRobber;
 	private boolean updateResources;
@@ -256,7 +259,7 @@ public class GameStateManager {
 	public Player getProposedPlayer() {
 		return requestedPlayer;
 	}
-	
+
 	public void setReceivedTradeOffer(HashMap<ResourceType, Integer> whatYouGive,
 			HashMap<ResourceType, Integer> whatYouGet, Player requestedPlayer) {
 		this.receiveTradeOfferGet = whatYouGive;
@@ -317,7 +320,21 @@ public class GameStateManager {
 	}
 
 	public void setMoveKnightMode(boolean b) {
-		this.moveKnightMode = b;
+		Intersection selected = selectedIntersection;
+		if (b && selected != null) {
+			IntersectionUnit unit = selected.getUnit();
+			if (unit != null)
+				if (unit instanceof Knight) {
+					this.moveKnightMode = true;
+					this.selectedKnight = (Knight) unit;
+					return;
+				}
+		}
+
+		this.selectedKnight = null;
+		this.moveKnightMode = false;
+		this.updateActions = true;
+		this.updateBoard = true;
 	}
 
 	public boolean isMoveKnightMode() {
@@ -327,10 +344,15 @@ public class GameStateManager {
 	public void setCanMoveKnightIntersecIds(HashSet<Integer> canCanMoveIntersecIds) {
 		this.canMoveKnightIntersecIds = canCanMoveIntersecIds;
 		updateBoard = true;
+		updateActions = true;
 
 	}
 
 	public HashSet<Integer> getCanMoveKnightIntersecIds() {
 		return canMoveKnightIntersecIds;
+	}
+
+	public Knight getSelectedKnight() {
+		return selectedKnight;
 	}
 }

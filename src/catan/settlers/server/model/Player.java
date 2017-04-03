@@ -24,7 +24,7 @@ public class Player implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private HashMap<ResourceType, Integer> resources;
-	private ArrayList<ProgressCardType> ProgressCards;
+	private ArrayList<ProgressCardType> progressCards;
 	private HashMap<PortKind, Boolean> ownedPorts;
 	private int numberOfWalls;
 	
@@ -43,6 +43,7 @@ public class Player implements Serializable {
 		this.credentials = credentials;
 		this.resources = new HashMap<>();
 		this.ownedPorts = new HashMap<>();
+		this.progressCards = new ArrayList<>();
 		
 		// this will be removed later
 		this.tradeImprovement = 5;
@@ -135,11 +136,11 @@ public class Player implements Serializable {
 	}
 
 	public void giveProgressCard(ProgressCardType pc) {
-		ProgressCards.add(pc);
+		progressCards.add(pc);
 	}
 
 	public void useProgressCard(ProgressCardType pc) {
-		ProgressCards.remove(pc);
+		progressCards.remove(pc);
 	}
 
 	public int getKnightCount(KnightType kType) {

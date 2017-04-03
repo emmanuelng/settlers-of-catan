@@ -27,6 +27,7 @@ public class TurnPhaseHandler {
 	private Player currentPlayer;
 	private Edge selectedEdge;
 	private Intersection selectedIntersection;
+	private Knight selectedKnight;
 
 	public TurnPhaseHandler(Game game) {
 		this.game = game;
@@ -67,10 +68,13 @@ public class TurnPhaseHandler {
 		case ENDTURN:
 			endTurn();
 			break;
+		case DISPLACEKNIGHT:
+			displaceKnight();
+			break;
+		default:
+			break;
 		}
 	}
-
-	
 
 	private void updateDataFromGame() {
 		this.gameBoardManager = game.getGameBoardManager();
@@ -89,19 +93,21 @@ public class TurnPhaseHandler {
 			int selectedIntersectionId = data.getIntersectionSelection().getId();
 			this.selectedIntersection = board.getIntersectionById(selectedIntersectionId);
 		}
+		
+		this.selectedKnight = data.getSelectedKnight();
 	}
 
 	private void buildSettlement() {
 		if (selectedIntersection.canBuild(currentPlayer, game.getGamePhase())) {
 			boolean isPortable = selectedIntersection.isPortable();
 			Village village = new Village(currentPlayer, selectedIntersection);
-			
-			if(isPortable) {
+
+			if (isPortable) {
 				village = new Port(currentPlayer, selectedIntersection);
 				currentPlayer.setPort(selectedIntersection.getPortKind());
 				currentPlayer.sendCommand(new OwnedPortsChangedCommand(currentPlayer.getOwnedPorts()));
 			}
-			
+
 			Cost cost = village.getBuildSettlementCost();
 
 			if (cost.canPay(currentPlayer)) {
@@ -147,20 +153,19 @@ public class TurnPhaseHandler {
 		}
 	}
 
-	
 	private void buildWall() {
 		IntersectionUnit unit = selectedIntersection.getUnit();
-		if(unit instanceof Village){
+		if (unit instanceof Village) {
 			Village village = (Village) unit;
 			Cost cost;
-			//if some progress card changes cost here, dont know right now
+			// if some progress card changes cost here, dont know right now
 			cost = village.getbuildWallCost();
-			if(cost.canPay(currentPlayer)) {
-				if(village.getKind() == VillageKind.SETTLEMENT){
+			if (cost.canPay(currentPlayer)) {
+				if (village.getKind() == VillageKind.SETTLEMENT) {
 					currentPlayer.sendCommand(new FailureCommand("Cannot build walls on a settlement"));
-				}else if(currentPlayer.getNumberOfWalls()>=3){
+				} else if (currentPlayer.getNumberOfWalls() >= 3) {
 					currentPlayer.sendCommand(new FailureCommand("You cannot build walls anymore"));
-				}else{
+				} else {
 					village.buildWall();
 					cost.removeResources(currentPlayer);
 					updateResourcesAndBoard();
@@ -168,7 +173,7 @@ public class TurnPhaseHandler {
 			}
 		}
 	}
-	
+
 	private void buildKnight() {
 		if (selectedIntersection.getUnit() == null) {
 			Knight knight = new Knight(currentPlayer, selectedIntersection);
@@ -217,7 +222,7 @@ public class TurnPhaseHandler {
 			}
 		}
 	}
-	
+
 	private void activateKnight() {
 		IntersectionUnit unit = selectedIntersection.getUnit();
 		if (unit instanceof Knight) {
@@ -226,6 +231,25 @@ public class TurnPhaseHandler {
 			if (cost.canPay(currentPlayer)) {
 				knight.activateKnight();
 				cost.removeResources(currentPlayer);
+				updateResourcesAndBoard();
+			}
+		}
+	}
+
+	private void displaceKnight() {
+		GameBoard board = gameBoardManager.getBoard();
+		Intersection newLocation = selectedIntersection;
+		Intersection curKnightLoc = board.getIntersectionById(selectedKnight.getLocatedAt().getId());
+
+		if (newLocation.getUnit() != null || !(curKnightLoc.getUnit() instanceof Knight))
+			return;
+
+		if (selectedKnight != null) {
+			if (selectedKnight.canCanMoveIntersecIds().contains(newLocation.getId())) {
+				Knight knight = (Knight) curKnightLoc.getUnit();
+				knight.setLocatedAt(newLocation);
+				newLocation.setUnit(knight);
+				curKnightLoc.setUnit(null);
 				updateResourcesAndBoard();
 			}
 		}
