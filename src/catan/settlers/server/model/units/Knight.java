@@ -1,7 +1,11 @@
 package catan.settlers.server.model.units;
 
+import java.util.HashSet;
+
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
+import catan.settlers.server.model.map.Edge;
+import catan.settlers.server.model.map.Intersection;
 
 public class Knight implements IntersectionUnit {
 
@@ -18,12 +22,15 @@ public class Knight implements IntersectionUnit {
 	private Cost buildKnightCost;
 	private Cost updateKnightCost;
 	public Cost activateKnightCost;
+	private Intersection locatedAt;
 
-	public Knight(Player p) {
+	private HashSet<Edge> visitedEdges;
+
+	public Knight(Player p, Intersection initialLocation) {
 		this.myOwner = p;
 		this.knightType = KnightType.BASIC_KNIGHT;
 		this.activated = false;
-		// need one wool and one ore to activate this kid
+		this.locatedAt = initialLocation;
 
 		this.buildKnightCost = new Cost();
 		buildKnightCost.addPriceEntry(ResourceType.ORE, 1);
@@ -85,8 +92,72 @@ public class Knight implements IntersectionUnit {
 		return false;
 	}
 
+	@Override
+	public Intersection getLocatedAt() {
+		return locatedAt;
+	}
+
 	public boolean isActive() {
 		return activated;
+	}
+
+	public void setLocatedAt(Intersection newLocation) {
+		this.locatedAt = newLocation;
+	}
+
+	/**
+	 * Returns a list of the intersection ids where the knight can be moved
+	 */
+	public HashSet<Integer> canCanMoveIntersecIds() {
+		visitedEdges = new HashSet<>();
+		HashSet<Integer> ret = new HashSet<>();
+
+		for (Edge edge : locatedAt.getEdges()) {
+			ret.addAll(checkEdge(edge));
+		}
+
+		return ret;
+	}
+
+	/**
+	 * Given an edges, checks if the knight can move on its intersections, and
+	 * propagates the check to neighbor edges
+	 */
+	private HashSet<Integer> checkEdge(Edge edge) {
+		HashSet<Integer> ret = new HashSet<>();
+
+		if (visitedEdges.contains(edge)) {
+			return ret;
+		} else {
+			visitedEdges.add(edge);
+		}
+
+		if (edge.getOwner() == null) {
+			return ret;
+		} else {
+			if (!edge.getOwner().getUsername().equals(myOwner.getUsername()))
+				return ret;
+		}
+
+		Intersection intersections[] = edge.getIntersections();
+
+		if (intersections[0].getUnit() == null)
+			ret.add(intersections[0].getId());
+
+		if (intersections[1].getUnit() == null)
+			ret.add(intersections[1].getId());
+
+		for (Edge e : intersections[0].getEdges()) {
+			if (e != edge)
+				ret.addAll(checkEdge(e));
+		}
+
+		for (Edge e : intersections[1].getEdges()) {
+			if (e != edge)
+				ret.addAll(checkEdge(e));
+		}
+
+		return ret;
 	}
 
 }

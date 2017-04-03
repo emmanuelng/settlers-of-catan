@@ -86,6 +86,13 @@ public class Edge implements Serializable {
 	public void setOwner(Player p) {
 		roadOwner = p;
 	}
+	
+	public Intersection[] getIntersections() {
+		Intersection ret[] = new Intersection[2];
+		ret[0] = myIntersections[0];
+		ret[1] = myIntersections[1];
+		return ret;
+	}
 
 	public boolean isMaritime() {
 		boolean isMaritime = false;

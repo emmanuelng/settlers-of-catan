@@ -2,6 +2,7 @@ package catan.settlers.server.model.units;
 
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
+import catan.settlers.server.model.map.Intersection;
 
 public class Village implements IntersectionUnit {
 
@@ -16,10 +17,12 @@ public class Village implements IntersectionUnit {
 
 	private Cost buildSettlementCost;
 	private Cost upgradeToCityCost;
+	private Intersection locatedAt;
 
-	public Village(Player p) {
+	public Village(Player p, Intersection location) {
 		this.myOwner = p;
 		this.myKind = VillageKind.SETTLEMENT;
+		this.locatedAt = location;
 
 		this.buildSettlementCost = new Cost();
 		buildSettlementCost.addPriceEntry(ResourceType.BRICK, 1);
@@ -60,5 +63,10 @@ public class Village implements IntersectionUnit {
 	@Override
 	public boolean isVillage() {
 		return true;
+	}
+
+	@Override
+	public Intersection getLocatedAt() {
+		return locatedAt;
 	}
 }

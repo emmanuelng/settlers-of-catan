@@ -9,9 +9,8 @@ import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.ImageFileManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.server.model.map.Intersection;
-import catan.settlers.server.model.units.Knight;
-import catan.settlers.server.model.units.Village;
 import catan.settlers.server.model.units.Port.PortKind;
+import catan.settlers.server.model.units.Village;
 
 public class IntersectionImage extends MinuetoImage {
 

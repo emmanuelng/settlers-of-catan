@@ -1,5 +1,9 @@
 package catan.settlers.client.view.game;
 
+import java.util.HashSet;
+
+import org.minueto.MinuetoColor;
+import org.minueto.image.MinuetoCircle;
 import org.minueto.image.MinuetoImage;
 
 import catan.settlers.client.model.ClientModel;
@@ -93,6 +97,8 @@ public class GameBoardImage extends ImageLayer {
 		if (hex == null)
 			return;
 
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+
 		for (IntersectionLoc loc : IntersectionLoc.values()) {
 			Intersection curIntersection = hex.getIntersection(loc);
 
@@ -132,6 +138,16 @@ public class GameBoardImage extends ImageLayer {
 			int posY = (int) (y + shift_y - intersecImg.getWidth() / 2);
 
 			draw(intersecImg, posX, posY);
+
+			// If the game is in move knight mode, display the intersections
+			// where the knight can move
+			if (gsm.isMoveKnightMode()) {
+				HashSet<Integer> canMoveIntersecIds = gsm.getCanMoveKnightIntersecIds();
+				if (canMoveIntersecIds.contains(curIntersection.getId())) {
+					MinuetoCircle canMoveIntersecImage = new MinuetoCircle(10, MinuetoColor.GREEN, true);
+					draw(canMoveIntersecImage, posX, posY);
+				}
+			}
 
 			// If there is a knight, draw it on top
 			if (curIntersection.getUnit() instanceof Knight) {

@@ -121,10 +121,10 @@ public class SetupPhaseHandler {
 	 */
 	private void buildRoadAndVillage(boolean isPhaseOne) {
 		boolean isPortable = selectedIntersection.isPortable();
-		Village village = new Village(currentPlayer);
+		Village village = new Village(currentPlayer, selectedIntersection);
 
 		if (isPortable) {
-			village = new Port(currentPlayer);
+			village = new Port(currentPlayer, selectedIntersection);
 			currentPlayer.setPort(selectedIntersection.getPortKind());
 			currentPlayer.sendCommand(new OwnedPortsChangedCommand(currentPlayer.getOwnedPorts()));
 		}

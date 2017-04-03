@@ -6,6 +6,7 @@ import catan.settlers.client.view.game.actions.Action;
 import catan.settlers.client.view.game.actions.ActivateKnightAction;
 import catan.settlers.client.view.game.actions.BuildKnightAction;
 import catan.settlers.client.view.game.actions.BuildRoadAction;
+import catan.settlers.client.view.game.actions.MoveKnightAction;
 import catan.settlers.client.view.game.actions.MoveRobberAction;
 import catan.settlers.client.view.game.actions.PlaceSettlementAction;
 import catan.settlers.client.view.game.actions.UpgradeKnightAction;
@@ -28,6 +29,7 @@ public class ActionManager {
 		actions.add(new BuildKnightAction());
 		actions.add(new UpgradeKnightAction());
 		actions.add(new ActivateKnightAction());
+		actions.add(new MoveKnightAction());
 	}
 
 	public ArrayList<Action> getPossibleActions() {

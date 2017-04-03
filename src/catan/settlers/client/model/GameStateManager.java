@@ -2,6 +2,7 @@ package catan.settlers.client.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import catan.settlers.network.server.commands.ClientToServerCommand;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;
@@ -50,6 +51,9 @@ public class GameStateManager {
 	private GamePhase currentPhase;
 
 	private HashMap<PortKind, Boolean> ownedPorts;
+
+	// List of intersections where the selected knight can move
+	private HashSet<Integer> canMoveKnightIntersecIds;
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
@@ -309,10 +313,20 @@ public class GameStateManager {
 	}
 
 	public void setMoveKnightMode(boolean b) {
-		this.moveKnightMode = b;		
+		this.moveKnightMode = b;
 	}
-	
+
 	public boolean isMoveKnightMode() {
 		return moveKnightMode;
+	}
+
+	public void setCanMoveKnightIntersecIds(HashSet<Integer> canCanMoveIntersecIds) {
+		this.canMoveKnightIntersecIds = canCanMoveIntersecIds;
+		updateBoard = true;
+
+	}
+
+	public HashSet<Integer> getCanMoveKnightIntersecIds() {
+		return canMoveKnightIntersecIds;
 	}
 }

@@ -87,10 +87,10 @@ public class TurnPhaseHandler {
 	private void buildSettlement() {
 		if (selectedIntersection.canBuild(currentPlayer, game.getGamePhase())) {
 			boolean isPortable = selectedIntersection.isPortable();
-			Village village = new Village(currentPlayer);
+			Village village = new Village(currentPlayer, selectedIntersection);
 			
 			if(isPortable) {
-				village = new Port(currentPlayer);
+				village = new Port(currentPlayer, selectedIntersection);
 				currentPlayer.setPort(selectedIntersection.getPortKind());
 				currentPlayer.sendCommand(new OwnedPortsChangedCommand(currentPlayer.getOwnedPorts()));
 			}
@@ -142,7 +142,7 @@ public class TurnPhaseHandler {
 
 	private void buildKnight() {
 		if (selectedIntersection.getUnit() == null) {
-			Knight knight = new Knight(currentPlayer);
+			Knight knight = new Knight(currentPlayer, selectedIntersection);
 			Cost cost = knight.getBuildKnightCost();
 			if (cost.canPay(currentPlayer) && selectedIntersection.connected(currentPlayer)) {
 				selectedIntersection.setUnit(knight);
