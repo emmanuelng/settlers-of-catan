@@ -81,7 +81,7 @@ public class RollDicePhaseHandler {
 		} else if (eventDie == 5) {
 			// blue
 			for (Player p : participants) {
-				int lvl = p.getTradeLevel();
+				int lvl = p.getPoliticsLevel();
 				if (lvl != 0) {
 					if (lvl + 1 >= redDie) {
 						p.giveProgressCard(ProgCards.drawPoliticsCard());
@@ -91,7 +91,7 @@ public class RollDicePhaseHandler {
 		} else if (eventDie == 6) {
 			// green
 			for (Player p : participants) {
-				int lvl = p.getTradeLevel();
+				int lvl = p.getScienceLevel();
 				if (lvl != 0) {
 					if (lvl + 1 >= redDie) {
 						p.giveProgressCard(ProgCards.drawScienceCard());

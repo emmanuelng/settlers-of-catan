@@ -37,11 +37,18 @@ public class Player implements Serializable {
 	private boolean crane;
 	private int smith;
 	private int roadBuilding;
+	private int victoryP;
 
 	public Player(Credentials credentials) {
 		this.credentials = credentials;
 		this.resources = new HashMap<>();
 		this.ownedPorts = new HashMap<>();
+		
+		// this will be removed later
+		this.tradeImprovement = 5;
+		this.politicsImprovement = 5;
+		this.scienceImprovement = 5;
+		this.victoryP = 0;
 
 		for (ResourceType resType : ResourceType.values()) {
 			resources.put(resType, 12);
@@ -49,6 +56,20 @@ public class Player implements Serializable {
 		for (PortKind portKind : PortKind.values()) {
 			ownedPorts.put(portKind, false);
 		}
+	}
+	public int getVP(){
+		return victoryP;
+	}
+	
+	public void incrementVP(int amount){
+		victoryP = victoryP + amount;
+	}
+	
+	public void decrementVP(int amount){
+		if(victoryP >= amount){
+			victoryP = victoryP - amount;
+		}
+		// no way of knowing if we called this if we try to decrement more than num of vp
 	}
 
 	public boolean hasPortOfThisResource(ResourceType r){
