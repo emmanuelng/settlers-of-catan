@@ -7,6 +7,7 @@ import catan.settlers.network.server.commands.ClientToServerCommand;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;
 import catan.settlers.network.server.commands.game.GetListOfPlayersCommand;
 import catan.settlers.server.model.Game.GamePhase;
+import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.map.Edge;
@@ -24,7 +25,9 @@ public class GameStateManager {
 	private String currentPlayer;
 	private HashMap<ResourceType, Integer> resources;
 	private HashMap<ProgressCardType, Integer> progressCards;
-
+	private HashMap<ResourceType, Integer> receiveTradeOfferGive, receiveTradeOfferGet;
+	private Player requestedPlayer;
+	
 	private Intersection selectedIntersection;
 	private Edge selectedEdge;
 	private Hexagon selectedHex;
@@ -36,6 +39,7 @@ public class GameStateManager {
 	private boolean updatePlayers;
 	private boolean updateActions;
 	private boolean showTradeMenu;
+	private boolean showReceiveTradeMenu;
 	private boolean showSevenDiscardMenu;
 
 	private String dboxTitle;
@@ -45,6 +49,9 @@ public class GameStateManager {
 	private GamePhase currentPhase;
 
 	private HashMap<PortKind, Boolean> ownedPorts;
+
+
+
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
@@ -236,6 +243,28 @@ public class GameStateManager {
 		showTradeMenu = b;
 	}
 
+	public boolean doShowTradeReceivedMenu() {
+		return showReceiveTradeMenu;
+	}
+	
+	public void setShowTradeReceivedMenu(boolean b){
+		showReceiveTradeMenu = b;
+	}
+	
+	public void setReceivedTradeOffer(HashMap<ResourceType, Integer> whatYouGive, HashMap<ResourceType, Integer> whatYouGet, Player requestedPlayer){
+		this.receiveTradeOfferGet = whatYouGive;
+		this.receiveTradeOfferGive = whatYouGet;
+		this.requestedPlayer = requestedPlayer;
+	}
+	
+	public HashMap<ResourceType, Integer> tradeOfferReceivedWhatYouGet(){
+		return receiveTradeOfferGive;
+	}
+	
+	public HashMap<ResourceType, Integer> tradeOfferReceivedWhatYouGive(){
+		return receiveTradeOfferGet;
+	}
+	
 	public String getSevenDiscardMenuMsg() {
 		return sevenDiscardMenuMsg;
 	}
