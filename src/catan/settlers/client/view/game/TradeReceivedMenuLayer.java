@@ -13,6 +13,7 @@ import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.model.ImageFileManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
+import catan.settlers.network.server.commands.game.PlayerTradeConfirmCommand;
 import catan.settlers.network.server.commands.game.PlayerTradeRequestCommand;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
@@ -201,7 +202,7 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				System.out.println("Counter Propose!");
 				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeRequestCommand(give,get));
-				gsm.setShowTradeMenu(false);
+				gsm.setShowTradeReceivedMenu(false);
 			}
 		};
 	}
@@ -213,7 +214,8 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				System.out.println("Confirm Trade");
 				//confirm trade here
-				gsm.setShowTradeMenu(false);
+				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeConfirmCommand(give,get,player));
+				gsm.setShowTradeReceivedMenu(false);
 			}
 		};
 	}
