@@ -8,6 +8,7 @@ import catan.settlers.network.server.commands.game.GetGameBoardCommand;
 import catan.settlers.network.server.commands.game.GetListOfPlayersCommand;
 import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.Player.ResourceType;
+import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
@@ -22,6 +23,7 @@ public class GameStateManager {
 	private ArrayList<String> participants;
 	private String currentPlayer;
 	private HashMap<ResourceType, Integer> resources;
+	private HashMap<ProgressCardType, Integer> progressCards;
 
 	private Intersection selectedIntersection;
 	private Edge selectedEdge;
@@ -29,6 +31,7 @@ public class GameStateManager {
 
 	private boolean canMoveRobber;
 	private boolean updateResources;
+	private boolean updateProgressCards;
 	private boolean updateBoard;
 	private boolean updatePlayers;
 	private boolean updateActions;
@@ -48,6 +51,7 @@ public class GameStateManager {
 		this.canMoveRobber = false;
 
 		this.updateResources = true;
+		this.updateProgressCards = true;
 		this.updateBoard = true;
 		this.updatePlayers = true;
 		this.updateActions = true;
@@ -131,6 +135,20 @@ public class GameStateManager {
 		this.updateResources = true;
 	}
 
+	public HashMap<ProgressCardType, Integer> getProgressCards() {
+		if(progressCards == null) {
+			progressCards = new HashMap<>();
+			for(ProgressCardType pCardType : ProgressCardType.values())
+				progressCards.put(pCardType, 0);
+		}
+		return progressCards;
+	}
+	
+	public void setProgressCards(HashMap<ProgressCardType, Integer> progressCards) {
+		this.progressCards = progressCards;
+		this.updateProgressCards = true;
+	}
+	
 	public void sync() {
 		ArrayList<ClientToServerCommand> cmds = new ArrayList<>();
 
@@ -156,6 +174,12 @@ public class GameStateManager {
 		return update;
 	}
 
+	public boolean doUpdateProgressCards() {
+		boolean update = updateProgressCards;
+		updateProgressCards = false;
+		return update;
+	}
+	
 	public boolean doUpdateBoard() {
 		boolean update = updateBoard;
 		updateBoard = false;
