@@ -1,7 +1,6 @@
 package catan.settlers.network.server.commands.game;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import catan.settlers.client.model.ClientModel;

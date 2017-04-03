@@ -1,18 +1,17 @@
-package catan.settlers.client.view.game.actions.progresscards;
+package catan.settlers.client.view.game.actions.cards;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.model.NetworkManager;
-import catan.settlers.client.view.game.actions.Action;
 import catan.settlers.network.server.commands.game.PlayProgressCardCommand;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 
-public class PlayInventorCardAction implements Action {
+public class PlayWeddingCardAction implements CardAction {
 
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		if(gsm.getProgressCards().get(ProgressCardType.INVENTOR) > 0){
+		if(gsm.getProgressCards().get(ProgressCardType.WEDDING) > 0){
 			return true;
 		}
 		return false;
@@ -21,15 +20,14 @@ public class PlayInventorCardAction implements Action {
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return "Play Inventor Card";
+		return "Play Wedding Card";
 	}
 
 	@Override
 	public void perform() {
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		ProgressCardType pcard = ProgressCardType.INVENTOR;
+		ProgressCardType pcard = ProgressCardType.WEDDING;
 		nm.sendCommand(new PlayProgressCardCommand(pcard));
 		
 		int previous = gsm.getProgressCards().get(pcard);

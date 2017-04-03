@@ -1,34 +1,33 @@
-package catan.settlers.client.view.game.actions.progresscards;
+package catan.settlers.client.view.game.actions.cards;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.model.NetworkManager;
-import catan.settlers.client.view.game.actions.Action;
 import catan.settlers.network.server.commands.game.PlayProgressCardCommand;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 
-public class PlaySmithCardAction implements Action {
+public class PlayMiningCardAction implements CardAction {
 
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		if(gsm.getProgressCards().get(ProgressCardType.SMITH) > 0){
+		if(gsm.getProgressCards().get(ProgressCardType.MINING) > 0){
 			return true;
 		}
 		return false;
+			
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return "Play Smith Card";
+		return "Play Mining Card";
 	}
 
 	@Override
 	public void perform() {
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		ProgressCardType pcard = ProgressCardType.SMITH;
+		ProgressCardType pcard = ProgressCardType.MINING;
 		nm.sendCommand(new PlayProgressCardCommand(pcard));
 		
 		int previous = gsm.getProgressCards().get(pcard);

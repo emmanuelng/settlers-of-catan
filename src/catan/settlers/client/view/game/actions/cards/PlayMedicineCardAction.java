@@ -1,18 +1,17 @@
-package catan.settlers.client.view.game.actions.progresscards;
+package catan.settlers.client.view.game.actions.cards;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.model.NetworkManager;
-import catan.settlers.client.view.game.actions.Action;
 import catan.settlers.network.server.commands.game.PlayProgressCardCommand;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 
-public class PlaySaboteurCardAction implements Action {
+public class PlayMedicineCardAction implements CardAction {
 
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		if(gsm.getProgressCards().get(ProgressCardType.SABOTEUR) > 0){
+		if(gsm.getProgressCards().get(ProgressCardType.MEDICINE) > 0){
 			return true;
 		}
 		return false;
@@ -21,19 +20,19 @@ public class PlaySaboteurCardAction implements Action {
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return "Play Saboteur Card Action";
+		return "Play Medicine Card";
 	}
 
 	@Override
 	public void perform() {
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		ProgressCardType pcard = ProgressCardType.SABOTEUR;
+		ProgressCardType pcard = ProgressCardType.MEDICINE;
 		nm.sendCommand(new PlayProgressCardCommand(pcard));
 		
 		int previous = gsm.getProgressCards().get(pcard);
 		gsm.getProgressCards().put(pcard, previous-1);
+
 	}
 
 }
