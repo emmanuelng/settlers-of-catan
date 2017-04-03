@@ -15,8 +15,8 @@ public class BuildKnightAction implements Action {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		HashMap<ResourceType, Integer> resources = gsm.getResources();
 
-		if(gsm.getSelectedIntersection() != null){
-			if(gsm.getSelectedIntersection().connected(ClientModel.instance.getUsername())){
+		if (gsm.getSelectedIntersection() != null) {
+			if (gsm.getSelectedIntersection().connected(ClientModel.instance.getUsername())) {
 				return resources.get(ResourceType.ORE) > 0 && resources.get(ResourceType.WOOL) > 0;
 			}
 		}
@@ -25,13 +25,11 @@ public class BuildKnightAction implements Action {
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
 		return "Hire Knight";
 	}
 
 	@Override
 	public void perform() {
-		System.out.println("Build Knight!");
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
 		nm.sendCommand(new BuildKnightCommand());
 		ClientModel.instance.getGameStateManager().setSelectedIntersection(null);

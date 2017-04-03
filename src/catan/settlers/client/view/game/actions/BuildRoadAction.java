@@ -20,12 +20,11 @@ public class BuildRoadAction implements Action {
 
 	@Override
 	public String getDescription() {
-		return "Build a road.\nCosts 1 brick and 1 lumber";
+		return "Build a road";
 	}
 
 	@Override
 	public void perform() {
-		System.out.println(this);
 		ClientModel.instance.getNetworkManager().sendCommand(new BuildRoadCommand());
 		ClientModel.instance.getGameStateManager().setSelectedEdge(null);
 	}

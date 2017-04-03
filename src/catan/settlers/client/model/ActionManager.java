@@ -3,6 +3,7 @@ package catan.settlers.client.model;
 import java.util.ArrayList;
 
 import catan.settlers.client.view.game.actions.Action;
+import catan.settlers.client.view.game.actions.ActivateKnightAction;
 import catan.settlers.client.view.game.actions.BuildKnightAction;
 import catan.settlers.client.view.game.actions.BuildRoadAction;
 import catan.settlers.client.view.game.actions.MoveRobberAction;
@@ -26,6 +27,7 @@ public class ActionManager {
 		actions.add(new MoveRobberAction());
 		actions.add(new BuildKnightAction());
 		actions.add(new UpgradeKnightAction());
+		actions.add(new ActivateKnightAction());
 	}
 
 	public ArrayList<Action> getPossibleActions() {

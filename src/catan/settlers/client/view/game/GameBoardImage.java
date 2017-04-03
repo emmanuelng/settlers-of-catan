@@ -133,7 +133,7 @@ public class GameBoardImage extends ImageLayer {
 
 			draw(intersecImg, posX, posY);
 
-			// If there is a knight, dran it on top
+			// If there is a knight, draw it on top
 			if (curIntersection.getUnit() instanceof Knight) {
 				GameWindow gw = ClientWindow.getInstance().getGameWindow();
 				ImageFileManager imf = ClientModel.instance.getImageFileManager();
