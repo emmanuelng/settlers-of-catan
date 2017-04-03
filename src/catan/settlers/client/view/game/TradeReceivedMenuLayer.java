@@ -200,7 +200,7 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 			public void onClick() {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				System.out.println("Counter Propose!");
-				//here do command
+				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeRequestCommand(give,get));
 				gsm.setShowTradeMenu(false);
 			}
 		};
