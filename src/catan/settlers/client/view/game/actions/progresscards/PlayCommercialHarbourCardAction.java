@@ -3,7 +3,9 @@ package catan.settlers.client.view.game.actions.progresscards;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
+import catan.settlers.client.model.NetworkManager;
 import catan.settlers.client.view.game.actions.Action;
+import catan.settlers.network.server.commands.game.PlayProgressCardCommand;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 
 public class PlayCommercialHarbourCardAction implements Action {
@@ -26,7 +28,12 @@ public class PlayCommercialHarbourCardAction implements Action {
 
 	@Override
 	public void perform() {
+		NetworkManager nm = ClientModel.instance.getNetworkManager();
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		nm.sendCommand(new PlayProgressCardCommand(ProgressCardType.COMMERCIAL_HARBOR));
 		
+		int previous = gsm.getProgressCards().get(ProgressCardType.COMMERCIAL_HARBOR);
+		gsm.getProgressCards().put(ProgressCardType.COMMERCIAL_HARBOR, previous-1);
 	}
 
 }

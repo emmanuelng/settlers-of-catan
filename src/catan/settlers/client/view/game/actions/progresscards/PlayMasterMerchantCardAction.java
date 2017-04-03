@@ -2,7 +2,9 @@ package catan.settlers.client.view.game.actions.progresscards;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
+import catan.settlers.client.model.NetworkManager;
 import catan.settlers.client.view.game.actions.Action;
+import catan.settlers.network.server.commands.game.PlayProgressCardCommand;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 
 public class PlayMasterMerchantCardAction implements Action {
@@ -24,8 +26,13 @@ public class PlayMasterMerchantCardAction implements Action {
 
 	@Override
 	public void perform() {
-		// TODO Auto-generated method stub
-
+		NetworkManager nm = ClientModel.instance.getNetworkManager();
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		ProgressCardType pcard = ProgressCardType.MASTER_MERCHANT;
+		nm.sendCommand(new PlayProgressCardCommand(pcard));
+		
+		int previous = gsm.getProgressCards().get(pcard);
+		gsm.getProgressCards().put(pcard, previous-1);
 	}
 
 }
