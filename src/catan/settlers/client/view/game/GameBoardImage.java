@@ -4,12 +4,15 @@ import org.minueto.image.MinuetoImage;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
+import catan.settlers.client.model.ImageFileManager;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.Direction;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
+import catan.settlers.server.model.units.Knight;
 import catan.settlers.server.model.map.Intersection;
 
 public class GameBoardImage extends ImageLayer {
@@ -121,13 +124,30 @@ public class GameBoardImage extends ImageLayer {
 				break;
 			}
 
-			int posX = (int) (x + shift_x - 0.5 * (IntersectionImage.SIZE));
-			int posY = (int) (y + shift_y - 0.5 * (IntersectionImage.SIZE));
-
 			boolean isSelected = ClientModel.instance.getGameStateManager()
 					.getSelectedIntersection() == curIntersection;
 			IntersectionImage intersecImg = IntersectionImage.getIntersectionImage(curIntersection, isSelected);
+
+			int posX = (int) (x + shift_x - intersecImg.getWidth() / 2);
+			int posY = (int) (y + shift_y - intersecImg.getWidth() / 2);
+
 			draw(intersecImg, posX, posY);
+
+			// If there is a knight, dran it on top
+			if (curIntersection.getUnit() instanceof Knight) {
+				GameWindow gw = ClientWindow.getInstance().getGameWindow();
+				ImageFileManager imf = ClientModel.instance.getImageFileManager();
+				Knight knight = (Knight) curIntersection.getUnit();
+				int playerNo = gw.getPlayerNumber(knight.getOwner().getUsername());
+				boolean isActive = knight.isActive();
+
+				String path = "images/";
+				path += isActive ? "active_" : "inactive_";
+				path += knight.getType() + "_p" + playerNo;
+
+				MinuetoImage knightImage = imf.load(path + ".png");
+				draw(knightImage, x + shift_x - knightImage.getWidth() / 2, y + shift_y - knightImage.getHeight() / 2);
+			}
 
 			if (!intersecImg.isSelectedImage()) {
 				registerClickable(intersecImg, new ClickListener() {
