@@ -27,7 +27,7 @@ public class GameStateManager {
 	private HashMap<ProgressCardType, Integer> progressCards;
 	private HashMap<ResourceType, Integer> receiveTradeOfferGive, receiveTradeOfferGet;
 	private Player requestedPlayer;
-	
+
 	private Intersection selectedIntersection;
 	private Edge selectedEdge;
 	private Hexagon selectedHex;
@@ -41,6 +41,7 @@ public class GameStateManager {
 	private boolean showTradeMenu;
 	private boolean showReceiveTradeMenu;
 	private boolean showSevenDiscardMenu;
+	private boolean moveKnightMode;
 
 	private String dboxTitle;
 	private String dBoxMessage;
@@ -49,9 +50,6 @@ public class GameStateManager {
 	private GamePhase currentPhase;
 
 	private HashMap<PortKind, Boolean> ownedPorts;
-
-
-
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
@@ -246,25 +244,26 @@ public class GameStateManager {
 	public boolean doShowTradeReceivedMenu() {
 		return showReceiveTradeMenu;
 	}
-	
-	public void setShowTradeReceivedMenu(boolean b){
+
+	public void setShowTradeReceivedMenu(boolean b) {
 		showReceiveTradeMenu = b;
 	}
-	
-	public void setReceivedTradeOffer(HashMap<ResourceType, Integer> whatYouGive, HashMap<ResourceType, Integer> whatYouGet, Player requestedPlayer){
+
+	public void setReceivedTradeOffer(HashMap<ResourceType, Integer> whatYouGive,
+			HashMap<ResourceType, Integer> whatYouGet, Player requestedPlayer) {
 		this.receiveTradeOfferGet = whatYouGive;
 		this.receiveTradeOfferGive = whatYouGet;
 		this.requestedPlayer = requestedPlayer;
 	}
-	
-	public HashMap<ResourceType, Integer> tradeOfferReceivedWhatYouGet(){
+
+	public HashMap<ResourceType, Integer> tradeOfferReceivedWhatYouGet() {
 		return receiveTradeOfferGive;
 	}
-	
-	public HashMap<ResourceType, Integer> tradeOfferReceivedWhatYouGive(){
+
+	public HashMap<ResourceType, Integer> tradeOfferReceivedWhatYouGive() {
 		return receiveTradeOfferGet;
 	}
-	
+
 	public String getSevenDiscardMenuMsg() {
 		return sevenDiscardMenuMsg;
 	}
@@ -307,5 +306,13 @@ public class GameStateManager {
 
 	public String getTradeMenuMsg() {
 		return tradeMenuMsg;
+	}
+
+	public void setMoveKnightMode(boolean b) {
+		this.moveKnightMode = b;		
+	}
+	
+	public boolean isMoveKnightMode() {
+		return moveKnightMode;
 	}
 }
