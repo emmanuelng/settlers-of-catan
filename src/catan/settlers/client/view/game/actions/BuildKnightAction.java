@@ -34,6 +34,7 @@ public class BuildKnightAction implements Action {
 		System.out.println("Build Knight!");
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
 		nm.sendCommand(new BuildKnightCommand());
+		ClientModel.instance.getGameStateManager().setSelectedIntersection(null);
 	}
 
 }
