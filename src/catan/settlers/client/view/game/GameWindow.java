@@ -88,7 +88,7 @@ public class GameWindow extends MinuetoFrame {
 	}
 
 	public void updateWindow() {
-		clear();
+		clear(MinuetoColor.WHITE);
 
 		drawLayer(board, 0, 100);
 		drawLayer(playersList, 0, 100);

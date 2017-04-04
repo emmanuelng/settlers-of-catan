@@ -141,10 +141,10 @@ public class Knight implements IntersectionUnit {
 
 		Intersection intersections[] = edge.getIntersections();
 
-		if (intersections[0].getUnit() == null)
+		if (intersections[0].getUnit() == null && !intersections[0].isMaritime())
 			ret.add(intersections[0].getId());
 
-		if (intersections[1].getUnit() == null)
+		if (intersections[1].getUnit() == null && !intersections[1].isMaritime())
 			ret.add(intersections[1].getId());
 
 		for (Edge e : intersections[0].getEdges()) {

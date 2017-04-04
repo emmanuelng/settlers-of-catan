@@ -3,7 +3,6 @@ package catan.settlers.network.client.commands.game;
 import java.util.HashMap;
 
 import catan.settlers.client.model.ClientModel;
-import catan.settlers.client.view.ClientWindow;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;

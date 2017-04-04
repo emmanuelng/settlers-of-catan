@@ -175,7 +175,7 @@ public class TurnPhaseHandler {
 	}
 
 	private void buildKnight() {
-		if (selectedIntersection.getUnit() == null) {
+		if (selectedIntersection.getUnit() == null && !selectedIntersection.isMaritime()) {
 			Knight knight = new Knight(currentPlayer, selectedIntersection);
 			Cost cost = knight.getBuildKnightCost();
 			if (cost.canPay(currentPlayer) && selectedIntersection.connected(currentPlayer)) {
@@ -240,6 +240,9 @@ public class TurnPhaseHandler {
 		GameBoard board = gameBoardManager.getBoard();
 		Intersection newLocation = selectedIntersection;
 		Intersection curKnightLoc = board.getIntersectionById(selectedKnight.getLocatedAt().getId());
+		
+		if (newLocation.isMaritime())
+			return;
 
 		if (newLocation.getUnit() != null || !(curKnightLoc.getUnit() instanceof Knight))
 			return;

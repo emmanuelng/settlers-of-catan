@@ -9,7 +9,7 @@ public class UpdateGameBoardCommand implements ServerToClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	private GameBoard board;
-	
+
 	public UpdateGameBoardCommand(GameBoard board) {
 		this.board = board;
 	}
@@ -17,9 +17,12 @@ public class UpdateGameBoardCommand implements ServerToClientCommand {
 	@Override
 	public void execute() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		
+
 		gsm.setBoard(board);
 		gsm.setMoveKnightMode(false);
+		gsm.setSelectedEdge(null);
+		gsm.setSelectedHex(null);
+		gsm.setSelectedIntersection(null);
 	}
 
 }

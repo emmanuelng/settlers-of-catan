@@ -18,7 +18,6 @@ import catan.settlers.server.model.units.Village;
 public class ProgressCardHandler {
 
 	private Game game;
-	private ArrayList<Player> participants;
 	private Player currentPlayer;
 
 	public ProgressCardHandler(Game game) {

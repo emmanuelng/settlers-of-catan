@@ -21,7 +21,6 @@ public class Village implements IntersectionUnit {
 	private Cost buildWallCost;
 	private boolean hasWall;
 	private Intersection locatedAt;
-	
 
 	public Village(Player p, Intersection location) {
 		this.myOwner = p;
@@ -34,11 +33,11 @@ public class Village implements IntersectionUnit {
 		buildSettlementCost.addPriceEntry(ResourceType.GRAIN, 1);
 		buildSettlementCost.addPriceEntry(ResourceType.LUMBER, 1);
 		buildSettlementCost.addPriceEntry(ResourceType.WOOL, 1);
-		
+
 		this.upgradeToCityCost = new Cost();
 		upgradeToCityCost.addPriceEntry(ResourceType.ORE, 3);
 		upgradeToCityCost.addPriceEntry(ResourceType.GRAIN, 2);
-		
+
 		this.buildWallCost = new Cost();
 		buildWallCost.addPriceEntry(ResourceType.BRICK, 2);
 	}
@@ -54,28 +53,27 @@ public class Village implements IntersectionUnit {
 	public void upgradeToCity() {
 		myKind = VillageKind.CITY;
 	}
-	
-	public void buildWall(){
-		if(this.getKind() == VillageKind.SETTLEMENT){
+
+	public void buildWall() {
+		if (this.getKind() == VillageKind.SETTLEMENT) {
 			myOwner.sendCommand(new FailureCommand("Cannot build walls on a settlement"));
-		}else if(myOwner.getNumberOfWalls()>=3){
+		} else if (myOwner.getNumberOfWalls() >= 3) {
 			myOwner.sendCommand(new FailureCommand("You cannot build walls anymore"));
-		}
-		else{
+		} else {
 			this.hasWall = true;
-			myOwner.setNumberOfWalls(myOwner.getNumberOfWalls()+1);
+			myOwner.setNumberOfWalls(myOwner.getNumberOfWalls() + 1);
 		}
 	}
-	
+
 	public Cost getBuildSettlementCost() {
 		return new Cost(buildSettlementCost);
 	}
-	
+
 	public Cost getUpgradeToCityCost() {
 		return new Cost(upgradeToCityCost);
 	}
-	
-	public Cost getbuildWallCost(){
+
+	public Cost getbuildWallCost() {
 		return new Cost(buildWallCost);
 	}
 
@@ -92,5 +90,9 @@ public class Village implements IntersectionUnit {
 	@Override
 	public Intersection getLocatedAt() {
 		return locatedAt;
+	}
+
+	public boolean hasWalls() {
+		return hasWall;
 	}
 }

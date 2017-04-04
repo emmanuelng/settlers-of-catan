@@ -31,7 +31,8 @@ public class GameBoardImage extends ImageLayer {
 	public void compose(GameStateManager gsm) {
 		if (!gsm.doUpdateBoard())
 			return;
-
+		
+		clear();
 		board = ClientModel.instance.getGameStateManager().getBoard();
 		if (board == null)
 			return;

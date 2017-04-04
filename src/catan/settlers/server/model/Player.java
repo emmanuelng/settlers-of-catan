@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.Credentials;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
-import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.units.Knight.KnightType;
 import catan.settlers.server.model.units.Port.PortKind;
 
@@ -27,7 +25,7 @@ public class Player implements Serializable {
 	private ArrayList<ProgressCardType> progressCards;
 	private HashMap<PortKind, Boolean> ownedPorts;
 	private int numberOfWalls;
-	
+
 	private Credentials credentials;
 	private int basicKnightCount, strongKnightCount, mightyKnightCount;
 	private int tradeImprovement, politicsImprovement, scienceImprovement;
@@ -44,7 +42,7 @@ public class Player implements Serializable {
 		this.resources = new HashMap<>();
 		this.ownedPorts = new HashMap<>();
 		this.progressCards = new ArrayList<>();
-		
+
 		// this will be removed later
 		this.tradeImprovement = 5;
 		this.politicsImprovement = 5;
@@ -58,23 +56,25 @@ public class Player implements Serializable {
 			ownedPorts.put(portKind, false);
 		}
 	}
-	public int getVP(){
+
+	public int getVP() {
 		return victoryP;
 	}
-	
-	public void incrementVP(int amount){
+
+	public void incrementVP(int amount) {
 		victoryP = victoryP + amount;
 	}
-	
-	public void decrementVP(int amount){
-		if(victoryP >= amount){
+
+	public void decrementVP(int amount) {
+		if (victoryP >= amount) {
 			victoryP = victoryP - amount;
 		}
-		// no way of knowing if we called this if we try to decrement more than num of vp
+		// no way of knowing if we called this if we try to decrement more than
+		// num of vp
 	}
 
-	public boolean hasPortOfThisResource(ResourceType r){
-		switch(r){
+	public boolean hasPortOfThisResource(ResourceType r) {
+		switch (r) {
 		case WOOL:
 			return hasPort(PortKind.WOOLPORT);
 		case BRICK:
@@ -89,7 +89,7 @@ public class Player implements Serializable {
 			return false;
 		}
 	}
-	
+
 	public boolean hasPort(PortKind portKind) {
 		return ownedPorts.get(portKind);
 	}
@@ -163,12 +163,12 @@ public class Player implements Serializable {
 			mightyKnightCount = kCount;
 		}
 	}
-	
+
 	public void setNumberOfWalls(int num) {
 		numberOfWalls = num;
 	}
-	
-	public int getNumberOfWalls(){
+
+	public int getNumberOfWalls() {
 		return numberOfWalls;
 	}
 
