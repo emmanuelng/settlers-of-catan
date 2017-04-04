@@ -31,7 +31,7 @@ public class Edge implements Serializable {
 		this.buildRoadCost.addPriceEntry(ResourceType.BRICK, 1);
 		this.buildRoadCost.addPriceEntry(ResourceType.LUMBER, 1);
 	}
-	
+
 	public Cost getBuildRoadCost() {
 		return new Cost(buildRoadCost);
 	}
@@ -86,7 +86,7 @@ public class Edge implements Serializable {
 	public void setOwner(Player p) {
 		roadOwner = p;
 	}
-	
+
 	public Intersection[] getIntersections() {
 		Intersection ret[] = new Intersection[2];
 		ret[0] = myIntersections[0];

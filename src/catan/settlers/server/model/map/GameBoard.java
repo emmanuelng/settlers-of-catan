@@ -351,7 +351,7 @@ public class GameBoard implements Serializable {
 		hexagons[3][1].getIntersection(IntersectionLoc.TOP).setPortable(PortKind.ALLPORT);
 		hexagons[3][1].getIntersection(IntersectionLoc.TOPRIGHT).setPortable(PortKind.ALLPORT);
 	}
-	
+
 	@Override
 	public String toString() {
 		String result = "";
@@ -370,7 +370,7 @@ public class GameBoard implements Serializable {
 	public int getHeight() {
 		return height;
 	}
-	
+
 	public ArrayList<Intersection> getIntersections() {
 		return intersections;
 	}

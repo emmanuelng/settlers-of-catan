@@ -24,7 +24,7 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 	private static final HashMap<ResourceType, MinuetoImage> minusButtons_offer = new HashMap<>();
 	private static final HashMap<ResourceType, MinuetoImage> plusButtons_price = new HashMap<>();
 	private static final HashMap<ResourceType, MinuetoImage> minusButtons_price = new HashMap<>();
-	
+
 	private static final int WIDTH = 1000, HEIGHT = 635;
 	private static final MinuetoColor bg_color = new MinuetoColor(249, 249, 249);
 	private static final MinuetoColor border_color = new MinuetoColor(179, 179, 179);
@@ -34,7 +34,6 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 	private static final MinuetoFont description_font = new MinuetoFont("arial", 17, false, false);
 	private static final MinuetoFont description_font_bold = new MinuetoFont("arial", 17, true, false);
 
-	
 	private MinuetoRectangle background;
 	private MinuetoRectangle border;
 	private MinuetoText title;
@@ -51,25 +50,25 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 	private int box_x, box_y;
 	private HashMap<ResourceType, Integer> give, get;
 	private Player player;
-	
-	public TradeReceivedMenuLayer(){
+
+	public TradeReceivedMenuLayer() {
 		super();
-		
+
 		this.box_x = ClientWindow.WINDOW_WIDTH / 2 - WIDTH / 2;
 		this.box_y = (ClientWindow.WINDOW_HEIGHT + 100) / 2 - HEIGHT / 2;
 
 		this.background = new MinuetoRectangle(WIDTH, HEIGHT, bg_color, true);
 		this.border = new MinuetoRectangle(WIDTH, HEIGHT, border_color, false);
 		this.title = new MinuetoText("Trade", title_font, MinuetoColor.BLACK);
-	
+
 		this.giveDesc = new MinuetoText("He/She proposed:", description_font_bold, MinuetoColor.BLACK);
 		this.receiveDesc = new MinuetoText("In exchange for:", description_font_bold, MinuetoColor.BLACK);
-		this.counterProposeButton = new Button(this, "Counter Propose", counter_propose_btn_color, getCounterProposeListener());
-		this.tradeConfirmButton = new Button(this, "Accept Offer", trade_confirm_btn_color,
-				getTradeConfirmListener());
+		this.counterProposeButton = new Button(this, "Counter Propose", counter_propose_btn_color,
+				getCounterProposeListener());
+		this.tradeConfirmButton = new Button(this, "Accept Offer", trade_confirm_btn_color, getTradeConfirmListener());
 		this.orText = new MinuetoText("or", description_font, MinuetoColor.BLACK);
 	}
-	
+
 	@Override
 	public void compose(GameStateManager gsm) {
 		if (!gsm.doShowTradeReceivedMenu()) {
@@ -78,7 +77,7 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 				get = resetResourceMap();
 				ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);
 				clear();
-				
+
 				clear = false;
 			}
 			return;
@@ -98,9 +97,9 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 		draw(title, box_x + (WIDTH / 2 - title.getWidth() / 2), y_offset);
 		y_offset += title.getHeight() + 10;
 
-		this.description = new MinuetoText("You got a trade offer sent by " + player.getUsername() , description_font,
+		this.description = new MinuetoText("You got a trade offer sent by " + player.getUsername(), description_font,
 				MinuetoColor.BLACK);
-		
+
 		draw(description, box_x + (WIDTH / 2 - description.getWidth() / 2), y_offset);
 		y_offset += description.getHeight() + 20;
 
@@ -121,8 +120,9 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 				- counterProposeButton.getImage().getWidth() - 10 - orText.getWidth() - 10, y_offset);
 		draw(orText, box_x + WIDTH - counterProposeButton.getImage().getWidth() - 20 - orText.getWidth() - 10,
 				y_offset + counterProposeButton.getImage().getHeight() / 2 - orText.getHeight() / 2);
-		draw(counterProposeButton.getImage(), box_x + WIDTH - counterProposeButton.getImage().getWidth() - 20, y_offset);
-		
+		draw(counterProposeButton.getImage(), box_x + WIDTH - counterProposeButton.getImage().getWidth() - 20,
+				y_offset);
+
 	}
 
 	private void drawResourceBoxes(int x, int y, boolean isOffer) {
@@ -201,7 +201,7 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 			public void onClick() {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				System.out.println("Counter Propose!");
-				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeRequestCommand(give,get));
+				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeRequestCommand(give, get));
 				gsm.setShowTradeReceivedMenu(false);
 			}
 		};
@@ -213,8 +213,8 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 			public void onClick() {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				System.out.println("Confirm Trade");
-				//confirm trade here
-				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeConfirmCommand(give,get,player));
+				// confirm trade here
+				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeConfirmCommand(give, get, player));
 				gsm.setShowTradeReceivedMenu(false);
 			}
 		};
@@ -242,5 +242,5 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 			}
 		});
 	}
-	
+
 }

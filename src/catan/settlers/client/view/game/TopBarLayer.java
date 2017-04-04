@@ -56,7 +56,7 @@ public class TopBarLayer extends ImageLayer {
 	public void compose(GameStateManager gsm) {
 		if (!gsm.doUpdateResources())
 			return;
-		
+
 		resources = gsm.getResources();
 		draw(shadowImage, 0, 0);
 		draw(bgImage, 0, 0);
@@ -81,7 +81,7 @@ public class TopBarLayer extends ImageLayer {
 
 	private void drawResource(ResourceType r, int x, int y) {
 		String rname = r.toString().toLowerCase();
-		rname =  rname.substring(0, 1).toUpperCase() + rname.substring(1);
+		rname = rname.substring(0, 1).toUpperCase() + rname.substring(1);
 		String amtStr = resources.get(r).toString();
 
 		MinuetoColor color = getColorByResource(r);

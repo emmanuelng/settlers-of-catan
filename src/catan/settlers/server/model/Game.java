@@ -33,7 +33,6 @@ public class Game implements Serializable {
 	private Player currentPlayer;
 	private GamePhase currentPhase;
 	private SetOfOpponentMove currentSetOfOpponentMove;
-	
 
 	private int redDie, yellowDie, eventDie;
 	private int barbarianHordeCounter;

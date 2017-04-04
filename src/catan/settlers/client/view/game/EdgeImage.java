@@ -50,7 +50,7 @@ public class EdgeImage {
 	public Edge getModel() {
 		return edgeModel;
 	}
-	
+
 	public MinuetoImage getImage() {
 		if (image == null) {
 			image = new MinuetoRectangle(HexagonImage.HEXSIDE, 10, color, true);

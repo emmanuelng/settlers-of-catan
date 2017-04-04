@@ -263,9 +263,9 @@ public class TurnPhaseHandler {
 	private void endTurn() {
 		Player nextPlayer = game.nextPlayer();
 		game.setCurrentPlayer(nextPlayer);
-		
+
 		// TODO Check for victory
-		
+
 		game.setGamePhase(GamePhase.ROLLDICEPHASE);
 		game.sendToAllPlayers(new RollDicePhaseCommand(currentPlayer.getUsername()));
 	}

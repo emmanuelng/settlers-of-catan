@@ -13,12 +13,12 @@ public class BuildWallAction implements Action {
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		Intersection intersection = gsm.getSelectedIntersection();
-		
-		if(intersection!= null && intersection.getUnit().isVillage()){
+
+		if (intersection != null && intersection.getUnit().isVillage()) {
 			Village iu = (Village) intersection.getUnit();
-			if(iu.getKind()==VillageKind.SETTLEMENT){
+			if (iu.getKind() == VillageKind.SETTLEMENT) {
 				return false;
-			}else{
+			} else {
 				return true;
 			}
 		}
@@ -27,7 +27,6 @@ public class BuildWallAction implements Action {
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
 		return "Build Wall";
 	}
 

@@ -46,7 +46,7 @@ public class HexagonImage extends MinuetoImage {
 
 		this.hexagonModel = hex;
 		this.selected = selected;
-		
+
 		HexagonImage.setSide(HEXSIDE);
 
 		MinuetoColor hexColor = getColorByTerrainType(hex.getType());
@@ -54,7 +54,6 @@ public class HexagonImage extends MinuetoImage {
 			hexColor = hexColor.darken(0.2);
 
 		drawPolygon(hexColor, drawCoordinates(0, 0));
-		
 
 		if (hex.getNumber() > 0) {
 			MinuetoFont font = new MinuetoFont("arial", 20, true, false);

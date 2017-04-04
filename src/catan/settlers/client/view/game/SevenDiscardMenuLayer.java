@@ -79,7 +79,7 @@ public class SevenDiscardMenuLayer extends ImageLayer {
 			clear = true;
 			nbResToSelect = updateNbResToSelect();
 		}
-		
+
 		draw(background, box_x, box_y);
 		draw(border, box_x, box_y);
 		overrideClickables();

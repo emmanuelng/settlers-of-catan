@@ -6,8 +6,12 @@ import catan.settlers.server.model.Player;
 import catan.settlers.server.model.map.Intersection;
 
 public interface IntersectionUnit extends Serializable {
+
 	public Player getOwner();
+
 	public Intersection getLocatedAt();
+
 	public boolean isKnight();
+
 	public boolean isVillage();
 }

@@ -20,7 +20,7 @@ public class Button {
 	public Button(ImageLayer parent, String text, MinuetoColor color, ClickListener listener) {
 		this.parent = parent;
 		this.listener = listener;
-		
+
 		MinuetoColor textColor = determineTextColor(color);
 		MinuetoText textImage = new MinuetoText(text, default_btn_font, textColor);
 		MinuetoRectangle background = new MinuetoRectangle(textImage.getWidth() + 30, textImage.getHeight() + 20, color,

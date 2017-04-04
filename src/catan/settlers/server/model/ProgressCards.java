@@ -5,7 +5,6 @@ import java.util.Collections;
 
 public class ProgressCards {
 
-	
 	public enum ProgressCardType {
 		// Trade Cards
 		COMMERCIAL_HARBOR, MASTER_MERCHANT, MERCHANT, MERCHANT_FLEET, RESOURCE_MONOPOLY, TRADE_MONOPOLY,
@@ -14,12 +13,11 @@ public class ProgressCards {
 		// Science Cards
 		ALCHEMIST, CRANE, ENGINEER, INVENTOR, IRRIGATION, MEDICINE, MINING, PRINTER, ROAD_BUILDING, SMITH
 	}
-	
+
 	private ArrayList<ProgressCardType> TradeCards;
 	private ArrayList<ProgressCardType> PoliticsCards;
 	private ArrayList<ProgressCardType> ScienceCards;
-	
-	
+
 	public ProgressCards() {
 		// Add one of each card to each deck
 		TradeCards = new ArrayList<ProgressCardType>();
@@ -40,21 +38,21 @@ public class ProgressCards {
 		Collections.shuffle(PoliticsCards);
 		Collections.shuffle(ScienceCards);
 	}
-	
+
 	public ProgressCardType drawTradeCard() {
 		if (!TradeCards.isEmpty()) {
 			return TradeCards.remove(0);
 		}
 		return null;
 	}
-	
+
 	public ProgressCardType drawPoliticsCard() {
 		if (!PoliticsCards.isEmpty()) {
 			return PoliticsCards.remove(0);
 		}
 		return null;
 	}
-	
+
 	public ProgressCardType drawScienceCard() {
 		if (!ScienceCards.isEmpty()) {
 			return ScienceCards.remove(0);

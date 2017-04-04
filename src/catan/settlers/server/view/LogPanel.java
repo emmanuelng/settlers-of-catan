@@ -35,8 +35,8 @@ public class LogPanel extends JPanel {
 
 	public void writeToLog(String msg) {
 		String currentText = textPane.getText();
-		String newLine = "[" + new Date() + "] " + msg;		
-		
+		String newLine = "[" + new Date() + "] " + msg;
+
 		if (currentText.length() > 0) {
 			textPane.setText(currentText + "\n" + newLine);
 		} else {

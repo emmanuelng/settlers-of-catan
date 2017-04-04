@@ -26,13 +26,13 @@ public class SettingsPanel extends JPanel {
 
 	public SettingsPanel(Server server) {
 		this.server = server;
-		
+
 		init();
 		updateSettings();
 	}
 
 	private void updateSettings() {
-		jTextField1.setText("" + server.getSettings().getPort());		
+		jTextField1.setText("" + server.getSettings().getPort());
 	}
 
 	private void init() {
@@ -48,18 +48,18 @@ public class SettingsPanel extends JPanel {
 		jLabel2.setText("Port number");
 
 		jButton1.setText("Save");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveButtonActionPerformed(evt);
-            }
-        });
+		jButton1.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				saveButtonActionPerformed(evt);
+			}
+		});
 
-        jButton2.setText("Cancel");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
-            }
-        });
+		jButton2.setText("Cancel");
+		jButton2.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				cancelButtonActionPerformed(evt);
+			}
+		});
 
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
@@ -82,18 +82,18 @@ public class SettingsPanel extends JPanel {
 						.addComponent(jButton2))
 				.addContainerGap()));
 	}
-	
+
 	protected void saveButtonActionPerformed(ActionEvent evt) {
 		ServerSettings newSettings = new ServerSettings();
-		
+
 		newSettings.setPort(Integer.parseInt(jTextField1.getText()));
-		
+
 		server.setSettings(newSettings);
 		updateSettings();
 	}
 
 	protected void cancelButtonActionPerformed(ActionEvent evt) {
-		updateSettings();		
+		updateSettings();
 	}
 
 }

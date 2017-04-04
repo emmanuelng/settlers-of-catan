@@ -23,10 +23,9 @@ public class UpgradeKnightCommand implements ClientToServerCommand {
 	@Override
 	public void execute(Session sender, Server server) {
 		Game game = server.getGameManager().getGameById(gameId);
-		if (game.getGamePhase() == GamePhase.TURNPHASE) {
-			game.receiveResponse(sender.getCredentials(), data);
-		}
 
+		if (game.getGamePhase() == GamePhase.TURNPHASE)
+			game.receiveResponse(sender.getCredentials(), data);
 	}
 
 }

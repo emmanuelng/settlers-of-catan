@@ -15,7 +15,7 @@ public class UpgradeKnightAction implements Action {
 	@Override
 	public boolean isPossible() {
 		// TODO: A knight can be promoted only once per turn
-		
+
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		HashMap<ResourceType, Integer> resources = gsm.getResources();
 		Intersection myIntersection = gsm.getSelectedIntersection();
@@ -34,7 +34,7 @@ public class UpgradeKnightAction implements Action {
 
 	@Override
 	public String getDescription() {
-		return "Upgrade your Knight.";
+		return "Upgrade your Knight";
 	}
 
 	@Override

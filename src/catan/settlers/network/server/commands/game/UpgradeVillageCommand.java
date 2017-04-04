@@ -11,21 +11,19 @@ import catan.settlers.server.model.TurnData.TurnAction;
 
 public class UpgradeVillageCommand implements ClientToServerCommand {
 
-	
 	private static final long serialVersionUID = 1L;
 	private int gameId;
 	private TurnData turnData;
 
-	public UpgradeVillageCommand(){
+	public UpgradeVillageCommand() {
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 		this.turnData = new TurnData(TurnAction.UPGRADE_SETTLEMENT);
 	}
-	
+
 	@Override
 	public void execute(Session sender, Server server) {
-		// TODO Auto-generated method stub
 		Game game = server.getGameManager().getGameById(gameId);
-		
+
 		if (game.getGamePhase() != GamePhase.ROLLDICEPHASE)
 			game.receiveResponse(sender.getCredentials(), turnData);
 	}

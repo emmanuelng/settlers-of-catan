@@ -20,7 +20,6 @@ public class GetListOfPlayersCommand implements ClientToServerCommand {
 
 	@Override
 	public void execute(Session sender, Server server) {
-		// TODO Auto-generated method stub
 		try {
 			Game game = server.getGameManager().getGameById(gameID);
 			sender.sendCommand(new PlayerListResponseCommand(game.getPlayersManager().getParticipantsUsernames()));

@@ -31,12 +31,10 @@ public class PlayerTradeRequestCommand implements ClientToServerCommand {
 
 		ArrayList<Player> otherPlayers = game.getParticipants();
 		otherPlayers.remove(player);
-		
-		
-		for(Player p : otherPlayers){
-			p.sendCommand(new ReceiveTradeRequestCommand(give,get,player));
-		}
-		
+
+		for (Player p : otherPlayers)
+			p.sendCommand(new ReceiveTradeRequestCommand(give, get, player));
+
 	}
 
 }

@@ -13,7 +13,7 @@ public class PlaceSettlementAction implements Action {
 
 	@Override
 	public boolean isPossible() {
-		
+
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		String username = ClientModel.instance.getUsername();
 		GamePhase curGamePhase = gsm.getCurrentPhase();

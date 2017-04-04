@@ -28,34 +28,30 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 
 	@Override
 	public void execute(Session sender, Server server) {
-	
 		try {
 			Game game = server.getGameManager().getGameById(gameid);
 			Player player = game.getCurrentPlayer();
 
-			
-			
-			for(ResourceType s: give.keySet()){
-				if(give.get(s)>=2){
-					if(player.hasPortOfThisResource(s) && give.get(s)==2){
+			for (ResourceType s : give.keySet()) {
+				if (give.get(s) >= 2) {
+					if (player.hasPortOfThisResource(s) && give.get(s) == 2) {
 						player.removeResource(s, 2);
-					}
-					else if(player.hasPort(PortKind.ALLPORT) && give.get(s)==3){
+					} else if (player.hasPort(PortKind.ALLPORT) && give.get(s) == 3) {
 						player.removeResource(s, 3);
-					}else if(give.get(s)==4){
+					} else if (give.get(s) == 4) {
 						player.removeResource(s, 4);
 					}
-					for(ResourceType r: get.keySet()){
-						if(get.get(r) > 1 ){
+					for (ResourceType r : get.keySet()) {
+						if (get.get(r) > 1) {
 							sender.sendCommand(new FailureCommand("Please only trade for one resource."));
 							return;
-						}else if(get.get(r)==1){
+						} else if (get.get(r) == 1) {
 							player.giveResource(r, 1);
 						}
 					}
 				}
 			}
-			
+
 			sender.sendCommand(new UpdateResourcesCommand(player.getResources()));
 		} catch (IOException e) {
 			// Ignore

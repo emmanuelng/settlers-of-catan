@@ -53,11 +53,11 @@ public class TradeMenuLayer extends ImageLayer {
 
 	public TradeMenuLayer() {
 		super();
-		
+
 		this.greetingMessage = "Welcome to the trade menu!";
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		gsm.setTradeMenuMessage(greetingMessage);
-		
+
 		this.box_x = ClientWindow.WINDOW_WIDTH / 2 - WIDTH / 2;
 		this.box_y = (ClientWindow.WINDOW_HEIGHT + 100) / 2 - HEIGHT / 2;
 
@@ -305,7 +305,7 @@ public class TradeMenuLayer extends ImageLayer {
 			public void onClick() {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				System.out.println("Trade with players!");
-				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeRequestCommand(give,get));
+				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeRequestCommand(give, get));
 				gsm.setShowTradeMenu(false);
 			}
 		};

@@ -17,7 +17,7 @@ public class WindowCoordinates {
 	public int getY() {
 		return y;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof WindowCoordinates) {

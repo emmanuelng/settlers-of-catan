@@ -32,7 +32,7 @@ public class MoveKnightAction implements Action {
 	public void perform() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		gsm.setMoveKnightMode(true);
-		
+
 		Intersection selectedIntersec = gsm.getSelectedIntersection();
 		Knight knight = (Knight) selectedIntersec.getUnit();
 		gsm.setCanMoveKnightIntersecIds(knight.canCanMoveIntersecIds());
