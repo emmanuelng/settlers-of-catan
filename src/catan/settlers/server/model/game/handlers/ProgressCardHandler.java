@@ -27,12 +27,10 @@ public class ProgressCardHandler {
 	/**
 	 * Progress card logic handling.
 	 * 
-	 * ----------------------------
-	 * TODO: Implement the TODO methods. Once this is done, remove the TODO tag.
-	 * You can go directly to the method using Ctrl + click on the method name.
-	 * You can also get the method description by hovering on the method
-	 * signature.
-	 * ----------------------------
+	 * ---------------------------- TODO: Implement the TODO methods. Once this
+	 * is done, remove the TODO tag. You can go directly to the method using
+	 * Ctrl + click on the method name. You can also get the method description
+	 * by hovering on the method signature. ----------------------------
 	 */
 	public void handle(Player sender, ProgressCardType card) {
 		switch (card) {
@@ -118,7 +116,6 @@ public class ProgressCardHandler {
 	 * of their choice
 	 */
 	private void commercialHarbor() {
-		// TODO Auto-generated method stub
 
 	}
 
