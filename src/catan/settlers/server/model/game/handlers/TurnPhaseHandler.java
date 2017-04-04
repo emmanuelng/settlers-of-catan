@@ -44,33 +44,33 @@ public class TurnPhaseHandler {
 		getSelectedEdgeAndIntersectionInstances(data);
 
 		switch (data.getAction()) {
-		case BUILDSETTLEMENT:
+		case BUILD_SETTLEMENT:
 			buildSettlement();
 			break;
-		case BUILDROAD:
+		case BUILD_ROAD:
 			buildRoad();
 			break;
-		case UPGRADESETTLEMENT:
+		case UPGRADE_SETTLEMENT:
 			upgradeSettlement();
 			break;
-		case BUILDKNIGHT:
+		case BUILD_KNIGHT:
 			buildKnight();
 			break;
-		case UPGRADEKNIGHT:
+		case UPGRADE_KNIGHT:
 			promoteKnight();
 			break;
-		case ACTIVATEKNIGHT:
+		case ACTIVATE_KNIGHT:
 			activateKnight();
 			break;
-		case BUILDWALL:
+		case BUILD_WALL:
 			buildWall();
 			break;
-		case PROGRESSCARD:
+		case PROGRESS_CARD:
 			break;
-		case ENDTURN:
+		case END_TURN:
 			endTurn();
 			break;
-		case DISPLACEKNIGHT:
+		case DISPLACE_KNIGHT:
 			displaceKnight();
 			break;
 		default:

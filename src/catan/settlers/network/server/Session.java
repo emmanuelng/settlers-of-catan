@@ -51,8 +51,12 @@ public class Session extends Thread {
 			}
 		} catch (Exception e) {
 			// Ignore
-			if (!e.getMessage().equals("Connection reset"))
-				System.out.println(e.getMessage());
+			if (e.getMessage() != null) {
+				if (!e.getMessage().equals("Connection reset"))
+					System.out.println(e.getMessage());
+			} else {
+				e.printStackTrace();
+			}
 		} finally {
 			close();
 		}

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 import catan.settlers.client.model.ClientModel;
-import catan.settlers.server.model.Game.turnAction;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.Intersection;
@@ -20,17 +19,24 @@ import catan.settlers.server.model.units.Knight;
 
 public class TurnData implements Serializable {
 
+	public static enum TurnAction {
+		BUILD_SETTLEMENT, BUILD_KNIGHT, BUILD_ROAD, UPGRADE_SETTLEMENT, UPGRADE_KNIGHT, BUILD_WALL, END_TURN, ACTIVATE_KNIGHT, PROGRESS_CARD, DISPLACE_KNIGHT, SEVEN_DISCARD, ROLL_DICE
+	}
+
 	private static final long serialVersionUID = 1L;
 	private Intersection selectedIntersection;
 	private Edge selectedEdge;
-	private turnAction myAction;
+	private TurnData.TurnAction myAction;
 	private HashMap<ResourceType, Integer> sevenDiscardresources;
 	private Knight selectedKnight;
 
-	public TurnData(ClientModel clientModel) {
-		this.selectedIntersection = clientModel.getGameStateManager().getSelectedIntersection();
-		this.selectedEdge = clientModel.getGameStateManager().getSelectedEdge();
-		this.selectedKnight = clientModel.getGameStateManager().getSelectedKnight();
+	public TurnData(TurnAction action) {
+		ClientModel cm = ClientModel.instance;
+
+		this.selectedIntersection = cm.getGameStateManager().getSelectedIntersection();
+		this.selectedEdge = cm.getGameStateManager().getSelectedEdge();
+		this.selectedKnight = cm.getGameStateManager().getSelectedKnight();
+		this.myAction = action;
 	}
 
 	public Intersection getIntersectionSelection() {
@@ -41,25 +47,21 @@ public class TurnData implements Serializable {
 		return selectedEdge;
 	}
 
-	public void setAction(turnAction t) {
-		myAction = t;
-	}
-
-	public turnAction getAction() {
+	public TurnAction getAction() {
 		return myAction;
 	}
 
 	public void setSevenDiscardResources(HashMap<ResourceType, Integer> resources) {
 		if (sevenDiscardresources == null)
 			sevenDiscardresources = new HashMap<>();
-		
+
 		for (ResourceType rtype : ResourceType.values()) {
 			int amt = resources.get(rtype) == null ? 0 : resources.get(rtype);
 			sevenDiscardresources.put(rtype, amt);
 		}
 
 	}
-	
+
 	public HashMap<ResourceType, Integer> getSevenResources() {
 		return sevenDiscardresources;
 	}

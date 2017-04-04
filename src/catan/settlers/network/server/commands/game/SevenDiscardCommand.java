@@ -10,6 +10,7 @@ import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.TurnData;
+import catan.settlers.server.model.TurnData.TurnAction;
 
 public class SevenDiscardCommand implements ClientToServerCommand {
 
@@ -19,7 +20,7 @@ public class SevenDiscardCommand implements ClientToServerCommand {
 
 	public SevenDiscardCommand(HashMap<ResourceType, Integer> resources) {
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
-		this.data = new TurnData(ClientModel.instance);
+		this.data = new TurnData(TurnAction.SEVEN_DISCARD);
 		this.data.setSevenDiscardResources(resources);
 	}
 

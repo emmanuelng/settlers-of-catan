@@ -5,9 +5,9 @@ import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.network.server.commands.ClientToServerCommand;
 import catan.settlers.server.model.Game;
-import catan.settlers.server.model.TurnData;
 import catan.settlers.server.model.Game.GamePhase;
-import catan.settlers.server.model.Game.turnAction;
+import catan.settlers.server.model.TurnData;
+import catan.settlers.server.model.TurnData.TurnAction;
 
 public class BuildRoadCommand implements ClientToServerCommand {
 
@@ -17,8 +17,7 @@ public class BuildRoadCommand implements ClientToServerCommand {
 
 	public BuildRoadCommand() {
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
-		this.turnData = new TurnData(ClientModel.instance);
-		turnData.setAction(turnAction.BUILDROAD);
+		this.turnData = new TurnData(TurnAction.BUILD_ROAD);
 	}
 
 	@Override

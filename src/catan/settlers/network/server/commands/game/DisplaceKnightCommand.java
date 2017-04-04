@@ -5,8 +5,8 @@ import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.network.server.commands.ClientToServerCommand;
 import catan.settlers.server.model.Game;
-import catan.settlers.server.model.Game.turnAction;
 import catan.settlers.server.model.TurnData;
+import catan.settlers.server.model.TurnData.TurnAction;
 
 public class DisplaceKnightCommand implements ClientToServerCommand {
 
@@ -16,9 +16,7 @@ public class DisplaceKnightCommand implements ClientToServerCommand {
 
 	public DisplaceKnightCommand() {
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
-		this.data = new TurnData(ClientModel.instance);
-		
-		data.setAction(turnAction.DISPLACEKNIGHT);
+		this.data = new TurnData(TurnAction.DISPLACE_KNIGHT);
 	}
 
 	@Override
