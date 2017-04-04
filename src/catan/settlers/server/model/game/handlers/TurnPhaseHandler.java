@@ -2,9 +2,11 @@ package catan.settlers.server.model.game.handlers;
 
 import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
+import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.server.model.Game;
+import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.GameBoardManager;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
@@ -93,7 +95,7 @@ public class TurnPhaseHandler {
 			int selectedIntersectionId = data.getIntersectionSelection().getId();
 			this.selectedIntersection = board.getIntersectionById(selectedIntersectionId);
 		}
-		
+
 		this.selectedKnight = data.getSelectedKnight();
 	}
 
@@ -240,7 +242,7 @@ public class TurnPhaseHandler {
 		GameBoard board = gameBoardManager.getBoard();
 		Intersection newLocation = selectedIntersection;
 		Intersection curKnightLoc = board.getIntersectionById(selectedKnight.getLocatedAt().getId());
-		
+
 		if (newLocation.isMaritime())
 			return;
 
@@ -261,8 +263,11 @@ public class TurnPhaseHandler {
 	private void endTurn() {
 		Player nextPlayer = game.nextPlayer();
 		game.setCurrentPlayer(nextPlayer);
-
-		// TODO send command to start next turn
+		
+		// TODO Check for victory
+		
+		game.setGamePhase(GamePhase.ROLLDICEPHASE);
+		game.sendToAllPlayers(new RollDicePhaseCommand(currentPlayer.getUsername()));
 	}
 
 	private void updateResourcesAndBoard() {

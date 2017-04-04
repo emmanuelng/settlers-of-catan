@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.commands.ClientToServerCommand;
@@ -16,6 +17,7 @@ public class Session extends Thread {
 	private ObjectInputStream in;
 	private boolean sessionActive;
 
+	private LinkedBlockingQueue<ServerToClientCommand> cmdQueue;
 	private ArrayList<SessionObserver> observers;
 	private Socket socket;
 
@@ -35,6 +37,7 @@ public class Session extends Thread {
 		this.in = new ObjectInputStream(socket.getInputStream());
 		this.sessionActive = true;
 		this.observers = new ArrayList<>();
+		this.cmdQueue = new LinkedBlockingQueue<>();
 
 		start();
 	}
@@ -48,14 +51,20 @@ public class Session extends Thread {
 			}
 		} catch (Exception e) {
 			// Ignore
-			e.printStackTrace();
+			if (!e.getMessage().equals("Connection reset"))
+				System.out.println(e.getMessage());
 		} finally {
 			close();
 		}
 	}
 
 	public void sendCommand(ServerToClientCommand cmd) throws IOException {
-		out.writeObject(cmd);
+		cmdQueue.add(cmd);
+
+		for (ServerToClientCommand curCmd : cmdQueue) {
+			out.writeObject(curCmd);
+			cmdQueue.remove(curCmd);
+		}
 	}
 
 	public void registerObserver(SessionObserver obs) {
