@@ -37,6 +37,7 @@ public class GameStateManager {
 	private Knight selectedKnight;
 
 	private boolean canMoveRobber;
+	private boolean isBishop;
 	private boolean updateResources;
 	private boolean updateProgressCards;
 	private boolean updateBoard;
@@ -45,6 +46,8 @@ public class GameStateManager {
 	private boolean showTradeMenu;
 	private boolean showReceiveTradeMenu;
 	private boolean showSevenDiscardMenu;
+	private boolean showSelectResourceMenu;
+	private String showSelectResourceReason;
 	private boolean moveKnightMode;
 
 	private String dboxTitle;
@@ -57,6 +60,12 @@ public class GameStateManager {
 
 	// List of intersections where the selected knight can move
 	private HashSet<Integer> canMoveKnightIntersecIds;
+
+	private boolean confirmation;
+
+
+
+	
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
@@ -189,12 +198,17 @@ public class GameStateManager {
 		}
 	}
 
-	public void setCanMoveRobber(boolean b) {
+	public void setCanMoveRobber(boolean b, boolean isBishop) {
 		this.canMoveRobber = b;
+		this.isBishop = isBishop;
 	}
 
 	public boolean canMoveRobber() {
 		return canMoveRobber;
+	}
+	
+	public boolean moveRobberIsBishop(){
+		return isBishop;
 	}
 
 	public boolean doUpdateResources() {
@@ -355,4 +369,19 @@ public class GameStateManager {
 	public Knight getSelectedKnight() {
 		return selectedKnight;
 	}
+
+	public boolean doShowSelectResourceMenu() {
+		// TODO Auto-generated method stub
+		return showSelectResourceMenu;
+	}
+	
+	public String getShowSelectResourceMenuReason(){
+		return showSelectResourceReason;
+	}
+	
+	public void setShowSelectResourceMenu(boolean b, String reason) {
+		showSelectResourceMenu = b;
+		showSelectResourceReason = reason;
+	}
+
 }

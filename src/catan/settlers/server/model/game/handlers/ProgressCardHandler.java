@@ -2,7 +2,9 @@ package catan.settlers.server.model.game.handlers;
 
 import java.util.ArrayList;
 
+import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
+import catan.settlers.network.client.commands.game.progresscards.InventorCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
@@ -116,7 +118,7 @@ public class ProgressCardHandler {
 	 * of their choice
 	 */
 	private void commercialHarbor() {
-
+		
 	}
 
 	/**
@@ -132,7 +134,7 @@ public class ProgressCardHandler {
 	 * @param sender
 	 */
 	private void merchant(Player sender) {
-
+		
 	}
 
 	/**
@@ -153,7 +155,6 @@ public class ProgressCardHandler {
 	 * name a commodity; all players must give you 1 if that if they have it
 	 */
 	private void tradeMonopoly(Player sender) {
-
 	}
 
 	/**
@@ -163,7 +164,7 @@ public class ProgressCardHandler {
 	 * @param sender
 	 */
 	private void bishop(Player sender) {
-
+		sender.sendCommand(new MoveRobberCommand(true));
 	}
 
 	/**
@@ -209,7 +210,7 @@ public class ProgressCardHandler {
 	 * steal a non-VP progress card from an opponent
 	 */
 	private void spy(Player sender) {
-
+		
 	}
 
 	/**
@@ -256,7 +257,7 @@ public class ProgressCardHandler {
 	 * 12
 	 */
 	private void inventor(Player sender) {
-
+		sender.sendCommand(new InventorCommand());
 	}
 
 	/**

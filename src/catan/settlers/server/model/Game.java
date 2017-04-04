@@ -16,6 +16,7 @@ import catan.settlers.server.model.game.handlers.RollDicePhaseHandler;
 import catan.settlers.server.model.game.handlers.SetupPhaseHandler;
 import catan.settlers.server.model.game.handlers.SevenDiscardHandler;
 import catan.settlers.server.model.game.handlers.TurnPhaseHandler;
+import catan.settlers.server.model.map.Hexagon;
 
 public class Game implements Serializable {
 
@@ -36,6 +37,7 @@ public class Game implements Serializable {
 
 	private int redDie, yellowDie, eventDie;
 	private int barbarianHordeCounter;
+	private Hexagon inventorFirstHex, inventorSecondHex;
 
 	private SetupPhaseHandler setupPhaseHandler;
 	private RollDicePhaseHandler rollDicePhaseHandler;
@@ -215,5 +217,20 @@ public class Game implements Serializable {
 
 	public void resetBarbarianHordeCounter() {
 		this.barbarianHordeCounter = 0;
+	}
+	
+	public void setInventorFirstHex(Hexagon firstHex){
+		inventorFirstHex = firstHex;
+	}
+	
+	public void setInventorSecondValue(Hexagon secondValue){
+		inventorSecondHex = secondValue;
+	}
+	
+	public void inventorCard(){
+		int num1 = inventorFirstHex.getNumber();
+		int num2 = inventorSecondHex.getNumber();
+		inventorFirstHex.setNumber(num2);
+		inventorSecondHex.setNumber(num1);
 	}
 }
