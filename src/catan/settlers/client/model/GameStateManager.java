@@ -47,7 +47,6 @@ public class GameStateManager {
 	private boolean showReceiveTradeMenu;
 	private boolean showSevenDiscardMenu;
 	private boolean showSelectResourceMenu;
-	private String showSelectResourceReason;
 	private boolean moveKnightMode;
 	private boolean showSelectPlayerMenu;
 
@@ -55,14 +54,13 @@ public class GameStateManager {
 	private String dBoxMessage;
 	private String sevenDiscardMenuMsg;
 	private String tradeMenuMsg;
+	private String showSelectResourceReason;
 	private GamePhase currentPhase;
 
 	private HashMap<PortKind, Boolean> ownedPorts;
 
 	// List of intersections where the selected knight can move
 	private HashSet<Integer> canMoveKnightIntersecIds;
-
-	private boolean confirmation;
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
@@ -76,7 +74,7 @@ public class GameStateManager {
 		this.showTradeMenu = false;
 		this.showSevenDiscardMenu = false;
 		this.showSelectPlayerMenu = false;
-
+		this.showSelectResourceMenu = false;
 		this.sevenDiscardMenuMsg = "";
 		this.tradeMenuMsg = "";
 	}
@@ -376,9 +374,12 @@ public class GameStateManager {
 		return showSelectResourceReason;
 	}
 
-	public void setShowSelectResourceMenu(boolean b, String reason) {
+	public void setShowSelectResourceMenu(boolean b) {
 		showSelectResourceMenu = b;
-		showSelectResourceReason = reason;
+	}
+	
+	public void setShowSelectResourceMenuReason(String reason){
+		this.showSelectResourceReason = reason;
 	}
 
 	public boolean doShowSelectPlayerMenu() {

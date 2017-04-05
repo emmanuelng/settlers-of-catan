@@ -36,6 +36,7 @@ public class Player implements Serializable {
 	private int smith;
 	private int roadBuilding;
 	private int victoryP;
+	private ArrayList<ResourceType> currentlySelectedResources;
 
 	public Player(Credentials credentials) {
 		this.credentials = credentials;
@@ -295,5 +296,12 @@ public class Player implements Serializable {
 		}
 		return ret;
 	}
+	
+	public void setCurrentSelectedResources(ArrayList<ResourceType> resources){
+		this.currentlySelectedResources=resources;
+	}
 
+	public ArrayList<ResourceType> getCurrentSelectedResources(){
+		return currentlySelectedResources;
+	}
 }
