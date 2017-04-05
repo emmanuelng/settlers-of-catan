@@ -6,7 +6,7 @@ import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class RollDicePhaseCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1397955883695769158L;
 	private String curPlayerUsername;
 
 	public RollDicePhaseCommand(String curPlayerUsername) {

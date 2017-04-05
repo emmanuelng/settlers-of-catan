@@ -6,7 +6,7 @@ import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class WaitForPlayerCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7734705947808096609L;
 	private String username;
 
 	public WaitForPlayerCommand(String username) {

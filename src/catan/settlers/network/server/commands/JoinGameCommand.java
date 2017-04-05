@@ -10,7 +10,7 @@ import catan.settlers.server.model.GamePlayersManager.JoinStatus;
 
 public class JoinGameCommand implements ClientToServerCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4220075026895484713L;
 	private int gameId;
 
 	public JoinGameCommand(int gameId) {

@@ -17,7 +17,7 @@ import catan.settlers.server.model.units.Village;
 
 public class GameBoardManager implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2561852050287131049L;
 	private GameBoard board;
 
 	public GameBoardManager() {

@@ -6,7 +6,7 @@ import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class MoveRobberCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1185923573666264410L;
 	private boolean isBishop;
 	
 	public MoveRobberCommand(boolean isBishop){

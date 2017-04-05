@@ -3,7 +3,7 @@ package catan.settlers.network.server.commands.game;
 import java.io.IOException;
 
 import catan.settlers.client.model.ClientModel;
-import catan.settlers.network.client.commands.game.PlayerListResponseCommand;
+import catan.settlers.network.client.commands.game.SetParticipantsCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.network.server.commands.ClientToServerCommand;
@@ -22,7 +22,7 @@ public class GetListOfPlayersCommand implements ClientToServerCommand {
 	public void execute(Session sender, Server server) {
 		try {
 			Game game = server.getGameManager().getGameById(gameID);
-			sender.sendCommand(new PlayerListResponseCommand(game.getPlayersManager().getParticipantsUsernames()));
+			sender.sendCommand(new SetParticipantsCommand(game.getPlayersManager().getParticipantsUsernames()));
 		} catch (IOException e) {
 			// Ignore
 		}

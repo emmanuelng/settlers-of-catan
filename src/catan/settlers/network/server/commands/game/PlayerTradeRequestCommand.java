@@ -14,7 +14,7 @@ import catan.settlers.server.model.Player.ResourceType;
 
 public class PlayerTradeRequestCommand implements ClientToServerCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1018194253318455816L;
 	private HashMap<ResourceType, Integer> give, get;
 	private int gameId;
 

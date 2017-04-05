@@ -2,10 +2,10 @@ package catan.settlers.server.model.game.handlers;
 
 import java.util.ArrayList;
 
-import catan.settlers.network.client.commands.TurnResponseCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
 import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
+import catan.settlers.network.client.commands.game.TurnResponseCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
 import catan.settlers.server.model.GameBoardManager;

@@ -8,7 +8,7 @@ import catan.settlers.server.model.Player.ResourceType;
 
 public class UpdateResourcesCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1766913399328566064L;
 	private HashMap<ResourceType, Integer> resources;
 
 	public UpdateResourcesCommand(HashMap<ResourceType, Integer> resources) {

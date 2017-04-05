@@ -12,8 +12,7 @@ import catan.settlers.server.model.units.Port.PortKind;
 
 public class GameBoard implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 9178542028428304082L;
 	private Hexagon hexagons[][];
 	private ArrayList<Edge> edges;
 	private ArrayList<Intersection> intersections;

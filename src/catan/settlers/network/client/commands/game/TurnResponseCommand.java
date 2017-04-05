@@ -1,11 +1,12 @@
-package catan.settlers.network.client.commands;
+package catan.settlers.network.client.commands.game;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
+import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class TurnResponseCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4079657466461652815L;
 	private boolean success;
 	private String message;
 

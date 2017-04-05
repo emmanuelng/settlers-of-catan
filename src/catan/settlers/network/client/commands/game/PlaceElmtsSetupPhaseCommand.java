@@ -6,7 +6,7 @@ import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class PlaceElmtsSetupPhaseCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6666599923603816164L;
 	private boolean isPhaseOne;
 
 	public PlaceElmtsSetupPhaseCommand(boolean isPhaseOne) {

@@ -15,11 +15,11 @@ import catan.settlers.server.model.units.Port.PortKind;
 
 public class Player implements Serializable {
 
+	private static final long serialVersionUID = -7339361279458070804L;
+
 	public enum ResourceType {
 		BRICK, GRAIN, LUMBER, ORE, WOOL, CLOTH, COIN, PAPER
 	}
-
-	private static final long serialVersionUID = 1L;
 
 	private HashMap<ResourceType, Integer> resources;
 	private ArrayList<ProgressCardType> progressCards;

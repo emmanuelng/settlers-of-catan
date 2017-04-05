@@ -5,7 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.LinkedList;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.commands.ClientToServerCommand;
@@ -17,7 +17,7 @@ public class Session extends Thread {
 	private ObjectInputStream in;
 	private boolean sessionActive;
 
-	private LinkedBlockingQueue<ServerToClientCommand> cmdQueue;
+	private LinkedList<ServerToClientCommand> cmdQueue;
 	private ArrayList<SessionObserver> observers;
 	private Socket socket;
 
@@ -37,7 +37,7 @@ public class Session extends Thread {
 		this.in = new ObjectInputStream(socket.getInputStream());
 		this.sessionActive = true;
 		this.observers = new ArrayList<>();
-		this.cmdQueue = new LinkedBlockingQueue<>();
+		this.cmdQueue = new LinkedList<>();
 
 		start();
 	}
@@ -45,9 +45,14 @@ public class Session extends Thread {
 	@Override
 	public void run() {
 		try {
+			LinkedList<ClientToServerCommand> cmdList = new LinkedList<>();
+
 			while (sessionActive) {
 				ClientToServerCommand cmd = (ClientToServerCommand) in.readObject();
-				cmd.execute(this, host);
+				cmdList.add(cmd);
+
+				while (!cmdList.isEmpty())
+					cmdList.remove().execute(this, host);
 			}
 		} catch (Exception e) {
 			// Ignore
@@ -62,13 +67,11 @@ public class Session extends Thread {
 		}
 	}
 
-	public void sendCommand(ServerToClientCommand cmd) throws IOException {
+	public synchronized void sendCommand(ServerToClientCommand cmd) throws IOException {
 		cmdQueue.add(cmd);
 
-		for (ServerToClientCommand curCmd : cmdQueue) {
-			out.writeObject(curCmd);
-			cmdQueue.remove(curCmd);
-		}
+		while (!cmdQueue.isEmpty())
+			out.writeObject(cmdQueue.remove());
 	}
 
 	public void registerObserver(SessionObserver obs) {

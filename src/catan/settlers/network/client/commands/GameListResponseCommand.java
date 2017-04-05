@@ -9,7 +9,7 @@ import catan.settlers.server.model.Game;
 
 public class GameListResponseCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3593689944009171946L;
 	private ArrayList<GameRepresentation> games;
 
 	public GameListResponseCommand(ArrayList<Game> games) {

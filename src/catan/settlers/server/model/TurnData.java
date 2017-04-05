@@ -19,11 +19,12 @@ import catan.settlers.server.model.units.Knight;
 
 public class TurnData implements Serializable {
 
+	private static final long serialVersionUID = -2490523320154300533L;
+
 	public static enum TurnAction {
 		BUILD_SETTLEMENT, BUILD_KNIGHT, BUILD_ROAD, UPGRADE_SETTLEMENT, UPGRADE_KNIGHT, BUILD_WALL, END_TURN, ACTIVATE_KNIGHT, PROGRESS_CARD, DISPLACE_KNIGHT, SEVEN_DISCARD, ROLL_DICE
 	}
 
-	private static final long serialVersionUID = 1L;
 	private Intersection selectedIntersection;
 	private Edge selectedEdge;
 	private TurnData.TurnAction myAction;

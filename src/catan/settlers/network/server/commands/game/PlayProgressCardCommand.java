@@ -9,9 +9,9 @@ import catan.settlers.server.model.ProgressCards.ProgressCardType;
 
 public class PlayProgressCardCommand implements ClientToServerCommand {
 
+	private static final long serialVersionUID = 7482248634248023713L;
 	private int gameId;
 	private ProgressCardType pCardType;
-	private static final long serialVersionUID = 1L;
 
 	public PlayProgressCardCommand(ProgressCardType pCardType){
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();

@@ -15,11 +15,12 @@ import catan.settlers.server.model.Game.GamePhase;
 
 public class GamePlayersManager implements Serializable, SessionObserver {
 
+	private static final long serialVersionUID = -3532619513897990826L;
+
 	public static enum JoinStatus {
 		SUCCESS, INVALID_GAME_STATUS, ROOM_FULL, ALREADY_JOINED, FAILURE
 	};
 
-	private static final long serialVersionUID = 1L;
 	private ArrayList<Player> participants;
 	private HashMap<Credentials, Boolean> readyPlayers;
 	private int gameId;

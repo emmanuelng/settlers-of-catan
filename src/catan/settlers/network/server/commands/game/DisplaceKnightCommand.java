@@ -11,7 +11,7 @@ import catan.settlers.server.model.TurnData.TurnAction;
 
 public class DisplaceKnightCommand implements ClientToServerCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6820223453746188728L;
 	private int gameId;
 	private TurnData data;
 

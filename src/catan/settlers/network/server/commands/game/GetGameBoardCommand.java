@@ -9,7 +9,7 @@ import catan.settlers.server.model.Game;
 
 public class GetGameBoardCommand implements ClientToServerCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3205599258314591002L;
 	private int gameId;
 
 	public GetGameBoardCommand() {

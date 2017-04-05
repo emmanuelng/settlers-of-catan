@@ -15,11 +15,12 @@ import catan.settlers.network.server.Credentials;
  */
 public class SetOfOpponentMove implements Serializable {
 
+	private static final long serialVersionUID = 8980170217547407983L;
+
 	public static enum MoveType {
 		SEVEN_DISCARD_CARDS
 	}
 
-	private static final long serialVersionUID = 1L;
 	private HashSet<Credentials> players;
 	private MoveType type;
 	private int totalNbOfPlayers;

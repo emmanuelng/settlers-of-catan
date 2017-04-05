@@ -7,7 +7,7 @@ import catan.settlers.server.model.Player.ResourceType;
 
 public class Hexagon implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2796066592140868855L;
 
 	public enum TerrainType {
 		SEA, DESERT, PASTURE, FOREST, MOUNTAIN, HILLS, FIELD, GOLDMINE

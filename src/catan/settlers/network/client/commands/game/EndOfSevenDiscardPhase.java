@@ -6,7 +6,7 @@ import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class EndOfSevenDiscardPhase implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2380883639269667931L;
 
 	@Override
 	public void execute() {

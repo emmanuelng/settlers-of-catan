@@ -5,7 +5,7 @@ import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class FailureCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2691128701854957418L;
 	private String reasonOfFailure;
 
 	public FailureCommand(String reasonOfFailure) {

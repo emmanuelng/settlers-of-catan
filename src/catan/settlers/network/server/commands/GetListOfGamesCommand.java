@@ -8,7 +8,7 @@ import catan.settlers.network.server.Session;
 
 public class GetListOfGamesCommand implements ClientToServerCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -645983387941219671L;
 
 	@Override
 	public void execute(Session sender, Server server) {

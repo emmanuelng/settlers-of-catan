@@ -8,11 +8,12 @@ import catan.settlers.client.view.setup.MainMenu;
 
 public class AuthenticationResponseCommand implements ServerToClientCommand {
 
+	private static final long serialVersionUID = -7265000491360940963L;
+
 	public static enum Status {
 		SUCCESS, INVALID_CREDENTIALS, ALREADY_CONNECTED
 	}
 
-	private static final long serialVersionUID = 1L;
 	private Status status;
 	private String username;
 

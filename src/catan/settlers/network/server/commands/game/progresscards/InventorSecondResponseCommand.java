@@ -7,12 +7,11 @@ import catan.settlers.server.model.map.Hexagon;
 
 public class InventorSecondResponseCommand implements ClientToServerCommand {
 
-	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2144280635684035946L;
 	private Hexagon secondSelected;
 	private int gameId;
 
-	public InventorSecondResponseCommand(Hexagon secondSelected, int gameId){
+	public InventorSecondResponseCommand(Hexagon secondSelected, int gameId) {
 		this.secondSelected = secondSelected;
 		this.gameId = gameId;
 	}

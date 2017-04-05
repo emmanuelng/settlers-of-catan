@@ -267,7 +267,7 @@ public class TurnPhaseHandler {
 		// TODO Check for victory
 
 		game.setGamePhase(GamePhase.ROLLDICEPHASE);
-		game.sendToAllPlayers(new RollDicePhaseCommand(currentPlayer.getUsername()));
+		game.sendToAllPlayers(new RollDicePhaseCommand(nextPlayer.getUsername()));
 	}
 
 	private void updateResourcesAndBoard() {

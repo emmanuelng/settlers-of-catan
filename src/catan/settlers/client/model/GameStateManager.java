@@ -49,6 +49,7 @@ public class GameStateManager {
 	private boolean showSelectResourceMenu;
 	private String showSelectResourceReason;
 	private boolean moveKnightMode;
+	private boolean showSelectPlayerMenu;
 
 	private String dboxTitle;
 	private String dBoxMessage;
@@ -63,10 +64,6 @@ public class GameStateManager {
 
 	private boolean confirmation;
 
-
-
-	
-
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
 		this.canMoveRobber = false;
@@ -78,6 +75,7 @@ public class GameStateManager {
 		this.updateActions = true;
 		this.showTradeMenu = false;
 		this.showSevenDiscardMenu = false;
+		this.showSelectPlayerMenu = false;
 
 		this.sevenDiscardMenuMsg = "";
 		this.tradeMenuMsg = "";
@@ -206,8 +204,8 @@ public class GameStateManager {
 	public boolean canMoveRobber() {
 		return canMoveRobber;
 	}
-	
-	public boolean moveRobberIsBishop(){
+
+	public boolean moveRobberIsBishop() {
 		return isBishop;
 	}
 
@@ -371,17 +369,24 @@ public class GameStateManager {
 	}
 
 	public boolean doShowSelectResourceMenu() {
-		// TODO Auto-generated method stub
 		return showSelectResourceMenu;
 	}
-	
-	public String getShowSelectResourceMenuReason(){
+
+	public String getShowSelectResourceMenuReason() {
 		return showSelectResourceReason;
 	}
-	
+
 	public void setShowSelectResourceMenu(boolean b, String reason) {
 		showSelectResourceMenu = b;
 		showSelectResourceReason = reason;
+	}
+
+	public boolean doShowSelectPlayerMenu() {
+		return showSelectPlayerMenu;
+	}
+	
+	public void setShowSelectPlayerMenu(boolean b) {
+		this.showSelectPlayerMenu = b;
 	}
 
 }

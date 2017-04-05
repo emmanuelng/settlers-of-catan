@@ -3,15 +3,11 @@ package catan.settlers.network.client.commands.game.progresscards;
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.network.client.commands.ServerToClientCommand;
-import catan.settlers.network.server.commands.game.progresscards.InventorFirstResponseCommand;
 import catan.settlers.network.server.commands.game.progresscards.InventorSecondResponseCommand;
 import catan.settlers.server.model.map.Hexagon;
 
 public class InventorSecondCommand implements ServerToClientCommand {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Override

@@ -7,7 +7,7 @@ import catan.settlers.server.model.map.GameBoard;
 
 public class UpdateGameBoardCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3225531176251584L;
 	private GameBoard board;
 
 	public UpdateGameBoardCommand(GameBoard board) {

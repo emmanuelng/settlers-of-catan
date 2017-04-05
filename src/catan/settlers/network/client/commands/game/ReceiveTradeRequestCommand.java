@@ -9,16 +9,17 @@ import catan.settlers.server.model.Player.ResourceType;
 
 public class ReceiveTradeRequestCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
-	private HashMap<ResourceType, Integer> give,get;
+	private static final long serialVersionUID = 57079020765853649L;
+	private HashMap<ResourceType, Integer> give, get;
 	private Player player;
 
-	public ReceiveTradeRequestCommand(HashMap<ResourceType, Integer> give, HashMap<ResourceType, Integer> get, Player proposedPlayer){
+	public ReceiveTradeRequestCommand(HashMap<ResourceType, Integer> give, HashMap<ResourceType, Integer> get,
+			Player proposedPlayer) {
 		this.give = give;
 		this.get = get;
 		this.player = proposedPlayer;
 	}
-	
+
 	@Override
 	public void execute() {
 		ClientModel.instance.getGameStateManager().setShowTradeReceivedMenu(true);

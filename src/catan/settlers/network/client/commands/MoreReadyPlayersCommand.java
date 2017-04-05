@@ -11,7 +11,7 @@ import catan.settlers.client.view.setup.WaitingRoom;
  */
 public class MoreReadyPlayersCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 714023636404963010L;
 	private int nbReadyPlayers;
 	private int maxNbPlayers;
 	private ArrayList<String> participants;

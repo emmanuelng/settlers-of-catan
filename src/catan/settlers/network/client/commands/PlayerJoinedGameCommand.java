@@ -8,8 +8,7 @@ import catan.settlers.server.model.Game;
 
 public class PlayerJoinedGameCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = -602502603302757569L;
 	private ArrayList<String> currentListOfPlayers;
 	private int gameID;
 	private int readyPlayers;

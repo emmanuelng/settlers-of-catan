@@ -9,7 +9,7 @@ import catan.settlers.network.server.Session;
 
 public class AuthenticationCommand implements ClientToServerCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6040820176829673521L;
 	private String username;
 	private String password;
 

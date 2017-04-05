@@ -6,7 +6,7 @@ import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class WaitForSevenDiscardCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 8126783461402317960L;
 	private int nbOfResponse;
 	private int nbOfPlayers;
 

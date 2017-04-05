@@ -9,7 +9,7 @@ import catan.settlers.server.model.Game;
 
 public class CancelJoinGameResponseCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7349847598684566394L;
 	private ArrayList<GameRepresentation> games;
 
 	public CancelJoinGameResponseCommand(ArrayList<Game> games) {

@@ -1,9 +1,12 @@
 package catan.settlers.server.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ProgressCards {
+public class ProgressCards implements Serializable {
+
+	private static final long serialVersionUID = 5315232581842690153L;
 
 	public enum ProgressCardType {
 		// Trade Cards

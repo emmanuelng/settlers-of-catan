@@ -7,7 +7,7 @@ import catan.settlers.server.model.Game;
 
 public class CreateGameCommand implements ClientToServerCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3417133778660916568L;
 
 	@Override
 	public void execute(Session sender, Server server) {

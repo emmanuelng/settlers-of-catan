@@ -6,7 +6,7 @@ import catan.settlers.server.model.Game;
 
 public class PlayerReadyCommand implements ClientToServerCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1202228815090719957L;
 	private int gameId;
 
 	public PlayerReadyCommand(int gameId) {

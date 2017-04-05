@@ -11,7 +11,7 @@ import catan.settlers.server.model.TurnData.TurnAction;
 
 public class EndTurnCommand implements ClientToServerCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6771390319125821095L;
 	private TurnData turnData;
 	private int gameId;
 

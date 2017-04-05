@@ -9,7 +9,7 @@ import catan.settlers.server.model.units.Port.PortKind;
 
 public class OwnedPortsChangedCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 8873428035082445039L;
 	private HashMap<PortKind, Boolean> ownedPorts;
 
 	public OwnedPortsChangedCommand(HashMap<PortKind, Boolean> ownedPorts) {

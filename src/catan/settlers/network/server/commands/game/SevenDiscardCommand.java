@@ -14,7 +14,7 @@ import catan.settlers.server.model.TurnData.TurnAction;
 
 public class SevenDiscardCommand implements ClientToServerCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2910353679944890130L;
 	private TurnData data;
 	private int gameId;
 

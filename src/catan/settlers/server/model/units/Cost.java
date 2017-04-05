@@ -8,7 +8,7 @@ import catan.settlers.server.model.Player.ResourceType;
 
 public class Cost implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6688086084862384407L;
 	private HashMap<ResourceType, Integer> price;
 
 	public Cost() {

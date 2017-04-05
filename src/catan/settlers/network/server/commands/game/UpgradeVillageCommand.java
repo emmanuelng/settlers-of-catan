@@ -11,7 +11,7 @@ import catan.settlers.server.model.TurnData.TurnAction;
 
 public class UpgradeVillageCommand implements ClientToServerCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6796324295742880632L;
 	private int gameId;
 	private TurnData turnData;
 

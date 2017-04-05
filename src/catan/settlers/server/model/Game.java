@@ -8,6 +8,7 @@ import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
 import catan.settlers.network.client.commands.game.GamePhaseChangedCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
+import catan.settlers.network.client.commands.game.SetParticipantsCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
@@ -24,8 +25,8 @@ public class Game implements Serializable {
 		READYTOJOIN, SETUPPHASEONE, SETUPPHASETWO, ROLLDICEPHASE, TURNPHASE
 	}
 
-	public static final int MAX_NB_OF_PLAYERS = 1;
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5752967531725278325L;
+	public static final int MAX_NB_OF_PLAYERS = 2;
 
 	private int id;
 	private ArrayList<Player> participants;
@@ -64,10 +65,11 @@ public class Game implements Serializable {
 
 		for (Player p : participants) {
 
+			p.sendCommand(new SetParticipantsCommand(gamePlayersManager.getParticipantsUsernames()));
 			p.sendCommand(new CurrentPlayerChangedCommand(currentPlayer.getUsername()));
 			p.sendCommand(new UpdateResourcesCommand(p.getResources()));
 			p.sendCommand(new OwnedPortsChangedCommand(p.getOwnedPorts()));
-			sendToAllPlayers(new GamePhaseChangedCommand(currentPhase));
+			p.sendCommand(new GamePhaseChangedCommand(currentPhase));
 
 			if (p == currentPlayer) {
 				p.sendCommand(new PlaceElmtsSetupPhaseCommand(true));
@@ -218,16 +220,16 @@ public class Game implements Serializable {
 	public void resetBarbarianHordeCounter() {
 		this.barbarianHordeCounter = 0;
 	}
-	
-	public void setInventorFirstHex(Hexagon firstHex){
+
+	public void setInventorFirstHex(Hexagon firstHex) {
 		inventorFirstHex = firstHex;
 	}
-	
-	public void setInventorSecondValue(Hexagon secondValue){
+
+	public void setInventorSecondValue(Hexagon secondValue) {
 		inventorSecondHex = secondValue;
 	}
-	
-	public void inventorCard(){
+
+	public void inventorCard() {
 		int num1 = inventorFirstHex.getNumber();
 		int num2 = inventorSecondHex.getNumber();
 		inventorFirstHex.setNumber(num2);

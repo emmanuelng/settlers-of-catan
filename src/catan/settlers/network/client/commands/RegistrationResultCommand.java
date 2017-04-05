@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 
 public class RegistrationResultCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4187356844265663743L;
 	private boolean success;
 	private JLabel label1,label2;
 	

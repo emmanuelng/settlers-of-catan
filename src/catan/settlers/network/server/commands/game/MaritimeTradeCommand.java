@@ -16,7 +16,7 @@ import catan.settlers.server.model.units.Port.PortKind;
 
 public class MaritimeTradeCommand implements ClientToServerCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8330536435754498295L;
 	private HashMap<ResourceType, Integer> give, get;
 	private int gameid;
 

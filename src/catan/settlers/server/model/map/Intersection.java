@@ -10,7 +10,8 @@ import catan.settlers.server.model.units.Port.PortKind;
 
 public class Intersection implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4937179489491370030L;
+
 	private IntersectionUnit unit;
 
 	private HashSet<Hexagon> myHexagons;

@@ -9,7 +9,7 @@ import catan.settlers.server.model.map.Intersection;
 
 public class Knight implements IntersectionUnit {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2624908793631834956L;
 
 	public static enum KnightType {
 		BASIC_KNIGHT, STRONG_KNIGHT, MIGHTY_KNIGHT

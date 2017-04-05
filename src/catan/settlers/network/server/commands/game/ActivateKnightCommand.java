@@ -10,7 +10,7 @@ import catan.settlers.server.model.TurnData.TurnAction;
 
 public class ActivateKnightCommand implements ClientToServerCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6472072647068391107L;
 	private int gameId;
 	private TurnData data;
 

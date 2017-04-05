@@ -5,7 +5,7 @@ import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class CurrentPlayerChangedCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1580384017679159705L;
 	private String player;
 
 	public CurrentPlayerChangedCommand(String player) {

@@ -33,6 +33,7 @@ public class GameWindow extends MinuetoFrame {
 	private TradeMenuLayer tradeMenu;
 	private TradeReceivedMenuLayer receiveTradeMenu;
 	private SevenDiscardMenuLayer sevenDiscardMenu;
+	private SelectPlayerLayer selectPlayerLayer;
 
 	private HashMap<MinuetoImage, Clickable> imageClickableMap;
 
@@ -83,6 +84,7 @@ public class GameWindow extends MinuetoFrame {
 		this.tradeMenu = new TradeMenuLayer();
 		this.receiveTradeMenu = new TradeReceivedMenuLayer();
 		this.sevenDiscardMenu = new SevenDiscardMenuLayer();
+		this.selectPlayerLayer = new SelectPlayerLayer();
 
 		this.imageClickableMap = new HashMap<>();
 	}
@@ -97,6 +99,7 @@ public class GameWindow extends MinuetoFrame {
 		drawLayer(tradeMenu, 0, 0);
 		drawLayer(receiveTradeMenu, 0, 0);
 		drawLayer(sevenDiscardMenu, 0, 0);
+		drawLayer(selectPlayerLayer, 0, 0);
 		drawLayer(topBar, 0, 0);
 
 		render();

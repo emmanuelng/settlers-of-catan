@@ -11,7 +11,7 @@ import catan.settlers.server.model.TurnData;
 
 public class BuildWallCommand implements ClientToServerCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3999364107235733363L;
 	private int gameId;
 	private TurnData turnData;
 

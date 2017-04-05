@@ -7,7 +7,7 @@ import catan.settlers.server.model.Game.GamePhase;
 
 public class GamePhaseChangedCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3089716187502869437L;
 	private GamePhase currentPhase;
 
 	public GamePhaseChangedCommand(GamePhase currentPhase) {

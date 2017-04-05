@@ -11,8 +11,7 @@ import catan.settlers.server.model.units.Village;
 
 public class Edge implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 8221072100252328386L;
 	private int id;
 	private ArrayList<Edge> leftEdges;
 	private ArrayList<Edge> rightEdges;
