@@ -39,7 +39,9 @@ public class Village implements IntersectionUnit {
 		upgradeToCityCost.addPriceEntry(ResourceType.GRAIN, 2);
 
 		this.buildWallCost = new Cost();
-		buildWallCost.addPriceEntry(ResourceType.BRICK, 2);
+		if(!myOwner.hasEngineer()){
+			buildWallCost.addPriceEntry(ResourceType.BRICK, 2);
+		}
 	}
 
 	public Player getOwner() {

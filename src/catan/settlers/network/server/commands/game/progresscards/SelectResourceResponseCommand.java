@@ -1,4 +1,4 @@
-package catan.settlers.network.server.commands.game;
+package catan.settlers.network.server.commands.game.progresscards;
 
 import java.util.ArrayList;
 

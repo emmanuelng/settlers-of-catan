@@ -13,8 +13,8 @@ import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.model.NetworkManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
-import catan.settlers.network.server.commands.game.SelectResourceResponseCommand;
 import catan.settlers.network.server.commands.game.SevenDiscardCommand;
+import catan.settlers.network.server.commands.game.progresscards.SelectResourceResponseCommand;
 import catan.settlers.server.model.Player.ResourceType;
 
 public class SelectResourceMenuLayer extends ImageLayer{
@@ -35,6 +35,7 @@ public class SelectResourceMenuLayer extends ImageLayer{
 	private MinuetoRectangle rBoxBorder;
 	private MinuetoText title;
 	private Button confirmButton;
+	private int resourcesToShow = ResourceType.values().length;
 
 	private ArrayList<ResourceType> resources;
 	
@@ -85,27 +86,57 @@ public class SelectResourceMenuLayer extends ImageLayer{
 		
 		MinuetoRectangle rBox = new MinuetoRectangle(spacing - 30, 100, MinuetoColor.WHITE, true);
 		MinuetoRectangle rBoxBorder = new MinuetoRectangle(spacing - 30, 100, border_color, false);
-		
+		String menuReason = ClientModel.instance.getGameStateManager().getShowSelectResourceMenuReason();
+		switch(menuReason){
+		case "Commercial Harbour - Prompting card-player for resource of exchange":
+			resourcesToShow=5;
+			for (int i = 0; i < resourcesToShow; i++) {
+				ResourceType rType = ResourceType.values()[i];
+				String rname = rType.toString().toLowerCase();
+				rname = rname.substring(0, 1).toUpperCase() + rname.substring(1);
 
-		for (int i = 0; i < ResourceType.values().length; i++) {
-			ResourceType rType = ResourceType.values()[i];
-			String rname = rType.toString().toLowerCase();
-			rname = rname.substring(0, 1).toUpperCase() + rname.substring(1);
+				MinuetoText rnameImage = new MinuetoText(rname, description_font_bold, MinuetoColor.BLACK);
 
-			MinuetoText rnameImage = new MinuetoText(rname, description_font_bold, MinuetoColor.BLACK);
+				int y_offset = y;
 
-			int y_offset = y;
+				int amt_box_x = (x + i * spacing) + (spacing / 2 - rBox.getWidth() / 2);
+				draw(rBox, amt_box_x, y_offset);
+				
+				draw(rBoxBorder, amt_box_x, y_offset);
+				
+				y_offset += rBox.getHeight() + 10;
 
-			int amt_box_x = (x + i * spacing) + (spacing / 2 - rBox.getWidth() / 2);
-			draw(rBox, amt_box_x, y_offset);
-			
-			draw(rBoxBorder, amt_box_x, y_offset);
-			
-			y_offset += rBox.getHeight() + 10;
+				draw(rnameImage, (x + i * spacing) + (spacing / 2 - rnameImage.getWidth() / 2), y_offset);
+			}
 
-			draw(rnameImage, (x + i * spacing) + (spacing / 2 - rnameImage.getWidth() / 2), y_offset);
+			break;
+		case "Commercial Harbour - Prompting opponents for commodity of exchange":
+			resourcesToShow=8;
+			for (int i = 5; i < resourcesToShow; i++) {
+				ResourceType rType = ResourceType.values()[i];
+				String rname = rType.toString().toLowerCase();
+				rname = rname.substring(0, 1).toUpperCase() + rname.substring(1);
+
+				MinuetoText rnameImage = new MinuetoText(rname, description_font_bold, MinuetoColor.BLACK);
+
+				int y_offset = y;
+
+				int amt_box_x = (x + i * spacing) + (spacing / 2 - rBox.getWidth() / 2);
+				draw(rBox, amt_box_x, y_offset);
+				
+				draw(rBoxBorder, amt_box_x, y_offset);
+				
+				y_offset += rBox.getHeight() + 10;
+
+				draw(rnameImage, (x + i * spacing) + (spacing / 2 - rnameImage.getWidth() / 2), y_offset);
+			}
+
+			break;
 		}
-
+		
+		
+		
+		
 	}
 
 	

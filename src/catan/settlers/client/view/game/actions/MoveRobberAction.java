@@ -8,7 +8,11 @@ public class MoveRobberAction implements Action {
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		return gsm.getSelectedHex() != null && gsm.canMoveRobber();
+		if(gsm.getAttacked()){
+			return gsm.getSelectedHex() != null && gsm.canMoveRobber();
+		}else{
+			return false;
+		}
 	}
 
 	@Override

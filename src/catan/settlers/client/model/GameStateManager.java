@@ -49,6 +49,8 @@ public class GameStateManager {
 	private boolean showSelectResourceMenu;
 	private boolean moveKnightMode;
 	private boolean showSelectPlayerMenu;
+	
+	private boolean attacked;
 
 	private String dboxTitle;
 	private String dBoxMessage;
@@ -390,4 +392,12 @@ public class GameStateManager {
 		this.showSelectPlayerMenu = b;
 	}
 
+	public boolean getAttacked(){
+		return attacked;
+	}
+	
+	public void setAttacked(boolean b){
+		attacked = b;
+	}
+	
 }

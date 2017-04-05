@@ -48,6 +48,10 @@ public class RollDicePhaseHandler {
 		// TODO: Play alchemist card
 		assignRandomValuesToDice();
 
+		
+		/* apparently you cannot move the robber until the first barbarian attack hits, or play the bishop card until
+		 * the first attack
+		 */
 		if (redDie + yellowDie == 7) {
 			SetOfOpponentMove discardResourcesSet = buildDiscardResourcesSet();
 

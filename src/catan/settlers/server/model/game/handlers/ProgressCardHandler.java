@@ -1,10 +1,13 @@
 package catan.settlers.server.model.game.handlers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.progresscards.InventorCommand;
+import catan.settlers.network.client.commands.game.progresscards.SelectResourceCommand;
+import catan.settlers.network.server.commands.game.progresscards.SelectResourceResponseCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
@@ -118,14 +121,26 @@ public class ProgressCardHandler {
 	 * of their choice
 	 */
 	private void commercialHarbor() {
+		currentPlayer.sendCommand(new SelectResourceCommand("Commercial Harbour - Prompting card-player for resource of exchange"));
+		ArrayList<ResourceType> resources = currentPlayer.getCurrentSelectedResources();
 		
+		ArrayList<Player> otherPlayers = game.getParticipants();
+		otherPlayers.remove(currentPlayer);
+		for(Player p: otherPlayers){
+			p.sendCommand(new SelectResourceCommand("Commercial Harbour - Prompting opponents for commodity of exchange"));
+			ArrayList<ResourceType> selectedCommodity = p.getCurrentSelectedResources();
+			p.removeResource(selectedCommodity.get(0), 1);
+			p.giveResource(resources.get(0), 1);
+			currentPlayer.giveResource(selectedCommodity.get(0), 1);
+		}
+		currentPlayer.removeResource(resources.get(0), 1);
 	}
 
 	/**
 	 * choose two cards to take from an opponent with more VPs than you
 	 */
 	private void masterMerchant(Player sender) {
-
+		
 	}
 
 	/**
@@ -148,7 +163,7 @@ public class ProgressCardHandler {
 	 * name a resource; all other players must give you 2 of that if they have
 	 */
 	private void resourceMonopoly(Player sender) {
-
+		currentPlayer.sendCommand(new SelectResourceCommand("Resource Monopoly- card player chooses resource to take"));
 	}
 
 	/**
@@ -171,7 +186,7 @@ public class ProgressCardHandler {
 	 * one VP for player
 	 */
 	private void constitution(Player sender) {
-
+		sender.incrementVP(1);
 	}
 
 	/**
@@ -179,7 +194,7 @@ public class ProgressCardHandler {
 	 * strength
 	 */
 	private void deserter(Player sender) {
-
+		
 	}
 
 	/**
@@ -234,7 +249,18 @@ public class ProgressCardHandler {
 	 * choice
 	 */
 	private void wedding(Player sender) {
-
+		ArrayList<Player> otherPlayers= game.getParticipants();
+		for(Player p: otherPlayers){
+			if(p.getVP() > sender.getVP()){
+				p.sendCommand(new SelectResourceCommand("Wedding - all players with more VP than you give 2 resource"));
+				HashMap<ResourceType,Integer> resourceToGive = p.getCurrentSelectedResources();
+				for(ResourceType r: resourceToGive.keySet()){
+					p.removeResource(r, resourceToGive.get(r));
+					sender.giveResource(r, resourceToGive.get(r));
+				}
+				
+			}
+		}
 	}
 
 	/**
@@ -329,7 +355,7 @@ public class ProgressCardHandler {
 	 * Get one VP!
 	 */
 	private void printer(Player sender) {
-
+		sender.incrementVP(1);
 	}
 
 	/**

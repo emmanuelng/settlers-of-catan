@@ -3,6 +3,7 @@ package catan.settlers.server.model;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;

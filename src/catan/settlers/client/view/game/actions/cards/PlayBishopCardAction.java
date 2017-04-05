@@ -12,7 +12,9 @@ public class PlayBishopCardAction implements CardAction {
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		if(gsm.getProgressCards().get(ProgressCardType.BISHOP) > 0){
-			return true;
+			if(gsm.getAttacked()){
+				return true;
+			}
 		}
 		return false;
 	}
