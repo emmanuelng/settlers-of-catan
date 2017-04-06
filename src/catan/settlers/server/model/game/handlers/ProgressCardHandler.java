@@ -116,6 +116,7 @@ public class ProgressCardHandler {
 		default:
 			break;
 		}
+		game.getProgressCards().returnProgressCard(card);
 	}
 
 	/**

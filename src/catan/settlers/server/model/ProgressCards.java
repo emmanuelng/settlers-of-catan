@@ -62,4 +62,14 @@ public class ProgressCards implements Serializable {
 		}
 		return null;
 	}
+	
+	public void returnProgressCard(ProgressCardType card) {
+		if (card.ordinal() < 6) {
+			TradeCards.add(card);
+		} else if (card.ordinal() < 15) {
+			PoliticsCards.add(card);
+		} else {
+			ScienceCards.add(card);
+		}
+	}
 }
