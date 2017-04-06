@@ -68,13 +68,21 @@ public class TopBarLayer extends ImageLayer {
 					resources_y + 40 * (int) Math.floor(i / resources_per_line));
 		}
 
-		draw(diceImage, 900, 25);
-		draw(tradeImage, 1000, 25);
-		draw(endTurnImage, 1100, 25);
-		draw(vpImage, 1200, 0);
-
+		int x_offset = ClientWindow.WINDOW_WIDTH - vpImage.getWidth() - 30;
+		
 		MinuetoText vpAmt = new MinuetoText("0", vp_font, vp_color, true);
-		draw(vpAmt, 1275, 35);
+		
+		draw(vpImage, x_offset, 0);
+		draw(vpAmt, x_offset + 75, 35);
+		x_offset -= (endTurnImage.getWidth() + 50);
+		
+		draw(endTurnImage, x_offset, 25);
+		x_offset -= (tradeImage.getWidth() + 50);
+		
+		draw(tradeImage, x_offset, 25);
+		x_offset -= (diceImage.getWidth() + 50);
+		
+		draw(diceImage, x_offset, 25);
 
 		setClickables();
 	}

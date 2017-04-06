@@ -1,16 +1,17 @@
 package catan.settlers.client.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import catan.settlers.client.view.game.actions.ActivateKnightAction;
 import catan.settlers.client.view.game.actions.BuildKnightAction;
 import catan.settlers.client.view.game.actions.BuildRoadAction;
+import catan.settlers.client.view.game.actions.BuildShipAction;
+import catan.settlers.client.view.game.actions.BuildWallAction;
 import catan.settlers.client.view.game.actions.DisplaceKnightAction;
 import catan.settlers.client.view.game.actions.ExitMoveKnightMode;
 import catan.settlers.client.view.game.actions.GameAction;
+import catan.settlers.client.view.game.actions.ManageLevelsAction;
 import catan.settlers.client.view.game.actions.MoveKnightAction;
-import catan.settlers.client.view.game.actions.MoveRobberAction;
 import catan.settlers.client.view.game.actions.PlaceSettlementAction;
 import catan.settlers.client.view.game.actions.UpgradeKnightAction;
 import catan.settlers.client.view.game.actions.UpgradeToCityAction;
@@ -37,9 +38,11 @@ public class ActionManager {
 		// Build settlement, road and ships
 		tradeActions.add(new BuildRoadAction());
 		tradeActions.add(new PlaceSettlementAction());
+		tradeActions.add(new BuildShipAction());
 
 		// Build city and city walls
 		politicActions.add(new UpgradeToCityAction());
+		politicActions.add(new BuildWallAction());
 
 		// Hire knight, promote, activate
 		scienceActions.add(new BuildKnightAction());
@@ -48,6 +51,7 @@ public class ActionManager {
 
 		// Other actions
 		miscActions.add(new MoveKnightAction());
+		miscActions.add(new ManageLevelsAction());
 
 		// Move knight actions
 		moveKnightActions.add(new DisplaceKnightAction());

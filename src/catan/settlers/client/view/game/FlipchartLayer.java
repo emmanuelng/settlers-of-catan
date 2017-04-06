@@ -45,6 +45,7 @@ public class FlipchartLayer extends ImageLayer {
 	private Button levelUpBtn;
 
 	public FlipchartLayer() {
+		
 		this.currentField = Field.TRADE;
 		this.box_x = ClientWindow.WINDOW_WIDTH / 2 - WIDTH / 2;
 		this.box_y = ClientWindow.WINDOW_HEIGHT / 2 - HEIGHT / 2;

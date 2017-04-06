@@ -17,12 +17,18 @@ public class BuildWallAction implements GameAction {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		Intersection intersection = gsm.getSelectedIntersection();
 
-		if (intersection != null && intersection.getUnit().isVillage()) {
-			Village iu = (Village) intersection.getUnit();
-			if (iu.getKind() == VillageKind.SETTLEMENT) {
-				return false;
-			} else {
-				return true;
+		if (intersection != null) {
+			if (intersection.getUnit() != null) {
+
+				if (!intersection.getUnit().isVillage())
+					return false;
+
+				Village iu = (Village) intersection.getUnit();
+				if (iu.getKind() == VillageKind.SETTLEMENT) {
+					return false;
+				} else {
+					return !iu.hasWalls();
+				}
 			}
 		}
 		return false;
@@ -51,20 +57,27 @@ public class BuildWallAction implements GameAction {
 		Intersection intersection = gsm.getSelectedIntersection();
 
 		if (intersection != null) {
-			if (intersection.getUnit().isVillage()) {
-				Village iu = (Village) intersection.getUnit();
-				if (iu.getKind() == VillageKind.SETTLEMENT) {
-					return "Cannot build walls on settlements";
-				} else {
-					if (resources.get(ResourceType.BRICK) < 2)
-						return "Missing " + (resources.get(ResourceType.BRICK) - 2) + "bricks";
+			if (intersection.getUnit() != null) {
+				if (intersection.getUnit() != null) {
+
+					if (!intersection.getUnit().isVillage())
+						return "Select a city";
+
+					Village iu = (Village) intersection.getUnit();
+					if (iu.getKind() == VillageKind.SETTLEMENT) {
+						return "Cannot build walls on settlements";
+					} else {
+						if (resources.get(ResourceType.BRICK) < 2)
+							return "Missing " + (2 - resources.get(ResourceType.BRICK)) + "bricks";
+						
+						if (iu.hasWalls())
+							return "This city has already walls";
+					}
 				}
 			}
-		} else {
-			return "Select a city";
 		}
 
-		return "Cannot build walls";
+		return "Select a city";
 	}
 
 }

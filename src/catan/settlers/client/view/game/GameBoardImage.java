@@ -5,6 +5,7 @@ import java.util.HashSet;
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoCircle;
 import org.minueto.image.MinuetoImage;
+import org.minueto.image.MinuetoRectangle;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
@@ -17,6 +18,7 @@ import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.Direction;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.units.Knight;
+import catan.settlers.server.model.units.Village;
 import catan.settlers.server.model.map.Intersection;
 
 public class GameBoardImage extends ImageLayer {
@@ -37,8 +39,8 @@ public class GameBoardImage extends ImageLayer {
 		if (board == null)
 			return;
 
-		int offsetX = (int) (((board.getLength() + 0.5) * HexagonImage.WIDTH) / 2);
-		int offsetY = 60;
+		int offsetX = (ClientWindow.WINDOW_WIDTH / 2) - ((board.getLength() * HexagonImage.WIDTH) / 2);
+		int offsetY = (ClientWindow.WINDOW_HEIGHT / 2) - ((board.getLength() * HexagonImage.HEIGHT) / 2) + 25;
 
 		int hex_height = HexagonImage.HEIGHT, hex_width = HexagonImage.WIDTH;
 
@@ -137,6 +139,21 @@ public class GameBoardImage extends ImageLayer {
 
 			int posX = (int) (x + shift_x - intersecImg.getWidth() / 2);
 			int posY = (int) (y + shift_y - intersecImg.getWidth() / 2);
+
+			if (curIntersection.getUnit() != null) {
+				if (curIntersection.getUnit().isVillage()) {
+					Village v = (Village) curIntersection.getUnit();
+					if (v.hasWalls()) {
+						String wallOwner = v.getOwner().getUsername();
+						MinuetoColor wallsColor = ClientWindow.getInstance().getGameWindow()
+								.getColorByUsername(wallOwner);
+						MinuetoRectangle walls = new MinuetoRectangle(26, 26, wallsColor, true);
+						MinuetoRectangle wallsBorder = new MinuetoRectangle(26, 26, wallsColor.darken(0.2), false);
+						draw(walls, posX - 3, posY - 3);
+						draw(wallsBorder, posX - 3, posY - 3);
+					}
+				}
+			}
 
 			draw(intersecImg, posX, posY);
 

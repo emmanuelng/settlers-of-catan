@@ -17,7 +17,7 @@ import catan.settlers.server.model.Game.GamePhase;
 public class ActionBoxLayer extends ImageLayer {
 
 	private static final int WIDTH = 300;
-	private static final int PADDING_TOP = 30;
+	private static final int PADDING_TOP = 15;
 	private static final int PADDING_LEFT = 10;
 
 	private static final MinuetoColor BACKGROUND_COLOR = new MinuetoColor(233, 221, 175);
@@ -59,7 +59,7 @@ public class ActionBoxLayer extends ImageLayer {
 		int x_offset = box_x + PADDING_LEFT;
 
 		draw(title, x_offset, y_offset);
-		y_offset += title.getHeight() + 20;
+		y_offset += title.getHeight() + 15;
 
 		if (gsm.isMoveKnightMode()) {
 			moveKnightMode(x_offset, y_offset);
