@@ -30,24 +30,20 @@ public class PlayerTradeConfirmCommand implements ClientToServerCommand {
 
 	@Override
 	public void execute(Session sender, Server server) {
-		try {
-			Game game = server.getGameManager().getGameById(gameId);
-			Player player = game.getCurrentPlayer();
+		Game game = server.getGameManager().getGameById(gameId);
+		Player player = game.getCurrentPlayer();
 
-			for (ResourceType s : give.keySet()) {
-				player.removeResource(s, give.get(s));
-				proposedPlayer.giveResource(s, give.get(s));
-			}
-			for (ResourceType t : get.keySet()) {
-				proposedPlayer.removeResource(t, get.get(t));
-				player.giveResource(t, get.get(t));
-			}
-
-			sender.sendCommand(new UpdateResourcesCommand(player.getResources()));
-			game.sendToAllPlayers(new TradeSuccessCommand(player.getUsername()));
-		} catch (IOException e) {
-			// Ignore
+		for (ResourceType s : give.keySet()) {
+			player.removeResource(s, give.get(s));
+			proposedPlayer.giveResource(s, give.get(s));
 		}
+		for (ResourceType t : get.keySet()) {
+			proposedPlayer.removeResource(t, get.get(t));
+			player.giveResource(t, get.get(t));
+		}
+
+		game.sendToAllPlayers(new UpdateResourcesCommand(player.getResources()));
+		game.sendToAllPlayers(new TradeSuccessCommand(player.getUsername()));
 	}
 
 }
