@@ -7,16 +7,16 @@ import catan.settlers.client.view.game.actions.Action;
 import catan.settlers.network.server.commands.game.PlayProgressCardCommand;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 
-public class PlayResourceMonopolyCardAction implements Action{
+public class PlayResourceMonopolyCardAction implements CardAction {
 
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		if(gsm.getProgressCards().get(ProgressCardType.RESOURCE_MONOPOLY) > 0){
+		if (gsm.getProgressCards().get(ProgressCardType.RESOURCE_MONOPOLY) > 0) {
 			return true;
 		}
 		return false;
-			
+
 	}
 
 	@Override
@@ -30,10 +30,10 @@ public class PlayResourceMonopolyCardAction implements Action{
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		ProgressCardType pcard = ProgressCardType.RESOURCE_MONOPOLY;
 		nm.sendCommand(new PlayProgressCardCommand(pcard));
-		
+
 		int previous = gsm.getProgressCards().get(pcard);
-		gsm.getProgressCards().put(pcard, previous-1);
-		
+		gsm.getProgressCards().put(pcard, previous - 1);
+
 	}
 
 }
