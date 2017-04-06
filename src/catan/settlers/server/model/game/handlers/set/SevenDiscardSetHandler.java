@@ -3,6 +3,7 @@ package catan.settlers.server.model.game.handlers.set;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.EndOfSevenDiscardPhase;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
@@ -80,8 +81,10 @@ public class SevenDiscardSetHandler extends SetOfOpponentMove {
 
 	private void endSevenDiscardPhase() {
 		game.setCurSetOfOpponentMove(null);
-		for (Player p : participants)
+		for (Player p : participants) {
 			p.sendCommand(new EndOfSevenDiscardPhase());
+			p.sendCommand(new CurrentPlayerChangedCommand(game.getCurrentPlayer().getUsername()));
+		}
 
 		// TODO: If the first barbarian attack happened, ask to the current
 		// player to move the robber. Otherwise, go to normal turn phase
