@@ -179,7 +179,7 @@ public class SetupPhaseHandler implements Serializable {
 			if (p == nextPlayer) {
 				p.sendCommand(new PlaceElmtsSetupPhaseCommand(isPhaseOne));
 			} else {
-				p.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
+				p.sendCommand(new WaitForPlayerCommand(nextPlayer.getUsername()));
 			}
 		}
 	}

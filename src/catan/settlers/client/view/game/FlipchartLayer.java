@@ -11,7 +11,6 @@ import org.minueto.image.MinuetoText;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
-import catan.settlers.server.model.units.Knight;
 
 public class FlipchartLayer extends ImageLayer {
 
@@ -25,7 +24,6 @@ public class FlipchartLayer extends ImageLayer {
 	private static final MinuetoFont title_font = new MinuetoFont("arial", 18, true, false);
 	private static final MinuetoFont field_title_font = new MinuetoFont("arial", 25, true, false);
 	private static final MinuetoFont field_description_font = new MinuetoFont("arial", 20, false, false);
-	private static final MinuetoFont description_font = new MinuetoFont("arial", 17, false, false);
 	private static final MinuetoFont description_font_bold = new MinuetoFont("arial", 17, true, false);
 
 	private Field currentField;
@@ -45,7 +43,7 @@ public class FlipchartLayer extends ImageLayer {
 	private Button levelUpBtn;
 
 	public FlipchartLayer() {
-		
+
 		this.currentField = Field.TRADE;
 		this.box_x = ClientWindow.WINDOW_WIDTH / 2 - WIDTH / 2;
 		this.box_y = ClientWindow.WINDOW_HEIGHT / 2 - HEIGHT / 2;
@@ -167,72 +165,7 @@ public class FlipchartLayer extends ImageLayer {
 		draw(buildingText, x_offset, y_offset);
 		y_offset += buildingText.getHeight() + 15;
 
-		HashMap<String, String> buildings = getBuildingDescriptions(gsm);
-
 		MinuetoImage levelUp = levelUpBtn.getImage();
 		draw(levelUp, box_x + WIDTH - levelUp.getWidth() - 10, box_y + HEIGHT - levelUp.getHeight() - 10);
 	}
-
-	private HashMap<String, String> getBuildingDescriptions(GameStateManager gsm) {
-		HashMap<String, String> ret = new HashMap<>();
-
-		switch (currentField) {
-		case TRADE:
-			ret = getTradeBuildings(gsm);
-			break;
-		case POLITICS:
-			ret = getPoliticsBuildings(gsm);
-			break;
-		case SCIENCE:
-			ret = getScienceBuildings(gsm);
-			break;
-		}
-
-		return ret;
-	}
-
-	private HashMap<String, String> getTradeBuildings(GameStateManager gsm) {
-		HashMap<String, String> ret = new HashMap<>();
-		switch (gsm.getTradeImprovementLevel()) {
-		case 0:
-			ret.put("Road", "1 brick and 1 lumber");
-			ret.put("Ship", "1 lumber and 1 wool");
-			ret.put("Settlement", "1 brick, 1 lumber, 1 wool and 1 grain");
-			break;
-
-		default:
-			break;
-		}
-		return ret;
-	}
-
-	private HashMap<String, String> getPoliticsBuildings(GameStateManager gsm) {
-		HashMap<String, String> ret = new HashMap<>();
-		switch (gsm.getTradeImprovementLevel()) {
-		case 0:
-			ret.put("City", "2 grain and 3 ore");
-			ret.put("City wall", "2 bricks");
-			break;
-
-		default:
-			break;
-		}
-		return ret;
-	}
-
-	private HashMap<String, String> getScienceBuildings(GameStateManager gsm) {
-		HashMap<String, String> ret = new HashMap<>();
-		switch (gsm.getTradeImprovementLevel()) {
-		case 0:
-			ret.put("Knight", "1 wool and 1 ore");
-			ret.put("Knight promotion", "1 wool and 1 ore");
-			ret.put("Knight activation", "1 grain");
-			break;
-
-		default:
-			break;
-		}
-		return ret;
-	}
-
 }
