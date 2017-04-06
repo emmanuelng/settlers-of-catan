@@ -19,11 +19,6 @@ import catan.settlers.server.model.Player.ResourceType;
 
 public class TradeReceivedMenuLayer extends ImageLayer {
 
-	private static final HashMap<ResourceType, MinuetoImage> plusButtons_offer = new HashMap<>();
-	private static final HashMap<ResourceType, MinuetoImage> minusButtons_offer = new HashMap<>();
-	private static final HashMap<ResourceType, MinuetoImage> plusButtons_price = new HashMap<>();
-	private static final HashMap<ResourceType, MinuetoImage> minusButtons_price = new HashMap<>();
-
 	private static final int WIDTH = 1000, HEIGHT = 635;
 	private static final MinuetoColor bg_color = new MinuetoColor(249, 249, 249);
 	private static final MinuetoColor border_color = new MinuetoColor(179, 179, 179);
@@ -39,7 +34,6 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 	private MinuetoText description;
 	private MinuetoText giveDesc;
 	private MinuetoText receiveDesc;
-	private Button counterProposeButton;
 	private MinuetoRectangle rAmtBox;
 	private MinuetoRectangle rAmtBoxBorder;
 	private Button tradeConfirmButton;
@@ -75,8 +69,7 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 	public void compose(GameStateManager gsm) {
 		if (!gsm.doShowTradeReceivedMenu()) {
 			if (clear) {
-				give = resetResourceMap();
-				get = resetResourceMap();
+			
 				ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);
 				clear();
 
@@ -150,50 +143,12 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 			draw(amtTextImage, amt_box_x + (rAmtBox.getWidth() / 2) - (amtTextImage.getWidth() / 2),
 					y_offset + (rAmtBox.getHeight() / 2) - (amtTextImage.getHeight() / 2));
 			draw(rAmtBoxBorder, amt_box_x, y_offset);
-			drawPlusMinusButton(true, rType, amt_box_x, y_offset, rAmtBox.getWidth(), rAmtBox.getHeight(), isOffer);
-			drawPlusMinusButton(false, rType, amt_box_x, y_offset, rAmtBox.getWidth(), rAmtBox.getHeight(), isOffer);
+			
 			y_offset += rAmtBox.getHeight() + 10;
 
 			draw(rnameImage, (x + i * spacing) + (spacing / 2 - rnameImage.getWidth() / 2), y_offset);
 		}
 
-	}
-
-	private void drawPlusMinusButton(boolean isPlus, ResourceType rType, int x, int y, int boxWidth, int boxHeight,
-			boolean isOffer) {
-
-		HashMap<ResourceType, MinuetoImage> list = isPlus ? plusButtons_offer : minusButtons_offer;
-		if (!isOffer)
-			list = isPlus ? plusButtons_price : minusButtons_price;
-
-		MinuetoImage image = list.get(rType);
-
-		if (image == null) {
-			ImageFileManager ifm = ClientModel.instance.getImageFileManager();
-			image = ifm.load("images/plusminus.png");
-			image = isPlus ? image.rotate(0) : image.rotate(-Math.PI);
-			list.put(rType, image);
-		}
-
-		int btn_x = x + (boxWidth / 2 - image.getWidth() / 2);
-		int btn_y = isPlus ? y + 10 : y + boxHeight - image.getHeight() - 10;
-
-		registerClickable(image, new ClickListener() {
-			@Override
-			public void onClick() {
-				GameStateManager gsm = ClientModel.instance.getGameStateManager();
-				HashMap<ResourceType, Integer> map = isOffer ? give : get;
-				if (isPlus) {
-					if (!(isOffer && map.get(rType) >= gsm.getResources().get(rType)))
-						map.put(rType, map.get(rType) + 1);
-				} else {
-					if (map.get(rType) > 0)
-						map.put(rType, map.get(rType) - 1);
-				}
-			}
-		});
-
-		draw(image, btn_x, btn_y);
 	}
 
 	private ClickListener getTradeConfirmListener() {
@@ -221,13 +176,6 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 		};
 	}
 
-	private HashMap<ResourceType, Integer> resetResourceMap() {
-		HashMap<ResourceType, Integer> ret = new HashMap<>();
-		for (ResourceType rType : ResourceType.values()) {
-			ret.put(rType, 0);
-		}
-		return ret;
-	}
 
 	private void overrideClickables() {
 		/*
