@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.Credentials;
@@ -324,5 +325,18 @@ public class Player implements Serializable {
 
 	public void removeTradeAtAdvantage(ArrayList<ResourceType> resource) {
 		tradeAtAdvantage.remove(resource);
+	}
+
+	public ResourceType drawRandomResource() {
+		ResourceType ret = null;
+
+		while (ret == null) {
+			int resourceIndex = new Random().nextInt(ResourceType.values().length);
+			ResourceType rtype = ResourceType.values()[resourceIndex];
+			if (resources.get(rtype) > 0)
+				ret = rtype;
+		}
+
+		return ret;
 	}
 }

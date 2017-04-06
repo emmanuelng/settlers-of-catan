@@ -125,36 +125,7 @@ public class ProgressCardHandler {
 	 * of their choice
 	 */
 	private void commercialHarbor() {
-		currentPlayer.sendCommand(
-				new SelectResourceCommand("Commercial Harbour - Prompting card-player for resource of exchange"));
-		ResourceType resource = currentPlayer.getCurrentSelectedResource();
-		if(resource == ResourceType.COIN || resource == ResourceType.CLOTH || resource == ResourceType.PAPER){
-			currentPlayer.sendCommand(new FailureCommand("Please select a commodity rather than a resource"));
-			currentPlayer.sendCommand(new SelectResourceCommand("Commercial Harbour - Prompting card-player for resource of exchange"));
-			resource = currentPlayer.getCurrentSelectedResource();
-		}
-		
-		
-		SetOfOpponentMove commercialHarbourMoves = new SetOfOpponentMove(MoveType.COMMERCIAL_HARBOUR);
-		ArrayList<Player> otherPlayers = game.getParticipants();
-		otherPlayers.remove(currentPlayer);
-		for (Player p : otherPlayers) {
-			p.sendCommand(
-					new SelectResourceCommand("Commercial Harbour - Prompting opponents for commodity of exchange"));
-			
-			ResourceType selectedCommodity = p.getCurrentSelectedResource();
-			if(selectedCommodity == ResourceType.COIN || selectedCommodity == ResourceType.CLOTH || selectedCommodity == ResourceType.PAPER){
-				p.removeResource(selectedCommodity, 1);
-				p.giveResource(resource, 1);
-				currentPlayer.giveResource(selectedCommodity, 1);
-			}else{
-				p.sendCommand(new FailureCommand("Please select a commodity rather than a resource"));
-				p.sendCommand(new SelectResourceCommand("Commercial Harbour - Prompting card-player for resource of exchange"));
-				selectedCommodity = p.getCurrentSelectedResource();
-			}
-			
-		}
-		currentPlayer.removeResource(resource, 1);
+
 	}
 
 	/**
@@ -243,7 +214,8 @@ public class ProgressCardHandler {
 	private void saboteur(Player sender) {
 		for (Player p : game.getParticipants()) {
 			if (p.getVP() > sender.getVP()) {
-				// Probably want some message letting them know saboteur was played
+				// Probably want some message letting them know saboteur was
+				// played
 				p.sendCommand(new DiscardCardsCommand());
 			}
 		}

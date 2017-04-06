@@ -180,16 +180,16 @@ public class TurnPhaseHandler implements Serializable {
 			}
 		}
 	}
-	
+
 	private void buildShip() {
 		Cost cost;
-		if(currentPlayer.hasRoadBuilding()) {
+		if (currentPlayer.hasRoadBuilding()) {
 			cost = new Cost();
 			currentPlayer.useRoadBuilding();
 		} else {
 			cost = selectedEdge.getBuildShipCost();
 		}
-		if(cost.canPay(currentPlayer)) {
+		if (cost.canPay(currentPlayer)) {
 			selectedEdge.setOwner(currentPlayer);
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
@@ -291,8 +291,10 @@ public class TurnPhaseHandler implements Serializable {
 	}
 
 	private void updateResourcesAndBoard() {
-		currentPlayer.sendCommand(new UpdateResourcesCommand(currentPlayer.getResources()));
-		currentPlayer.sendCommand(new UpdateGameBoardCommand(gameBoardManager.getBoardDeepCopy()));
+		for (Player p : game.getParticipants()) {
+			p.sendCommand(new UpdateResourcesCommand(currentPlayer.getResources()));
+			p.sendCommand(new UpdateGameBoardCommand(gameBoardManager.getBoardDeepCopy()));
+		}
 	}
 
 }
