@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.network.client.commands.game.TradeSuccessCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
@@ -43,6 +44,7 @@ public class PlayerTradeConfirmCommand implements ClientToServerCommand {
 			}
 
 			sender.sendCommand(new UpdateResourcesCommand(player.getResources()));
+			game.sendToAllPlayers(new TradeSuccessCommand(player.getUsername()));
 		} catch (IOException e) {
 			// Ignore
 		}
