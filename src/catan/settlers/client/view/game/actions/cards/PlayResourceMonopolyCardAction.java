@@ -36,4 +36,9 @@ public class PlayResourceMonopolyCardAction implements CardAction {
 
 	}
 
+	@Override
+	public ProgressCardType getCardType() {
+		return ProgressCardType.RESOURCE_MONOPOLY;
+	}
+
 }

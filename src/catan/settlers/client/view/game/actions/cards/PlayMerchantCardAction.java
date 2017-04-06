@@ -35,4 +35,9 @@ public class PlayMerchantCardAction implements CardAction {
 
 	}
 
+	@Override
+	public ProgressCardType getCardType() {
+		return ProgressCardType.MERCHANT;
+	}
+
 }

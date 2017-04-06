@@ -11,11 +11,11 @@ public class PlayConstitutionCardAction implements CardAction {
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		if(gsm.getProgressCards().get(ProgressCardType.CONSTITUTION) > 0){
+		if (gsm.getProgressCards().get(ProgressCardType.CONSTITUTION) > 0) {
 			return true;
 		}
 		return false;
-			
+
 	}
 
 	@Override
@@ -28,10 +28,15 @@ public class PlayConstitutionCardAction implements CardAction {
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		nm.sendCommand(new PlayProgressCardCommand(ProgressCardType.CONSTITUTION));
-		
+
 		int previous = gsm.getProgressCards().get(ProgressCardType.CONSTITUTION);
-		gsm.getProgressCards().put(ProgressCardType.CONSTITUTION, previous-1);
-		
+		gsm.getProgressCards().put(ProgressCardType.CONSTITUTION, previous - 1);
+
+	}
+
+	@Override
+	public ProgressCardType getCardType() {
+		return ProgressCardType.CONSTITUTION;
 	}
 
 }

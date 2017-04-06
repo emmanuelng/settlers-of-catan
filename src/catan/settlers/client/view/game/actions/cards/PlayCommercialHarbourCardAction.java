@@ -35,4 +35,9 @@ public class PlayCommercialHarbourCardAction implements CardAction {
 		gsm.getProgressCards().put(ProgressCardType.COMMERCIAL_HARBOR, previous-1);
 	}
 
+	@Override
+	public ProgressCardType getCardType() {
+		return ProgressCardType.COMMERCIAL_HARBOR;
+	}
+
 }

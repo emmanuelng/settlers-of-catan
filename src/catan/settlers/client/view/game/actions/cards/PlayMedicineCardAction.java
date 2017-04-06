@@ -35,4 +35,9 @@ public class PlayMedicineCardAction implements CardAction {
 
 	}
 
+	@Override
+	public ProgressCardType getCardType() {
+		return ProgressCardType.MEDICINE;
+	}
+
 }

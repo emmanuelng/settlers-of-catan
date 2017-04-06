@@ -33,5 +33,10 @@ public class PlaySmithCardAction implements CardAction {
 		gsm.getProgressCards().put(pcard, previous-1);
 
 	}
+	
+	@Override
+	public ProgressCardType getCardType() {
+		return ProgressCardType.SMITH;
+	}
 
 }

@@ -186,6 +186,7 @@ public class GameStateManager {
 
 	public void setProgressCards(HashMap<ProgressCardType, Integer> progressCards) {
 		this.progressCards = progressCards;
+		progressCards.put(ProgressCardType.CONSTITUTION, 4);
 		this.updateProgressCards = true;
 	}
 

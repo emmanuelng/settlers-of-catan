@@ -35,4 +35,9 @@ public class PlayDeserterCardAction implements CardAction {
 
 	}
 
+	@Override
+	public ProgressCardType getCardType() {
+		return ProgressCardType.DESERTER;
+	}
+
 }

@@ -27,11 +27,16 @@ public class PlayIrrigationCardAction implements CardAction {
 	public void perform() {
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		ProgressCardType pcard = ProgressCardType.INTRIGUE;
+		ProgressCardType pcard = ProgressCardType.IRRIGATION;
 		nm.sendCommand(new PlayProgressCardCommand(pcard));
 		
 		int previous = gsm.getProgressCards().get(pcard);
 		gsm.getProgressCards().put(pcard, previous-1);
+	}
+	
+	@Override
+	public ProgressCardType getCardType() {
+		return ProgressCardType.IRRIGATION;
 	}
 
 }

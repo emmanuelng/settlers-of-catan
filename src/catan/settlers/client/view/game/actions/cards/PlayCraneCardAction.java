@@ -34,4 +34,9 @@ public class PlayCraneCardAction implements CardAction {
 
 	}
 
+	@Override
+	public ProgressCardType getCardType() {
+		return ProgressCardType.CRANE;
+	}
+
 }

@@ -10,10 +10,9 @@ import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
-import catan.settlers.client.model.NetworkManager;
 import catan.settlers.client.view.ClientWindow;
+import catan.settlers.client.view.game.actions.cards.CardAction;
 import catan.settlers.client.view.game.handlers.ClickListener;
-import catan.settlers.network.server.commands.game.PlayProgressCardCommand;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 
 public class ProgressCardMenuLayer extends ImageLayer {
@@ -83,14 +82,19 @@ public class ProgressCardMenuLayer extends ImageLayer {
 		draw(description, box_x + WIDTH / 2 - description.getWidth() / 2, y_offset);
 		y_offset += description.getHeight() + 30;
 
-		ArrayList<ProgressCardType> cards = gsm.getProgressCards();
+		ArrayList<CardAction> cardActions = ClientModel.instance.getActionManager().getProgressCardActions();
+		HashMap<ProgressCardType, Integer> ownedCards = gsm.getProgressCards();
 
-		if (cards.isEmpty()) {
+		if (cardActions.isEmpty()) {
 			draw(emptyMsg, box_x + WIDTH / 2 - emptyMsg.getWidth() / 2, box_y + HEIGHT / 2 - emptyMsg.getHeight() / 2);
 		} else {
-			for (int i = 0; i < cards.size(); i++) {
-				ProgressCardType cardType = cards.get(i);
-				y_offset = drawCard(cardType, box_x + 10, y_offset, i);
+			int cardIndex = 0;
+			for (CardAction cardAction : cardActions) {
+				int nbCards = ownedCards.get(cardAction.getCardType());
+				for (int i = 0; i < nbCards; i++) {
+					y_offset = drawCard(cardAction.getCardType(), box_x + 10, y_offset, cardIndex, cardAction);
+					cardIndex++;
+				}
 			}
 		}
 
@@ -100,7 +104,7 @@ public class ProgressCardMenuLayer extends ImageLayer {
 		draw(border, box_x, box_y);
 	}
 
-	private int drawCard(ProgressCardType cardType, int x, int y, int index) {
+	private int drawCard(ProgressCardType cardType, int x, int y, int index, CardAction cardAction) {
 		int y_offset = y;
 
 		String cardNameStr = cardType.toString();
@@ -108,7 +112,8 @@ public class ProgressCardMenuLayer extends ImageLayer {
 		cardNameStr = cardNameStr.replace('_', ' ');
 		cardNameStr = cardNameStr.substring(0, 1).toUpperCase() + cardNameStr.substring(1);
 
-		String cardDescStr = getCardDescription(cardType);
+		// TODO Add description
+		String cardDescStr = "Description here";
 
 		MinuetoColor cardColor = new MinuetoColor(222, 170, 135);
 		MinuetoColor fontColor = cardColor.darken(0.4);
@@ -139,47 +144,10 @@ public class ProgressCardMenuLayer extends ImageLayer {
 			@Override
 			public void onClick() {
 				System.out.println("Playing " + cardType + "...");
-				NetworkManager nm = ClientModel.instance.getNetworkManager();
-				nm.sendCommand(new PlayProgressCardCommand(cardType));
+				cardAction.perform();
 			}
 		});
 
 		return y_offset + 10;
 	}
-
-	private String getCardDescription(ProgressCardType cardType) {
-		switch (cardType) {
-		case ALCHEMIST:
-			break;
-		case BISHOP:
-			return "Move the robber and get a random card from each player on the robber's new hex";
-		case COMMERCIAL_HARBOR:
-		case CONSTITUTION:
-		case CRANE:
-		case DESERTER:
-		case DIPLOMAT:
-		case ENGINEER:
-		case INTRIGUE:
-		case INVENTOR:
-		case IRRIGATION:
-		case MASTER_MERCHANT:
-			return "Choose two cards to take from an opponent with more VPs than you";
-		case MEDICINE:
-		case MERCHANT:
-		case MERCHANT_FLEET:
-		case MINING:
-		case PRINTER:
-		case RESOURCE_MONOPOLY:
-		case ROAD_BUILDING:
-		case SABOTEUR:
-		case SMITH:
-		case SPY:
-		case TRADE_MONOPOLY:
-		case WARLORD:
-		case WEDDING:
-			break;
-		}
-		return "No description";
-	}
-
 }

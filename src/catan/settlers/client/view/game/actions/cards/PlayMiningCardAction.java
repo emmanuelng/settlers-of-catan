@@ -11,11 +11,11 @@ public class PlayMiningCardAction implements CardAction {
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		if(gsm.getProgressCards().get(ProgressCardType.MINING) > 0){
+		if (gsm.getProgressCards().get(ProgressCardType.MINING) > 0) {
 			return true;
 		}
 		return false;
-			
+
 	}
 
 	@Override
@@ -29,10 +29,14 @@ public class PlayMiningCardAction implements CardAction {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		ProgressCardType pcard = ProgressCardType.MINING;
 		nm.sendCommand(new PlayProgressCardCommand(pcard));
-		
-		int previous = gsm.getProgressCards().get(pcard);
-		gsm.getProgressCards().put(pcard, previous-1);
 
+		int previous = gsm.getProgressCards().get(pcard);
+		gsm.getProgressCards().put(pcard, previous - 1);
+	}
+
+	@Override
+	public ProgressCardType getCardType() {
+		return ProgressCardType.MINING;
 	}
 
 }

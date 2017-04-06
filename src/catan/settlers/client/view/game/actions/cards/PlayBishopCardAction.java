@@ -11,8 +11,8 @@ public class PlayBishopCardAction implements CardAction {
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		if(gsm.getProgressCards().get(ProgressCardType.BISHOP) > 0){
-			if(gsm.getAttacked()){
+		if (gsm.getProgressCards().get(ProgressCardType.BISHOP) > 0) {
+			if (gsm.getAttacked()) {
 				return true;
 			}
 		}
@@ -21,7 +21,6 @@ public class PlayBishopCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
 		return "Play Bishop Card";
 	}
 
@@ -30,10 +29,14 @@ public class PlayBishopCardAction implements CardAction {
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		nm.sendCommand(new PlayProgressCardCommand(ProgressCardType.BISHOP));
-		
-		int previous = gsm.getProgressCards().get(ProgressCardType.BISHOP);
-		gsm.getProgressCards().put(ProgressCardType.BISHOP, previous-1);
 
+		int previous = gsm.getProgressCards().get(ProgressCardType.BISHOP);
+		gsm.getProgressCards().put(ProgressCardType.BISHOP, previous - 1);
+	}
+
+	@Override
+	public ProgressCardType getCardType() {
+		return ProgressCardType.BISHOP;
 	}
 
 }

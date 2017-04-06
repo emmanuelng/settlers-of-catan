@@ -1,6 +1,7 @@
 package catan.settlers.client.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import catan.settlers.client.view.game.actions.ActivateKnightAction;
 import catan.settlers.client.view.game.actions.BuildKnightAction;
@@ -18,6 +19,7 @@ import catan.settlers.client.view.game.actions.UpgradeToCityAction;
 import catan.settlers.client.view.game.actions.cards.CardAction;
 import catan.settlers.client.view.game.actions.cards.PlayBishopCardAction;
 import catan.settlers.client.view.game.actions.cards.PlayCommercialHarbourCardAction;
+import catan.settlers.client.view.game.actions.cards.PlayConstitutionCardAction;
 import catan.settlers.client.view.game.actions.cards.PlayCraneCardAction;
 import catan.settlers.client.view.game.actions.cards.PlayDeserterCardAction;
 import catan.settlers.client.view.game.actions.cards.PlayDiplomatCardAction;
@@ -39,6 +41,8 @@ import catan.settlers.client.view.game.actions.cards.PlaySpyCardAction;
 import catan.settlers.client.view.game.actions.cards.PlayTradeMonopolyCardAction;
 import catan.settlers.client.view.game.actions.cards.PlayWarlordCardAction;
 import catan.settlers.client.view.game.actions.cards.PlayWeddingCardAction;
+import catan.settlers.server.model.ProgressCards;
+import catan.settlers.server.model.ProgressCards.ProgressCardType;
 
 public class ActionManager {
 
@@ -47,7 +51,7 @@ public class ActionManager {
 	private ArrayList<GameAction> scienceActions;
 	private ArrayList<GameAction> miscActions;
 	private ArrayList<GameAction> moveKnightActions;
-	
+
 	private ArrayList<CardAction> cardActions;
 
 	public ActionManager() {
@@ -83,7 +87,7 @@ public class ActionManager {
 		// Move knight actions
 		moveKnightActions.add(new DisplaceKnightAction());
 		moveKnightActions.add(new ExitMoveKnightMode());
-		
+
 		registerCardActions();
 	}
 
@@ -91,6 +95,7 @@ public class ActionManager {
 		cardActions.add(new PlayBishopCardAction());
 		cardActions.add(new PlayCommercialHarbourCardAction());
 		cardActions.add(new PlayCraneCardAction());
+		cardActions.add(new PlayConstitutionCardAction());
 		cardActions.add(new PlayDeserterCardAction());
 		cardActions.add(new PlayDiplomatCardAction());
 		cardActions.add(new PlayEngineerCardAction());
@@ -111,7 +116,7 @@ public class ActionManager {
 		cardActions.add(new PlayTradeMonopolyCardAction());
 		cardActions.add(new PlayWarlordCardAction());
 		cardActions.add(new PlayWeddingCardAction());
-		
+
 	}
 
 	public ArrayList<GameAction> getTradeActions() {
@@ -141,6 +146,16 @@ public class ActionManager {
 	public ArrayList<GameAction> getMoveKnightActions() {
 		ArrayList<GameAction> ret = new ArrayList<>();
 		ret.addAll(moveKnightActions);
+		return ret;
+	}
+
+	public ArrayList<CardAction> getProgressCardActions() {
+		ArrayList<CardAction> ret = new ArrayList<>();
+
+		for (CardAction card : cardActions)
+			if (card.isPossible())
+				ret.add(card);
+
 		return ret;
 	}
 

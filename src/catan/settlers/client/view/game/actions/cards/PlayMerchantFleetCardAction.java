@@ -33,5 +33,10 @@ public class PlayMerchantFleetCardAction implements CardAction {
 		int previous = gsm.getProgressCards().get(pcard);
 		gsm.getProgressCards().put(pcard, previous-1);
 	}
+	
+	@Override
+	public ProgressCardType getCardType() {
+		return ProgressCardType.MERCHANT_FLEET;
+	}
 
 }
