@@ -8,6 +8,7 @@ import java.util.HashSet;
 import catan.settlers.network.client.commands.game.ChooseProgressCardCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.NormalDiceRollCommand;
+import catan.settlers.network.client.commands.game.UpdateBarbarianCounterCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForSetOfOpponentMoveCommand;
 import catan.settlers.server.model.Game;
@@ -73,6 +74,7 @@ public class RollDicePhaseHandler implements Serializable {
 
 		if (eventDie < 4) {
 			barbarianHordeCounter++;
+			game.sendToAllPlayers(new UpdateBarbarianCounterCommand(barbarianHordeCounter));
 			if (barbarianHordeCounter >= 7) {
 				barbarianAttack();
 			}

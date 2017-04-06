@@ -72,6 +72,8 @@ public class GameStateManager {
 
 	private boolean showSelectCardTypeMenu;
 
+	private int barbarianCounter;
+
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
 		this.canMoveRobber = false;
@@ -450,4 +452,12 @@ public class GameStateManager {
 		this.showSelectCardTypeMenu = b;
 	}
 
+	public int getBarbarianCounter() {
+		// TODO Auto-generated method stub
+		return barbarianCounter;
+	}
+
+	public void setBarbarianCounter(int i){
+		barbarianCounter=i;
+	}
 }

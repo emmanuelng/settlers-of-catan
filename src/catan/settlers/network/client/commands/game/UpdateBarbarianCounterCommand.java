@@ -1,13 +1,27 @@
 package catan.settlers.network.client.commands.game;
 
+import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.view.ClientWindow;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class UpdateBarbarianCounterCommand implements ServerToClientCommand {
 
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5595446857378209044L;
+	private int barbarianCounter;
+	
+	
+	public UpdateBarbarianCounterCommand(int i){
+		barbarianCounter = i;
+	}
+	
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		ClientModel.instance.getGameStateManager().setBarbarianCounter(barbarianCounter);
+		ClientWindow.getInstance().getGameWindow().updateWindow();
 	}
 
 }
