@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import catan.settlers.network.client.commands.game.ChooseProgressCardCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.NormalDiceRollCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
@@ -242,11 +243,34 @@ public class RollDicePhaseHandler implements Serializable {
 				weakestPlayers.add(player);
 			}
 		}
-
+		// Weakest players lose a random city
 		if (barbarianStrength > totalStrength) {
-			// remove cities from weakest players
+			for (Player p : weakestPlayers) {
+				ArrayList<Village> cities = new ArrayList<>();
+				for (Intersection i : game.getGameBoardManager().getBoard().getIntersections()) {
+					IntersectionUnit u = i.getUnit();
+					if (u instanceof Village && u.getOwner() == p) {
+						if (((Village) u).getKind() == VillageKind.CITY) {
+							cities.add((Village) u);
+						}
+					}
+				}
+				if (cities.size() != 0) {
+					Village v = cities.remove((int)Math.random()*cities.size());
+					v.destroyCity();
+				}
+			}
 		} else {
 			// top player gets VP or top players get prog cards
+			if (strongestPlayers.size() == 1) {
+				for (Player p : strongestPlayers) {
+					p.incrementVP(1);
+				}
+			} else {
+				for (Player p : strongestPlayers) {
+					p.sendCommand(new ChooseProgressCardCommand());
+				}
+			}
 		}
 
 	}

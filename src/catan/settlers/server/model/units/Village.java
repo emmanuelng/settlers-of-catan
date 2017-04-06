@@ -55,6 +55,10 @@ public class Village implements IntersectionUnit {
 	public void upgradeToCity() {
 		myKind = VillageKind.CITY;
 	}
+	
+	public void destroyCity() {
+		myKind = VillageKind.SETTLEMENT;
+	}
 
 	public void buildWall() {
 		if (this.getKind() == VillageKind.SETTLEMENT) {
