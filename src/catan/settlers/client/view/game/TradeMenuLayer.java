@@ -79,7 +79,7 @@ public class TradeMenuLayer extends ImageLayer {
 
 	@Override
 	public void compose(GameStateManager gsm) {
-		if (!gsm.doShowTradeMenu() && !gsm.getCurrentPlayer().equals(ClientModel.instance.getUsername())) {
+		if (!gsm.doShowTradeMenu()) {
 			if (clear) {
 				give = resetResourceMap();
 				get = resetResourceMap();
@@ -90,6 +90,11 @@ public class TradeMenuLayer extends ImageLayer {
 			}
 			return;
 		} else {
+			if (!gsm.getCurrentPlayer().equals(ClientModel.instance.getUsername())) {
+				gsm.setShowTradeMenu(false);
+				return;
+			}
+
 			clear = true;
 		}
 
