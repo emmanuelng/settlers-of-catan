@@ -22,7 +22,7 @@ public class Player implements Serializable {
 	}
 
 	private HashMap<ResourceType, Integer> resources;
-	private ArrayList<ProgressCardType> progressCards;
+	private HashMap<ProgressCardType, Integer> progressCards;
 	private HashMap<PortKind, Boolean> ownedPorts;
 	private int numberOfWalls;
 
@@ -43,7 +43,7 @@ public class Player implements Serializable {
 		this.credentials = credentials;
 		this.resources = new HashMap<>();
 		this.ownedPorts = new HashMap<>();
-		this.progressCards = new ArrayList<>();
+		this.progressCards = new HashMap<>();
 
 		// this will be removed later
 		this.tradeImprovement = 5;
@@ -54,8 +54,13 @@ public class Player implements Serializable {
 		for (ResourceType resType : ResourceType.values()) {
 			resources.put(resType, 12);
 		}
+
 		for (PortKind portKind : PortKind.values()) {
 			ownedPorts.put(portKind, false);
+		}
+
+		for (ProgressCardType pctype : ProgressCardType.values()) {
+			progressCards.put(pctype, 0);
 		}
 	}
 
@@ -138,12 +143,13 @@ public class Player implements Serializable {
 	}
 
 	public void giveProgressCard(ProgressCardType pc) {
-		progressCards.add(pc);
+		int currentAmt = progressCards.get(pc);
+		progressCards.put(pc, currentAmt + 1);
 	}
-	
-	public ArrayList<ProgressCardType> getProgressCards() {
-		ArrayList<ProgressCardType> ret = new ArrayList<>();
-		ret.addAll(progressCards);
+
+	public HashMap<ProgressCardType, Integer> getProgressCards() {
+		HashMap<ProgressCardType, Integer> ret = new HashMap<>();
+		ret.putAll(progressCards);
 		return ret;
 	}
 
@@ -303,19 +309,19 @@ public class Player implements Serializable {
 		}
 		return ret;
 	}
-	
-	public void setCurrentSelectedResource(ResourceType resource){
-		this.currentlySelectedResource=resource;
+
+	public void setCurrentSelectedResource(ResourceType resource) {
+		this.currentlySelectedResource = resource;
 	}
 
-	public ResourceType getCurrentSelectedResource(){
+	public ResourceType getCurrentSelectedResource() {
 		return currentlySelectedResource;
 	}
 
 	public void setTradeAtAdvantage(ResourceType resource) {
 		tradeAtAdvantage.add(resource);
 	}
-	
+
 	public void removeTradeAtAdvantage(ArrayList<ResourceType> resource) {
 		tradeAtAdvantage.remove(resource);
 	}

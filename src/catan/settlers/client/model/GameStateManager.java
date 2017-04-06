@@ -27,7 +27,7 @@ public class GameStateManager {
 	private ArrayList<String> participants;
 	private String currentPlayer;
 	private HashMap<ResourceType, Integer> resources;
-	private ArrayList<ProgressCardType> progressCards;
+	private HashMap<ProgressCardType, Integer> progressCards;
 	private HashMap<ResourceType, Integer> receiveTradeOfferGive, receiveTradeOfferGet;
 	private Player requestedPlayer;
 
@@ -178,13 +178,13 @@ public class GameStateManager {
 		this.updateResources = true;
 	}
 
-	public ArrayList<ProgressCardType> getProgressCards() {
-		ArrayList<ProgressCardType> ret = new ArrayList<>();
-		ret.addAll(progressCards);
+	public HashMap<ProgressCardType, Integer> getProgressCards() {
+		HashMap<ProgressCardType, Integer> ret = new HashMap<>();
+		ret.putAll(progressCards);
 		return progressCards;
 	}
 
-	public void setProgressCards(ArrayList<ProgressCardType> progressCards) {
+	public void setProgressCards(HashMap<ProgressCardType, Integer> progressCards) {
 		this.progressCards = progressCards;
 		this.updateProgressCards = true;
 	}
