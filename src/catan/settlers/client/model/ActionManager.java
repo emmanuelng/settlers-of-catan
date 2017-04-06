@@ -1,7 +1,6 @@
 package catan.settlers.client.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import catan.settlers.client.view.game.actions.ActivateKnightAction;
 import catan.settlers.client.view.game.actions.BuildKnightAction;
@@ -41,8 +40,6 @@ import catan.settlers.client.view.game.actions.cards.PlaySpyCardAction;
 import catan.settlers.client.view.game.actions.cards.PlayTradeMonopolyCardAction;
 import catan.settlers.client.view.game.actions.cards.PlayWarlordCardAction;
 import catan.settlers.client.view.game.actions.cards.PlayWeddingCardAction;
-import catan.settlers.server.model.ProgressCards;
-import catan.settlers.server.model.ProgressCards.ProgressCardType;
 
 public class ActionManager {
 

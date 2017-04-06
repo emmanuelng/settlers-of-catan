@@ -70,6 +70,8 @@ public class GameStateManager {
 	private int politicsImprovementLevel;
 	private int scienceImprovementLevel;
 
+	private boolean showSelectCardTypeMenu;
+
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
 		this.canMoveRobber = false;
@@ -83,6 +85,8 @@ public class GameStateManager {
 		this.showSevenDiscardMenu = false;
 		this.showSelectPlayerMenu = false;
 		this.showSelectResourceMenu = false;
+		this.showSelectCardTypeMenu = false;
+		
 		this.sevenDiscardMenuMsg = "";
 		this.tradeMenuMsg = "";
 	}
@@ -436,6 +440,14 @@ public class GameStateManager {
 
 	public void setShowProgressCardMenu(boolean b) {
 		this.showProgressCardMenu = b;
+	}
+
+	public boolean doShowSelectCardTypeMenu() {
+		return showSelectCardTypeMenu;
+	}
+
+	public void setShowSelectCardTypeMenu(boolean b) {
+		this.showSelectCardTypeMenu = b;
 	}
 
 }

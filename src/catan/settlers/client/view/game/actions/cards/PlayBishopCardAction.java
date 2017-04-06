@@ -21,7 +21,7 @@ public class PlayBishopCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Bishop Card";
+		return "Move the robber and get a random card from each player on the robber's new hex";
 	}
 
 	@Override

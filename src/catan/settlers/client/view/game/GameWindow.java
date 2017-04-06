@@ -36,6 +36,7 @@ public class GameWindow extends MinuetoFrame {
 	private SevenDiscardMenuLayer sevenDiscardMenu;
 	private SelectPlayerLayer selectPlayerLayer;
 	private ProgressCardMenuLayer progressCardsLayer;
+	private SelectProgressCardTypeLayer selectProgressCardTypeLayer;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
@@ -86,6 +87,7 @@ public class GameWindow extends MinuetoFrame {
 		this.sevenDiscardMenu = new SevenDiscardMenuLayer();
 		this.selectPlayerLayer = new SelectPlayerLayer();
 		this.progressCardsLayer = new ProgressCardMenuLayer();
+		this.selectProgressCardTypeLayer = new SelectProgressCardTypeLayer();
 
 		this.imageClickableMap = new HashMap<>();
 	}
@@ -102,6 +104,7 @@ public class GameWindow extends MinuetoFrame {
 		drawLayer(sevenDiscardMenu, 0, 0);
 		drawLayer(selectPlayerLayer, 0, 0);
 		drawLayer(progressCardsLayer, 0, 0);
+		drawLayer(selectProgressCardTypeLayer, 0, 0);
 		drawLayer(topBar, 0, 0);
 
 		render();
@@ -183,5 +186,17 @@ public class GameWindow extends MinuetoFrame {
 				}
 			}
 		}
+	}
+
+	public MinuetoColor getTradeColor() {
+		return new MinuetoColor(255, 221, 85);
+	}
+
+	public MinuetoColor getPoliticsColor() {
+		return new MinuetoColor(95, 188, 211);
+	}
+
+	public MinuetoColor getScienceColor() {
+		return new MinuetoColor(95, 211, 95);
 	}
 }
