@@ -18,6 +18,7 @@ public class Edge implements Serializable {
 	private Intersection[] myIntersections;
 	private Player roadOwner;
 	private Cost buildRoadCost;
+	private Cost buildShipCost;
 
 	public Edge(int id) {
 		this.id = id;
@@ -29,6 +30,10 @@ public class Edge implements Serializable {
 		this.buildRoadCost = new Cost();
 		this.buildRoadCost.addPriceEntry(ResourceType.BRICK, 1);
 		this.buildRoadCost.addPriceEntry(ResourceType.LUMBER, 1);
+		
+		this.buildShipCost = new Cost();
+		this.buildShipCost.addPriceEntry(ResourceType.WOOL, 1);
+		this.buildShipCost.addPriceEntry(ResourceType.LUMBER, 1);
 	}
 
 	public Cost getBuildRoadCost() {
@@ -151,5 +156,10 @@ public class Edge implements Serializable {
 	 */
 	public boolean canBuild(Player player) {
 		return canBuild(player.getUsername());
+	}
+
+	public Cost getBuildShipCost() {
+		// TODO Auto-generated method stub
+		return new Cost(buildShipCost);
 	}
 }

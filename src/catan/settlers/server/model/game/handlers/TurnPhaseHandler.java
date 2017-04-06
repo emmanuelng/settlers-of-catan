@@ -180,6 +180,21 @@ public class TurnPhaseHandler implements Serializable {
 			}
 		}
 	}
+	
+	private void buildShip() {
+		Cost cost;
+		if(currentPlayer.hasRoadBuilding()) {
+			cost = new Cost();
+			currentPlayer.useRoadBuilding();
+		} else {
+			cost = selectedEdge.getBuildShipCost();
+		}
+		if(cost.canPay(currentPlayer)) {
+			selectedEdge.setOwner(currentPlayer);
+			cost.removeResources(currentPlayer);
+			updateResourcesAndBoard();
+		}
+	}
 
 	private void buildKnight() {
 		if (selectedIntersection.getUnit() == null && !selectedIntersection.isMaritime()) {
