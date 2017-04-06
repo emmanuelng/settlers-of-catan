@@ -80,8 +80,8 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 			clear = true;
 		}
 
-		give = gsm.tradeOfferReceivedWhatYouGive();
-		get = gsm.tradeOfferReceivedWhatYouGet();
+		give = gsm.tradeOfferReceivedWhatYouGet();
+		get = gsm.tradeOfferReceivedWhatYouGive();
 		player = gsm.getProposedPlayer();
 		draw(background, box_x, box_y);
 		draw(border, box_x, box_y);
