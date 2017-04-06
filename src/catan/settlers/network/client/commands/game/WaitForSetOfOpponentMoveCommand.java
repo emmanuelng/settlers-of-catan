@@ -20,8 +20,9 @@ public class WaitForSetOfOpponentMoveCommand implements ServerToClientCommand {
 	@Override
 	public void execute() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		gsm.setShowSevenDiscardMenu(false);
+		
 		if(reason == "SevenDiscard"){
-			gsm.setShowSevenDiscardMenu(false);
 			gsm.setdBox("A 7 was rolled", "Some players need to discard resources. Please wait (" + nbOfResponse + "/"
 					+ nbOfPlayers + " players responded)");
 		}else if(reason == "CommercialHarbour"){
