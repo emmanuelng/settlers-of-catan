@@ -8,11 +8,10 @@ import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.EndOfSevenDiscardPhase;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForSetOfOpponentMoveCommand;
-import catan.settlers.network.client.commands.game.WaitForSevenDiscardCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
-import catan.settlers.server.model.SetOfOpponentMove;
+import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
 import catan.settlers.server.model.Game.GamePhase;
 
 public class SevenDiscardHandler implements Serializable {

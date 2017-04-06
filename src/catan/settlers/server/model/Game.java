@@ -16,11 +16,10 @@ import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
 import catan.settlers.network.server.Credentials;
-import catan.settlers.server.model.game.handlers.CommercialHarbourHandler;
 import catan.settlers.server.model.game.handlers.RollDicePhaseHandler;
 import catan.settlers.server.model.game.handlers.SetupPhaseHandler;
-import catan.settlers.server.model.game.handlers.SevenDiscardHandler;
 import catan.settlers.server.model.game.handlers.TurnPhaseHandler;
+import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
 import catan.settlers.server.model.map.Hexagon;
 
 public class Game implements Serializable {
@@ -47,8 +46,6 @@ public class Game implements Serializable {
 	private SetupPhaseHandler setupPhaseHandler;
 	private RollDicePhaseHandler rollDicePhaseHandler;
 	private TurnPhaseHandler turnPhaseHandler;
-	private SevenDiscardHandler sevenDiscardHandler;
-	private CommercialHarbourHandler commercialHarbourHandler;
 
 	public Game(int id, Credentials owner) {
 		this.id = id;
@@ -61,8 +58,6 @@ public class Game implements Serializable {
 		this.setupPhaseHandler = new SetupPhaseHandler(this);
 		this.rollDicePhaseHandler = new RollDicePhaseHandler(this);
 		this.turnPhaseHandler = new TurnPhaseHandler(this);
-		this.sevenDiscardHandler = new SevenDiscardHandler(this);
-		this.commercialHarbourHandler = new CommercialHarbourHandler(this);
 	}
 
 	public void startGame() {
@@ -97,7 +92,7 @@ public class Game implements Serializable {
 			return;
 
 		if (currentSetOfOpponentMove != null) {
-			handleSetOfOpponentMove(player, data);
+			currentSetOfOpponentMove.handle(this, player, data);
 			return;
 		}
 
@@ -116,16 +111,6 @@ public class Game implements Serializable {
 			break;
 		default:
 			break;
-		}
-	}
-
-	private void handleSetOfOpponentMove(Player player, TurnData data) {
-		switch (currentSetOfOpponentMove.getMoveType()) {
-		case SEVEN_DISCARD_CARDS:
-			sevenDiscardHandler.handle(player, data.getSevenResources());
-			break;
-		case COMMERCIAL_HARBOUR:
-			commercialHarbourHandler.handle(player, data);
 		}
 	}
 

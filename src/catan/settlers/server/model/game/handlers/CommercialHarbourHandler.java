@@ -11,9 +11,9 @@ import catan.settlers.network.client.commands.game.WaitForSetOfOpponentMoveComma
 import catan.settlers.network.client.commands.game.WaitForSevenDiscardCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
-import catan.settlers.server.model.SetOfOpponentMove;
 import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.Player.ResourceType;
+import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
 
 public class CommercialHarbourHandler implements Serializable{
 

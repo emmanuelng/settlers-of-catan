@@ -13,11 +13,11 @@ import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForSetOfOpponentMoveCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Game.GamePhase;
+import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
+import catan.settlers.server.model.game.handlers.set.SevenDiscardSetHandler;
 import catan.settlers.server.model.GameBoardManager;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.ProgressCards;
-import catan.settlers.server.model.SetOfOpponentMove;
-import catan.settlers.server.model.SetOfOpponentMove.MoveType;
 import catan.settlers.server.model.TurnData;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.IntersectionUnit;
@@ -58,7 +58,7 @@ public class RollDicePhaseHandler implements Serializable {
 		 * attack hits, or play the bishop card until the first attack
 		 */
 		if (redDie + yellowDie == 7) {
-			SetOfOpponentMove discardResourcesSet = buildDiscardResourcesSet();
+			SevenDiscardSetHandler discardResourcesSet = buildDiscardResourcesSet();
 
 			if (!discardResourcesSet.isEmpty()) {
 				game.setCurSetOfOpponentMove(discardResourcesSet);
@@ -139,8 +139,8 @@ public class RollDicePhaseHandler implements Serializable {
 	 * player needs to discard resources, an empty SetOfOpponentMove is returned
 	 * (i.e. SetOfOpponentMove.isEmpty() == true)
 	 */
-	private SetOfOpponentMove buildDiscardResourcesSet() {
-		SetOfOpponentMove set = new SetOfOpponentMove(MoveType.SEVEN_DISCARD_CARDS);
+	private SevenDiscardSetHandler buildDiscardResourcesSet() {
+		SevenDiscardSetHandler set = new SevenDiscardSetHandler();
 		int numThreshold = 7 + game.getCurrentPlayer().getNumberOfWalls() * 2;
 		for (Player p : participants) {
 			int nbResourceCards = p.getNbResourceCards();

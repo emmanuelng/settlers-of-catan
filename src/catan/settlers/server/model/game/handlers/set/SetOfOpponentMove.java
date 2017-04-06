@@ -1,9 +1,12 @@
-package catan.settlers.server.model;
+package catan.settlers.server.model.game.handlers.set;
 
 import java.io.Serializable;
 import java.util.HashSet;
 
 import catan.settlers.network.server.Credentials;
+import catan.settlers.server.model.Game;
+import catan.settlers.server.model.Player;
+import catan.settlers.server.model.TurnData;
 
 /**
  * This class keeps track of the responses from the players. It is useful for
@@ -13,23 +16,19 @@ import catan.settlers.network.server.Credentials;
  * case, an instance of this class can be used to know if all he player have
  * responded
  */
-public class SetOfOpponentMove implements Serializable {
+public abstract class SetOfOpponentMove implements Serializable {
 
 	private static final long serialVersionUID = 8980170217547407983L;
 
-	public static enum MoveType {
-		SEVEN_DISCARD_CARDS, COMMERCIAL_HARBOUR
-	}
-
 	private HashSet<Credentials> players;
-	private MoveType type;
 	private int totalNbOfPlayers;
 
-	public SetOfOpponentMove(MoveType type) {
+	public SetOfOpponentMove() {
 		this.players = new HashSet<>();
-		this.type = type;
 		this.totalNbOfPlayers = 0;
 	}
+
+	public abstract void handle(Game game, Player sender, TurnData data);
 
 	public void waitForPlayer(Credentials c) {
 		players.add(c);
@@ -58,10 +57,6 @@ public class SetOfOpponentMove implements Serializable {
 
 	public int nbOfPlayers() {
 		return totalNbOfPlayers;
-	}
-
-	public MoveType getMoveType() {
-		return type;
 	}
 
 	public boolean contains(Player player) {
