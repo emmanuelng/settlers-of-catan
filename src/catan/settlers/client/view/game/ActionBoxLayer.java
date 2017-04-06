@@ -16,7 +16,7 @@ import catan.settlers.server.model.Game.GamePhase;
 
 public class ActionBoxLayer extends ImageLayer {
 
-	private static final int WIDTH = 330;
+	private static final int WIDTH = 300;
 	private static final int PADDING_TOP = 30;
 	private static final int PADDING_LEFT = 10;
 
