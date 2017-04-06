@@ -1,5 +1,7 @@
 package catan.settlers.server.model.game.handlers;
 
+import java.io.Serializable;
+
 import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
@@ -22,7 +24,9 @@ import catan.settlers.server.model.units.Village.VillageKind;
 import catan.settlers.server.model.units.Port;
 import catan.settlers.server.model.units.Village;
 
-public class TurnPhaseHandler {
+public class TurnPhaseHandler implements Serializable {
+
+	private static final long serialVersionUID = -2516426252767477921L;
 
 	private Game game;
 	private GameBoardManager gameBoardManager;

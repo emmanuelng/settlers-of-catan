@@ -27,7 +27,7 @@ public class GameStateManager {
 	private ArrayList<String> participants;
 	private String currentPlayer;
 	private HashMap<ResourceType, Integer> resources;
-	private HashMap<ProgressCardType, Integer> progressCards;
+	private ArrayList<ProgressCardType> progressCards;
 	private HashMap<ResourceType, Integer> receiveTradeOfferGive, receiveTradeOfferGet;
 	private Player requestedPlayer;
 
@@ -49,7 +49,8 @@ public class GameStateManager {
 	private boolean showSelectResourceMenu;
 	private boolean moveKnightMode;
 	private boolean showSelectPlayerMenu;
-	
+	private boolean showProgressCardMenu;
+
 	private boolean attacked;
 
 	private String dboxTitle;
@@ -177,16 +178,13 @@ public class GameStateManager {
 		this.updateResources = true;
 	}
 
-	public HashMap<ProgressCardType, Integer> getProgressCards() {
-		if (progressCards == null) {
-			progressCards = new HashMap<>();
-			for (ProgressCardType pCardType : ProgressCardType.values())
-				progressCards.put(pCardType, 0);
-		}
+	public ArrayList<ProgressCardType> getProgressCards() {
+		ArrayList<ProgressCardType> ret = new ArrayList<>();
+		ret.addAll(progressCards);
 		return progressCards;
 	}
 
-	public void setProgressCards(HashMap<ProgressCardType, Integer> progressCards) {
+	public void setProgressCards(ArrayList<ProgressCardType> progressCards) {
 		this.progressCards = progressCards;
 		this.updateProgressCards = true;
 	}
@@ -386,8 +384,8 @@ public class GameStateManager {
 	public void setShowSelectResourceMenu(boolean b) {
 		showSelectResourceMenu = b;
 	}
-	
-	public void setShowSelectResourceMenuReason(String reason){
+
+	public void setShowSelectResourceMenuReason(String reason) {
 		this.showSelectResourceReason = reason;
 	}
 
@@ -399,14 +397,14 @@ public class GameStateManager {
 		this.showSelectPlayerMenu = b;
 	}
 
-	public boolean getAttacked(){
+	public boolean getAttacked() {
 		return attacked;
 	}
-	
-	public void setAttacked(boolean b){
+
+	public void setAttacked(boolean b) {
 		attacked = b;
 	}
-	
+
 	public int getTradeImprovementLevel() {
 		return tradeImprovementLevel;
 	}
@@ -429,6 +427,14 @@ public class GameStateManager {
 
 	public void setScienceImprovementLevel(int value) {
 		this.scienceImprovementLevel = value;
+	}
+
+	public boolean doShowProgressCardMenu() {
+		return showProgressCardMenu;
+	}
+
+	public void setShowProgressCardMenu(boolean b) {
+		this.showProgressCardMenu = b;
 	}
 
 }

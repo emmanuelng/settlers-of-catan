@@ -1,5 +1,6 @@
 package catan.settlers.server.model.game.handlers;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
@@ -21,7 +22,9 @@ import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Port;
 import catan.settlers.server.model.units.Village;
 
-public class SetupPhaseHandler {
+public class SetupPhaseHandler implements Serializable {
+
+	private static final long serialVersionUID = 5592926389250804377L;
 
 	private Game game;
 	private Player currentPlayer;

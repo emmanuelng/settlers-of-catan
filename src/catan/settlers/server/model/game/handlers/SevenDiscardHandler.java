@@ -1,5 +1,6 @@
 package catan.settlers.server.model.game.handlers;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,7 +14,9 @@ import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.SetOfOpponentMove;
 import catan.settlers.server.model.Game.GamePhase;
 
-public class SevenDiscardHandler {
+public class SevenDiscardHandler implements Serializable {
+
+	private static final long serialVersionUID = -5079495830370304982L;
 
 	private Game game;
 	private SetOfOpponentMove currentSetOfOpponentMove;

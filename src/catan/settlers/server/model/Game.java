@@ -1,5 +1,7 @@
 package catan.settlers.server.model;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -9,6 +11,7 @@ import catan.settlers.network.client.commands.game.GamePhaseChangedCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
 import catan.settlers.network.client.commands.game.SetParticipantsCommand;
+import catan.settlers.network.client.commands.game.UpdateCardsCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
@@ -65,11 +68,7 @@ public class Game implements Serializable {
 
 		for (Player p : participants) {
 
-			p.sendCommand(new SetParticipantsCommand(gamePlayersManager.getParticipantsUsernames()));
-			p.sendCommand(new CurrentPlayerChangedCommand(currentPlayer.getUsername()));
-			p.sendCommand(new UpdateResourcesCommand(p.getResources()));
-			p.sendCommand(new OwnedPortsChangedCommand(p.getOwnedPorts()));
-			p.sendCommand(new GamePhaseChangedCommand(currentPhase));
+			sendPlayerState(p);
 
 			if (p == currentPlayer) {
 				p.sendCommand(new PlaceElmtsSetupPhaseCommand(true));
@@ -78,6 +77,15 @@ public class Game implements Serializable {
 			}
 		}
 
+	}
+
+	private void sendPlayerState(Player p) {
+		p.sendCommand(new SetParticipantsCommand(gamePlayersManager.getParticipantsUsernames()));
+		p.sendCommand(new CurrentPlayerChangedCommand(currentPlayer.getUsername()));
+		p.sendCommand(new UpdateResourcesCommand(p.getResources()));
+		p.sendCommand(new OwnedPortsChangedCommand(p.getOwnedPorts()));
+		p.sendCommand(new GamePhaseChangedCommand(currentPhase));
+		p.sendCommand(new UpdateCardsCommand(p.getProgressCards()));
 	}
 
 	public void receiveResponse(Credentials credentials, TurnData data) {
@@ -118,6 +126,20 @@ public class Game implements Serializable {
 
 	public int getGameId() {
 		return id;
+	}
+
+	public synchronized void saveToFile() {
+		try {
+			String filename = "saves/game" + getGameId() + ".catan";
+			FileOutputStream fos = new FileOutputStream(filename);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(this);
+			oos.close();
+			fos.close();
+			System.out.println("Game saved as " + filename);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setCurrentPlayer(Player player) {

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoCircle;
 import org.minueto.image.MinuetoFont;
+import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoImageFile;
 import org.minueto.image.MinuetoRectangle;
 import org.minueto.image.MinuetoText;
@@ -37,6 +38,7 @@ public class TopBarLayer extends ImageLayer {
 	private MinuetoImageFile vpImage;
 	private MinuetoImageFile endTurnImage;
 	private MinuetoImageFile tradeImage;
+	private MinuetoImage cardsImage;
 
 	public TopBarLayer() {
 		super();
@@ -50,6 +52,7 @@ public class TopBarLayer extends ImageLayer {
 		this.vpImage = ifm.load("images/vp-new.png");
 		this.endTurnImage = ifm.load("images/endturn-new.png");
 		this.tradeImage = ifm.load("images/trade-new.png");
+		this.cardsImage = ifm.load("images/cards-new.png");
 	}
 
 	@Override
@@ -61,7 +64,7 @@ public class TopBarLayer extends ImageLayer {
 		draw(shadowImage, 0, 0);
 		draw(bgImage, 0, 0);
 
-		int resources_x = 100, resources_y = 25, resources_per_line = 5;
+		int resources_x = 80, resources_y = 25, resources_per_line = 5;
 		for (int i = 0; i < ResourceType.values().length; i++) {
 			ResourceType rtype = ResourceType.values()[i];
 			drawResource(rtype, resources_x + 150 * (i % resources_per_line),
@@ -69,20 +72,23 @@ public class TopBarLayer extends ImageLayer {
 		}
 
 		int x_offset = ClientWindow.WINDOW_WIDTH - vpImage.getWidth() - 30;
-		
+
 		MinuetoText vpAmt = new MinuetoText("0", vp_font, vp_color, true);
-		
+
 		draw(vpImage, x_offset, 0);
 		draw(vpAmt, x_offset + 75, 35);
 		x_offset -= (endTurnImage.getWidth() + 50);
-		
+
 		draw(endTurnImage, x_offset, 25);
 		x_offset -= (tradeImage.getWidth() + 50);
-		
+
 		draw(tradeImage, x_offset, 25);
 		x_offset -= (diceImage.getWidth() + 50);
-		
+
 		draw(diceImage, x_offset, 25);
+		x_offset -= (cardsImage.getWidth() + 50);
+
+		draw(cardsImage, x_offset, 25);
 
 		setClickables();
 	}
@@ -94,10 +100,12 @@ public class TopBarLayer extends ImageLayer {
 
 		MinuetoColor color = getColorByResource(r);
 		MinuetoCircle circleImage = new MinuetoCircle(10, color, true);
+		MinuetoCircle circleBorderImage = new MinuetoCircle(10, color.darken(0.2), false);
 		MinuetoText rNameImage = new MinuetoText(rname, resource_name_font, MinuetoColor.BLACK, true);
 		MinuetoText rAmtImage = new MinuetoText(amtStr, resource_amt_font, MinuetoColor.BLACK, true);
 
 		draw(circleImage, x, y);
+		draw(circleBorderImage, x, y);
 		draw(rNameImage, x + circleImage.getWidth() + 10, y);
 		draw(rAmtImage, x + circleImage.getWidth() + rNameImage.getWidth() + 15, y);
 	}
@@ -131,6 +139,16 @@ public class TopBarLayer extends ImageLayer {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				boolean showWindow = !gsm.doShowTradeMenu();
 				gsm.setShowTradeMenu(showWindow);
+			}
+		});
+
+		// Cards
+		registerClickable(cardsImage, new ClickListener() {
+			@Override
+			public void onClick() {
+				GameStateManager gsm = ClientModel.instance.getGameStateManager();
+				boolean showWindow = !gsm.doShowProgressCardMenu();
+				gsm.setShowProgressCardMenu(showWindow);
 			}
 		});
 	}

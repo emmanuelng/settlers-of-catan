@@ -1,5 +1,6 @@
 package catan.settlers.server.model.game.handlers;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,7 +23,9 @@ import catan.settlers.server.model.units.Knight;
 import catan.settlers.server.model.units.Village;
 import catan.settlers.server.model.units.Village.VillageKind;
 
-public class RollDicePhaseHandler {
+public class RollDicePhaseHandler implements Serializable {
+
+	private static final long serialVersionUID = -4184975528982809977L;
 
 	private Game game;
 
@@ -48,9 +51,9 @@ public class RollDicePhaseHandler {
 		// TODO: Play alchemist card
 		assignRandomValuesToDice();
 
-		
-		/* apparently you cannot move the robber until the first barbarian attack hits, or play the bishop card until
-		 * the first attack
+		/*
+		 * apparently you cannot move the robber until the first barbarian
+		 * attack hits, or play the bishop card until the first attack
 		 */
 		if (redDie + yellowDie == 7) {
 			SetOfOpponentMove discardResourcesSet = buildDiscardResourcesSet();

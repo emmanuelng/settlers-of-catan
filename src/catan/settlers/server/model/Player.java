@@ -3,14 +3,12 @@ package catan.settlers.server.model;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.Credentials;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
-import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.units.Knight.KnightType;
 import catan.settlers.server.model.units.Port.PortKind;
@@ -141,6 +139,12 @@ public class Player implements Serializable {
 
 	public void giveProgressCard(ProgressCardType pc) {
 		progressCards.add(pc);
+	}
+	
+	public ArrayList<ProgressCardType> getProgressCards() {
+		ArrayList<ProgressCardType> ret = new ArrayList<>();
+		ret.addAll(progressCards);
+		return ret;
 	}
 
 	public void useProgressCard(ProgressCardType pc) {

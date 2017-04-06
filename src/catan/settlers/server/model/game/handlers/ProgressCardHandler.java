@@ -121,14 +121,16 @@ public class ProgressCardHandler {
 	 * of their choice
 	 */
 	private void commercialHarbor() {
-		currentPlayer.sendCommand(new SelectResourceCommand("Commercial Harbour - Prompting card-player for resource of exchange"));
+		currentPlayer.sendCommand(
+				new SelectResourceCommand("Commercial Harbour - Prompting card-player for resource of exchange"));
 		ResourceType resource = currentPlayer.getCurrentSelectedResource();
-		
+
 		ArrayList<Player> otherPlayers = game.getParticipants();
 		otherPlayers.remove(currentPlayer);
-		for(Player p: otherPlayers){
-			p.sendCommand(new SelectResourceCommand("Commercial Harbour - Prompting opponents for commodity of exchange"));
-			ResourceType selectedCommodity= p.getCurrentSelectedResource();
+		for (Player p : otherPlayers) {
+			p.sendCommand(
+					new SelectResourceCommand("Commercial Harbour - Prompting opponents for commodity of exchange"));
+			ResourceType selectedCommodity = p.getCurrentSelectedResource();
 			p.removeResource(selectedCommodity, 1);
 			p.giveResource(resource, 1);
 			currentPlayer.giveResource(selectedCommodity, 1);
@@ -140,7 +142,7 @@ public class ProgressCardHandler {
 	 * choose two cards to take from an opponent with more VPs than you
 	 */
 	private void masterMerchant(Player sender) {
-		
+
 	}
 
 	/**
@@ -149,7 +151,7 @@ public class ProgressCardHandler {
 	 * @param sender
 	 */
 	private void merchant(Player sender) {
-		
+
 	}
 
 	/**
@@ -196,7 +198,7 @@ public class ProgressCardHandler {
 	 * strength
 	 */
 	private void deserter(Player sender) {
-		
+
 	}
 
 	/**
@@ -227,7 +229,7 @@ public class ProgressCardHandler {
 	 * steal a non-VP progress card from an opponent
 	 */
 	private void spy(Player sender) {
-		
+
 	}
 
 	/**
@@ -251,16 +253,15 @@ public class ProgressCardHandler {
 	 * choice
 	 */
 	private void wedding(Player sender) {
-		ArrayList<Player> otherPlayers= game.getParticipants();
-		for(Player p: otherPlayers){
-			if(p.getVP() > sender.getVP()){
+		ArrayList<Player> otherPlayers = game.getParticipants();
+		for (Player p : otherPlayers) {
+			if (p.getVP() > sender.getVP()) {
 				p.sendCommand(new SelectResourceCommand("Wedding - all players with more VP than you give 2 resource"));
-				HashMap<ResourceType,Integer> resourceToGive = p.getCurrentSelectedResources();
-				for(ResourceType r: resourceToGive.keySet()){
+				HashMap<ResourceType, Integer> resourceToGive = p.getCurrentSelectedResources();
+				for (ResourceType r : resourceToGive.keySet()) {
 					p.removeResource(r, resourceToGive.get(r));
 					sender.giveResource(r, resourceToGive.get(r));
 				}
-				
 			}
 		}
 	}
