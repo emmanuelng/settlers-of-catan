@@ -92,7 +92,7 @@ public class GameWindow extends MinuetoFrame {
 		this.imageClickableMap = new HashMap<>();
 	}
 
-	public void updateWindow() {
+	private void updateWindow() {
 		clear(MinuetoColor.WHITE);
 
 		drawLayer(board, 0, 100);
