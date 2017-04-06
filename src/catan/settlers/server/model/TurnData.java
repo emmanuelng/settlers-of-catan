@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.server.model.Player.ResourceType;
+import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Knight;
@@ -30,6 +31,7 @@ public class TurnData implements Serializable {
 	private TurnData.TurnAction myAction;
 	private HashMap<ResourceType, Integer> sevenDiscardresources;
 	private Knight selectedKnight;
+	private ProgressCardType selectedProgressCard;
 
 	public TurnData(TurnAction action) {
 		ClientModel cm = ClientModel.instance;
@@ -38,6 +40,7 @@ public class TurnData implements Serializable {
 		this.selectedEdge = cm.getGameStateManager().getSelectedEdge();
 		this.selectedKnight = cm.getGameStateManager().getSelectedKnight();
 		this.myAction = action;
+		this.selectedProgressCard = cm.getGameStateManager().getSelectedProgressCard();
 	}
 
 	public Intersection getIntersectionSelection() {
@@ -69,5 +72,9 @@ public class TurnData implements Serializable {
 
 	public Knight getSelectedKnight() {
 		return selectedKnight;
+	}
+	
+	public ProgressCardType getSelectedProgressCard() {
+		return selectedProgressCard;
 	}
 }

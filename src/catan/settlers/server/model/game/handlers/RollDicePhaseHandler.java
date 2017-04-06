@@ -39,7 +39,7 @@ public class RollDicePhaseHandler implements Serializable {
 
 	public RollDicePhaseHandler(Game game) {
 		this.game = game;
-		this.ProgCards = new ProgressCards();
+		this.ProgCards = game.getProgressCards();
 	}
 
 	/**

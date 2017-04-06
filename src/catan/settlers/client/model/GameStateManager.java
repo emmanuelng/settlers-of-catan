@@ -35,6 +35,7 @@ public class GameStateManager {
 	private Edge selectedEdge;
 	private Hexagon selectedHex;
 	private Knight selectedKnight;
+	private ProgressCardType selectedProgressCard;
 
 	private boolean canMoveRobber;
 	private boolean isBishop;
@@ -196,6 +197,14 @@ public class GameStateManager {
 		this.updateProgressCards = true;
 	}
 
+	public void setSelectedProgressCard(ProgressCardType card) {
+		selectedProgressCard = card;
+	}
+	
+	public ProgressCardType getSelectedProgressCard() {
+		return selectedProgressCard;
+	}
+	
 	public void sync() {
 		ArrayList<ClientToServerCommand> cmds = new ArrayList<>();
 

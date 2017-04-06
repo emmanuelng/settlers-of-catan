@@ -16,6 +16,7 @@ import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
 import catan.settlers.network.server.Credentials;
+import catan.settlers.server.model.game.handlers.ProgressCardHandler;
 import catan.settlers.server.model.game.handlers.RollDicePhaseHandler;
 import catan.settlers.server.model.game.handlers.SetupPhaseHandler;
 import catan.settlers.server.model.game.handlers.TurnPhaseHandler;
@@ -42,10 +43,12 @@ public class Game implements Serializable {
 	private int redDie, yellowDie, eventDie;
 	private int barbarianHordeCounter;
 	private Hexagon inventorFirstHex, inventorSecondHex;
+	private ProgressCards progressCards;
 
 	private SetupPhaseHandler setupPhaseHandler;
 	private RollDicePhaseHandler rollDicePhaseHandler;
 	private TurnPhaseHandler turnPhaseHandler;
+	private ProgressCardHandler progressCardHandler;
 
 	public Game(int id, Credentials owner) {
 		this.id = id;
@@ -54,10 +57,13 @@ public class Game implements Serializable {
 
 		this.gamePlayersManager = new GamePlayersManager(owner, participants, id);
 		this.gameBoardManager = new GameBoardManager();
+		
+		this.progressCards = new ProgressCards();
 
 		this.setupPhaseHandler = new SetupPhaseHandler(this);
 		this.rollDicePhaseHandler = new RollDicePhaseHandler(this);
 		this.turnPhaseHandler = new TurnPhaseHandler(this);
+		this.progressCardHandler = new ProgressCardHandler(this);
 	}
 
 	public void startGame() {
@@ -246,5 +252,13 @@ public class Game implements Serializable {
 		int num2 = inventorSecondHex.getNumber();
 		inventorFirstHex.setNumber(num2);
 		inventorSecondHex.setNumber(num1);
+	}
+
+	public ProgressCards getProgressCards() {
+		return progressCards;
+	}
+
+	public ProgressCardHandler getProgressCardHandler() {
+		return progressCardHandler;
 	}
 }
