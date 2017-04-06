@@ -87,51 +87,32 @@ public class SelectResourceMenuLayer extends ImageLayer{
 		MinuetoRectangle rBox = new MinuetoRectangle(spacing - 30, 100, MinuetoColor.WHITE, true);
 		MinuetoRectangle rBoxBorder = new MinuetoRectangle(spacing - 30, 100, border_color, false);
 		String menuReason = ClientModel.instance.getGameStateManager().getShowSelectResourceMenuReason();
-		switch(menuReason){
-		case "Commercial Harbour - Prompting card-player for resource of exchange":
-			resourcesToShow=5;
+		if(menuReason == null){
 			for (int i = 0; i < resourcesToShow; i++) {
 				ResourceType rType = ResourceType.values()[i];
 				String rname = rType.toString().toLowerCase();
 				rname = rname.substring(0, 1).toUpperCase() + rname.substring(1);
-
+	
 				MinuetoText rnameImage = new MinuetoText(rname, description_font_bold, MinuetoColor.BLACK);
-
+	
 				int y_offset = y;
-
+	
 				int amt_box_x = (x + i * spacing) + (spacing / 2 - rBox.getWidth() / 2);
 				draw(rBox, amt_box_x, y_offset);
 				
 				draw(rBoxBorder, amt_box_x, y_offset);
 				
 				y_offset += rBox.getHeight() + 10;
-
+	
 				draw(rnameImage, (x + i * spacing) + (spacing / 2 - rnameImage.getWidth() / 2), y_offset);
+				registerClickable(rnameImage, new ClickListener() {
+					@Override
+					public void onClick() {
+						ClientModel.instance.getNetworkManager().sendCommand(new SelectResourceResponseCommand(rType));
+						
+					}
+				});
 			}
-
-			break;
-		case "Commercial Harbour - Prompting opponents for commodity of exchange":
-			resourcesToShow=8;
-			for (int i = 5; i < resourcesToShow; i++) {
-				ResourceType rType = ResourceType.values()[i];
-				String rname = rType.toString().toLowerCase();
-				rname = rname.substring(0, 1).toUpperCase() + rname.substring(1);
-
-				MinuetoText rnameImage = new MinuetoText(rname, description_font_bold, MinuetoColor.BLACK);
-
-				int y_offset = y;
-
-				int amt_box_x = (x + i * spacing) + (spacing / 2 - rBox.getWidth() / 2);
-				draw(rBox, amt_box_x, y_offset);
-				
-				draw(rBoxBorder, amt_box_x, y_offset);
-				
-				y_offset += rBox.getHeight() + 10;
-
-				draw(rnameImage, (x + i * spacing) + (spacing / 2 - rnameImage.getWidth() / 2), y_offset);
-			}
-
-			break;
 		}
 		
 		

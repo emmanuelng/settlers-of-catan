@@ -137,6 +137,7 @@ public class TradeMenuLayer extends ImageLayer {
 
 		int y_offset = y;
 		int x_offset = x;
+		
 
 		for (PortKind pkind : PortKind.values()) {
 			boolean ownsPortKind = gsm.getOwnedPorts().get(pkind);

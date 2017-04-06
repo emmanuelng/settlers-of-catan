@@ -122,18 +122,18 @@ public class ProgressCardHandler {
 	 */
 	private void commercialHarbor() {
 		currentPlayer.sendCommand(new SelectResourceCommand("Commercial Harbour - Prompting card-player for resource of exchange"));
-		ArrayList<ResourceType> resources = currentPlayer.getCurrentSelectedResources();
+		ResourceType resource = currentPlayer.getCurrentSelectedResource();
 		
 		ArrayList<Player> otherPlayers = game.getParticipants();
 		otherPlayers.remove(currentPlayer);
 		for(Player p: otherPlayers){
 			p.sendCommand(new SelectResourceCommand("Commercial Harbour - Prompting opponents for commodity of exchange"));
-			ArrayList<ResourceType> selectedCommodity = p.getCurrentSelectedResources();
-			p.removeResource(selectedCommodity.get(0), 1);
-			p.giveResource(resources.get(0), 1);
-			currentPlayer.giveResource(selectedCommodity.get(0), 1);
+			ResourceType selectedCommodity= p.getCurrentSelectedResource();
+			p.removeResource(selectedCommodity, 1);
+			p.giveResource(resource, 1);
+			currentPlayer.giveResource(selectedCommodity, 1);
 		}
-		currentPlayer.removeResource(resources.get(0), 1);
+		currentPlayer.removeResource(resource, 1);
 	}
 
 	/**
@@ -156,7 +156,9 @@ public class ProgressCardHandler {
 	 * select a resource; you may trade that at 2:1 for this turn
 	 */
 	private void merchantFleet(Player sender) {
-
+		sender.sendCommand(new SelectResourceCommand("merchant fleet"));
+		ResourceType resource = sender.getCurrentSelectedResource();
+		sender.setTradeAtAdvantage(resource);
 	}
 
 	/**

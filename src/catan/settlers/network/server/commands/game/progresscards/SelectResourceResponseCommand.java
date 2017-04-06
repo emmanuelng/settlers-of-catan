@@ -15,10 +15,10 @@ public class SelectResourceResponseCommand implements ClientToServerCommand {
 	 * 
 	 */
 	private static final long serialVersionUID = -2422330373186573552L;
-	private ArrayList<ResourceType> resources;
+	private ResourceType resources;
 
-	public SelectResourceResponseCommand(ArrayList<ResourceType> resources){
-		this.resources = resources;
+	public SelectResourceResponseCommand(ResourceType rType){
+		this.resources = rType;
 	}
 	
 
@@ -26,7 +26,7 @@ public class SelectResourceResponseCommand implements ClientToServerCommand {
 	public void execute(Session sender, Server server) {
 		Game game = server.getGameManager().getGameById(ClientModel.instance.getGameStateManager().getGameId());
 
-		game.getCurrentPlayer().setCurrentSelectedResources(resources);
+		game.getCurrentPlayer().setCurrentSelectedResource(resources);
 	}
 
 }

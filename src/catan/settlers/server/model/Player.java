@@ -10,6 +10,7 @@ import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.Credentials;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
+import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.units.Knight.KnightType;
 import catan.settlers.server.model.units.Port.PortKind;
@@ -37,7 +38,8 @@ public class Player implements Serializable {
 	private int smith;
 	private int roadBuilding;
 	private int victoryP;
-	private ArrayList<ResourceType> currentlySelectedResources;
+	private ResourceType currentlySelectedResource;
+	private ArrayList<ResourceType> tradeAtAdvantage;
 
 	public Player(Credentials credentials) {
 		this.credentials = credentials;
@@ -298,11 +300,19 @@ public class Player implements Serializable {
 		return ret;
 	}
 	
-	public void setCurrentSelectedResources(ArrayList<ResourceType> resources){
-		this.currentlySelectedResources=resources;
+	public void setCurrentSelectedResource(ResourceType resource){
+		this.currentlySelectedResource=resource;
 	}
 
-	public ArrayList<ResourceType> getCurrentSelectedResources(){
-		return currentlySelectedResources;
+	public ResourceType getCurrentSelectedResource(){
+		return currentlySelectedResource;
+	}
+
+	public void setTradeAtAdvantage(ResourceType resource) {
+		tradeAtAdvantage.add(resource);
+	}
+	
+	public void removeTradeAtAdvantage(ArrayList<ResourceType> resource) {
+		tradeAtAdvantage.remove(resource);
 	}
 }
