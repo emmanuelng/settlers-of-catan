@@ -14,7 +14,6 @@ import catan.settlers.client.model.ImageFileManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
 import catan.settlers.network.server.commands.game.PlayerTradeConfirmCommand;
-import catan.settlers.network.server.commands.game.PlayerTradeRequestCommand;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 
@@ -28,8 +27,8 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 	private static final int WIDTH = 1000, HEIGHT = 635;
 	private static final MinuetoColor bg_color = new MinuetoColor(249, 249, 249);
 	private static final MinuetoColor border_color = new MinuetoColor(179, 179, 179);
-	private static final MinuetoColor counter_propose_btn_color = new MinuetoColor(55, 200, 113);
 	private static final MinuetoColor trade_confirm_btn_color = new MinuetoColor(255, 153, 85);
+	private static final MinuetoColor trade_refuse_btn_color = new MinuetoColor(55,200,113);
 	private static final MinuetoFont title_font = new MinuetoFont("arial", 28, true, false);
 	private static final MinuetoFont description_font = new MinuetoFont("arial", 17, false, false);
 	private static final MinuetoFont description_font_bold = new MinuetoFont("arial", 17, true, false);
@@ -44,6 +43,7 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 	private MinuetoRectangle rAmtBox;
 	private MinuetoRectangle rAmtBoxBorder;
 	private Button tradeConfirmButton;
+	private Button refuseTradeButton;
 	private MinuetoText orText;
 
 	private boolean clear;
@@ -63,11 +63,13 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 
 		this.giveDesc = new MinuetoText("He/She proposed:", description_font_bold, MinuetoColor.BLACK);
 		this.receiveDesc = new MinuetoText("In exchange for:", description_font_bold, MinuetoColor.BLACK);
-		this.counterProposeButton = new Button(this, "Counter Propose", counter_propose_btn_color,
-				getCounterProposeListener());
+
 		this.tradeConfirmButton = new Button(this, "Accept Offer", trade_confirm_btn_color, getTradeConfirmListener());
+		this.refuseTradeButton = new Button(this, "Refuse Offer", trade_refuse_btn_color, getTradeRefuseListener());
 		this.orText = new MinuetoText("or", description_font, MinuetoColor.BLACK);
 	}
+
+	
 
 	@Override
 	public void compose(GameStateManager gsm) {
@@ -120,8 +122,7 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 				- counterProposeButton.getImage().getWidth() - 10 - orText.getWidth() - 10, y_offset);
 		draw(orText, box_x + WIDTH - counterProposeButton.getImage().getWidth() - 20 - orText.getWidth() - 10,
 				y_offset + counterProposeButton.getImage().getHeight() / 2 - orText.getHeight() / 2);
-		draw(counterProposeButton.getImage(), box_x + WIDTH - counterProposeButton.getImage().getWidth() - 20,
-				y_offset);
+		draw(refuseTradeButton.getImage(), box_x + WIDTH - refuseTradeButton.getImage().getWidth() - 20, y_offset);
 
 	}
 
@@ -195,18 +196,6 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 		draw(image, btn_x, btn_y);
 	}
 
-	private ClickListener getCounterProposeListener() {
-		return new ClickListener() {
-			@Override
-			public void onClick() {
-				GameStateManager gsm = ClientModel.instance.getGameStateManager();
-				System.out.println("Counter Propose!");
-				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeRequestCommand(give, get));
-				gsm.setShowTradeReceivedMenu(false);
-			}
-		};
-	}
-
 	private ClickListener getTradeConfirmListener() {
 		return new ClickListener() {
 			@Override
@@ -215,6 +204,18 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 				System.out.println("Confirm Trade");
 				// confirm trade here
 				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeConfirmCommand(give, get, player));
+				gsm.setShowTradeReceivedMenu(false);
+			}
+		};
+	}
+	
+	private ClickListener getTradeRefuseListener() {
+		// TODO Auto-generated method stub
+		return new ClickListener() {
+			@Override
+			public void onClick() {
+				GameStateManager gsm = ClientModel.instance.getGameStateManager();
+				System.out.println("Refuse trade");
 				gsm.setShowTradeReceivedMenu(false);
 			}
 		};
