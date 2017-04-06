@@ -17,14 +17,12 @@ public class PlayerTradeConfirmCommand implements ClientToServerCommand {
 
 	private static final long serialVersionUID = 1963406279320893958L;
 	private HashMap<ResourceType, Integer> give, get;
-	private Player proposedPlayer;
 	private int gameId;
 
 	public PlayerTradeConfirmCommand(HashMap<ResourceType, Integer> give, HashMap<ResourceType, Integer> get,
 			Player proposedPlayer) {
 		this.give = give;
 		this.get = get;
-		this.proposedPlayer = proposedPlayer;
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 	}
 
@@ -35,11 +33,15 @@ public class PlayerTradeConfirmCommand implements ClientToServerCommand {
 		Credentials personWhoAcceptsCred = sender.getCredentials();
 		Player personWhoAccepts = game.getPlayersManager().getPlayerByCredentials(personWhoAcceptsCred);
 
-		for (ResourceType rtype : give.keySet())
+		for (ResourceType rtype : get.keySet()) {
 			personWhoAccepts.giveResource(rtype, give.get(rtype));
+			personWhoPropose.removeResource(rtype, give.get(rtype));
+		}
 
-		for (ResourceType rtype : get.keySet())
+		for (ResourceType rtype : give.keySet()) {
 			personWhoPropose.removeResource(rtype, get.get(rtype));
+			personWhoAccepts.giveResource(rtype, get.get(rtype));
+		}
 
 		for (Player p : game.getParticipants()) {
 			p.sendCommand(new UpdateResourcesCommand(p.getResources()));

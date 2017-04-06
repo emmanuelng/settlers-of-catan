@@ -79,7 +79,7 @@ public class TradeMenuLayer extends ImageLayer {
 
 	@Override
 	public void compose(GameStateManager gsm) {
-		if (!gsm.doShowTradeMenu()) {
+		if (!gsm.doShowTradeMenu() && !gsm.getCurrentPlayer().equals(ClientModel.instance.getUsername())) {
 			if (clear) {
 				give = resetResourceMap();
 				get = resetResourceMap();
@@ -137,7 +137,6 @@ public class TradeMenuLayer extends ImageLayer {
 
 		int y_offset = y;
 		int x_offset = x;
-		
 
 		for (PortKind pkind : PortKind.values()) {
 			boolean ownsPortKind = gsm.getOwnedPorts().get(pkind);
