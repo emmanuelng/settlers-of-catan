@@ -119,7 +119,7 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 
 		y_offset = box_y + HEIGHT - tradeConfirmButton.getImage().getHeight() - 20;
 		draw(tradeConfirmButton.getImage(), (box_x + WIDTH - tradeConfirmButton.getImage().getWidth() - 20)
-				- counterProposeButton.getImage().getWidth() - 10 - orText.getWidth() - 10, y_offset);
+				- refuseTradeButton.getImage().getWidth() - 10 - orText.getWidth() - 10, y_offset);
 		draw(orText, box_x + WIDTH - counterProposeButton.getImage().getWidth() - 20 - orText.getWidth() - 10,
 				y_offset + counterProposeButton.getImage().getHeight() / 2 - orText.getHeight() / 2);
 		draw(refuseTradeButton.getImage(), box_x + WIDTH - refuseTradeButton.getImage().getWidth() - 20, y_offset);
