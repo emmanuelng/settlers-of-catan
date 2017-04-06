@@ -69,6 +69,9 @@ public class TurnPhaseHandler implements Serializable {
 		case BUILD_WALL:
 			buildWall();
 			break;
+		case BUILD_SHIP:
+			buildShip();
+			break;
 		case PROGRESS_CARD:
 			game.getProgressCardHandler().handle(sender, data.getSelectedProgressCard());
 			break;
