@@ -3,6 +3,7 @@ package catan.settlers.server.model.game.handlers;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
@@ -240,7 +241,12 @@ public class ProgressCardHandler {
 	 * @param sender
 	 */
 	private void saboteur(Player sender) {
-
+		for (Player p : game.getParticipants()) {
+			if (p.getVP() > sender.getVP()) {
+				// Probably want some message letting them know saboteur was played
+				p.sendCommand(new DiscardCardsCommand());
+			}
+		}
 	}
 
 	/**
