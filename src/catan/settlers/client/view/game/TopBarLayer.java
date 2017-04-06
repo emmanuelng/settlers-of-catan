@@ -39,6 +39,7 @@ public class TopBarLayer extends ImageLayer {
 	private MinuetoImageFile endTurnImage;
 	private MinuetoImageFile tradeImage;
 	private MinuetoImage cardsImage;
+	private int barbarianCounter;
 
 	public TopBarLayer() {
 		super();
@@ -61,6 +62,7 @@ public class TopBarLayer extends ImageLayer {
 			return;
 
 		resources = gsm.getResources();
+		barbarianCounter = gsm.getBarbarianCounter();
 		draw(shadowImage, 0, 0);
 		draw(bgImage, 0, 0);
 

@@ -9,7 +9,7 @@ import catan.settlers.network.client.commands.game.ChooseProgressCardCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.NormalDiceRollCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
-import catan.settlers.network.client.commands.game.WaitForSevenDiscardCommand;
+import catan.settlers.network.client.commands.game.WaitForSetOfOpponentMoveCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.GameBoardManager;
@@ -61,7 +61,7 @@ public class RollDicePhaseHandler implements Serializable {
 
 			if (!discardResourcesSet.isEmpty()) {
 				game.setCurSetOfOpponentMove(discardResourcesSet);
-				askOtherPlayersToWait(discardResourcesSet);
+				askOtherPlayersToWait(discardResourcesSet,"SevenDiscard");
 				return;
 			}
 
@@ -155,10 +155,10 @@ public class RollDicePhaseHandler implements Serializable {
 	 * players with more than seven resource cards have discarded their
 	 * resources.
 	 */
-	private void askOtherPlayersToWait(SetOfOpponentMove set) {
+	private void askOtherPlayersToWait(SetOfOpponentMove set, String reason) {
 		int nbOfResponses = set.nbOfResponses();
 		int nbOfPlayers = set.nbOfPlayers();
-		WaitForSevenDiscardCommand cmd = new WaitForSevenDiscardCommand(nbOfResponses, nbOfPlayers);
+		WaitForSetOfOpponentMoveCommand cmd = new WaitForSetOfOpponentMoveCommand(nbOfResponses, nbOfPlayers, reason);
 
 		for (Player p : participants)
 			if (!set.contains(p))

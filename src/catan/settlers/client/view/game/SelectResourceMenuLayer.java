@@ -34,10 +34,9 @@ public class SelectResourceMenuLayer extends ImageLayer {
 	private MinuetoRectangle rBox;
 	private MinuetoRectangle rBoxBorder;
 	private MinuetoText title;
-	private Button confirmButton;
 	private int resourcesToShow = ResourceType.values().length;
 
-	private ArrayList<ResourceType> resources;
+	private boolean clear;
 
 	public SelectResourceMenuLayer() {
 		super();
@@ -51,14 +50,20 @@ public class SelectResourceMenuLayer extends ImageLayer {
 		this.background = new MinuetoRectangle(WIDTH, HEIGHT, bg_color, true);
 		this.border = new MinuetoRectangle(WIDTH, HEIGHT, border_color, false);
 		this.title = new MinuetoText(title, title_font, MinuetoColor.BLACK);
-		this.confirmButton = new Button(this, "Select resources", confirm_btn_color, getConfirmListener());
 
 	}
 
 	@Override
 	public void compose(GameStateManager gsm) {
 		if (!gsm.doShowSelectResourceMenu()) {
+			if (clear) {
+				ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);
+				clear();
+				clear = false;
+			}
 			return;
+		} else {
+			clear = true;
 		}
 
 		draw(background, box_x, box_y);
@@ -73,19 +78,13 @@ public class SelectResourceMenuLayer extends ImageLayer {
 		y_offset += 140;
 
 		drawResourceBoxes(box_x + 10, y_offset);
-		y_offset += 200;
-
-		y_offset = box_y + HEIGHT - 100;
-
-		draw(confirmButton.getImage(), box_x + WIDTH - confirmButton.getImage().getWidth() - 20, y_offset);
-
 	}
 
 	private void drawResourceBoxes(int x, int y) {
 		int spacing = (WIDTH - 40) / ResourceType.values().length;
 
-		MinuetoRectangle rBox = new MinuetoRectangle(spacing - 30, 100, MinuetoColor.WHITE, true);
-		MinuetoRectangle rBoxBorder = new MinuetoRectangle(spacing - 30, 100, border_color, false);
+		rBox = new MinuetoRectangle(spacing - 30, 50, MinuetoColor.WHITE, true);
+		rBoxBorder = new MinuetoRectangle(spacing - 30, 50, border_color, false);
 		String menuReason = ClientModel.instance.getGameStateManager().getShowSelectResourceMenuReason();
 		if (menuReason == null) {
 			for (int i = 0; i < resourcesToShow; i++) {
@@ -97,19 +96,21 @@ public class SelectResourceMenuLayer extends ImageLayer {
 
 				int y_offset = y;
 
-				int amt_box_x = (x + i * spacing) + (spacing / 2 - rBox.getWidth() / 2);
-				draw(rBox, amt_box_x, y_offset);
+				int res_box_x = (x + i * spacing) + (spacing / 2 - rBox.getWidth() / 2);
+				
+				draw(rBox, res_box_x, y_offset);
 
-				draw(rBoxBorder, amt_box_x, y_offset);
+				draw(rBoxBorder, res_box_x, y_offset);
 
-				y_offset += rBox.getHeight() + 10;
 
-				draw(rnameImage, (x + i * spacing) + (spacing / 2 - rnameImage.getWidth() / 2), y_offset);
+				draw(rnameImage, (x + i * spacing) + (spacing / 2 - rnameImage.getWidth() / 2), y_offset+ rBox.getHeight()/2);
 				registerClickable(rnameImage, new ClickListener() {
 					@Override
 					public void onClick() {
 						ClientModel.instance.getNetworkManager().sendCommand(new SelectResourceResponseCommand(rType));
-
+						ClientModel.instance.getGameStateManager().setShowSelectResourceMenu(false);
+						
+						System.out.println(rType);
 					}
 				});
 			}
@@ -117,16 +118,6 @@ public class SelectResourceMenuLayer extends ImageLayer {
 
 	}
 
-	private ClickListener getConfirmListener() {
-		return new ClickListener() {
-			@Override
-			public void onClick() {
-
-				NetworkManager nm = ClientModel.instance.getNetworkManager();
-				nm.sendCommand(new SelectResourceResponseCommand(resources));
-			}
-		};
-	}
 
 	private void overrideClickables() {
 		/*

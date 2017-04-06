@@ -18,7 +18,7 @@ public class SetOfOpponentMove implements Serializable {
 	private static final long serialVersionUID = 8980170217547407983L;
 
 	public static enum MoveType {
-		SEVEN_DISCARD_CARDS
+		SEVEN_DISCARD_CARDS, COMMERCIAL_HARBOUR
 	}
 
 	private HashSet<Credentials> players;

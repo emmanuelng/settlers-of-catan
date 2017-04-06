@@ -11,16 +11,19 @@ public class SelectResourceResponseCommand implements ClientToServerCommand {
 
 	private static final long serialVersionUID = -2422330373186573552L;
 	private ResourceType resources;
+	private int gameId;
 
 	public SelectResourceResponseCommand(ResourceType rType){
 		this.resources = rType;
+		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 	}
 
 	@Override
 	public void execute(Session sender, Server server) {
-		Game game = server.getGameManager().getGameById(ClientModel.instance.getGameStateManager().getGameId());
+		Game game = server.getGameManager().getGameById(gameId);
 
 		game.getCurrentPlayer().setCurrentSelectedResource(resources);
+		
 	}
 
 }

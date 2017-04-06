@@ -3,6 +3,7 @@ package catan.settlers.server.model.game.handlers;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.cards.InventorCommand;
@@ -12,6 +13,8 @@ import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
+import catan.settlers.server.model.SetOfOpponentMove;
+import catan.settlers.server.model.SetOfOpponentMove.MoveType;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
@@ -124,16 +127,31 @@ public class ProgressCardHandler {
 		currentPlayer.sendCommand(
 				new SelectResourceCommand("Commercial Harbour - Prompting card-player for resource of exchange"));
 		ResourceType resource = currentPlayer.getCurrentSelectedResource();
-
+		if(resource == ResourceType.COIN || resource == ResourceType.CLOTH || resource == ResourceType.PAPER){
+			currentPlayer.sendCommand(new FailureCommand("Please select a commodity rather than a resource"));
+			currentPlayer.sendCommand(new SelectResourceCommand("Commercial Harbour - Prompting card-player for resource of exchange"));
+			resource = currentPlayer.getCurrentSelectedResource();
+		}
+		
+		
+		SetOfOpponentMove commercialHarbourMoves = new SetOfOpponentMove(MoveType.COMMERCIAL_HARBOUR);
 		ArrayList<Player> otherPlayers = game.getParticipants();
 		otherPlayers.remove(currentPlayer);
 		for (Player p : otherPlayers) {
 			p.sendCommand(
 					new SelectResourceCommand("Commercial Harbour - Prompting opponents for commodity of exchange"));
+			
 			ResourceType selectedCommodity = p.getCurrentSelectedResource();
-			p.removeResource(selectedCommodity, 1);
-			p.giveResource(resource, 1);
-			currentPlayer.giveResource(selectedCommodity, 1);
+			if(selectedCommodity == ResourceType.COIN || selectedCommodity == ResourceType.CLOTH || selectedCommodity == ResourceType.PAPER){
+				p.removeResource(selectedCommodity, 1);
+				p.giveResource(resource, 1);
+				currentPlayer.giveResource(selectedCommodity, 1);
+			}else{
+				p.sendCommand(new FailureCommand("Please select a commodity rather than a resource"));
+				p.sendCommand(new SelectResourceCommand("Commercial Harbour - Prompting card-player for resource of exchange"));
+				selectedCommodity = p.getCurrentSelectedResource();
+			}
+			
 		}
 		currentPlayer.removeResource(resource, 1);
 	}
