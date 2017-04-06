@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.LinkedList;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.server.commands.ClientToServerCommand;
@@ -44,18 +43,12 @@ public class Client extends Thread {
 
 	@Override
 	public void run() {
-		LinkedList<ServerToClientCommand> cmdList = new LinkedList<>();
-
 		while (true) {
 			try {
 				ServerToClientCommand cmd = (ServerToClientCommand) in.readObject();
-				cmdList.add(cmd);
-
-				while (!cmdList.isEmpty())
-					cmdList.remove().execute();
-
+				cmd.execute();
 			} catch (ClassNotFoundException e) {
-				// Ignore
+				// Ignore unknown commands
 			} catch (IOException e) {
 				e.printStackTrace();
 				break;
@@ -63,7 +56,7 @@ public class Client extends Thread {
 		}
 	}
 
-	public void sendCommand(ClientToServerCommand cmd) throws IOException {
+	public synchronized void sendCommand(ClientToServerCommand cmd) throws IOException {
 		out.writeObject(cmd);
 
 	}

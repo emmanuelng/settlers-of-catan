@@ -64,6 +64,11 @@ public class GameStateManager {
 	// List of intersections where the selected knight can move
 	private HashSet<Integer> canMoveKnightIntersecIds;
 
+	private boolean confirmation;
+	private int tradeImprovementLevel;
+	private int politicsImprovementLevel;
+	private int scienceImprovementLevel;
+
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
 		this.canMoveRobber = false;
@@ -151,6 +156,7 @@ public class GameStateManager {
 
 	public void setCurrentPlayer(String player) {
 		currentPlayer = player;
+		updateActions = true;
 	}
 
 	public String getCurrentPlayer() {
@@ -305,6 +311,7 @@ public class GameStateManager {
 
 	public void setCurrentPhase(GamePhase currentPhase) {
 		this.currentPhase = currentPhase;
+		updateActions = true;
 	}
 
 	public GamePhase getCurrentPhase() {
@@ -387,7 +394,7 @@ public class GameStateManager {
 	public boolean doShowSelectPlayerMenu() {
 		return showSelectPlayerMenu;
 	}
-	
+
 	public void setShowSelectPlayerMenu(boolean b) {
 		this.showSelectPlayerMenu = b;
 	}
@@ -400,4 +407,28 @@ public class GameStateManager {
 		attacked = b;
 	}
 	
+	public int getTradeImprovementLevel() {
+		return tradeImprovementLevel;
+	}
+
+	public void setTradeImprovementLevel(int value) {
+		this.tradeImprovementLevel = value;
+	}
+
+	public int getPoliticsImprovementLevel() {
+		return politicsImprovementLevel;
+	}
+
+	public void setPoliticsImprovementLevel(int value) {
+		this.politicsImprovementLevel = value;
+	}
+
+	public int getScienceImprovementLevel() {
+		return scienceImprovementLevel;
+	}
+
+	public void setScienceImprovementLevel(int value) {
+		this.scienceImprovementLevel = value;
+	}
+
 }

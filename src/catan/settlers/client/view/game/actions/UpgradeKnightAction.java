@@ -10,12 +10,10 @@ import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Knight;
 import catan.settlers.server.model.units.Knight.KnightType;
 
-public class UpgradeKnightAction implements Action {
+public class UpgradeKnightAction implements GameAction {
 
 	@Override
 	public boolean isPossible() {
-		// TODO: A knight can be promoted only once per turn
-
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		HashMap<ResourceType, Integer> resources = gsm.getResources();
 		Intersection myIntersection = gsm.getSelectedIntersection();
@@ -29,17 +27,47 @@ public class UpgradeKnightAction implements Action {
 			}
 		}
 		return false;
-
 	}
 
 	@Override
 	public String getDescription() {
-		return "Upgrade your Knight";
+		return "Promote Knight";
 	}
 
 	@Override
 	public void perform() {
 		ClientModel.instance.getNetworkManager().sendCommand(new UpgradeKnightCommand());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Costs 1 wool and 1 ore";
+	}
+
+	@Override
+	public String getFailureMessage() {
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		HashMap<ResourceType, Integer> resources = gsm.getResources();
+		Intersection myIntersection = gsm.getSelectedIntersection();
+
+		if (myIntersection != null) {
+			if (myIntersection.getUnit() != null) {
+				if (myIntersection.getUnit().isKnight()) {
+					if (((Knight) myIntersection.getUnit()).getType() == KnightType.MIGHTY_KNIGHT)
+						return "You cannot promote a mighty knight";
+
+					if (resources.get(ResourceType.WOOL) < 1)
+						return "Missing 1 wool";
+
+					if (resources.get(ResourceType.ORE) < 1)
+						return "Missing 1 ore";
+				}
+			}
+		} else {
+			return "Select a knight";
+		}
+
+		return "Cannot promote knight";
 	}
 
 }

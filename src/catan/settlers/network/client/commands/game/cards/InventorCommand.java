@@ -1,9 +1,9 @@
-package catan.settlers.network.client.commands.game.progresscards;
+package catan.settlers.network.client.commands.game.cards;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.network.client.commands.ServerToClientCommand;
-import catan.settlers.network.server.commands.game.progresscards.InventorFirstResponseCommand;
+import catan.settlers.network.server.commands.game.cards.InventorFirstResponseCommand;
 import catan.settlers.server.model.map.Hexagon;
 
 public class InventorCommand implements ServerToClientCommand {

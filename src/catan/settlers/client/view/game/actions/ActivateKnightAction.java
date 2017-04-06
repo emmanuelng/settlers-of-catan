@@ -11,7 +11,7 @@ import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.units.Knight;
 
-public class ActivateKnightAction implements Action {
+public class ActivateKnightAction implements GameAction {
 
 	@Override
 	public boolean isPossible() {
@@ -44,6 +44,28 @@ public class ActivateKnightAction implements Action {
 	public void perform() {
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
 		nm.sendCommand(new ActivateKnightCommand());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Costs 1 grain";
+	}
+
+	@Override
+	public String getFailureMessage() {
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+
+		if (gsm.getSelectedIntersection() == null) {
+			return "Select an intersection";
+		} else {
+			if (!(gsm.getSelectedIntersection().getUnit() instanceof Knight))
+				return "Select a knight";
+		}
+
+		if (gsm.getResources().get(ResourceType.GRAIN) < 1)
+			return "Missing 1 grain";
+
+		return "The knight is already activated";
 	}
 
 }

@@ -14,10 +14,10 @@ import catan.settlers.client.model.NetworkManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
 import catan.settlers.network.server.commands.game.SevenDiscardCommand;
-import catan.settlers.network.server.commands.game.progresscards.SelectResourceResponseCommand;
+import catan.settlers.network.server.commands.game.cards.SelectResourceResponseCommand;
 import catan.settlers.server.model.Player.ResourceType;
 
-public class SelectResourceMenuLayer extends ImageLayer{
+public class SelectResourceMenuLayer extends ImageLayer {
 
 	private static final int WIDTH = 1000, HEIGHT = 625;
 	private static final MinuetoColor bg_color = new MinuetoColor(249, 249, 249);
@@ -38,10 +38,10 @@ public class SelectResourceMenuLayer extends ImageLayer{
 	private int resourcesToShow = ResourceType.values().length;
 
 	private ArrayList<ResourceType> resources;
-	
-	public SelectResourceMenuLayer(){
+
+	public SelectResourceMenuLayer() {
 		super();
-		//modify title based on reason
+		// modify title based on reason
 		String reason = ClientModel.instance.getGameStateManager().getShowSelectResourceMenuReason();
 		String title = "Somebody played " + reason;
 
@@ -54,7 +54,7 @@ public class SelectResourceMenuLayer extends ImageLayer{
 		this.confirmButton = new Button(this, "Select resources", confirm_btn_color, getConfirmListener());
 
 	}
-	
+
 	@Override
 	public void compose(GameStateManager gsm) {
 		if (!gsm.doShowSelectResourceMenu()) {
@@ -78,62 +78,56 @@ public class SelectResourceMenuLayer extends ImageLayer{
 		y_offset = box_y + HEIGHT - 100;
 
 		draw(confirmButton.getImage(), box_x + WIDTH - confirmButton.getImage().getWidth() - 20, y_offset);
-		
+
 	}
-	
+
 	private void drawResourceBoxes(int x, int y) {
 		int spacing = (WIDTH - 40) / ResourceType.values().length;
-		
+
 		MinuetoRectangle rBox = new MinuetoRectangle(spacing - 30, 100, MinuetoColor.WHITE, true);
 		MinuetoRectangle rBoxBorder = new MinuetoRectangle(spacing - 30, 100, border_color, false);
 		String menuReason = ClientModel.instance.getGameStateManager().getShowSelectResourceMenuReason();
-		if(menuReason == null){
+		if (menuReason == null) {
 			for (int i = 0; i < resourcesToShow; i++) {
 				ResourceType rType = ResourceType.values()[i];
 				String rname = rType.toString().toLowerCase();
 				rname = rname.substring(0, 1).toUpperCase() + rname.substring(1);
-	
+
 				MinuetoText rnameImage = new MinuetoText(rname, description_font_bold, MinuetoColor.BLACK);
-	
+
 				int y_offset = y;
-	
+
 				int amt_box_x = (x + i * spacing) + (spacing / 2 - rBox.getWidth() / 2);
 				draw(rBox, amt_box_x, y_offset);
-				
+
 				draw(rBoxBorder, amt_box_x, y_offset);
-				
+
 				y_offset += rBox.getHeight() + 10;
-	
+
 				draw(rnameImage, (x + i * spacing) + (spacing / 2 - rnameImage.getWidth() / 2), y_offset);
 				registerClickable(rnameImage, new ClickListener() {
 					@Override
 					public void onClick() {
 						ClientModel.instance.getNetworkManager().sendCommand(new SelectResourceResponseCommand(rType));
-						
+
 					}
 				});
 			}
 		}
-		
-		
-		
-		
+
 	}
 
-	
 	private ClickListener getConfirmListener() {
 		return new ClickListener() {
-
 			@Override
 			public void onClick() {
 
 				NetworkManager nm = ClientModel.instance.getNetworkManager();
 				nm.sendCommand(new SelectResourceResponseCommand(resources));
-				
 			}
 		};
 	}
-	
+
 	private void overrideClickables() {
 		/*
 		 * Add an dummy clickables to override the clickables on the background

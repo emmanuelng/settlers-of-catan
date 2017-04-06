@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
-import catan.settlers.network.client.commands.game.progresscards.InventorCommand;
-import catan.settlers.network.client.commands.game.progresscards.SelectResourceCommand;
-import catan.settlers.network.server.commands.game.progresscards.SelectResourceResponseCommand;
+import catan.settlers.network.client.commands.game.cards.InventorCommand;
+import catan.settlers.network.client.commands.game.cards.SelectResourceCommand;
+import catan.settlers.network.server.commands.game.cards.SelectResourceResponseCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;

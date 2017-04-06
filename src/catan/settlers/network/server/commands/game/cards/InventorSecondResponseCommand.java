@@ -1,4 +1,4 @@
-package catan.settlers.network.server.commands.game.progresscards;
+package catan.settlers.network.server.commands.game.cards;
 
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;

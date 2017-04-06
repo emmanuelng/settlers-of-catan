@@ -6,7 +6,7 @@ import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.units.Knight;
 
-public class MoveKnightAction implements Action {
+public class MoveKnightAction implements GameAction {
 
 	@Override
 	public boolean isPossible() {
@@ -36,6 +36,16 @@ public class MoveKnightAction implements Action {
 		Intersection selectedIntersec = gsm.getSelectedIntersection();
 		Knight knight = (Knight) selectedIntersec.getUnit();
 		gsm.setCanMoveKnightIntersecIds(knight.canCanMoveIntersecIds());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Free";
+	}
+
+	@Override
+	public String getFailureMessage() {
+		return "Select a knight";
 	}
 
 }

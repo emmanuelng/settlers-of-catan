@@ -17,7 +17,6 @@ public class Session extends Thread {
 	private ObjectInputStream in;
 	private boolean sessionActive;
 
-	private LinkedList<ServerToClientCommand> cmdQueue;
 	private ArrayList<SessionObserver> observers;
 	private Socket socket;
 
@@ -37,7 +36,6 @@ public class Session extends Thread {
 		this.in = new ObjectInputStream(socket.getInputStream());
 		this.sessionActive = true;
 		this.observers = new ArrayList<>();
-		this.cmdQueue = new LinkedList<>();
 
 		start();
 	}
@@ -55,7 +53,6 @@ public class Session extends Thread {
 					cmdList.remove().execute(this, host);
 			}
 		} catch (Exception e) {
-			// Ignore
 			if (e.getMessage() != null) {
 				if (!e.getMessage().equals("Connection reset"))
 					System.out.println(e.getMessage());
@@ -68,10 +65,7 @@ public class Session extends Thread {
 	}
 
 	public synchronized void sendCommand(ServerToClientCommand cmd) throws IOException {
-		cmdQueue.add(cmd);
-
-		while (!cmdQueue.isEmpty())
-			out.writeObject(cmdQueue.remove());
+		out.writeObject(cmd);
 	}
 
 	public void registerObserver(SessionObserver obs) {
@@ -79,7 +73,7 @@ public class Session extends Thread {
 	}
 
 	public void close() {
-		host.writeToConsole("Closing session...");
+		host.writeToConsole("Player left the game");
 		sessionActive = false;
 
 		for (SessionObserver obs : observers) {

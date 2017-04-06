@@ -24,6 +24,7 @@ public class GameWindow extends MinuetoFrame {
 	private MinuetoEventQueue eventQueue;
 	private MouseHandler mouseHandler;
 	private KeyboardHandler keyboardHandler;
+	private HashMap<MinuetoImage, Clickable> imageClickableMap;
 
 	private TopBarLayer topBar;
 	private GameBoardImage board;
@@ -34,8 +35,6 @@ public class GameWindow extends MinuetoFrame {
 	private TradeReceivedMenuLayer receiveTradeMenu;
 	private SevenDiscardMenuLayer sevenDiscardMenu;
 	private SelectPlayerLayer selectPlayerLayer;
-
-	private HashMap<MinuetoImage, Clickable> imageClickableMap;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);

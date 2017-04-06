@@ -1,8 +1,8 @@
-package catan.settlers.network.server.commands.game.progresscards;
+package catan.settlers.network.server.commands.game.cards;
 
 import java.io.IOException;
 
-import catan.settlers.network.client.commands.game.progresscards.InventorSecondCommand;
+import catan.settlers.network.client.commands.game.cards.InventorSecondCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.network.server.commands.ClientToServerCommand;

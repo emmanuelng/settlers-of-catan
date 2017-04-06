@@ -6,7 +6,7 @@ import catan.settlers.client.model.NetworkManager;
 import catan.settlers.network.server.commands.game.DisplaceKnightCommand;
 import catan.settlers.server.model.map.Intersection;
 
-public class DisplaceKnightAction implements Action {
+public class DisplaceKnightAction implements GameAction {
 
 	@Override
 	public boolean isPossible() {
@@ -28,6 +28,25 @@ public class DisplaceKnightAction implements Action {
 	public void perform() {
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
 		nm.sendCommand(new DisplaceKnightCommand());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Move knight on this intersection";
+	}
+
+	@Override
+	public String getFailureMessage() {
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		Intersection selectedIntersec = gsm.getSelectedIntersection();
+
+		if (selectedIntersec != null)
+			if (!gsm.getCanMoveKnightIntersecIds().contains(selectedIntersec.getId()))
+				return "Invalid intersection";
+		else
+			return "Select an intersection";
+
+		return "Cannot move knight";
 	}
 
 }
