@@ -41,6 +41,10 @@ public class PlayerListLayer extends ImageLayer {
 				boolean isCurrentPlayer = ClientModel.instance.getGameStateManager().getCurrentPlayer()
 						.equals(participants.get(i));
 				String userStr = isCurrentPlayer ? "> " + participants.get(i) : participants.get(i);
+
+				if (participants.get(i).equals(ClientModel.instance.getUsername()))
+					userStr += " (you)";
+
 				MinuetoText username = new MinuetoText(userStr, unameFont, MinuetoColor.BLACK);
 
 				// TODO: Update the victory points
