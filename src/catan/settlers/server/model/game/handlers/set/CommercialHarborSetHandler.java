@@ -1,8 +1,8 @@
 package catan.settlers.server.model.game.handlers.set;
 
-import catan.settlers.network.client.commands.game.CommercialHarborCommand;
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
+import catan.settlers.network.client.commands.game.cards.CommercialHarborCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;

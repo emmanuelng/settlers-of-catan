@@ -1,4 +1,4 @@
-package catan.settlers.network.client.commands.game;
+package catan.settlers.network.client.commands.game.cards;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;

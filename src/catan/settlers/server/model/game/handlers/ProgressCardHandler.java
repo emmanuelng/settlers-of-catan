@@ -3,13 +3,14 @@ package catan.settlers.server.model.game.handlers;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import catan.settlers.network.client.commands.game.CommercialHarborCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.UpdateCardsCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
+import catan.settlers.network.client.commands.game.cards.CommercialHarborCommand;
 import catan.settlers.network.client.commands.game.cards.InventorCommand;
+import catan.settlers.network.client.commands.game.cards.MasterMerchantCommand;
 import catan.settlers.network.client.commands.game.cards.SelectResourceCommand;
 import catan.settlers.network.server.commands.game.cards.SelectResourceResponseCommand;
 import catan.settlers.server.model.Game;
@@ -17,6 +18,7 @@ import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.game.handlers.set.CommercialHarborSetHandler;
+import catan.settlers.server.model.game.handlers.set.MasterMerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
@@ -46,7 +48,7 @@ public class ProgressCardHandler {
 	public void handle(Player sender, ProgressCardType card) {
 		switch (card) {
 		case COMMERCIAL_HARBOR:
-			commercialHarbor(); // TODO
+			commercialHarbor();
 			break;
 		case MASTER_MERCHANT:
 			masterMerchant(sender); // TODO
@@ -145,14 +147,14 @@ public class ProgressCardHandler {
 
 		if (!set.isEmpty()) {
 			game.setCurSetOfOpponentMove(set);
-			
+
 			// Send initial command
 			String currentPlayerUsername = currentPlayer.getUsername();
 			String firstOpponentUsername = firstOpponent == null ? "" : firstOpponent.getUsername();
 
 			CommercialHarborCommand cmd = new CommercialHarborCommand(currentPlayerUsername, firstOpponentUsername);
 			game.sendToAllPlayers(cmd);
-			
+
 			// Update cards
 			currentPlayer.useProgressCard(ProgressCardType.COMMERCIAL_HARBOR);
 			currentPlayer.sendCommand(new UpdateCardsCommand(currentPlayer.getProgressCards()));
@@ -163,7 +165,26 @@ public class ProgressCardHandler {
 	 * choose two cards to take from an opponent with more VPs than you
 	 */
 	private void masterMerchant(Player sender) {
+		ArrayList<String> playersWithMoreVPs = new ArrayList<>();
 
+		for (Player p : game.getParticipants()) {
+			if (p != sender && p.getVP() > sender.getVP()) {
+				if (p.getNbResourceCards() >= 2)
+					playersWithMoreVPs.add(p.getUsername());
+			}
+		}
+
+		if (!playersWithMoreVPs.isEmpty()) {
+			MasterMerchantSetHandler set = new MasterMerchantSetHandler(game, playersWithMoreVPs);
+			set.waitForPlayer(sender);
+			game.setCurSetOfOpponentMove(set);
+
+			game.sendToAllPlayers(new MasterMerchantCommand(playersWithMoreVPs, sender.getUsername()));
+
+			// Update cards
+			sender.useProgressCard(ProgressCardType.COMMERCIAL_HARBOR);
+			sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
+		}
 	}
 
 	/**

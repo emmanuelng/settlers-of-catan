@@ -62,6 +62,7 @@ public class GameStateManager {
 	private String tradeMenuMsg;
 	private String showSelectResourceReason;
 	private GamePhase currentPhase;
+	private ArrayList<String> playersToShow;
 
 	private HashMap<PortKind, Boolean> ownedPorts;
 
@@ -196,7 +197,7 @@ public class GameStateManager {
 		this.progressCards = progressCards;
 
 		// TODO Remove this
-		progressCards.put(ProgressCardType.COMMERCIAL_HARBOR, 1);
+		progressCards.put(ProgressCardType.MASTER_MERCHANT, 1);
 		this.updateProgressCards = true;
 	}
 
@@ -486,5 +487,16 @@ public class GameStateManager {
 	
 	public void setSelectCommodityMessage(String string) {
 		this.selectCommodityMsg = string;
+	}
+
+	public void setPlayersToShow(ArrayList<String> playersWithMoreVPs) {
+		this.playersToShow = playersWithMoreVPs;
+		
+	}
+	
+	public ArrayList<String> getPlayersToShow() {
+		ArrayList<String> ret = new ArrayList<>();
+		ret.addAll(playersToShow);
+		return ret;
 	}
 }

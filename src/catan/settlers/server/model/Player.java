@@ -155,7 +155,10 @@ public class Player implements Serializable {
 	}
 
 	public void useProgressCard(ProgressCardType pc) {
-		progressCards.remove(pc);
+		int prvAmt = progressCards.get(pc);
+
+		if (prvAmt > 0)
+			progressCards.put(pc, prvAmt - 1);
 	}
 
 	public int getKnightCount(KnightType kType) {

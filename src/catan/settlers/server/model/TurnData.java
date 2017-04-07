@@ -23,7 +23,7 @@ public class TurnData implements Serializable {
 	private static final long serialVersionUID = -2490523320154300533L;
 
 	public static enum TurnAction {
-		BUILD_SETTLEMENT, BUILD_KNIGHT, BUILD_ROAD, UPGRADE_SETTLEMENT, UPGRADE_KNIGHT, BUILD_WALL, END_TURN, ACTIVATE_KNIGHT, PROGRESS_CARD, DISPLACE_KNIGHT, SEVEN_DISCARD, ROLL_DICE, BUILD_SHIP, RESOURCE_SELECTED
+		BUILD_SETTLEMENT, BUILD_KNIGHT, BUILD_ROAD, UPGRADE_SETTLEMENT, UPGRADE_KNIGHT, BUILD_WALL, END_TURN, ACTIVATE_KNIGHT, PROGRESS_CARD, DISPLACE_KNIGHT, SEVEN_DISCARD, ROLL_DICE, BUILD_SHIP, RESOURCE_SELECTED, PLAYER_SELECTED
 	}
 
 	private Intersection selectedIntersection;
@@ -33,6 +33,7 @@ public class TurnData implements Serializable {
 	private Knight selectedKnight;
 	private ResourceType selectedResource;
 	private ProgressCardType progressCard;
+	private String selectedPlayer;
 
 	public TurnData(TurnAction action) {
 		ClientModel cm = ClientModel.instance;
@@ -88,5 +89,13 @@ public class TurnData implements Serializable {
 
 	public ProgressCardType getProgressCard() {
 		return progressCard;
+	}
+
+	public void setSelectedPlayer(String username) {
+		this.selectedPlayer = username;
+	}
+
+	public String getSelectedPlayer() {
+		return selectedPlayer;
 	}
 }

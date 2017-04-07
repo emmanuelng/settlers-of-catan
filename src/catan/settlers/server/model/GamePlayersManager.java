@@ -137,4 +137,12 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 		return null;
 	}
 
+	public Player getPlayerByUsername(String username) {
+		for (Player p : participants)
+			if (p.getUsername().equals(username))
+				return p;
+
+		return null;
+	}
+
 }

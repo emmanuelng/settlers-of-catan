@@ -25,6 +25,10 @@ public class SevenDiscardSetHandler extends SetOfOpponentMove {
 
 	@Override
 	public void handle(Game game, Player sender, TurnData data) {
+
+		if (!contains(sender))
+			return;
+
 		this.game = game;
 		this.data = data;
 
@@ -53,6 +57,9 @@ public class SevenDiscardSetHandler extends SetOfOpponentMove {
 	}
 
 	private int countSelectedResources(HashMap<ResourceType, Integer> sevenResources) {
+		if (sevenResources == null)
+			return 0;
+
 		int nbSelectedResources = 0;
 		for (ResourceType rtype : ResourceType.values()) {
 			nbSelectedResources += sevenResources.get(rtype);

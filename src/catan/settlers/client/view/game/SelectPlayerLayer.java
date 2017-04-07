@@ -12,8 +12,10 @@ import org.minueto.image.MinuetoText;
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.model.ImageFileManager;
+import catan.settlers.client.model.NetworkManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
+import catan.settlers.network.server.commands.game.PlayerSelectedCommand;
 
 public class SelectPlayerLayer extends ImageLayer {
 
@@ -33,6 +35,7 @@ public class SelectPlayerLayer extends ImageLayer {
 	private MinuetoRectangle border;
 	private MinuetoText title;
 	private MinuetoText description;
+	private boolean clear;
 
 	public SelectPlayerLayer() {
 		this.box_x = ClientWindow.WINDOW_WIDTH / 2 - WIDTH / 2;
@@ -49,10 +52,18 @@ public class SelectPlayerLayer extends ImageLayer {
 
 	@Override
 	public void compose(GameStateManager gsm) {
-		
-		if (!gsm.doShowSelectPlayerMenu())
+
+		if (!gsm.doShowSelectPlayerMenu()) {
+			if (clear) {
+				ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);
+				clear();
+				clear = false;
+			}
 			return;
-		
+		} else {
+			clear = true;
+		}
+
 		draw(background, box_x, box_y);
 		draw(border, box_x, box_y);
 
@@ -64,9 +75,10 @@ public class SelectPlayerLayer extends ImageLayer {
 		draw(description, box_x + WIDTH / 2 - description.getWidth() / 2, y_offset);
 		y_offset += description.getHeight() + 30;
 
-		ArrayList<String> participants = gsm.getParticipants();
+		ArrayList<String> participants = gsm.getPlayersToShow();
+
 		ImageFileManager imf = ClientModel.instance.getImageFileManager();
-		int players_displayed = 0, player_box_width = WIDTH / (participants.size() - 1);
+		int players_displayed = 0, player_box_width = WIDTH / (participants.size());
 		for (int i = 0; i < participants.size(); i++) {
 			String curParticipant = participants.get(i);
 
@@ -78,7 +90,8 @@ public class SelectPlayerLayer extends ImageLayer {
 			int player_box_y_offset = y_offset;
 
 			if (shields.get(curParticipant) == null) {
-				shields.put(curParticipant, imf.load("images/logo_" + (i + 1) + ".png"));
+				int playerNo = ClientWindow.getInstance().getGameWindow().getPlayerNumber(curParticipant);
+				shields.put(curParticipant, imf.load("images/logo_" + playerNo + ".png"));
 			}
 			MinuetoImage shield = shields.get(curParticipant);
 			draw(shield, player_box_x + player_box_width / 2 - shield.getWidth() / 2, player_box_y_offset);
@@ -98,6 +111,8 @@ public class SelectPlayerLayer extends ImageLayer {
 					@Override
 					public void onClick() {
 						System.out.println("Select " + curParticipant);
+						NetworkManager nm = ClientModel.instance.getNetworkManager();
+						nm.sendCommand(new PlayerSelectedCommand(curParticipant));
 					}
 
 				}));
