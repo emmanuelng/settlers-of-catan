@@ -2,6 +2,7 @@ package catan.settlers.server.model.game.handlers.set;
 
 import catan.settlers.network.client.commands.game.CommercialHarborCommand;
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
+import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
@@ -42,6 +43,9 @@ public class CommercialHarborSetHandler extends SetOfOpponentMove {
 
 			sender.giveResource(selectedResource, 1);
 			playerWhoSelectsResources.removeResource(selectedResource, 1);
+
+			sender.sendCommand(new UpdateResourcesCommand(sender.getResources()));
+			playerWhoSelectsResources.sendCommand(new UpdateResourcesCommand(playerWhoSelectsResources.getResources()));
 
 			this.selectedResource = null;
 		}
