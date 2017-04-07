@@ -43,6 +43,8 @@ public class TurnData implements Serializable {
 		this.selectedIntersection = cm.getGameStateManager().getSelectedIntersection();
 		this.selectedEdge = cm.getGameStateManager().getSelectedEdge();
 		this.selectedKnight = cm.getGameStateManager().getSelectedKnight();
+		this.selectedHex = cm.getGameStateManager().getSelectedHex();
+		System.out.println("turndata ada" + selectedHex);
 		this.myAction = action;
 	}
 

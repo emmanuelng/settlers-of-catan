@@ -9,6 +9,7 @@ import catan.settlers.server.model.Player.ResourceType;
 public class Hexagon implements Serializable {
 
 	private static final long serialVersionUID = 2796066592140868855L;
+	private static int currentId = 0;
 
 	public enum TerrainType {
 		SEA, DESERT, PASTURE, FOREST, MOUNTAIN, HILLS, FIELD, GOLDMINE
@@ -22,16 +23,20 @@ public class Hexagon implements Serializable {
 		TOPLEFT, TOP, TOPRIGHT, BOTTOMRIGHT, BOTTOM, BOTTOMLEFT
 	}
 
+	
+	
 	private Edge[] myEdges;
 	private Intersection[] myIntersections;
 	private int number;
 	private TerrainType type;
+	private int id;
 
 	public Hexagon(TerrainType type, int number) {
 		this.number = number;
 		this.type = type;
 		this.myEdges = new Edge[Direction.values().length];
 		this.myIntersections = new Intersection[IntersectionLoc.values().length];
+		this.id = currentId++;
 	}
 
 	public void setType(TerrainType t) {
@@ -51,6 +56,10 @@ public class Hexagon implements Serializable {
 		return number;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
 
 	public void setEdge(Edge e, Direction dir) {
 		myEdges[dir.ordinal()] = e;

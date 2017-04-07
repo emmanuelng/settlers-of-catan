@@ -15,7 +15,7 @@ public class SelectHexFeedbackCommand implements ClientToServerCommand {
 	 * 
 	 */
 	private static final long serialVersionUID = 2075199989462913734L;
-	private Hexagon selectedHex;
+
 	private int gameId;
 	private TurnData data;
 	
@@ -23,7 +23,7 @@ public class SelectHexFeedbackCommand implements ClientToServerCommand {
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 
 		this.data = new TurnData(TurnAction.HEX_SELECTED);
-		data.setSelectedHex(selectedHex);
+		data.setSelectedHex(selected);
 	}
 	
 	@Override
@@ -31,7 +31,7 @@ public class SelectHexFeedbackCommand implements ClientToServerCommand {
 		
 		Game game = server.getGameManager().getGameById(gameId);
 
-		game.getCurrentPlayer().setCurrentSelectedHex(selectedHex);
+		game.receiveResponse(sender.getCredentials(), data);
 	}
 
 }
