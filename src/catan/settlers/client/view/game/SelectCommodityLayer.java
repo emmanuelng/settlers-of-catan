@@ -15,7 +15,7 @@ import catan.settlers.client.view.game.handlers.ClickListener;
 import catan.settlers.network.server.commands.game.ResourceSelectedCommand;
 import catan.settlers.server.model.Player.ResourceType;
 
-public class SelectResourceMenuLayer extends ImageLayer {
+public class SelectCommodityLayer extends ImageLayer {
 
 	private static final int WIDTH = 500, HEIGHT = 450;
 	private static final MinuetoColor bg_color = new MinuetoColor(249, 249, 249);
@@ -33,7 +33,7 @@ public class SelectResourceMenuLayer extends ImageLayer {
 	private boolean clear;
 	private MinuetoRectangle btnShadow;
 
-	public SelectResourceMenuLayer() {
+	public SelectCommodityLayer() {
 		super();
 
 		this.box_x = ClientWindow.WINDOW_WIDTH / 2 - WIDTH / 2;
@@ -41,13 +41,13 @@ public class SelectResourceMenuLayer extends ImageLayer {
 
 		this.background = new MinuetoRectangle(WIDTH, HEIGHT, bg_color, true);
 		this.border = new MinuetoRectangle(WIDTH, HEIGHT, border_color, false);
-		this.title = new MinuetoText("Select a resource", title_font, MinuetoColor.BLACK);
+		this.title = new MinuetoText("Select a commodity", title_font, MinuetoColor.BLACK);
 
 	}
 
 	@Override
 	public void compose(GameStateManager gsm) {
-		if (!gsm.doShowSelectResourceMenu()) {
+		if (!gsm.doShowSelectCommodityMenu()) {
 			if (clear) {
 				ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);
 				clear();
@@ -67,7 +67,7 @@ public class SelectResourceMenuLayer extends ImageLayer {
 		draw(title, box_x + (WIDTH / 2 - title.getWidth() / 2), y_offset);
 		y_offset += title.getHeight() + 10;
 
-		if (!gsm.getSelectResourceMessage().isEmpty()) {
+		if (!gsm.getSelectCommodityMessage().isEmpty()) {
 			MinuetoText message = new MinuetoText(gsm.getSelectResourceMessage(), description_font, MinuetoColor.BLACK);
 			draw(message, box_x + (WIDTH / 2 - message.getWidth() / 2), y_offset);
 			y_offset += 40;
@@ -75,20 +75,17 @@ public class SelectResourceMenuLayer extends ImageLayer {
 			y_offset += 20;
 		}
 
-		drawResourceBoxes(box_x + 10, y_offset, gsm);
+		drawResourceBoxes(box_x + 10, y_offset);
 	}
 
-	private void drawResourceBoxes(int x, int y, GameStateManager gsm) {
+	private void drawResourceBoxes(int x, int y) {
 		int y_offset = y;
 		String menuReason = ClientModel.instance.getGameStateManager().getShowSelectResourceMenuReason();
 
 		if (menuReason == null) {
 			for (ResourceType rtype : ResourceType.values()) {
 				// Ignore commodities
-				if (rtype == ResourceType.COIN || rtype == ResourceType.CLOTH || rtype == ResourceType.PAPER)
-					continue;
-
-				if (gsm.getResources().get(rtype) < 1)
+				if (rtype != ResourceType.COIN && rtype != ResourceType.CLOTH && rtype != ResourceType.PAPER)
 					continue;
 
 				String rnameStr = rtype.toString().toLowerCase();
@@ -139,5 +136,4 @@ public class SelectResourceMenuLayer extends ImageLayer {
 			}
 		});
 	}
-
 }

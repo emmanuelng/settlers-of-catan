@@ -23,7 +23,7 @@ public class TurnData implements Serializable {
 	private static final long serialVersionUID = -2490523320154300533L;
 
 	public static enum TurnAction {
-		BUILD_SETTLEMENT, BUILD_KNIGHT, BUILD_ROAD, UPGRADE_SETTLEMENT, UPGRADE_KNIGHT, BUILD_WALL, END_TURN, ACTIVATE_KNIGHT, PROGRESS_CARD, DISPLACE_KNIGHT, SEVEN_DISCARD, ROLL_DICE, BUILD_SHIP
+		BUILD_SETTLEMENT, BUILD_KNIGHT, BUILD_ROAD, UPGRADE_SETTLEMENT, UPGRADE_KNIGHT, BUILD_WALL, END_TURN, ACTIVATE_KNIGHT, PROGRESS_CARD, DISPLACE_KNIGHT, SEVEN_DISCARD, ROLL_DICE, BUILD_SHIP, RESOURCE_SELECTED
 	}
 
 	private Intersection selectedIntersection;
@@ -31,7 +31,8 @@ public class TurnData implements Serializable {
 	private TurnData.TurnAction myAction;
 	private HashMap<ResourceType, Integer> sevenDiscardresources;
 	private Knight selectedKnight;
-	private ProgressCardType selectedProgressCard;
+	private ResourceType selectedResource;
+	private ProgressCardType progressCard;
 
 	public TurnData(TurnAction action) {
 		ClientModel cm = ClientModel.instance;
@@ -40,7 +41,6 @@ public class TurnData implements Serializable {
 		this.selectedEdge = cm.getGameStateManager().getSelectedEdge();
 		this.selectedKnight = cm.getGameStateManager().getSelectedKnight();
 		this.myAction = action;
-		this.selectedProgressCard = cm.getGameStateManager().getSelectedProgressCard();
 	}
 
 	public Intersection getIntersectionSelection() {
@@ -73,8 +73,20 @@ public class TurnData implements Serializable {
 	public Knight getSelectedKnight() {
 		return selectedKnight;
 	}
-	
-	public ProgressCardType getSelectedProgressCard() {
-		return selectedProgressCard;
+
+	public void setSelectedResource(ResourceType rtype) {
+		this.selectedResource = rtype;
+	}
+
+	public ResourceType getSelectedResourceOrCommodity() {
+		return selectedResource;
+	}
+
+	public void setProgressCard(ProgressCardType pCardType) {
+		this.progressCard = pCardType;
+	}
+
+	public ProgressCardType getProgressCard() {
+		return progressCard;
 	}
 }

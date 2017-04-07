@@ -3,7 +3,6 @@ package catan.settlers.client.view.game.actions.cards;
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.model.NetworkManager;
-import catan.settlers.client.view.game.actions.Action;
 import catan.settlers.network.server.commands.game.PlayProgressCardCommand;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 

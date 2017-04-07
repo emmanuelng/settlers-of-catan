@@ -35,8 +35,8 @@ public class GameStateManager {
 	private Edge selectedEdge;
 	private Hexagon selectedHex;
 	private Knight selectedKnight;
-	private ProgressCardType selectedProgressCard;
 
+	private boolean attacked;
 	private boolean canMoveRobber;
 	private boolean isBishop;
 	private boolean updateResources;
@@ -51,12 +51,14 @@ public class GameStateManager {
 	private boolean moveKnightMode;
 	private boolean showSelectPlayerMenu;
 	private boolean showProgressCardMenu;
-
-	private boolean attacked;
+	private boolean showSelectCardTypeMenu;
+	private boolean showSelectCommodityMenu;
 
 	private String dboxTitle;
 	private String dBoxMessage;
 	private String sevenDiscardMenuMsg;
+	private String selectResourceMsg;
+	private String selectCommodityMsg;
 	private String tradeMenuMsg;
 	private String showSelectResourceReason;
 	private GamePhase currentPhase;
@@ -70,9 +72,6 @@ public class GameStateManager {
 	private int tradeImprovementLevel;
 	private int politicsImprovementLevel;
 	private int scienceImprovementLevel;
-
-	private boolean showSelectCardTypeMenu;
-
 	private int barbarianCounter;
 
 	public GameStateManager(int gameId) {
@@ -89,9 +88,11 @@ public class GameStateManager {
 		this.showSelectPlayerMenu = false;
 		this.showSelectResourceMenu = false;
 		this.showSelectCardTypeMenu = false;
-		
+		this.showSelectCommodityMenu = false;
+
 		this.sevenDiscardMenuMsg = "";
 		this.tradeMenuMsg = "";
+		this.selectResourceMsg = "";
 	}
 
 	public int getGameId() {
@@ -193,18 +194,12 @@ public class GameStateManager {
 
 	public void setProgressCards(HashMap<ProgressCardType, Integer> progressCards) {
 		this.progressCards = progressCards;
-		progressCards.put(ProgressCardType.CONSTITUTION, 4);
+
+		// TODO Remove this
+		progressCards.put(ProgressCardType.COMMERCIAL_HARBOR, 1);
 		this.updateProgressCards = true;
 	}
 
-	public void setSelectedProgressCard(ProgressCardType card) {
-		selectedProgressCard = card;
-	}
-	
-	public ProgressCardType getSelectedProgressCard() {
-		return selectedProgressCard;
-	}
-	
 	public void sync() {
 		ArrayList<ClientToServerCommand> cmds = new ArrayList<>();
 
@@ -462,11 +457,34 @@ public class GameStateManager {
 	}
 
 	public int getBarbarianCounter() {
-		// TODO Auto-generated method stub
 		return barbarianCounter;
 	}
 
-	public void setBarbarianCounter(int i){
-		barbarianCounter=i;
+	public void setBarbarianCounter(int i) {
+		barbarianCounter = i;
+	}
+
+	public void setSelectResourceMessage(String string) {
+		this.selectResourceMsg = string;
+	}
+
+	public String getSelectResourceMessage() {
+		return selectResourceMsg;
+	}
+
+	public boolean doShowSelectCommodityMenu() {
+		return showSelectCommodityMenu;
+	}
+
+	public void setShowCommodityMenu(boolean b) {
+		this.showSelectCommodityMenu = b;
+	}
+
+	public String getSelectCommodityMessage() {
+		return selectCommodityMsg;
+	}
+	
+	public void setSelectCommodityMessage(String string) {
+		this.selectCommodityMsg = string;
 	}
 }

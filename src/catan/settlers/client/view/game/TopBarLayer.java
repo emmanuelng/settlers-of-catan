@@ -24,7 +24,7 @@ public class TopBarLayer extends ImageLayer {
 	private static final MinuetoColor shadow_color = new MinuetoColor(236, 236, 236);
 	private static final MinuetoColor bg_color = new MinuetoColor(249, 249, 249);
 	private static final MinuetoColor vp_color = new MinuetoColor(200, 171, 55);
-	private static final HashMap<ResourceType, MinuetoColor> resourceColors = new HashMap<>();
+	static final HashMap<ResourceType, MinuetoColor> resourceColors = new HashMap<>();
 
 	private static final MinuetoFont vp_font = new MinuetoFont("arial", 25, true, false);
 	private static final MinuetoFont resource_name_font = new MinuetoFont("arial", 17, true, false);
@@ -39,7 +39,6 @@ public class TopBarLayer extends ImageLayer {
 	private MinuetoImageFile endTurnImage;
 	private MinuetoImageFile tradeImage;
 	private MinuetoImage cardsImage;
-	private int barbarianCounter;
 
 	public TopBarLayer() {
 		super();
@@ -62,7 +61,7 @@ public class TopBarLayer extends ImageLayer {
 			return;
 
 		resources = gsm.getResources();
-		barbarianCounter = gsm.getBarbarianCounter();
+		gsm.getBarbarianCounter();
 		draw(shadowImage, 0, 0);
 		draw(bgImage, 0, 0);
 
@@ -100,7 +99,7 @@ public class TopBarLayer extends ImageLayer {
 		rname = rname.substring(0, 1).toUpperCase() + rname.substring(1);
 		String amtStr = resources.get(r).toString();
 
-		MinuetoColor color = getColorByResource(r);
+		MinuetoColor color = GameWindow.getColorByResource(r);
 		MinuetoCircle circleImage = new MinuetoCircle(10, color, true);
 		MinuetoCircle circleBorderImage = new MinuetoCircle(10, color.darken(0.2), false);
 		MinuetoText rNameImage = new MinuetoText(rname, resource_name_font, MinuetoColor.BLACK, true);
@@ -163,39 +162,5 @@ public class TopBarLayer extends ImageLayer {
 				this.resources.put(r, 0);
 			}
 		}
-	}
-
-	private static MinuetoColor getColorByResource(ResourceType rtype) {
-		if (resourceColors.get(rtype) == null) {
-			MinuetoColor color;
-			switch (rtype) {
-			case GRAIN:
-				color = new MinuetoColor(198, 233, 175);
-				break;
-			case LUMBER:
-				color = new MinuetoColor(222, 170, 135);
-				break;
-			case ORE:
-				color = new MinuetoColor(200, 190, 183);
-				break;
-			case WOOL:
-				color = new MinuetoColor(255, 246, 213);
-				break;
-			case BRICK:
-				color = new MinuetoColor(255, 153, 85);
-				break;
-			case CLOTH:
-				color = new MinuetoColor(255, 230, 213);
-				break;
-			case PAPER:
-				color = new MinuetoColor(246, 255, 213);
-				break;
-			default:
-				color = new MinuetoColor(255, 215, 0);
-				break;
-			}
-			resourceColors.put(rtype, color);
-		}
-		return resourceColors.get(rtype);
 	}
 }

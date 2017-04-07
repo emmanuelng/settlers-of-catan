@@ -4,26 +4,24 @@ import java.util.HashMap;
 
 import org.minueto.MinuetoColor;
 import org.minueto.image.MinuetoFont;
-import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoRectangle;
 import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
-import catan.settlers.client.model.ImageFileManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
 import catan.settlers.network.server.commands.game.PlayerTradeConfirmCommand;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 
-public class TradeReceivedMenuLayer extends ImageLayer {
+public class TradeOfferMenuLayer extends ImageLayer {
 
 	private static final int WIDTH = 1000, HEIGHT = 635;
 	private static final MinuetoColor bg_color = new MinuetoColor(249, 249, 249);
 	private static final MinuetoColor border_color = new MinuetoColor(179, 179, 179);
 	private static final MinuetoColor trade_confirm_btn_color = new MinuetoColor(255, 153, 85);
-	private static final MinuetoColor trade_refuse_btn_color = new MinuetoColor(55,200,113);
+	private static final MinuetoColor trade_refuse_btn_color = new MinuetoColor(55, 200, 113);
 	private static final MinuetoFont title_font = new MinuetoFont("arial", 28, true, false);
 	private static final MinuetoFont description_font = new MinuetoFont("arial", 17, false, false);
 	private static final MinuetoFont description_font_bold = new MinuetoFont("arial", 17, true, false);
@@ -45,7 +43,7 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 	private HashMap<ResourceType, Integer> give, get;
 	private Player player;
 
-	public TradeReceivedMenuLayer() {
+	public TradeOfferMenuLayer() {
 		super();
 
 		this.box_x = ClientWindow.WINDOW_WIDTH / 2 - WIDTH / 2;
@@ -63,13 +61,11 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 		this.orText = new MinuetoText("or", description_font, MinuetoColor.BLACK);
 	}
 
-	
-
 	@Override
 	public void compose(GameStateManager gsm) {
 		if (!gsm.doShowTradeReceivedMenu()) {
 			if (clear) {
-			
+
 				ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);
 				clear();
 
@@ -143,7 +139,7 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 			draw(amtTextImage, amt_box_x + (rAmtBox.getWidth() / 2) - (amtTextImage.getWidth() / 2),
 					y_offset + (rAmtBox.getHeight() / 2) - (amtTextImage.getHeight() / 2));
 			draw(rAmtBoxBorder, amt_box_x, y_offset);
-			
+
 			y_offset += rAmtBox.getHeight() + 10;
 
 			draw(rnameImage, (x + i * spacing) + (spacing / 2 - rnameImage.getWidth() / 2), y_offset);
@@ -163,7 +159,7 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 			}
 		};
 	}
-	
+
 	private ClickListener getTradeRefuseListener() {
 		// TODO Auto-generated method stub
 		return new ClickListener() {
@@ -175,7 +171,6 @@ public class TradeReceivedMenuLayer extends ImageLayer {
 			}
 		};
 	}
-
 
 	private void overrideClickables() {
 		/*

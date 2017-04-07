@@ -70,6 +70,7 @@ public class SevenDiscardMenuLayer extends ImageLayer {
 		if (!gsm.doShowSevenDiscardMenu()) {
 			if (clear) {
 				resources = resetResourceMap();
+				gsm.setSevenDiscardMenuMsg("");
 				ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);
 				clear();
 				clear = false;

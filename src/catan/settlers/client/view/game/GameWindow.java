@@ -15,6 +15,7 @@ import catan.settlers.client.view.game.handlers.ClickListener;
 import catan.settlers.client.view.game.handlers.Clickable;
 import catan.settlers.client.view.game.handlers.KeyboardHandler;
 import catan.settlers.client.view.game.handlers.MouseHandler;
+import catan.settlers.server.model.Player.ResourceType;
 
 public class GameWindow extends MinuetoFrame {
 
@@ -32,11 +33,13 @@ public class GameWindow extends MinuetoFrame {
 	private ActionBoxLayer actionBox;
 	private DialogBoxLayer dbox;
 	private TradeMenuLayer tradeMenu;
-	private TradeReceivedMenuLayer receiveTradeMenu;
+	private TradeOfferMenuLayer receiveTradeMenu;
 	private SevenDiscardMenuLayer sevenDiscardMenu;
 	private SelectPlayerLayer selectPlayerLayer;
 	private ProgressCardMenuLayer progressCardsLayer;
 	private SelectProgressCardTypeLayer selectProgressCardTypeLayer;
+	private SelectResourceMenuLayer selectResourceMenuLayer;
+	private SelectCommodityLayer selectCommodityMenuLayer;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
@@ -83,11 +86,13 @@ public class GameWindow extends MinuetoFrame {
 		this.actionBox = new ActionBoxLayer();
 		this.dbox = new DialogBoxLayer();
 		this.tradeMenu = new TradeMenuLayer();
-		this.receiveTradeMenu = new TradeReceivedMenuLayer();
+		this.receiveTradeMenu = new TradeOfferMenuLayer();
 		this.sevenDiscardMenu = new SevenDiscardMenuLayer();
 		this.selectPlayerLayer = new SelectPlayerLayer();
 		this.progressCardsLayer = new ProgressCardMenuLayer();
+		this.selectResourceMenuLayer = new SelectResourceMenuLayer();
 		this.selectProgressCardTypeLayer = new SelectProgressCardTypeLayer();
+		this.selectCommodityMenuLayer = new SelectCommodityLayer();
 
 		this.imageClickableMap = new HashMap<>();
 	}
@@ -104,7 +109,9 @@ public class GameWindow extends MinuetoFrame {
 		drawLayer(sevenDiscardMenu, 0, 0);
 		drawLayer(selectPlayerLayer, 0, 0);
 		drawLayer(progressCardsLayer, 0, 0);
+		drawLayer(selectResourceMenuLayer, 0, 0);
 		drawLayer(selectProgressCardTypeLayer, 0, 0);
+		drawLayer(selectCommodityMenuLayer, 0, 0);
 		drawLayer(topBar, 0, 0);
 
 		render();
@@ -188,15 +195,49 @@ public class GameWindow extends MinuetoFrame {
 		}
 	}
 
-	public MinuetoColor getTradeColor() {
+	public static MinuetoColor getTradeColor() {
 		return new MinuetoColor(255, 221, 85);
 	}
 
-	public MinuetoColor getPoliticsColor() {
+	public static MinuetoColor getPoliticsColor() {
 		return new MinuetoColor(95, 188, 211);
 	}
 
-	public MinuetoColor getScienceColor() {
+	public static MinuetoColor getScienceColor() {
 		return new MinuetoColor(95, 211, 95);
+	}
+
+	public static MinuetoColor getColorByResource(ResourceType rtype) {
+		if (TopBarLayer.resourceColors.get(rtype) == null) {
+			MinuetoColor color;
+			switch (rtype) {
+			case GRAIN:
+				color = new MinuetoColor(198, 233, 175);
+				break;
+			case LUMBER:
+				color = new MinuetoColor(222, 170, 135);
+				break;
+			case ORE:
+				color = new MinuetoColor(200, 190, 183);
+				break;
+			case WOOL:
+				color = new MinuetoColor(255, 246, 213);
+				break;
+			case BRICK:
+				color = new MinuetoColor(255, 153, 85);
+				break;
+			case CLOTH:
+				color = new MinuetoColor(255, 230, 213);
+				break;
+			case PAPER:
+				color = new MinuetoColor(246, 255, 213);
+				break;
+			default:
+				color = new MinuetoColor(255, 215, 0);
+				break;
+			}
+			TopBarLayer.resourceColors.put(rtype, color);
+		}
+		return TopBarLayer.resourceColors.get(rtype);
 	}
 }

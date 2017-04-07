@@ -1,6 +1,5 @@
 package catan.settlers.client.view.game.actions.cards;
 
-
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.model.NetworkManager;
@@ -13,11 +12,11 @@ public class PlayCommercialHarbourCardAction implements CardAction {
 	public boolean isPossible() {
 
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		if(gsm.getProgressCards().get(ProgressCardType.COMMERCIAL_HARBOR) > 0){
+		if (gsm.getProgressCards().get(ProgressCardType.COMMERCIAL_HARBOR) > 0) {
 			return true;
 		}
 		return false;
-			
+
 	}
 
 	@Override
@@ -28,11 +27,7 @@ public class PlayCommercialHarbourCardAction implements CardAction {
 	@Override
 	public void perform() {
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
-		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		nm.sendCommand(new PlayProgressCardCommand(ProgressCardType.COMMERCIAL_HARBOR));
-		
-		int previous = gsm.getProgressCards().get(ProgressCardType.COMMERCIAL_HARBOR);
-		gsm.getProgressCards().put(ProgressCardType.COMMERCIAL_HARBOR, previous-1);
 	}
 
 	@Override

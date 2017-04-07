@@ -3,9 +3,11 @@ package catan.settlers.server.model.game.handlers;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import catan.settlers.network.client.commands.game.CommercialHarborCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
+import catan.settlers.network.client.commands.game.UpdateCardsCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.cards.InventorCommand;
 import catan.settlers.network.client.commands.game.cards.SelectResourceCommand;
@@ -14,6 +16,7 @@ import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
+import catan.settlers.server.model.game.handlers.set.CommercialHarborSetHandler;
 import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
@@ -125,7 +128,35 @@ public class ProgressCardHandler {
 	 * of their choice
 	 */
 	private void commercialHarbor() {
+		// Build a set of opponent move
+		Player currentPlayer = game.getCurrentPlayer();
+		CommercialHarborSetHandler set = new CommercialHarborSetHandler(game, game.getCurrentPlayer());
+		Player firstOpponent = null;
+		for (Player p : game.getParticipants()) {
+			if (p == game.getCurrentPlayer())
+				continue;
 
+			if (p.hasCommodities())
+				set.waitForPlayer(p);
+
+			if (firstOpponent == null)
+				firstOpponent = p;
+		}
+
+		if (!set.isEmpty()) {
+			game.setCurSetOfOpponentMove(set);
+			
+			// Send initial command
+			String currentPlayerUsername = currentPlayer.getUsername();
+			String firstOpponentUsername = firstOpponent == null ? "" : firstOpponent.getUsername();
+
+			CommercialHarborCommand cmd = new CommercialHarborCommand(currentPlayerUsername, firstOpponentUsername);
+			game.sendToAllPlayers(cmd);
+			
+			// Update cards
+			currentPlayer.useProgressCard(ProgressCardType.COMMERCIAL_HARBOR);
+			currentPlayer.sendCommand(new UpdateCardsCommand(currentPlayer.getProgressCards()));
+		}
 	}
 
 	/**

@@ -329,7 +329,6 @@ public class Player implements Serializable {
 
 	public ResourceType drawRandomResource() {
 		ResourceType ret = null;
-
 		while (ret == null) {
 			int resourceIndex = new Random().nextInt(ResourceType.values().length);
 			ResourceType rtype = ResourceType.values()[resourceIndex];
@@ -338,5 +337,10 @@ public class Player implements Serializable {
 		}
 
 		return ret;
+	}
+
+	public boolean hasCommodities() {
+		return resources.get(ResourceType.COIN) > 0 || resources.get(ResourceType.CLOTH) > 0
+				|| resources.get(ResourceType.PAPER) > 0;
 	}
 }
