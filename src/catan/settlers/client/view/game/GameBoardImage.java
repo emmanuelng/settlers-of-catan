@@ -80,9 +80,8 @@ public class GameBoardImage extends ImageLayer {
 						y + hexImg.getHeight() / 2 - robber.getHeight() / 2 + 3);
 			}
 			if (hex == board.getMerchantHex()) {
-				int playernum = ClientWindow.getInstance().getGameWindow().getPlayerNumber()
-				if(ClientModel.instance.get)
-				MinuetoImage merchant = ClientModel.instance.getImageFileManager().load("images/merchant.png");
+
+				MinuetoImage merchant = ClientModel.instance.getImageFileManager().load("images/merchant1.png");
 				draw(merchant, x + hexImg.getWidth() / 2 - merchant.getWidth() / 2,
 						y + hexImg.getHeight() / 2 - merchant.getHeight() / 2 + 3);
 			}

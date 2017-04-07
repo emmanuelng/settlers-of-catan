@@ -70,7 +70,6 @@ public class GameStateManager {
 	// List of intersections where the selected knight can move
 	private HashSet<Integer> canMoveKnightIntersecIds;
 
-	private boolean confirmation;
 	private int tradeImprovementLevel;
 	private int politicsImprovementLevel;
 	private int scienceImprovementLevel;
@@ -200,6 +199,7 @@ public class GameStateManager {
 
 		// TODO Remove this
 		progressCards.put(ProgressCardType.MASTER_MERCHANT, 1);
+		progressCards.put(ProgressCardType.MERCHANT, 1);
 		this.updateProgressCards = true;
 	}
 
@@ -500,5 +500,13 @@ public class GameStateManager {
 		ArrayList<String> ret = new ArrayList<>();
 		ret.addAll(playersToShow);
 		return ret;
+	}
+	
+	public void doShowSelectHexLayer(boolean b) {
+		doShowSelectHexLayer = b;
+	}
+	
+	public boolean getSelectHexLayer(){
+		return doShowSelectHexLayer;
 	}
 }
