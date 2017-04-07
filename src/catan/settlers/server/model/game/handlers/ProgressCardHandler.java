@@ -194,26 +194,22 @@ public class ProgressCardHandler {
 	 * @param sender
 	 */
 	private void merchant(Player sender) {
-		
-		
-		
+
 		MerchantSetHandler set = new MerchantSetHandler(game, sender);
 		set.waitForPlayer(sender);
 
 		System.out.println("new server");
 		game.setCurSetOfOpponentMove(set);
-		
+
 		// Send initial command
 		String currentPlayerUsername = sender.getUsername();
 
 		MerchantCommand cmd = new MerchantCommand(currentPlayerUsername);
 		sender.sendCommand(cmd);
-		
+
 		// Update cards
 		sender.useProgressCard(ProgressCardType.MERCHANT);
 		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
-
-
 
 	}
 

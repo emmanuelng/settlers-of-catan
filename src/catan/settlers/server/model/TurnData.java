@@ -7,6 +7,7 @@ import catan.settlers.client.model.ClientModel;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.map.Edge;
+import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Knight;
@@ -35,7 +36,8 @@ public class TurnData implements Serializable {
 	private ResourceType selectedResource;
 	private ProgressCardType progressCard;
 	private String selectedPlayer;
-	private Hexagon selectedHex;
+	private int selectedHex_x;
+	private int selectedHex_y;
 
 	public TurnData(TurnAction action) {
 		ClientModel cm = ClientModel.instance;
@@ -43,8 +45,6 @@ public class TurnData implements Serializable {
 		this.selectedIntersection = cm.getGameStateManager().getSelectedIntersection();
 		this.selectedEdge = cm.getGameStateManager().getSelectedEdge();
 		this.selectedKnight = cm.getGameStateManager().getSelectedKnight();
-		this.selectedHex = cm.getGameStateManager().getSelectedHex();
-		System.out.println("turndata ada" + selectedHex);
 		this.myAction = action;
 	}
 
@@ -102,12 +102,14 @@ public class TurnData implements Serializable {
 	public String getSelectedPlayer() {
 		return selectedPlayer;
 	}
-	
-	public void setSelectedHex(Hexagon hex) {
-		this.selectedHex = hex;
+
+	public void setSelectedHex(Hexagon hex, GameBoard gameBoard) {
+		int[] coordinates = gameBoard.getHex_coords(hex);
+		this.selectedHex_x = coordinates[0];
+		this.selectedHex_y = coordinates[1];
 	}
 
-	public Hexagon getSelectedHex() {
-		return selectedHex;
+	public Hexagon getSelectedHex(GameBoard gameBoard) {
+		return gameBoard.getHexagonAt(selectedHex_x, selectedHex_y);
 	}
 }

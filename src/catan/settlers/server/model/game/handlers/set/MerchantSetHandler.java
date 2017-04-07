@@ -24,7 +24,7 @@ public class MerchantSetHandler extends SetOfOpponentMove{
 	@Override
 	public void handle(Game game, Player sender, TurnData data) {
 		GameBoard board = game.getGameBoardManager().getBoard();
-		this.selectedHex = data.getSelectedHex();
+		this.selectedHex = data.getSelectedHex(game.getGameBoardManager().getBoard());
 		System.out.println("print something before if statement");
 		System.out.println(selectedHex + " + " + playerWhoSelectsHex);
 		if (sender == playerWhoSelectsHex && selectedHex != null) {

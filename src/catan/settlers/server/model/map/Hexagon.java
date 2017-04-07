@@ -3,7 +3,6 @@ package catan.settlers.server.model.map;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 
 public class Hexagon implements Serializable {
@@ -23,8 +22,6 @@ public class Hexagon implements Serializable {
 		TOPLEFT, TOP, TOPRIGHT, BOTTOMRIGHT, BOTTOM, BOTTOMLEFT
 	}
 
-	
-	
 	private Edge[] myEdges;
 	private Intersection[] myIntersections;
 	private int number;
@@ -47,7 +44,6 @@ public class Hexagon implements Serializable {
 		return type;
 	}
 
-	
 	public void setNumber(int n) {
 		number = n;
 	}
@@ -55,11 +51,10 @@ public class Hexagon implements Serializable {
 	public int getNumber() {
 		return number;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
-
 
 	public void setEdge(Edge e, Direction dir) {
 		myEdges[dir.ordinal()] = e;
@@ -77,8 +72,6 @@ public class Hexagon implements Serializable {
 		return myIntersections[loc.ordinal()];
 	}
 
-	
-	
 	/**
 	 * Get the opposite direction of an edge (e.g. the WEST edge of a hex
 	 * corresponds to the EAST edge of its neighbor)

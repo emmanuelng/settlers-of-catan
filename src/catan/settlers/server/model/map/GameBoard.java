@@ -383,8 +383,8 @@ public class GameBoard implements Serializable {
 		return intersections;
 	}
 
-	public Integer[] getHex_coords(Hexagon hex) {
-		Integer[] coords = new Integer[2];
+	public int[] getHex_coords(Hexagon hex) {
+		int[] coords = new int[2];
 
 		for (int x = 0; x < length; x++) {
 			for (int y = 0; y < height; y++)

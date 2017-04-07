@@ -1,6 +1,7 @@
 package catan.settlers.network.server.commands.game.cards;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.GameStateManager;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.network.server.commands.ClientToServerCommand;
@@ -18,17 +19,18 @@ public class SelectHexFeedbackCommand implements ClientToServerCommand {
 
 	private int gameId;
 	private TurnData data;
-	
-	public SelectHexFeedbackCommand(Hexagon selected){
-		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 
+	public SelectHexFeedbackCommand(Hexagon selected) {
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		
+		this.gameId = gsm.getGameId();
 		this.data = new TurnData(TurnAction.HEX_SELECTED);
-		data.setSelectedHex(selected);
+		data.setSelectedHex(selected, gsm.getBoard());
 	}
-	
+
 	@Override
 	public void execute(Session sender, Server server) {
-		
+
 		Game game = server.getGameManager().getGameById(gameId);
 
 		game.receiveResponse(sender.getCredentials(), data);

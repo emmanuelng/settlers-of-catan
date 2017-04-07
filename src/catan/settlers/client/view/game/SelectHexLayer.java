@@ -8,7 +8,6 @@ import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
-import catan.settlers.network.server.commands.game.PlayerTradeConfirmCommand;
 import catan.settlers.network.server.commands.game.cards.SelectHexFeedbackCommand;
 
 public class SelectHexLayer extends ImageLayer{

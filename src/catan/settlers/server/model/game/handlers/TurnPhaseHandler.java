@@ -15,15 +15,14 @@ import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.TurnData;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
-import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Cost;
 import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.units.Knight;
 import catan.settlers.server.model.units.Knight.KnightType;
-import catan.settlers.server.model.units.Village.VillageKind;
 import catan.settlers.server.model.units.Port;
 import catan.settlers.server.model.units.Village;
+import catan.settlers.server.model.units.Village.VillageKind;
 
 public class TurnPhaseHandler implements Serializable {
 
@@ -35,7 +34,6 @@ public class TurnPhaseHandler implements Serializable {
 	private Edge selectedEdge;
 	private Intersection selectedIntersection;
 	private Knight selectedKnight;
-	private Hexagon selectedHex;
 
 	public TurnPhaseHandler(Game game) {
 		this.game = game;
@@ -105,9 +103,9 @@ public class TurnPhaseHandler implements Serializable {
 			int selectedIntersectionId = data.getIntersectionSelection().getId();
 			this.selectedIntersection = board.getIntersectionById(selectedIntersectionId);
 		}
-		
-		if(data.getSelectedHex() != null) {
-			this.selectedHex = data.getSelectedHex();
+
+		if (data.getSelectedHex(game.getGameBoardManager().getBoard()) != null) {
+			data.getSelectedHex(game.getGameBoardManager().getBoard());
 		}
 
 		this.selectedKnight = data.getSelectedKnight();
@@ -288,7 +286,7 @@ public class TurnPhaseHandler implements Serializable {
 			}
 		}
 	}
-	
+
 	private void endTurn() {
 		Player nextPlayer = game.nextPlayer();
 		game.setCurrentPlayer(nextPlayer);
