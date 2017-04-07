@@ -39,8 +39,8 @@ public class PlayerTradeConfirmCommand implements ClientToServerCommand {
 		}
 
 		for (ResourceType rtype : give.keySet()) {
-			personWhoPropose.removeResource(rtype, get.get(rtype));
-			personWhoAccepts.giveResource(rtype, get.get(rtype));
+			personWhoAccepts.removeResource(rtype, get.get(rtype));
+			personWhoPropose.giveResource(rtype, get.get(rtype));
 		}
 
 		for (Player p : game.getParticipants()) {
