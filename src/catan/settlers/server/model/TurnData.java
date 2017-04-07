@@ -7,6 +7,7 @@ import catan.settlers.client.model.ClientModel;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.map.Edge;
+import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Knight;
 
@@ -23,7 +24,7 @@ public class TurnData implements Serializable {
 	private static final long serialVersionUID = -2490523320154300533L;
 
 	public static enum TurnAction {
-		BUILD_SETTLEMENT, BUILD_KNIGHT, BUILD_ROAD, UPGRADE_SETTLEMENT, UPGRADE_KNIGHT, BUILD_WALL, END_TURN, ACTIVATE_KNIGHT, PROGRESS_CARD, DISPLACE_KNIGHT, SEVEN_DISCARD, ROLL_DICE, BUILD_SHIP, RESOURCE_SELECTED, PLAYER_SELECTED
+		BUILD_SETTLEMENT, BUILD_KNIGHT, BUILD_ROAD, UPGRADE_SETTLEMENT, UPGRADE_KNIGHT, BUILD_WALL, END_TURN, ACTIVATE_KNIGHT, PROGRESS_CARD, DISPLACE_KNIGHT, SEVEN_DISCARD, ROLL_DICE, BUILD_SHIP, RESOURCE_SELECTED, PLAYER_SELECTED, HEX_SELECTED
 	}
 
 	private Intersection selectedIntersection;
@@ -34,6 +35,7 @@ public class TurnData implements Serializable {
 	private ResourceType selectedResource;
 	private ProgressCardType progressCard;
 	private String selectedPlayer;
+	private Hexagon selectedHex;
 
 	public TurnData(TurnAction action) {
 		ClientModel cm = ClientModel.instance;
@@ -97,5 +99,13 @@ public class TurnData implements Serializable {
 
 	public String getSelectedPlayer() {
 		return selectedPlayer;
+	}
+	
+	public void setSelectedHex(Hexagon hex) {
+		this.selectedHex = hex;
+	}
+
+	public Hexagon getSelectedHex() {
+		return selectedHex;
 	}
 }

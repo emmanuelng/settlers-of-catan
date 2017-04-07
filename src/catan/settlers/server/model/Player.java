@@ -11,6 +11,7 @@ import catan.settlers.network.server.Credentials;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
+import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.units.Knight.KnightType;
 import catan.settlers.server.model.units.Port.PortKind;
 
@@ -39,6 +40,8 @@ public class Player implements Serializable {
 	private int victoryP;
 	private ResourceType currentlySelectedResource;
 	private ArrayList<ResourceType> tradeAtAdvantage;
+
+	private Hexagon selectedHex;
 
 	public Player(Credentials credentials) {
 		this.credentials = credentials;
@@ -345,5 +348,13 @@ public class Player implements Serializable {
 	public boolean hasCommodities() {
 		return resources.get(ResourceType.COIN) > 0 || resources.get(ResourceType.CLOTH) > 0
 				|| resources.get(ResourceType.PAPER) > 0;
+	}
+	
+	public void setCurrentSelectedHex(Hexagon selectedHex) {
+		this.selectedHex = selectedHex;
+	}
+	
+	public Hexagon getCurrentSelectedHex(){
+		return selectedHex;
 	}
 }

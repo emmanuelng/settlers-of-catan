@@ -53,6 +53,7 @@ public class GameStateManager {
 	private boolean showProgressCardMenu;
 	private boolean showSelectCardTypeMenu;
 	private boolean showSelectCommodityMenu;
+	private boolean doShowSelectHexLayer;
 
 	private String dboxTitle;
 	private String dBoxMessage;
@@ -90,6 +91,7 @@ public class GameStateManager {
 		this.showSelectResourceMenu = false;
 		this.showSelectCardTypeMenu = false;
 		this.showSelectCommodityMenu = false;
+		this.doShowSelectHexLayer = false;
 
 		this.sevenDiscardMenuMsg = "";
 		this.tradeMenuMsg = "";

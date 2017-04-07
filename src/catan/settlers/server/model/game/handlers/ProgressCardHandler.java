@@ -11,14 +11,15 @@ import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.cards.CommercialHarborCommand;
 import catan.settlers.network.client.commands.game.cards.InventorCommand;
 import catan.settlers.network.client.commands.game.cards.MasterMerchantCommand;
+import catan.settlers.network.client.commands.game.cards.MerchantCommand;
 import catan.settlers.network.client.commands.game.cards.SelectResourceCommand;
-import catan.settlers.network.server.commands.game.cards.SelectResourceResponseCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.game.handlers.set.CommercialHarborSetHandler;
 import catan.settlers.server.model.game.handlers.set.MasterMerchantSetHandler;
+import catan.settlers.server.model.game.handlers.set.MerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
@@ -193,6 +194,25 @@ public class ProgressCardHandler {
 	 * @param sender
 	 */
 	private void merchant(Player sender) {
+		sender.sendCommand(new MerchantCommand(sender.getUsername()));
+		Player currentPlayer = game.getCurrentPlayer();
+		MerchantSetHandler set = new MerchantSetHandler(game, currentPlayer);
+		
+		if (!set.isEmpty()) {
+			game.setCurSetOfOpponentMove(set);
+			
+			// Send initial command
+			String currentPlayerUsername = currentPlayer.getUsername();
+
+			MerchantCommand cmd = new MerchantCommand(currentPlayerUsername);
+			sender.sendCommand(cmd);
+			
+			// Update cards
+			currentPlayer.useProgressCard(ProgressCardType.MERCHANT);
+			currentPlayer.sendCommand(new UpdateCardsCommand(currentPlayer.getProgressCards()));
+		}
+
+
 
 	}
 

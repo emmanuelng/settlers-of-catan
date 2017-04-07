@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+import catan.settlers.server.model.Player;
 import catan.settlers.server.model.map.Hexagon.Direction;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
@@ -17,6 +18,7 @@ public class GameBoard implements Serializable {
 	private ArrayList<Edge> edges;
 	private ArrayList<Intersection> intersections;
 	private Hexagon robberHex;
+	private Hexagon merchantHex;
 
 	private int height = 7; // TODO: Make this value customizable
 	private int length = 7; // TODO: Make this value customizable
@@ -307,6 +309,14 @@ public class GameBoard implements Serializable {
 
 	public void setRobberHex(Hexagon h) {
 		robberHex = h;
+	}
+	
+	public Hexagon getMerchantHex(){
+		return merchantHex;
+	}
+	
+	public void setMerchantHex(Hexagon h){
+		merchantHex = h;
 	}
 
 	/**
