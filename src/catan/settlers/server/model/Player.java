@@ -50,9 +50,9 @@ public class Player implements Serializable {
 		this.progressCards = new HashMap<>();
 
 		// this will be removed later
-		this.tradeImprovement = 5;
-		this.politicsImprovement = 5;
-		this.scienceImprovement = 5;
+		this.tradeImprovement = 0;
+		this.politicsImprovement = 0;
+		this.scienceImprovement = 0;
 		this.victoryP = 0;
 
 		for (ResourceType resType : ResourceType.values()) {
@@ -356,5 +356,15 @@ public class Player implements Serializable {
 	
 	public Hexagon getCurrentSelectedHex(){
 		return selectedHex;
+	}
+	
+	public void incrementTrade(){
+		tradeImprovement++;
+	}
+	public void incrementPolitics(){
+		politicsImprovement++;
+	}
+	public void incrementScience(){
+		scienceImprovement++;
 	}
 }

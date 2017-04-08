@@ -198,7 +198,7 @@ public class ProgressCardHandler {
 		MerchantSetHandler set = new MerchantSetHandler(game, sender);
 		set.waitForPlayer(sender);
 
-		System.out.println("new server");
+
 		game.setCurSetOfOpponentMove(set);
 
 		// Send initial command
@@ -218,8 +218,19 @@ public class ProgressCardHandler {
 	 */
 	private void merchantFleet(Player sender) {
 		sender.sendCommand(new SelectResourceCommand("merchant fleet"));
-		ResourceType resource = sender.getCurrentSelectedResource();
-		sender.setTradeAtAdvantage(resource);
+		
+		MerchantFleetSetHandler set = new MerchantFleetSetHandler(game, sender);
+		set.waitForPlayer(sender);
+
+		game.setCurSetOfOpponentMove(set);
+
+		// Send initial command
+		SelectResourceCommand cmd = new SelectResourceCommand("You played Merchant Fleet");
+		sender.sendCommand(cmd);
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.MERCHANT);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**

@@ -81,6 +81,15 @@ public class TurnPhaseHandler implements Serializable {
 		case DISPLACE_KNIGHT:
 			displaceKnight();
 			break;
+		case POLITICS_CITY_IMPROVEMENT:
+			PoliticsCityImprovement();
+			break;
+		case SCIENCE_CITY_IMPROVEMENT:
+			ScienceCityImprovement();
+			break;
+		case TRADE_CITY_IMPROVEMENT:
+			TradeCityImprovement();
+			break;
 		default:
 			break;
 		}
@@ -304,4 +313,35 @@ public class TurnPhaseHandler implements Serializable {
 		}
 	}
 
+	
+	private void PoliticsCityImprovement() {
+		int level = currentPlayer.getPoliticsLevel() + 1 ;
+		Cost cost = new Cost();
+		cost.addPriceEntry(ResourceType.COIN, level);
+		if (cost.canPay(currentPlayer)){
+			currentPlayer.incrementPolitics();
+			cost.removeResources(currentPlayer);
+			updateResourcesAndBoard();
+		}
+	}
+	private void ScienceCityImprovement() {
+		int level = currentPlayer.getScienceLevel() + 1 ;
+		Cost cost = new Cost();
+		cost.addPriceEntry(ResourceType.PAPER, level);
+		if (cost.canPay(currentPlayer)){
+			currentPlayer.incrementScience();
+			cost.removeResources(currentPlayer);
+			updateResourcesAndBoard();
+		}
+	}
+	private void TradeCityImprovement() {
+		int level = currentPlayer.getTradeLevel() + 1 ;
+		Cost cost = new Cost();
+		cost.addPriceEntry(ResourceType.CLOTH, level);
+		if (cost.canPay(currentPlayer)){
+			currentPlayer.incrementTrade();
+			cost.removeResources(currentPlayer);
+			updateResourcesAndBoard();
+		}
+	}
 }
