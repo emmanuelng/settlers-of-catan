@@ -16,6 +16,7 @@ import catan.settlers.client.view.game.handlers.ClickListener;
 import catan.settlers.network.server.commands.game.MaritimeTradeCommand;
 import catan.settlers.network.server.commands.game.PlayerTradeRequestCommand;
 import catan.settlers.server.model.Player.ResourceType;
+import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.units.Port.PortKind;
 
 public class TradeMenuLayer extends ImageLayer {
@@ -115,6 +116,7 @@ public class TradeMenuLayer extends ImageLayer {
 		y_offset += message.getHeight() + 20;
 
 		y_offset += drawPortButtons(box_x + 20, y_offset);
+		y_offset += drawAdvantageTradeButtons(box_x + 20, y_offset);
 
 		draw(giveDesc, box_x + 20, y_offset);
 		y_offset += giveDesc.getHeight() + 10;
@@ -217,6 +219,36 @@ public class TradeMenuLayer extends ImageLayer {
 					x_offset = x;
 					y_offset += button.getImage().getHeight() + 15;
 				}
+			}
+		}
+		return buttonAdded ? y - y_offset + 60 : 0;
+	}
+	
+	private int drawAdvantageTradeButtons(int x, int y){
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		boolean buttonAdded = false;
+		
+		int y_offset = y;
+		int x_offset = x;
+		
+		if(gsm.getCurrentPlayer().equals(gsm.getBoard().getMerchantOwner().getUsername())){
+			buttonAdded = true;
+			ResourceType advantageResource = Hexagon.terrainToResource(gsm.getBoard().getMerchantHex().getType());
+			Button button = new Button(this, "Merchant", new MinuetoColor(255, 238, 170), new ClickListener() {
+
+				@Override
+				public void onClick() {
+						give.put(advantageResource, 2);
+						gsm.setTradeMenuMessage("Merchant allows you to trade this resource at advantage. Select the resource that you want to get.");
+					}
+			});
+			draw(button.getImage(), x_offset, y_offset);
+
+			x_offset += button.getImage().getWidth() + 15;
+
+			if (x_offset > box_x + WIDTH) {
+				x_offset = x;
+				y_offset += button.getImage().getHeight() + 15;
 			}
 		}
 		return buttonAdded ? y - y_offset + 60 : 0;

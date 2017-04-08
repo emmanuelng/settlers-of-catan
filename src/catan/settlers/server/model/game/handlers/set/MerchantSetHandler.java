@@ -25,21 +25,19 @@ public class MerchantSetHandler extends SetOfOpponentMove{
 	public void handle(Game game, Player sender, TurnData data) {
 		GameBoard board = game.getGameBoardManager().getBoard();
 		this.selectedHex = data.getSelectedHex(game.getGameBoardManager().getBoard());
-		System.out.println("print something before if statement");
+		
 		System.out.println(selectedHex + " + " + playerWhoSelectsHex);
 		if (sender == playerWhoSelectsHex && selectedHex != null) {
 			// Response from the person who gives resources
 			
 			board.setMerchantHex(selectedHex);
-			game.setMerchantOwner(sender);
+			board.setMerchantOwner(sender);
 			playerResponded(sender);
-			System.out.println("THIS IS DNONWEONF");
 			game.sendToAllPlayers(new UpdateGameBoardCommand(game.getGameBoardManager().getBoardDeepCopy()));
 			
 		}
 		if (allPlayersResponded()) {
 			// End of move
-			System.out.println("al plays responsed");
 			game.setCurSetOfOpponentMove(null);
 			
 		} 

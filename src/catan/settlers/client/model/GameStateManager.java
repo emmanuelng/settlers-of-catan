@@ -151,7 +151,7 @@ public class GameStateManager {
 	public Hexagon getSelectedHex() {
 		return selectedHex;
 	}
-
+	
 	public void setBoard(GameBoard board) {
 		this.board = board;
 		this.updateBoard = true;

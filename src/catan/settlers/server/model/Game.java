@@ -39,7 +39,6 @@ public class Game implements Serializable {
 	private Player currentPlayer;
 	private GamePhase currentPhase;
 	private SetOfOpponentMove currentSetOfOpponentMove;
-	private Player merchantOwner;
 
 	private int redDie, yellowDie, eventDie;
 	private int barbarianHordeCounter;
@@ -263,11 +262,4 @@ public class Game implements Serializable {
 		return progressCardHandler;
 	}
 	
-	public void setMerchantOwner(Player p){
-		merchantOwner = p;
-	}
-	
-	public Player getMerchantOwner(){
-		return merchantOwner;
-	}
 }

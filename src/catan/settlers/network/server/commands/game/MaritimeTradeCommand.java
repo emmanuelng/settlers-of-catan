@@ -12,6 +12,7 @@ import catan.settlers.network.server.commands.ClientToServerCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
+import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.units.Port.PortKind;
 
 public class MaritimeTradeCommand implements ClientToServerCommand {
@@ -36,7 +37,12 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 				if (give.get(s) >= 2) {
 					if (player.hasPortOfThisResource(s) && give.get(s) == 2) {
 						player.removeResource(s, 2);
-					} else if (player.hasPort(PortKind.ALLPORT) && give.get(s) == 3) {
+					} else if(player == game.getGameBoardManager().getBoard().getMerchantOwner()) {
+						if(s == Hexagon.terrainToResource(game.getGameBoardManager().getBoard().getMerchantHex().getType())){
+							player.removeResource(s, 2);
+						}
+					} 
+					else if (player.hasPort(PortKind.ALLPORT) && give.get(s) == 3) {
 						player.removeResource(s, 3);
 					} else if (give.get(s) == 4) {
 						player.removeResource(s, 4);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+import catan.settlers.server.model.Player;
 import catan.settlers.server.model.map.Hexagon.Direction;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
@@ -24,6 +25,7 @@ public class GameBoard implements Serializable {
 
 	private int edgeId = 0;
 	private int IntersectionId = 0;
+	private Player merchantOwner;
 
 	public GameBoard() {
 		this.hexagons = new Hexagon[length][height];
@@ -318,6 +320,14 @@ public class GameBoard implements Serializable {
 		merchantHex = h;
 	}
 
+	public void setMerchantOwner(Player p){
+		merchantOwner = p;
+	}
+	
+	public Player getMerchantOwner(){
+		return merchantOwner;
+	}
+	
 	/**
 	 * Private helpers; nothing important here
 	 */
