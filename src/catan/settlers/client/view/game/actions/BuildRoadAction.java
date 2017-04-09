@@ -13,10 +13,12 @@ public class BuildRoadAction implements GameAction {
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		HashMap<ResourceType, Integer> resources = gsm.getResources();
 		Edge selectedEdge = gsm.getSelectedEdge();
 
 		if (selectedEdge != null) {
-			return selectedEdge.canBuild(ClientModel.instance.getUsername());
+			if (resources.get(ResourceType.BRICK) > 0 && resources.get(ResourceType.LUMBER) > 0)
+				return selectedEdge.canBuild(ClientModel.instance.getUsername());
 		}
 		return false;
 	}

@@ -13,11 +13,13 @@ public class BuildShipAction extends BuildRoadAction {
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		HashMap<ResourceType, Integer> resources = gsm.getResources();
 		Edge selectedEdge = gsm.getSelectedEdge();
 
 		if (selectedEdge != null) {
-			if(selectedEdge.isMaritime()){
-				return selectedEdge.canBuild(ClientModel.instance.getUsername());
+			if (selectedEdge.isMaritime()) {
+				if (resources.get(ResourceType.BRICK) > 0 && resources.get(ResourceType.LUMBER) > 0)
+					return selectedEdge.canBuild(ClientModel.instance.getUsername());
 			}
 		}
 		return false;
@@ -32,7 +34,7 @@ public class BuildShipAction extends BuildRoadAction {
 	public void perform() {
 		ClientModel.instance.getNetworkManager().sendCommand(new BuildShipCommand());
 		ClientModel.instance.getGameStateManager().setSelectedEdge(null);
-		
+
 	}
 
 	@Override
