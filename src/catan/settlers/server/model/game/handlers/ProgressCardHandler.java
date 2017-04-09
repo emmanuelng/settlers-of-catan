@@ -8,6 +8,7 @@ import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.UpdateCardsCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
+import catan.settlers.network.client.commands.game.cards.BishopCommand;
 import catan.settlers.network.client.commands.game.cards.CommercialHarborCommand;
 import catan.settlers.network.client.commands.game.cards.InventorCommand;
 import catan.settlers.network.client.commands.game.cards.MasterMerchantCommand;
@@ -19,6 +20,7 @@ import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
+import catan.settlers.server.model.game.handlers.set.BishopSetHandler;
 import catan.settlers.server.model.game.handlers.set.CommercialHarborSetHandler;
 import catan.settlers.server.model.game.handlers.set.MasterMerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantFleetSetHandler;
@@ -69,7 +71,7 @@ public class ProgressCardHandler {
 			resourceMonopoly(sender);
 			break;
 		case TRADE_MONOPOLY:
-			tradeMonopoly(sender); // TODO
+			tradeMonopoly(sender);
 			break;
 		case BISHOP:
 			bishop(sender); // TODO
@@ -267,7 +269,16 @@ public class ProgressCardHandler {
 	 * @param sender
 	 */
 	private void bishop(Player sender) {
+		BishopSetHandler set = new BishopSetHandler();
+		set.waitForPlayer(sender);
+		game.setCurSetOfOpponentMove(set);
+		
 		sender.sendCommand(new MoveRobberCommand(true));
+		game.sendToAllPlayers(new BishopCommand(sender.getUsername()));
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.BISHOP);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**

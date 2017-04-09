@@ -130,11 +130,17 @@ public class Player implements Serializable {
 	}
 
 	public void giveResource(ResourceType r, int amount) {
+		if (r == null)
+			return;
+
 		int currentAmount = resources.get(r);
 		resources.put(r, currentAmount + amount);
 	}
 
 	public boolean removeResource(ResourceType r, int amount) {
+		if (r == null)
+			return false;
+
 		int previous = resources.get(r);
 
 		if (previous - amount >= 0) {

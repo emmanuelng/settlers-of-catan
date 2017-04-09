@@ -2,7 +2,9 @@ package catan.settlers.server.model.map;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
+import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 
 public class Hexagon implements Serializable {
@@ -177,6 +179,16 @@ public class Hexagon implements Serializable {
 			res.add(e);
 		}
 		return res;
+	}
+
+	public HashSet<Player> getPlayersOnHex() {
+		HashSet<Player> ret = new HashSet<>();
+
+		for (Intersection intersection : myIntersections)
+			if (intersection.getUnit() != null)
+				ret.add(intersection.getUnit().getOwner());
+
+		return ret;
 	}
 
 }

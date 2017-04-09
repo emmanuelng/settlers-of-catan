@@ -197,11 +197,7 @@ public class GameStateManager {
 
 	public void setProgressCards(HashMap<ProgressCardType, Integer> progressCards) {
 		this.progressCards = progressCards;
-
-		// TODO Remove this
-		progressCards.put(ProgressCardType.MASTER_MERCHANT, 1);
-		progressCards.put(ProgressCardType.MERCHANT, 1);
-		progressCards.put(ProgressCardType.TRADE_MONOPOLY, 1);
+		this.progressCards.put(ProgressCardType.BISHOP, 1);
 		this.updateProgressCards = true;
 	}
 
