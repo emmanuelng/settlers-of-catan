@@ -23,7 +23,6 @@ public class UpdateGameBoardCommand implements ServerToClientCommand {
 		gsm.setSelectedEdge(null);
 		gsm.setSelectedHex(null);
 		gsm.setSelectedIntersection(null);
-		//gsm.setBarbarianCounter();
 	}
 
 }

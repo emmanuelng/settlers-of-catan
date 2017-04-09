@@ -6,9 +6,14 @@ import org.minueto.image.MinuetoImage;
 import org.minueto.image.MinuetoRectangle;
 import org.minueto.image.MinuetoText;
 
+import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
+import catan.settlers.client.model.NetworkManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
+import catan.settlers.network.server.commands.game.IncrementPoliticsCommand;
+import catan.settlers.network.server.commands.game.IncrementScienceCommand;
+import catan.settlers.network.server.commands.game.IncrementTradeCommand;
 
 public class FlipchartLayer extends ImageLayer {
 
@@ -23,6 +28,7 @@ public class FlipchartLayer extends ImageLayer {
 	private static final MinuetoFont field_title_font = new MinuetoFont("arial", 25, true, false);
 	private static final MinuetoFont field_description_font = new MinuetoFont("arial", 20, false, false);
 	private static final MinuetoFont description_font_bold = new MinuetoFont("arial", 17, true, false);
+	private static final MinuetoColor cancel_btn_color =new MinuetoColor(255, 153, 85);
 
 	private Field currentField;
 
@@ -39,6 +45,8 @@ public class FlipchartLayer extends ImageLayer {
 	private MinuetoImage scienceButtonBg;
 	private MinuetoImage scienceText;
 	private Button levelUpBtn;
+	private boolean clear;
+	private Button cancelButton;
 
 	public FlipchartLayer() {
 
@@ -62,23 +70,63 @@ public class FlipchartLayer extends ImageLayer {
 		this.scienceButtonBg = new MinuetoRectangle(leftBarWidth - 10, 35, new MinuetoColor(55, 200, 113), true);
 		this.scienceText = new MinuetoText("Science", description_font_bold, new MinuetoColor(33, 120, 68));
 
+		this.cancelButton = new Button(this, "Cancel", cancel_btn_color, new ClickListener() {
+			@Override
+			public void onClick() {
+				GameStateManager gsm = ClientModel.instance.getGameStateManager();
+				gsm.setShowFlipchartLayer(false);
+
+			}
+		});
+		
 		this.levelUpBtn = new Button(this, "Go to next improvement level", new MinuetoColor(55, 200, 113),
 				new ClickListener() {
 
 					@Override
 					public void onClick() {
-						System.out.println("Level up!");
+						NetworkManager nm = ClientModel.instance.getNetworkManager();
+						switch(currentField){
+						case TRADE:
+							System.out.println("tradebutton");
+							nm.sendCommand(new IncrementTradeCommand());
+							break;
+						case POLITICS:
+							System.out.println("politicsbutton");
+							nm.sendCommand(new IncrementPoliticsCommand());
+							break;
+						case SCIENCE:
+							System.out.println("sciencebutton");
+							nm.sendCommand(new IncrementScienceCommand());
+							break;
+						}
 					}
 				});
 	}
 
+	
 	@Override
 	public void compose(GameStateManager gsm) {
+		if (!gsm.getDoShowFlipchartLayer()) {
+			if (clear) {
+				ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);
+				clear();
+				clear = false;
+			}
+			return;
+		} else {
+			clear = true;
+		}
+		
+		
 		draw(background, box_x, box_y);
+		
+		overrideClickables();
 		draw(leftBarBg, box_x, box_y);
-
+		
 		drawLeftBar();
 		drawRightPart(gsm);
+		
+		
 
 		draw(border, box_x, box_y);
 
@@ -165,5 +213,24 @@ public class FlipchartLayer extends ImageLayer {
 
 		MinuetoImage levelUp = levelUpBtn.getImage();
 		draw(levelUp, box_x + WIDTH - levelUp.getWidth() - 10, box_y + HEIGHT - levelUp.getHeight() - 10);
+		
+		MinuetoImage cancel = cancelButton.getImage();
+		draw(cancel, box_x + WIDTH - levelUp.getWidth() - cancel.getWidth() - 30, box_y + HEIGHT - levelUp.getHeight() - 10);
 	}
+	
+	private void overrideClickables() {
+		/*
+		 * Add an dummy clickables to override the clickables on the background
+		 * (e.g we should not be able to select an intersection behind the trade
+		 * menu)
+		 */
+
+		registerClickable(background, new ClickListener() {
+			@Override
+			public void onClick() {
+				// Do nothing
+			}
+		});
+	}
+
 }

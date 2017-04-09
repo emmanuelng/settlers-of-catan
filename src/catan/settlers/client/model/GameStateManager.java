@@ -520,4 +520,12 @@ public class GameStateManager {
 	public ArrayList<ResourceType> getMerchantFleetAdvantage() {
 		return merchantFleetAdvantage;
 	}
+	
+	public int getVictoryPoint() {
+		return victoryPoints;
+	}
+	
+	public void setVictoryPoints(int value){
+		victoryPoints = value;
+	}
 }

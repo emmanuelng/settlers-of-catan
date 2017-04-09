@@ -74,7 +74,7 @@ public class TopBarLayer extends ImageLayer {
 
 		int x_offset = ClientWindow.WINDOW_WIDTH - vpImage.getWidth() - 30;
 
-		MinuetoText vpAmt = new MinuetoText("0", vp_font, vp_color, true);
+		MinuetoText vpAmt = new MinuetoText("" + gsm.getVictoryPoint(), vp_font, vp_color, true);
 
 		draw(vpImage, x_offset, 0);
 		draw(vpAmt, x_offset + 75, 35);

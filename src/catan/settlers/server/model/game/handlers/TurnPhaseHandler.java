@@ -6,6 +6,7 @@ import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
+import catan.settlers.network.client.commands.game.UpdatePlayerCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Game.GamePhase;
@@ -317,6 +318,10 @@ public class TurnPhaseHandler implements Serializable {
 		}
 	}
 
+	private void updatePlayerCondition() {
+		currentPlayer.sendCommand(new UpdatePlayerCommand(currentPlayer));
+	}
+	
 	private void PoliticsCityImprovement() {
 		int level = currentPlayer.getPoliticsLevel() + 1;
 		Cost cost = new Cost();
@@ -325,6 +330,7 @@ public class TurnPhaseHandler implements Serializable {
 			currentPlayer.incrementPolitics();
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
+			updatePlayerCondition();
 		}
 	}
 
@@ -336,6 +342,7 @@ public class TurnPhaseHandler implements Serializable {
 			currentPlayer.incrementScience();
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
+			updatePlayerCondition();
 		}
 	}
 
@@ -347,6 +354,7 @@ public class TurnPhaseHandler implements Serializable {
 			currentPlayer.incrementTrade();
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
+			updatePlayerCondition();
 		}
 	}
 }

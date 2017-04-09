@@ -1,5 +1,8 @@
 package catan.settlers.client.view.game.actions;
 
+import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.GameStateManager;
+
 public class ManageLevelsAction implements GameAction {
 
 	@Override
@@ -14,7 +17,8 @@ public class ManageLevelsAction implements GameAction {
 
 	@Override
 	public void perform() {
-		// TODO
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		gsm.setShowFlipchartLayer(true);
 	}
 
 	@Override
