@@ -40,7 +40,7 @@ public class CommercialHarborCommand implements ServerToClientCommand {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		gsm.setShowProgressCardMenu(false);
 		gsm.setShowSelectResourceMenu(false);
-		gsm.setShowCommodityMenu(false);
+		gsm.setShowSelectCommodityMenu(false);
 
 		if (currentPlayerUsername.equals(ClientModel.instance.getUsername()) && selectedResource == null) {
 			// The client is the player who need to select a resource
@@ -52,7 +52,7 @@ public class CommercialHarborCommand implements ServerToClientCommand {
 			// commodity
 			gsm.setSelectCommodityMessage(
 					"Select a commodity. You will receive 1 " + selectedResource + " from " + currentPlayerUsername);
-			gsm.setShowCommodityMenu(true);
+			gsm.setShowSelectCommodityMenu(true);
 
 		} else {
 			// The client doesn't have to interact. Ask him/her to wait

@@ -20,7 +20,7 @@ public class CurrentPlayerChangedCommand implements ServerToClientCommand {
 		// Hide menus
 		gsm.setShowTradeMenu(false);
 		gsm.setShowSelectPlayerMenu(false);
-		gsm.setShowCommodityMenu(false);
+		gsm.setShowSelectCommodityMenu(false);
 		gsm.setShowSelectResourceMenu(false);
 
 		gsm.setCurrentPlayer(player);

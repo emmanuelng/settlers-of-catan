@@ -14,6 +14,7 @@ import catan.settlers.network.client.commands.game.cards.MasterMerchantCommand;
 import catan.settlers.network.client.commands.game.cards.MerchantCommand;
 import catan.settlers.network.client.commands.game.cards.MerchantFleetCommand;
 import catan.settlers.network.client.commands.game.cards.ResourceMonopolyCommand;
+import catan.settlers.network.client.commands.game.cards.TradeMonopolyCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
@@ -24,6 +25,7 @@ import catan.settlers.server.model.game.handlers.set.MerchantFleetSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.ResourceMonopolySetHandler;
 import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
+import catan.settlers.server.model.game.handlers.set.TradeMonopolySetHandler;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
@@ -55,16 +57,16 @@ public class ProgressCardHandler {
 			commercialHarbor();
 			break;
 		case MASTER_MERCHANT:
-			masterMerchant(sender); // TODO
+			masterMerchant(sender);
 			break;
 		case MERCHANT:
-			merchant(sender); // TODO
+			merchant(sender);
 			break;
 		case MERCHANT_FLEET:
-			merchantFleet(sender); // TODO
+			merchantFleet(sender);
 			break;
 		case RESOURCE_MONOPOLY:
-			resourceMonopoly(sender); // TODO
+			resourceMonopoly(sender);
 			break;
 		case TRADE_MONOPOLY:
 			tradeMonopoly(sender); // TODO
@@ -234,7 +236,6 @@ public class ProgressCardHandler {
 	 * name a resource; all other players must give you 2 of that if they have
 	 */
 	private void resourceMonopoly(Player sender) {
-		System.out.println("Handler");
 		ResourceMonopolySetHandler set = new ResourceMonopolySetHandler();
 		set.waitForPlayer(sender);
 		game.setCurSetOfOpponentMove(set);
@@ -249,6 +250,14 @@ public class ProgressCardHandler {
 	 * name a commodity; all players must give you 1 if that if they have it
 	 */
 	private void tradeMonopoly(Player sender) {
+		TradeMonopolySetHandler set = new TradeMonopolySetHandler();
+		set.waitForPlayer(sender);
+		game.setCurSetOfOpponentMove(set);
+		game.sendToAllPlayers(new TradeMonopolyCommand(sender.getUsername()));
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.TRADE_MONOPOLY);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**

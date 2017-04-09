@@ -201,7 +201,7 @@ public class GameStateManager {
 		// TODO Remove this
 		progressCards.put(ProgressCardType.MASTER_MERCHANT, 1);
 		progressCards.put(ProgressCardType.MERCHANT, 1);
-		progressCards.put(ProgressCardType.RESOURCE_MONOPOLY, 1);
+		progressCards.put(ProgressCardType.TRADE_MONOPOLY, 1);
 		this.updateProgressCards = true;
 	}
 
@@ -481,7 +481,7 @@ public class GameStateManager {
 		return showSelectCommodityMenu;
 	}
 
-	public void setShowCommodityMenu(boolean b) {
+	public void setShowSelectCommodityMenu(boolean b) {
 		this.showSelectCommodityMenu = b;
 	}
 
