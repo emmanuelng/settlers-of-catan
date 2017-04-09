@@ -13,11 +13,20 @@ public class TradeSuccessCommand implements ServerToClientCommand {
 		this.username = username;
 	}
 
+	public TradeSuccessCommand() {
+		this.username = null;
+	}
+
 	@Override
 	public void execute() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		gsm.setShowTradeMenu(false);
-		gsm.setdBox("Trade success!", username + " accpted the offer");
+
+		if (username != null) {
+			gsm.setdBox("Trade success!", username + " accepted the offer");
+		} else {
+			gsm.setdBox("Trade success!", "Resources were added to you inventory");
+		}
 	}
 
 }

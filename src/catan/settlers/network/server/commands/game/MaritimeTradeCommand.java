@@ -1,10 +1,10 @@
 package catan.settlers.network.server.commands.game;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import catan.settlers.client.model.ClientModel;
-import catan.settlers.network.client.commands.game.FailureCommand;
+import catan.settlers.network.client.commands.game.TradeFailureCommand;
+import catan.settlers.network.client.commands.game.TradeSuccessCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
@@ -13,6 +13,7 @@ import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Hexagon;
+import catan.settlers.server.model.map.Hexagon.TerrainType;
 import catan.settlers.server.model.units.Port.PortKind;
 
 public class MaritimeTradeCommand implements ClientToServerCommand {
@@ -29,39 +30,79 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 
 	@Override
 	public void execute(Session sender, Server server) {
-		try {
-			Game game = server.getGameManager().getGameById(gameid);
-			Player player = game.getCurrentPlayer();
+		Game game = server.getGameManager().getGameById(gameid);
+		Player player = game.getCurrentPlayer();
 
-			for (ResourceType s : give.keySet()) {
-				if (give.get(s) >= 2) {
-					if (player.hasPortOfThisResource(s) && give.get(s) == 2) {
-						player.removeResource(s, 2);
-					} else if(player == game.getGameBoardManager().getBoard().getMerchantOwner()) {
-						if(s == Hexagon.terrainToResource(game.getGameBoardManager().getBoard().getMerchantHex().getType())){
-							player.removeResource(s, 2);
-						}
-					} 
-					else if (player.hasPort(PortKind.ALLPORT) && give.get(s) == 3) {
-						player.removeResource(s, 3);
-					} else if (give.get(s) == 4) {
-						player.removeResource(s, 4);
-					}
-					for (ResourceType r : get.keySet()) {
-						if (get.get(r) > 1) {
-							sender.sendCommand(new FailureCommand("Please only trade for one resource."));
-							return;
-						} else if (get.get(r) == 1) {
-							player.giveResource(r, 1);
-						}
-					}
-				}
-			}
+		if (canTradeWithBank(game, player)) {
+			for (ResourceType rtype : give.keySet())
+				player.removeResource(rtype, give.get(rtype));
 
-			sender.sendCommand(new UpdateResourcesCommand(player.getResources()));
-		} catch (IOException e) {
-			// Ignore
+			for (ResourceType rtype : get.keySet())
+				player.giveResource(rtype, get.get(rtype));
+
+			player.sendCommand(new UpdateResourcesCommand(player.getResources()));
+			player.sendCommand(new TradeSuccessCommand());
+		} else {
+			player.sendCommand(new TradeFailureCommand());
 		}
+	}
+
+	/**
+	 * Checks multiple trade possibilities. If this method returns true, it
+	 * guarantees that the trade is a valid one. We can thus give and remove
+	 * resources without any additional checks.
+	 */
+	private boolean canTradeWithBank(Game game, Player player) {
+		// Check for ports
+		for (ResourceType rtype : give.keySet()) {
+			// Specific resource port
+			if (player.hasPortOfThisResource(rtype))
+				if (give.get(rtype) == 2 && allOtherGiveResourcesAreEmpty(rtype))
+					if (onlyOneResourceInGet())
+						return true;
+
+			// General port
+			if (player.hasPort(PortKind.ALLPORT))
+				if (give.get(rtype) == 3 && allOtherGiveResourcesAreEmpty(rtype))
+					if (onlyOneResourceInGet())
+						return true;
+		}
+
+		// Check for merchant (2:1)
+		if (player == game.getGameBoardManager().getBoard().getMerchantOwner()) {
+			TerrainType merchantHexType = game.getGameBoardManager().getBoard().getMerchantHex().getType();
+			ResourceType resourceAdvantage = Hexagon.terrainToResource(merchantHexType);
+
+			if (give.get(resourceAdvantage) == 2 && allOtherGiveResourcesAreEmpty(resourceAdvantage))
+				if (onlyOneResourceInGet())
+					return true;
+		}
+
+		// Check for Merchant fleet (2:1)
+		for (ResourceType rtype : ResourceType.values())
+			if (player.getTradeAtAdvantage().contains(rtype))
+				if (give.get(rtype) == 2 && allOtherGiveResourcesAreEmpty(rtype))
+					if (onlyOneResourceInGet())
+						return true;
+
+		return false;
+	}
+
+	private boolean allOtherGiveResourcesAreEmpty(ResourceType resource) {
+		for (ResourceType rtype : give.keySet())
+			if (rtype != resource && give.get(rtype) > 0)
+				return false;
+		return true;
+	}
+
+	private boolean onlyOneResourceInGet() {
+		int nbSelectedResources = 0;
+		for (ResourceType rtype : get.keySet()) {
+			nbSelectedResources += get.get(rtype);
+			if (nbSelectedResources > 1)
+				return false;
+		}
+		return true;
 	}
 
 }

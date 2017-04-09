@@ -130,6 +130,8 @@ public class TopBarLayer extends ImageLayer {
 				ClientModel.instance.getGameStateManager().setSelectedEdge(null);
 				ClientModel.instance.getGameStateManager().setSelectedIntersection(null);
 				ClientModel.instance.getGameStateManager().setdBox(null, null);
+				ClientModel.instance.getGameStateManager().setMerchantFleetAdvantage(null);
+				ClientModel.instance.getGameStateManager().setMerchantFleetAdvantage(null);
 			}
 		});
 

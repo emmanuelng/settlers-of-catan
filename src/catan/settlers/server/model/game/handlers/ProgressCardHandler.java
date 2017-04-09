@@ -12,6 +12,7 @@ import catan.settlers.network.client.commands.game.cards.CommercialHarborCommand
 import catan.settlers.network.client.commands.game.cards.InventorCommand;
 import catan.settlers.network.client.commands.game.cards.MasterMerchantCommand;
 import catan.settlers.network.client.commands.game.cards.MerchantCommand;
+import catan.settlers.network.client.commands.game.cards.MerchantFleetCommand;
 import catan.settlers.network.client.commands.game.cards.SelectResourceCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
@@ -19,6 +20,7 @@ import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.game.handlers.set.CommercialHarborSetHandler;
 import catan.settlers.server.model.game.handlers.set.MasterMerchantSetHandler;
+import catan.settlers.server.model.game.handlers.set.MerchantFleetSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
 import catan.settlers.server.model.map.Hexagon;
@@ -216,19 +218,14 @@ public class ProgressCardHandler {
 	 * select a resource; you may trade that at 2:1 for this turn
 	 */
 	private void merchantFleet(Player sender) {
-		sender.sendCommand(new SelectResourceCommand("merchant fleet"));
-
-		MerchantFleetSetHandler set = new MerchantFleetSetHandler(game, sender);
-		set.waitForPlayer(sender);
-
+		MerchantFleetSetHandler set = new MerchantFleetSetHandler();
+		set.waitForPlayer(sender.getCredentials());
 		game.setCurSetOfOpponentMove(set);
 
-		// Send initial command
-		SelectResourceCommand cmd = new SelectResourceCommand("You played Merchant Fleet");
-		sender.sendCommand(cmd);
+		game.sendToAllPlayers(new MerchantFleetCommand(sender.getUsername()));
 
 		// Update cards
-		sender.useProgressCard(ProgressCardType.MERCHANT);
+		sender.useProgressCard(ProgressCardType.COMMERCIAL_HARBOR);
 		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 

@@ -3,6 +3,8 @@ package catan.settlers.client.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import catan.settlers.network.server.commands.ClientToServerCommand;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;
@@ -30,6 +32,7 @@ public class GameStateManager {
 	private HashMap<ProgressCardType, Integer> progressCards;
 	private HashMap<ResourceType, Integer> receiveTradeOfferGive, receiveTradeOfferGet;
 	private Player requestedPlayer;
+	private TimerTask dBoxTimer;
 
 	private Intersection selectedIntersection;
 	private Edge selectedEdge;
@@ -74,6 +77,7 @@ public class GameStateManager {
 	private int politicsImprovementLevel;
 	private int scienceImprovementLevel;
 	private int barbarianCounter;
+	private ArrayList<ResourceType> merchantFleetAdvantage;
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
@@ -151,7 +155,7 @@ public class GameStateManager {
 	public Hexagon getSelectedHex() {
 		return selectedHex;
 	}
-	
+
 	public void setBoard(GameBoard board) {
 		this.board = board;
 		this.updateBoard = true;
@@ -200,6 +204,7 @@ public class GameStateManager {
 		// TODO Remove this
 		progressCards.put(ProgressCardType.MASTER_MERCHANT, 1);
 		progressCards.put(ProgressCardType.MERCHANT, 1);
+		progressCards.put(ProgressCardType.MERCHANT_FLEET, 1);
 		this.updateProgressCards = true;
 	}
 
@@ -268,6 +273,19 @@ public class GameStateManager {
 	public void setdBox(String title, String message) {
 		dboxTitle = title;
 		dBoxMessage = message;
+
+		// Remove the dialog box after 10 seconds
+		if (this.dBoxTimer != null)
+			dBoxTimer.cancel();
+
+		this.dBoxTimer = new TimerTask() {
+			@Override
+			public void run() {
+				setdBox(null, null);
+			}
+		};
+
+		new Timer().schedule(dBoxTimer, 10000);
 	}
 
 	public boolean doShowTradeMenu() {
@@ -486,27 +504,40 @@ public class GameStateManager {
 	public String getSelectCommodityMessage() {
 		return selectCommodityMsg;
 	}
-	
+
 	public void setSelectCommodityMessage(String string) {
 		this.selectCommodityMsg = string;
 	}
 
 	public void setPlayersToShow(ArrayList<String> playersWithMoreVPs) {
 		this.playersToShow = playersWithMoreVPs;
-		
+
 	}
-	
+
 	public ArrayList<String> getPlayersToShow() {
 		ArrayList<String> ret = new ArrayList<>();
 		ret.addAll(playersToShow);
 		return ret;
 	}
-	
+
 	public void doShowSelectHexLayer(boolean b) {
 		doShowSelectHexLayer = b;
 	}
-	
-	public boolean getSelectHexLayer(){
+
+	public boolean getSelectHexLayer() {
 		return doShowSelectHexLayer;
+	}
+
+	/**
+	 * Set the resource for which the player has a merchant fleet advantage. Set
+	 * it to null to remove the advantage.
+	 */
+	public void setMerchantFleetAdvantage(ArrayList<ResourceType> resourcesWithAdvantage) {
+		this.merchantFleetAdvantage = resourcesWithAdvantage;
+
+	}
+
+	public ArrayList<ResourceType> getMerchantFleetAdvantage() {
+		return merchantFleetAdvantage;
 	}
 }

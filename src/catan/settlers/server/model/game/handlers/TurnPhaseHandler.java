@@ -300,6 +300,10 @@ public class TurnPhaseHandler implements Serializable {
 		Player nextPlayer = game.nextPlayer();
 		game.setCurrentPlayer(nextPlayer);
 
+		// Reset merchant fleet advantages
+		for (Player p : game.getParticipants())
+			p.resetTradeAtAdvantage();
+
 		// TODO Check for victory
 
 		game.setGamePhase(GamePhase.ROLLDICEPHASE);
@@ -313,32 +317,33 @@ public class TurnPhaseHandler implements Serializable {
 		}
 	}
 
-	
 	private void PoliticsCityImprovement() {
-		int level = currentPlayer.getPoliticsLevel() + 1 ;
+		int level = currentPlayer.getPoliticsLevel() + 1;
 		Cost cost = new Cost();
 		cost.addPriceEntry(ResourceType.COIN, level);
-		if (cost.canPay(currentPlayer)){
+		if (cost.canPay(currentPlayer)) {
 			currentPlayer.incrementPolitics();
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
 		}
 	}
+
 	private void ScienceCityImprovement() {
-		int level = currentPlayer.getScienceLevel() + 1 ;
+		int level = currentPlayer.getScienceLevel() + 1;
 		Cost cost = new Cost();
 		cost.addPriceEntry(ResourceType.PAPER, level);
-		if (cost.canPay(currentPlayer)){
+		if (cost.canPay(currentPlayer)) {
 			currentPlayer.incrementScience();
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
 		}
 	}
+
 	private void TradeCityImprovement() {
-		int level = currentPlayer.getTradeLevel() + 1 ;
+		int level = currentPlayer.getTradeLevel() + 1;
 		Cost cost = new Cost();
 		cost.addPriceEntry(ResourceType.CLOTH, level);
-		if (cost.canPay(currentPlayer)){
+		if (cost.canPay(currentPlayer)) {
 			currentPlayer.incrementTrade();
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();

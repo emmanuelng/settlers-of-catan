@@ -1,5 +1,6 @@
 package catan.settlers.client.view.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.minueto.MinuetoColor;
@@ -15,6 +16,8 @@ import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
 import catan.settlers.network.server.commands.game.MaritimeTradeCommand;
 import catan.settlers.network.server.commands.game.PlayerTradeRequestCommand;
+import catan.settlers.server.model.Game.GamePhase;
+import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.units.Port.PortKind;
@@ -26,7 +29,7 @@ public class TradeMenuLayer extends ImageLayer {
 	private static final HashMap<ResourceType, MinuetoImage> plusButtons_price = new HashMap<>();
 	private static final HashMap<ResourceType, MinuetoImage> minusButtons_price = new HashMap<>();
 
-	private static final int WIDTH = 1000, HEIGHT = 635;
+	private static final int WIDTH = 1000, HEIGHT = 695;
 	private static final MinuetoColor bg_color = new MinuetoColor(249, 249, 249);
 	private static final MinuetoColor border_color = new MinuetoColor(179, 179, 179);
 	private static final MinuetoColor bank_confirm_btn_color = new MinuetoColor(55, 200, 113);
@@ -97,6 +100,12 @@ public class TradeMenuLayer extends ImageLayer {
 			}
 
 			clear = true;
+		}
+
+		if (gsm.getCurrentPhase() != GamePhase.TURNPHASE
+				|| !gsm.getCurrentPlayer().equals(ClientModel.instance.getUsername())) {
+			gsm.setShowTradeMenu(false);
+			return;
 		}
 
 		draw(background, box_x, box_y);
@@ -231,27 +240,46 @@ public class TradeMenuLayer extends ImageLayer {
 		int y_offset = y;
 		int x_offset = x;
 
-		if (gsm.getCurrentPlayer().equals(gsm.getBoard().getMerchantOwner().getUsername())) {
-			buttonAdded = true;
-			ResourceType advantageResource = Hexagon.terrainToResource(gsm.getBoard().getMerchantHex().getType());
-			Button button = new Button(this, "Merchant", new MinuetoColor(255, 238, 170), new ClickListener() {
+		Player merchantOwner = gsm.getBoard().getMerchantOwner();
+		if (merchantOwner != null) {
+			if (gsm.getCurrentPlayer().equals(merchantOwner.getUsername())) {
+				buttonAdded = true;
+				ResourceType advantageResource = Hexagon.terrainToResource(gsm.getBoard().getMerchantHex().getType());
+				Button button = new Button(this, "Merchant", new MinuetoColor(255, 238, 170), new ClickListener() {
 
-				@Override
-				public void onClick() {
-					give.put(advantageResource, 2);
-					gsm.setTradeMenuMessage(
-							"Merchant allows you to trade this resource at advantage. Select the resource that you want to get.");
-				}
-			});
-			draw(button.getImage(), x_offset, y_offset);
+					@Override
+					public void onClick() {
+						give.put(advantageResource, 2);
+						gsm.setTradeMenuMessage(
+								"Merchant allows you to trade this resource at advantage. Select the resource that you want to get.");
+					}
+				});
 
-			x_offset += button.getImage().getWidth() + 15;
-
-			if (x_offset > box_x + WIDTH) {
-				x_offset = x;
-				y_offset += button.getImage().getHeight() + 15;
+				draw(button.getImage(), x_offset, y_offset);
+				x_offset += button.getImage().getWidth() + 15;
 			}
 		}
+
+		if (gsm.getMerchantFleetAdvantage() != null) {
+			ArrayList<ResourceType> resourceAdvantages = gsm.getMerchantFleetAdvantage();
+
+			for (ResourceType rtype : resourceAdvantages) {
+				Button button = new Button(this, "Merchant Fleet: " + rtype, new MinuetoColor(255, 238, 170),
+						new ClickListener() {
+							@Override
+							public void onClick() {
+								give.put(rtype, 2);
+								gsm.setTradeMenuMessage(
+										"You have the Merchant fleet advantage. You can trade these two resources for one resource of your choice.");
+							}
+						});
+
+				draw(button.getImage(), x_offset, y_offset);
+				x_offset += button.getImage().getWidth() + 15;
+				buttonAdded = true;
+			}
+		}
+
 		return buttonAdded ? y - y_offset + 60 : 0;
 	}
 
@@ -329,9 +357,7 @@ public class TradeMenuLayer extends ImageLayer {
 		return new ClickListener() {
 			@Override
 			public void onClick() {
-				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				ClientModel.instance.getNetworkManager().sendCommand(new MaritimeTradeCommand(give, get));
-				gsm.setShowTradeMenu(false);
 			}
 		};
 	}
@@ -340,9 +366,7 @@ public class TradeMenuLayer extends ImageLayer {
 		return new ClickListener() {
 			@Override
 			public void onClick() {
-				GameStateManager gsm = ClientModel.instance.getGameStateManager();
 				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeRequestCommand(give, get));
-				gsm.setShowTradeMenu(false);
 			}
 		};
 	}

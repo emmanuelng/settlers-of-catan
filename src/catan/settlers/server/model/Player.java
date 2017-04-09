@@ -48,6 +48,7 @@ public class Player implements Serializable {
 		this.resources = new HashMap<>();
 		this.ownedPorts = new HashMap<>();
 		this.progressCards = new HashMap<>();
+		this.tradeAtAdvantage = new ArrayList<>();
 
 		// this will be removed later
 		this.tradeImprovement = 0;
@@ -329,8 +330,18 @@ public class Player implements Serializable {
 		tradeAtAdvantage.add(resource);
 	}
 
+	public ArrayList<ResourceType> getTradeAtAdvantage() {
+		ArrayList<ResourceType> ret = new ArrayList<>();
+		ret.addAll(tradeAtAdvantage);
+		return ret;
+	}
+
 	public void removeTradeAtAdvantage(ArrayList<ResourceType> resource) {
 		tradeAtAdvantage.remove(resource);
+	}
+	
+	public void resetTradeAtAdvantage() {
+		tradeAtAdvantage = new ArrayList<>();
 	}
 
 	public ResourceType drawRandomResource() {
@@ -349,22 +360,24 @@ public class Player implements Serializable {
 		return resources.get(ResourceType.COIN) > 0 || resources.get(ResourceType.CLOTH) > 0
 				|| resources.get(ResourceType.PAPER) > 0;
 	}
-	
+
 	public void setCurrentSelectedHex(Hexagon selectedHex) {
 		this.selectedHex = selectedHex;
 	}
-	
-	public Hexagon getCurrentSelectedHex(){
+
+	public Hexagon getCurrentSelectedHex() {
 		return selectedHex;
 	}
-	
-	public void incrementTrade(){
+
+	public void incrementTrade() {
 		tradeImprovement++;
 	}
-	public void incrementPolitics(){
+
+	public void incrementPolitics() {
 		politicsImprovement++;
 	}
-	public void incrementScience(){
+
+	public void incrementScience() {
 		scienceImprovement++;
 	}
 }
