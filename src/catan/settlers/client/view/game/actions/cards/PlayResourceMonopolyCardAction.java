@@ -26,13 +26,7 @@ public class PlayResourceMonopolyCardAction implements CardAction {
 	@Override
 	public void perform() {
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
-		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		ProgressCardType pcard = ProgressCardType.RESOURCE_MONOPOLY;
-		nm.sendCommand(new PlayProgressCardCommand(pcard));
-
-		int previous = gsm.getProgressCards().get(pcard);
-		gsm.getProgressCards().put(pcard, previous - 1);
-
+		nm.sendCommand(new PlayProgressCardCommand(ProgressCardType.RESOURCE_MONOPOLY));
 	}
 
 	@Override

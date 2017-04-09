@@ -16,14 +16,20 @@ public class CurrentPlayerChangedCommand implements ServerToClientCommand {
 	@Override
 	public void execute() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		
+
 		// Hide menus
 		gsm.setShowTradeMenu(false);
 		gsm.setShowSelectPlayerMenu(false);
 		gsm.setShowCommodityMenu(false);
 		gsm.setShowSelectResourceMenu(false);
-		
+
 		gsm.setCurrentPlayer(player);
+
+		if (ClientModel.instance.getUsername().equals(player)) {
+			gsm.setdBox("It's your turn!", "You can play now");
+		} else {
+			gsm.setdBox("It's " + player + "'s turn", "Please wait until the end of the turn");
+		}
 	}
 
 }

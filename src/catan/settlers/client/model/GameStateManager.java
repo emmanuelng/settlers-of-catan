@@ -3,8 +3,6 @@ package catan.settlers.client.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import catan.settlers.network.server.commands.ClientToServerCommand;
 import catan.settlers.network.server.commands.game.GetGameBoardCommand;
@@ -32,7 +30,6 @@ public class GameStateManager {
 	private HashMap<ProgressCardType, Integer> progressCards;
 	private HashMap<ResourceType, Integer> receiveTradeOfferGive, receiveTradeOfferGet;
 	private Player requestedPlayer;
-	private TimerTask dBoxTimer;
 
 	private Intersection selectedIntersection;
 	private Edge selectedEdge;
@@ -204,7 +201,7 @@ public class GameStateManager {
 		// TODO Remove this
 		progressCards.put(ProgressCardType.MASTER_MERCHANT, 1);
 		progressCards.put(ProgressCardType.MERCHANT, 1);
-		progressCards.put(ProgressCardType.MERCHANT_FLEET, 1);
+		progressCards.put(ProgressCardType.RESOURCE_MONOPOLY, 1);
 		this.updateProgressCards = true;
 	}
 
@@ -273,19 +270,6 @@ public class GameStateManager {
 	public void setdBox(String title, String message) {
 		dboxTitle = title;
 		dBoxMessage = message;
-
-		// Remove the dialog box after 10 seconds
-		if (this.dBoxTimer != null)
-			dBoxTimer.cancel();
-
-		this.dBoxTimer = new TimerTask() {
-			@Override
-			public void run() {
-				setdBox(null, null);
-			}
-		};
-
-		new Timer().schedule(dBoxTimer, 10000);
 	}
 
 	public boolean doShowTradeMenu() {

@@ -13,7 +13,7 @@ import catan.settlers.network.client.commands.game.cards.InventorCommand;
 import catan.settlers.network.client.commands.game.cards.MasterMerchantCommand;
 import catan.settlers.network.client.commands.game.cards.MerchantCommand;
 import catan.settlers.network.client.commands.game.cards.MerchantFleetCommand;
-import catan.settlers.network.client.commands.game.cards.SelectResourceCommand;
+import catan.settlers.network.client.commands.game.cards.ResourceMonopolyCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
@@ -22,6 +22,7 @@ import catan.settlers.server.model.game.handlers.set.CommercialHarborSetHandler;
 import catan.settlers.server.model.game.handlers.set.MasterMerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantFleetSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantSetHandler;
+import catan.settlers.server.model.game.handlers.set.ResourceMonopolySetHandler;
 import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
@@ -219,7 +220,7 @@ public class ProgressCardHandler {
 	 */
 	private void merchantFleet(Player sender) {
 		MerchantFleetSetHandler set = new MerchantFleetSetHandler();
-		set.waitForPlayer(sender.getCredentials());
+		set.waitForPlayer(sender);
 		game.setCurSetOfOpponentMove(set);
 
 		game.sendToAllPlayers(new MerchantFleetCommand(sender.getUsername()));
@@ -233,7 +234,15 @@ public class ProgressCardHandler {
 	 * name a resource; all other players must give you 2 of that if they have
 	 */
 	private void resourceMonopoly(Player sender) {
-		currentPlayer.sendCommand(new SelectResourceCommand("Resource Monopoly- card player chooses resource to take"));
+		System.out.println("Handler");
+		ResourceMonopolySetHandler set = new ResourceMonopolySetHandler();
+		set.waitForPlayer(sender);
+		game.setCurSetOfOpponentMove(set);
+		game.sendToAllPlayers(new ResourceMonopolyCommand(sender.getUsername()));
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.TRADE_MONOPOLY);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**

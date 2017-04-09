@@ -134,9 +134,15 @@ public class Player implements Serializable {
 		resources.put(r, currentAmount + amount);
 	}
 
-	public void removeResource(ResourceType r, int amount) {
+	public boolean removeResource(ResourceType r, int amount) {
 		int previous = resources.get(r);
-		resources.put(r, previous - amount);
+
+		if (previous - amount >= 0) {
+			resources.put(r, previous - amount);
+			return true;
+		}
+
+		return false;
 	}
 
 	public int getNbResourceCards() {
@@ -339,7 +345,7 @@ public class Player implements Serializable {
 	public void removeTradeAtAdvantage(ArrayList<ResourceType> resource) {
 		tradeAtAdvantage.remove(resource);
 	}
-	
+
 	public void resetTradeAtAdvantage() {
 		tradeAtAdvantage = new ArrayList<>();
 	}
