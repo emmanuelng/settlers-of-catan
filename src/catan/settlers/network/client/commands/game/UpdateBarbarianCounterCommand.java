@@ -10,14 +10,11 @@ public class UpdateBarbarianCounterCommand implements ServerToClientCommand {
 
 	public UpdateBarbarianCounterCommand(int i) {
 		barbarianCounter = i;
-		if (i >= 7) {
-		}
 	}
 
 	@Override
 	public void execute() {
 		ClientModel.instance.getGameStateManager().setBarbarianCounter(barbarianCounter);
-		ClientModel.instance.getGameStateManager().setAttacked(true);
 	}
 
 }

@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import catan.settlers.network.client.commands.game.BarbarianAttackCommand;
 import catan.settlers.network.client.commands.game.ChooseProgressCardCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.NormalDiceRollCommand;
 import catan.settlers.network.client.commands.game.UpdateBarbarianCounterCommand;
+import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForSetOfOpponentMoveCommand;
 import catan.settlers.server.model.Game;
@@ -73,10 +75,13 @@ public class RollDicePhaseHandler implements Serializable {
 		/* ==== Event dice events ==== */
 
 		if (eventDie < 4) {
-			barbarianHordeCounter++;
+			game.increaseBarbarianHordeCounter();
+			System.out.println(""+ barbarianHordeCounter);
 			game.sendToAllPlayers(new UpdateBarbarianCounterCommand(barbarianHordeCounter));
 			if (barbarianHordeCounter >= 7) {
 				barbarianAttack();
+				game.resetBarbarianHordeCounter();
+				game.sendToAllPlayers(new BarbarianAttackCommand());
 			}
 		} else if (eventDie == 4) {
 			// yellow improvement check
@@ -274,7 +279,7 @@ public class RollDicePhaseHandler implements Serializable {
 				}
 			}
 		}
-
+		game.sendToAllPlayers(new UpdateGameBoardCommand(gameBoardManager.getBoardDeepCopy()));
 	}
 
 }

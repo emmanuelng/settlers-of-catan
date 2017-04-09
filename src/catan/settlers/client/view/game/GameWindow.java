@@ -41,6 +41,7 @@ public class GameWindow extends MinuetoFrame {
 	private SelectResourceMenuLayer selectResourceMenuLayer;
 	private SelectCommodityLayer selectCommodityMenuLayer;
 	private SelectHexLayer selectHexLayer;
+	private BarbarianCounterLayer barbarianCounterLayer;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
@@ -95,6 +96,7 @@ public class GameWindow extends MinuetoFrame {
 		this.selectProgressCardTypeLayer = new SelectProgressCardTypeLayer();
 		this.selectCommodityMenuLayer = new SelectCommodityLayer();
 		this.selectHexLayer = new SelectHexLayer();
+		this.barbarianCounterLayer = new BarbarianCounterLayer();
 
 		this.imageClickableMap = new HashMap<>();
 	}
@@ -116,6 +118,7 @@ public class GameWindow extends MinuetoFrame {
 		drawLayer(selectCommodityMenuLayer, 0, 0);
 		drawLayer(selectHexLayer, 0, 0);
 		drawLayer(topBar, 0, 0);
+		drawLayer(barbarianCounterLayer,0,100);
 
 		render();
 	}

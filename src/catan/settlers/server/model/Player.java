@@ -57,7 +57,7 @@ public class Player implements Serializable {
 		this.victoryP = 0;
 
 		for (ResourceType resType : ResourceType.values()) {
-			resources.put(resType, 12);
+			resources.put(resType, 0);
 		}
 
 		for (PortKind portKind : PortKind.values()) {
