@@ -223,24 +223,25 @@ public class TradeMenuLayer extends ImageLayer {
 		}
 		return buttonAdded ? y - y_offset + 60 : 0;
 	}
-	
-	private int drawAdvantageTradeButtons(int x, int y){
+
+	private int drawAdvantageTradeButtons(int x, int y) {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		boolean buttonAdded = false;
-		
+
 		int y_offset = y;
 		int x_offset = x;
-		
-		if(gsm.getCurrentPlayer().equals(gsm.getBoard().getMerchantOwner().getUsername())){
+
+		if (gsm.getCurrentPlayer().equals(gsm.getBoard().getMerchantOwner().getUsername())) {
 			buttonAdded = true;
 			ResourceType advantageResource = Hexagon.terrainToResource(gsm.getBoard().getMerchantHex().getType());
 			Button button = new Button(this, "Merchant", new MinuetoColor(255, 238, 170), new ClickListener() {
 
 				@Override
 				public void onClick() {
-						give.put(advantageResource, 2);
-						gsm.setTradeMenuMessage("Merchant allows you to trade this resource at advantage. Select the resource that you want to get.");
-					}
+					give.put(advantageResource, 2);
+					gsm.setTradeMenuMessage(
+							"Merchant allows you to trade this resource at advantage. Select the resource that you want to get.");
+				}
 			});
 			draw(button.getImage(), x_offset, y_offset);
 
@@ -329,7 +330,6 @@ public class TradeMenuLayer extends ImageLayer {
 			@Override
 			public void onClick() {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
-				System.out.println("Trade with bank!");
 				ClientModel.instance.getNetworkManager().sendCommand(new MaritimeTradeCommand(give, get));
 				gsm.setShowTradeMenu(false);
 			}
@@ -341,7 +341,6 @@ public class TradeMenuLayer extends ImageLayer {
 			@Override
 			public void onClick() {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
-				System.out.println("Trade with players!");
 				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeRequestCommand(give, get));
 				gsm.setShowTradeMenu(false);
 			}

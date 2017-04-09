@@ -84,7 +84,7 @@ public class GameBoardImage extends ImageLayer {
 				draw(merchant, x + hexImg.getWidth() / 2 - merchant.getWidth() / 2,
 						y + hexImg.getHeight() / 2 - merchant.getHeight() / 2 + 3);
 			}
-			
+
 			if (!hexImg.isSelectedImage()) {
 				registerClickable(hexImg, new ClickListener() {
 					@Override

@@ -198,7 +198,6 @@ public class ProgressCardHandler {
 		MerchantSetHandler set = new MerchantSetHandler(game, sender);
 		set.waitForPlayer(sender);
 
-
 		game.setCurSetOfOpponentMove(set);
 
 		// Send initial command
@@ -218,7 +217,7 @@ public class ProgressCardHandler {
 	 */
 	private void merchantFleet(Player sender) {
 		sender.sendCommand(new SelectResourceCommand("merchant fleet"));
-		
+
 		MerchantFleetSetHandler set = new MerchantFleetSetHandler(game, sender);
 		set.waitForPlayer(sender);
 

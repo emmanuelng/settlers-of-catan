@@ -7,12 +7,10 @@ public class UpdateBarbarianCounterCommand implements ServerToClientCommand {
 
 	private static final long serialVersionUID = 5595446857378209044L;
 	private int barbarianCounter;
-	private boolean attacked;
 
 	public UpdateBarbarianCounterCommand(int i) {
 		barbarianCounter = i;
 		if (i >= 7) {
-			attacked = true;
 		}
 	}
 

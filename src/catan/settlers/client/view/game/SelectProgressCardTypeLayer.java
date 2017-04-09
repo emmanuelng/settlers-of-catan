@@ -119,15 +119,13 @@ public class SelectProgressCardTypeLayer extends ImageLayer {
 	}
 
 	private MinuetoColor getFieldColor(Field field) {
-		GameWindow gw = ClientWindow.getInstance().getGameWindow();
-
 		switch (field) {
 		case POLITICS:
-			return gw.getPoliticsColor();
+			return GameWindow.getPoliticsColor();
 		case SCIENCE:
-			return gw.getScienceColor();
+			return GameWindow.getScienceColor();
 		case TRADE:
-			return gw.getTradeColor();
+			return GameWindow.getTradeColor();
 		}
 
 		return MinuetoColor.BLACK;

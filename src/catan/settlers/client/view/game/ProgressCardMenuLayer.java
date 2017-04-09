@@ -143,7 +143,6 @@ public class ProgressCardMenuLayer extends ImageLayer {
 		registerClickable(background, new ClickListener() {
 			@Override
 			public void onClick() {
-				System.out.println("Playing " + cardType + "...");
 				cardAction.perform();
 			}
 		});

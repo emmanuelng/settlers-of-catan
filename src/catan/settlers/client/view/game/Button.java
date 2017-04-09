@@ -25,8 +25,8 @@ public class Button {
 		MinuetoText textImage = new MinuetoText(text, default_btn_font, textColor);
 		MinuetoRectangle background = new MinuetoRectangle(textImage.getWidth() + 30, textImage.getHeight() + 20, color,
 				true);
-		MinuetoRectangle shadow = new MinuetoRectangle(textImage.getWidth() + 30, textImage.getHeight() + 20, color.darken(0.1),
-				true);
+		MinuetoRectangle shadow = new MinuetoRectangle(textImage.getWidth() + 30, textImage.getHeight() + 20,
+				color.darken(0.1), true);
 
 		btnImage = new MinuetoImage(background.getWidth() + 3, background.getHeight() + 3);
 		btnImage.draw(shadow, 3, 3);
