@@ -119,9 +119,8 @@ public class FlipchartLayer extends ImageLayer {
 		
 		
 		draw(background, box_x, box_y);
-		
-		overrideClickables();
 		draw(leftBarBg, box_x, box_y);
+		overrideClickables();
 		
 		drawLeftBar();
 		drawRightPart(gsm);
@@ -229,6 +228,7 @@ public class FlipchartLayer extends ImageLayer {
 			@Override
 			public void onClick() {
 				// Do nothing
+				System.out.println("This is the background");
 			}
 		});
 	}

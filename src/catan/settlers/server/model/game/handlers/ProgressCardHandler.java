@@ -74,10 +74,10 @@ public class ProgressCardHandler {
 			tradeMonopoly(sender);
 			break;
 		case BISHOP:
-			bishop(sender); // TODO
+			bishop(sender);
 			break;
 		case CONSTITUTION:
-			constitution(sender); // TODO
+			constitution(sender);
 			break;
 		case DESERTER:
 			deserter(sender); // TODO
@@ -197,8 +197,6 @@ public class ProgressCardHandler {
 
 	/**
 	 * place merchant on a tile; trade that resource at 2:1
-	 * 
-	 * @param sender
 	 */
 	private void merchant(Player sender) {
 
@@ -265,8 +263,6 @@ public class ProgressCardHandler {
 	/**
 	 * move the robber, but get a random card from EACH player on the robber's
 	 * new hex
-	 * 
-	 * @param sender
 	 */
 	private void bishop(Player sender) {
 		BishopSetHandler set = new BishopSetHandler();
@@ -286,6 +282,7 @@ public class ProgressCardHandler {
 	 */
 	private void constitution(Player sender) {
 		sender.incrementVP(1);
+		// TODO: Update the victory points
 	}
 
 	/**

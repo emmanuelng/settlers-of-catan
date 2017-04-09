@@ -75,6 +75,9 @@ public class GameStateManager {
 	private int scienceImprovementLevel;
 	private int barbarianCounter;
 	private ArrayList<ResourceType> merchantFleetAdvantage;
+	private int victoryPoints;
+
+	private boolean showFlipChart;
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
@@ -520,12 +523,20 @@ public class GameStateManager {
 	public ArrayList<ResourceType> getMerchantFleetAdvantage() {
 		return merchantFleetAdvantage;
 	}
-	
+
 	public int getVictoryPoint() {
 		return victoryPoints;
 	}
-	
-	public void setVictoryPoints(int value){
+
+	public void setVictoryPoints(int value) {
 		victoryPoints = value;
+	}
+
+	public boolean getDoShowFlipchartLayer() {
+		return showFlipChart;
+	}
+
+	public void setShowFlipchartLayer(boolean b) {
+		this.showFlipChart = b;
 	}
 }
