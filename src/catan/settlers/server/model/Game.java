@@ -60,7 +60,7 @@ public class Game implements Serializable {
 
 		this.gamePlayersManager = new GamePlayersManager(owner, participants, id);
 		this.gameBoardManager = new GameBoardManager();
-		
+
 		this.progressCards = new ProgressCards();
 		this.bootDrawn = false;
 
@@ -71,17 +71,22 @@ public class Game implements Serializable {
 	}
 
 	public void startGame() {
-		this.currentPhase = GamePhase.SETUPPHASEONE;
-		this.currentPlayer = participants.get(0);
+
+		if (currentPhase != GamePhase.PAUSED) {
+			this.currentPhase = GamePhase.SETUPPHASEONE;
+			this.currentPlayer = participants.get(0);
+		}
 
 		for (Player p : participants) {
-
 			sendPlayerState(p);
-
-			if (p == currentPlayer) {
-				p.sendCommand(new PlaceElmtsSetupPhaseCommand(true));
+			if (currentPhase == GamePhase.PAUSED) {
+				p.sendCommand(new CurrentPlayerChangedCommand(currentPlayer.getUsername()));
 			} else {
-				p.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
+				if (p == currentPlayer) {
+					p.sendCommand(new PlaceElmtsSetupPhaseCommand(true));
+				} else {
+					p.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
+				}
 			}
 		}
 
@@ -132,14 +137,14 @@ public class Game implements Serializable {
 		try {
 			GamePhase prevPhase = currentPhase;
 			currentPhase = GamePhase.PAUSED;
-			
+
 			String filename = "saves/game" + getGameId() + ".catan";
 			FileOutputStream fos = new FileOutputStream(filename);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(this);
 			oos.close();
 			fos.close();
-			
+
 			currentPhase = prevPhase;
 			System.out.println("Game saved as " + filename);
 		} catch (Exception e) {
@@ -271,25 +276,24 @@ public class Game implements Serializable {
 		return progressCardHandler;
 	}
 
-	public void setLargestArmy(Player p){
+	public void setLargestArmy(Player p) {
 		largestArmy = p;
 	}
 
-	public void setLongestroad(Player p){
+	public void setLongestroad(Player p) {
 		longestRoad = p;
 	}
-	
-	public Player getLargestArmy(){
+
+	public Player getLargestArmy() {
 		return largestArmy;
 	}
-	
-	public Player getLongestroad(){
+
+	public Player getLongestroad() {
 		return longestRoad;
 	}
-	
-	
+
 	public void declareVictor(Player currentPlayer) {
 		sendToAllPlayers(new DeclareVictorCommand(currentPlayer.getUsername()));
 	}
-	
+
 }

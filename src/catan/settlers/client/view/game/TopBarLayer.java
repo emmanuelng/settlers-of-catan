@@ -39,6 +39,7 @@ public class TopBarLayer extends ImageLayer {
 	private MinuetoImageFile endTurnImage;
 	private MinuetoImageFile tradeImage;
 	private MinuetoImage cardsImage;
+	private MinuetoImageFile menuImage;
 
 	public TopBarLayer() {
 		super();
@@ -53,6 +54,19 @@ public class TopBarLayer extends ImageLayer {
 		this.endTurnImage = ifm.load("images/endturn-new.png");
 		this.tradeImage = ifm.load("images/trade-new.png");
 		this.cardsImage = ifm.load("images/cards-new.png");
+		this.menuImage = ifm.load("images/menu_player"
+				+ ClientWindow.getInstance().getGameWindow().getPlayerNumber(ClientModel.instance.getUsername())
+				+ ".png");
+		
+		registerClickable(menuImage, new ClickListener() {
+			@Override
+			public void onClick() {
+				System.out.println("Clicked!");
+				GameStateManager gsm = ClientModel.instance.getGameStateManager();
+				boolean b = !gsm.getShowSaveMenu();
+				gsm.setShowSaveMenu(b);
+			}
+		});
 	}
 
 	@Override
@@ -65,7 +79,9 @@ public class TopBarLayer extends ImageLayer {
 		draw(shadowImage, 0, 0);
 		draw(bgImage, 0, 0);
 
-		int resources_x = 80, resources_y = 25, resources_per_line = 5;
+		draw(menuImage, 30, 100 / 2 - menuImage.getHeight() / 2);
+
+		int resources_x = menuImage.getWidth() + 70, resources_y = 25, resources_per_line = 5;
 		for (int i = 0; i < ResourceType.values().length; i++) {
 			ResourceType rtype = ResourceType.values()[i];
 			drawResource(rtype, resources_x + 150 * (i % resources_per_line),

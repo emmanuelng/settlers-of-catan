@@ -29,6 +29,7 @@ public class SaveAndExitMenuLayer extends ImageLayer {
 	private MinuetoText exitButtonText;
 	private MinuetoRectangle exitButtonBg;
 	private MinuetoRectangle exitButtonShadow;
+	private boolean clear;
 
 	public SaveAndExitMenuLayer() {
 		this.box_x = ClientWindow.WINDOW_WIDTH / 2 - WIDTH / 2;
@@ -50,6 +51,22 @@ public class SaveAndExitMenuLayer extends ImageLayer {
 
 	@Override
 	public void compose(GameStateManager gsm) {
+		if (!gsm.getShowSaveMenu()) {
+			if (clear) {
+				ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);
+				clear();
+				clear = false;
+			}
+			return;
+		} else {
+			if (!gsm.getCurrentPlayer().equals(ClientModel.instance.getUsername())) {
+				gsm.setShowTradeMenu(false);
+				return;
+			}
+
+			clear = true;
+		}
+
 		draw(background, box_x, box_y);
 
 		int y_offset = box_y + 20, x_offset = box_x + 10;
@@ -59,7 +76,7 @@ public class SaveAndExitMenuLayer extends ImageLayer {
 		draw(saveButtonText, x_offset + saveButtonBg.getWidth() / 2 - saveButtonText.getWidth() / 2,
 				y_offset + saveButtonBg.getHeight() / 2 - saveButtonText.getHeight() / 2);
 		y_offset += saveButtonBg.getHeight() + 15;
-		
+
 		draw(exitButtonShadow, x_offset + 3, y_offset + 3);
 		draw(exitButtonBg, x_offset, y_offset);
 		draw(exitButtonText, x_offset + exitButtonBg.getWidth() / 2 - exitButtonText.getWidth() / 2,
@@ -73,7 +90,7 @@ public class SaveAndExitMenuLayer extends ImageLayer {
 				nm.sendCommand(new SaveGameCommand());
 			}
 		});
-		
+
 		registerClickable(exitButtonBg, new ClickListener() {
 			@Override
 			public void onClick() {
