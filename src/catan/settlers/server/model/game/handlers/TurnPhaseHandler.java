@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import catan.settlers.client.model.GameStateManager.SelectionReason;
 import catan.settlers.client.view.game.FlipchartLayer.Field;
 import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
-import catan.settlers.network.client.commands.game.UpdateMetOwnerCommand;
 import catan.settlers.network.client.commands.game.UpdatePlayerLevelsCommand;
 import catan.settlers.network.client.commands.game.UpdatePoliticsMetOwnerCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
@@ -96,8 +96,8 @@ public class TurnPhaseHandler implements Serializable {
 		case DISPLACE_KNIGHT:
 			displaceKnight();
 			break;
-		case STEAL_RESOURCE:
-			stealResource(data.getSelectedPlayer());
+		case PLAYER_SELECTED:
+			handlePlayerSelected(data);
 			break;
 		case POLITICS_CITY_IMPROVEMENT:
 			PoliticsCityImprovement();
@@ -109,6 +109,20 @@ public class TurnPhaseHandler implements Serializable {
 			TradeCityImprovement();
 			break;
 		default:
+			break;
+		}
+	}
+
+	private void handlePlayerSelected(TurnData data) {
+		SelectionReason reason = data.getSelectionReason();
+		switch (reason) {
+		case STEAL_RESOURCE:
+			stealResource(data.getSelectedPlayer());
+			break;
+		case DESERTER:
+			
+			break;
+		default: 
 			break;
 		}
 	}

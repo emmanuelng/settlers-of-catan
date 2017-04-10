@@ -3,9 +3,11 @@ package catan.settlers.server.model.game.handlers;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import catan.settlers.client.model.GameStateManager.SelectionReason;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
+import catan.settlers.network.client.commands.game.SelectPlayerCommand;
 import catan.settlers.network.client.commands.game.UpdateCardsCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.cards.BishopCommand;
@@ -290,7 +292,7 @@ public class ProgressCardHandler {
 	 * strength
 	 */
 	private void deserter(Player sender) {
-
+		sender.sendCommand(new SelectPlayerCommand(SelectionReason.DESERTER));
 	}
 
 	/**

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.GameStateManager.SelectionReason;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.map.Edge;
@@ -39,6 +40,7 @@ public class TurnData implements Serializable {
 	private String selectedPlayer;
 	private int selectedHex_x;
 	private int selectedHex_y;
+	private SelectionReason reason;
 
 	public TurnData(TurnAction action) {
 		ClientModel cm = ClientModel.instance;
@@ -102,6 +104,14 @@ public class TurnData implements Serializable {
 
 	public String getSelectedPlayer() {
 		return selectedPlayer;
+	}
+	
+	public void setSelectionReason(SelectionReason r) {
+		this.reason = r;
+	}
+	
+	public SelectionReason getSelectionReason() {
+		return reason;
 	}
 
 	public void setSelectedHex(Hexagon hex, GameBoard gameBoard) {

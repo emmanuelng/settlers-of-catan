@@ -1,6 +1,7 @@
 package catan.settlers.network.server.commands.game;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.GameStateManager.SelectionReason;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.network.server.commands.ClientToServerCommand;
@@ -14,7 +15,7 @@ public class PlayerSelectedCommand implements ClientToServerCommand {
 	private int gameId;
 	private TurnData data;
 
-	public PlayerSelectedCommand(String username) {
+	public PlayerSelectedCommand(String username, SelectionReason reason) {
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 		this.data = new TurnData(TurnAction.PLAYER_SELECTED);
 		data.setSelectedPlayer(username);

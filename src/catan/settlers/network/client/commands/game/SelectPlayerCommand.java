@@ -5,14 +5,18 @@ import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.model.GameStateManager.SelectionReason;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 
-public class SelectPlayerToStealFromCommand implements ServerToClientCommand {
+public class SelectPlayerCommand implements ServerToClientCommand {
 
-	private static final long serialVersionUID = 8039663735773836715L;
-
-	@Override
+	private static final long serialVersionUID = 6324859214229351576L;
+	SelectionReason reason;
+	
+	public SelectPlayerCommand(SelectionReason reason) {
+		this.reason = reason;
+	}
+	
 	public void execute() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		gsm.setSelectionReason(SelectionReason.STEAL_RESOURCE);
+		gsm.setSelectionReason(reason);
 		gsm.setShowSelectPlayerMenu(true);
 	}
 

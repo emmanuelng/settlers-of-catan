@@ -54,7 +54,12 @@ public class GameStateManager {
 	private boolean showSelectCardTypeMenu;
 	private boolean showSelectCommodityMenu;
 	private boolean doShowSelectHexLayer;
-	private boolean selectToSteal;
+	
+	public enum SelectionReason {
+		STEAL_RESOURCE, DESERTER, GIVE_BOOT, 
+	}
+	
+	private SelectionReason currentReason;
 
 	private String dboxTitle;
 	private String dBoxMessage;
@@ -102,7 +107,7 @@ public class GameStateManager {
 		this.showSelectCardTypeMenu = false;
 		this.showSelectCommodityMenu = false;
 		this.doShowSelectHexLayer = false;
-		this.selectToSteal = false;
+		this.currentReason = null;
 
 		this.sevenDiscardMenuMsg = "";
 		this.tradeMenuMsg = "";
@@ -500,12 +505,12 @@ public class GameStateManager {
 		this.selectCommodityMsg = string;
 	}
 	
-	public void setSelectToSteal(boolean b) {
-		this.selectToSteal = b;
+	public void setSelectionReason(SelectionReason r) {
+		this.currentReason = r;
 	}
 	
-	public boolean getSelectToSteal() {
-		return selectToSteal;
+	public SelectionReason getSelectionReason() {
+		return currentReason;
 	}
 
 	public void setPlayersToShow(ArrayList<String> playersWithMoreVPs) {
