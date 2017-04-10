@@ -84,6 +84,14 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 				if (give.get(rtype) == 2 && allOtherGiveResourcesAreEmpty(rtype))
 					if (onlyOneResourceInGet())
 						return true;
+		
+		//Check for Trading House (2:1)
+		for (ResourceType rtype : ResourceType.values())
+			if (player.getTradeLevel()>=3)
+				if(rtype == ResourceType.COIN || rtype ==ResourceType.CLOTH || rtype==ResourceType.PAPER)
+					if (give.get(rtype) == 2 && allOtherGiveResourcesAreEmpty(rtype))
+						if (onlyOneResourceInGet())
+							return true;
 
 		return false;
 	}
