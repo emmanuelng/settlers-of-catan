@@ -16,6 +16,7 @@ import catan.settlers.client.model.NetworkManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
 import catan.settlers.network.server.commands.game.PlayerSelectedCommand;
+import catan.settlers.network.server.commands.game.StealFromPlayerCommand;
 
 public class SelectPlayerLayer extends ImageLayer {
 
@@ -112,7 +113,12 @@ public class SelectPlayerLayer extends ImageLayer {
 					public void onClick() {
 						System.out.println("Select " + curParticipant);
 						NetworkManager nm = ClientModel.instance.getNetworkManager();
-						nm.sendCommand(new PlayerSelectedCommand(curParticipant));
+						if (gsm.getSelectToSteal()) {
+							gsm.setSelectToSteal(false);
+							nm.sendCommand(new StealFromPlayerCommand(curParticipant));
+						} else {
+							nm.sendCommand(new PlayerSelectedCommand(curParticipant));
+						}
 					}
 
 				}));

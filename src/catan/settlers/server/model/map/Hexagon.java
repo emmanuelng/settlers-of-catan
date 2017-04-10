@@ -13,7 +13,7 @@ public class Hexagon implements Serializable {
 	private static int currentId = 0;
 
 	public enum TerrainType {
-		SEA, DESERT, PASTURE, FOREST, MOUNTAIN, HILLS, FIELD, GOLDMINE
+		SEA, DESERT, PASTURE, FOREST, MOUNTAIN, HILLS, FIELD, GOLDMINE, FISHINGGROUND, LAKE
 	}
 
 	public enum Direction {

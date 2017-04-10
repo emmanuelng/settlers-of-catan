@@ -45,6 +45,7 @@ public class Game implements Serializable {
 	private int barbarianHordeCounter;
 	private Hexagon inventorFirstHex, inventorSecondHex;
 	private ProgressCards progressCards;
+	private boolean bootDrawn;
 
 	private SetupPhaseHandler setupPhaseHandler;
 	private RollDicePhaseHandler rollDicePhaseHandler;
@@ -60,6 +61,7 @@ public class Game implements Serializable {
 		this.gameBoardManager = new GameBoardManager();
 		
 		this.progressCards = new ProgressCards();
+		this.bootDrawn = false;
 
 		this.setupPhaseHandler = new SetupPhaseHandler(this);
 		this.rollDicePhaseHandler = new RollDicePhaseHandler(this);

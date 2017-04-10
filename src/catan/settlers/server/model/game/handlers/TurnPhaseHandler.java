@@ -83,6 +83,9 @@ public class TurnPhaseHandler implements Serializable {
 		case DISPLACE_KNIGHT:
 			displaceKnight();
 			break;
+		case STEAL_RESOURCE:
+			stealResource(data.getSelectedPlayer());
+			break;
 		case POLITICS_CITY_IMPROVEMENT:
 			PoliticsCityImprovement();
 			break;
@@ -95,6 +98,13 @@ public class TurnPhaseHandler implements Serializable {
 		default:
 			break;
 		}
+	}
+
+	private void stealResource(String username) {
+		Player target = game.getPlayersManager().getPlayerByUsername(username);
+		ResourceType r = target.drawRandomResource();
+		target.removeResource(r, 1);
+		currentPlayer.giveResource(r, 1);
 	}
 
 	private void updateDataFromGame() {

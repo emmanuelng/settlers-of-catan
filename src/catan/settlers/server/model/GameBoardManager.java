@@ -78,12 +78,42 @@ public class GameBoardManager implements Serializable {
 								}
 							}
 						}
+					} else if (hex.getType() == TerrainType.FISHINGGROUND && hex.getNumber() == diceValue) {
+						for (IntersectionLoc loc : IntersectionLoc.values()) {
+							IntersectionUnit u = hex.getIntersection(loc).getUnit();
+							if (u instanceof Village) {
+								Player p = u.getOwner();
+								goFish(p);
+							}
+						}
+					} else if (hex.getType() == TerrainType.LAKE && (diceValue <= 2 || diceValue >= 11)) {
+						for (IntersectionLoc loc : IntersectionLoc.values()) {
+							IntersectionUnit u = hex.getIntersection(loc).getUnit();
+							if (u instanceof Village) {
+								Player p = u.getOwner();
+								goFish(p);
+							}
+						}
 					}
 				}
 			}
 		}
 
 		return playersWhoDrew;
+	}
+			
+	public void goFish(Player p) {
+		int n = (int)Math.ceil(Math.random()*(29 + board.bootDrawn()));
+		if (n <= 11) {
+			p.giveFish(1);
+		} else if (n <= 21) {
+			p.giveFish(2);
+		} else if (n <= 29) {
+			p.giveFish(3);;
+		} else {
+			p.giveBoot();
+			board.drewBoot();
+		}
 	}
 
 	private ResourceType[] terrainToResource(TerrainType t) {

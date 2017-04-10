@@ -54,6 +54,7 @@ public class GameStateManager {
 	private boolean showSelectCardTypeMenu;
 	private boolean showSelectCommodityMenu;
 	private boolean doShowSelectHexLayer;
+	private boolean selectToSteal;
 
 	private String dboxTitle;
 	private String dBoxMessage;
@@ -95,6 +96,7 @@ public class GameStateManager {
 		this.showSelectCardTypeMenu = false;
 		this.showSelectCommodityMenu = false;
 		this.doShowSelectHexLayer = false;
+		this.selectToSteal = false;
 
 		this.sevenDiscardMenuMsg = "";
 		this.tradeMenuMsg = "";
@@ -490,6 +492,14 @@ public class GameStateManager {
 
 	public void setSelectCommodityMessage(String string) {
 		this.selectCommodityMsg = string;
+	}
+	
+	public void setSelectToSteal(boolean b) {
+		this.selectToSteal = b;
+	}
+	
+	public boolean getSelectToSteal() {
+		return selectToSteal;
 	}
 
 	public void setPlayersToShow(ArrayList<String> playersWithMoreVPs) {

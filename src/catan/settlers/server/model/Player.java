@@ -42,6 +42,8 @@ public class Player implements Serializable {
 	private int victoryP;
 	private ResourceType currentlySelectedResource;
 	private ArrayList<ResourceType> tradeAtAdvantage;
+	private int fishCount;
+	private boolean hasBoot;
 
 	private Hexagon selectedHex;
 
@@ -159,6 +161,25 @@ public class Player implements Serializable {
 			count += resources.get(rt);
 		}
 		return count;
+	}
+	
+	public void giveFish(int n) {
+		fishCount += n;
+	}
+	
+	public void removeFish(int n) {
+		if (n <= fishCount) {
+			fishCount -= n;
+		}
+	}
+	
+	// If a player has the old boot, they need an additional VP to win!
+	public void giveBoot() {
+		hasBoot = true;
+	}
+	
+	public void removeBoot() {
+		hasBoot = false;
 	}
 
 	public void giveProgressCard(ProgressCardType pc) {
@@ -394,5 +415,9 @@ public class Player implements Serializable {
 
 	public void setScienceLvl(int lvl) {
 		scienceImprovement = lvl;
+	}
+
+	public void addFreeRoad() {
+		roadBuilding++;
 	}
 }

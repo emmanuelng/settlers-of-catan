@@ -26,11 +26,13 @@ public class GameBoard implements Serializable {
 	private int edgeId = 0;
 	private int IntersectionId = 0;
 	private Player merchantOwner;
+	private boolean bootDrawn;
 
 	public GameBoard() {
 		this.hexagons = new Hexagon[length][height];
 		this.edges = new ArrayList<>();
 		this.intersections = new ArrayList<>();
+		this.bootDrawn = false;
 		generateBoard();
 	}
 
@@ -327,6 +329,16 @@ public class GameBoard implements Serializable {
 	public Player getMerchantOwner(){
 		return merchantOwner;
 	}
+	
+	public int bootDrawn() {
+		return bootDrawn? 0 : 1;
+	}
+	
+	public void drewBoot() {
+		bootDrawn = true;
+	}
+	
+	
 	
 	/**
 	 * Private helpers; nothing important here
