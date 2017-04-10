@@ -2,6 +2,7 @@ package catan.settlers.server.model.game.handlers.set;
 
 import catan.settlers.network.client.commands.game.AqueductCommand;
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
+import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.cards.MerchantFleetCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
@@ -23,6 +24,7 @@ public class AqueductSetHandler extends SetOfOpponentMove {
 		if (data.getSelectedResourceOrCommodity() != null) {
 			ResourceType selectedResource = data.getSelectedResourceOrCommodity();
 			sender.giveResource(selectedResource, 1);
+			sender.sendCommand(new UpdateResourcesCommand(sender.getResources()));
 			
 			playerResponded(sender.getCredentials());
 

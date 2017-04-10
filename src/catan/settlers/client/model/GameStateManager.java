@@ -80,6 +80,12 @@ public class GameStateManager {
 
 	private boolean showFlipChart;
 
+	private String scienceMetOwner;
+
+	private String tradeMetOwner;
+
+	private String polMetOwner;
+
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
 		this.canMoveRobber = false;
@@ -548,5 +554,24 @@ public class GameStateManager {
 
 	public void setShowFlipchartLayer(boolean b) {
 		this.showFlipChart = b;
+	}
+
+	public void setScienceMetOwner(String scienceMetOwner) {
+		this.scienceMetOwner = scienceMetOwner;
+	}
+	public void setTradeMetOwner(String tradeMetOwner) {
+		this.tradeMetOwner = tradeMetOwner;
+	}
+	public void setPolMetOwner(String polMetOwner) {
+		this.polMetOwner = polMetOwner;
+	}
+	public String getScienceMetOwner(){
+		return scienceMetOwner;
+	}
+	public String getTradeMetOwner(){
+		return tradeMetOwner;
+	}
+	public String getPolMetOwner(){
+		return polMetOwner;
 	}
 }

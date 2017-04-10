@@ -17,7 +17,7 @@ import catan.settlers.network.server.commands.game.IncrementTradeCommand;
 
 public class FlipchartLayer extends ImageLayer {
 
-	private static enum Field {
+	public static enum Field {
 		TRADE, POLITICS, SCIENCE
 	};
 
@@ -222,7 +222,21 @@ public class FlipchartLayer extends ImageLayer {
 			draw(buildingDes, x_offset, y_offset);
 			y_offset += buildingDes.getHeight() + 15;
 		}
-		
+		if(gsm.getCurrentPlayer() == gsm.getScienceMetOwner()){
+			MinuetoText metropolisText = new MinuetoText("Metropolis of Science", title_font, MinuetoColor.BLACK);
+			draw(metropolisText, x_offset, y_offset);
+			y_offset += metropolisText.getHeight() + 15;
+		}
+		if(gsm.getCurrentPlayer() == gsm.getTradeMetOwner()){
+			MinuetoText metropolisText = new MinuetoText("Metropolis of Trade", title_font, MinuetoColor.BLACK);
+			draw(metropolisText, x_offset, y_offset);
+			y_offset += metropolisText.getHeight() + 15;
+		}
+		if(gsm.getCurrentPlayer() == gsm.getPolMetOwner()){
+			MinuetoText metropolisText = new MinuetoText("Metropolis of Politics", title_font, MinuetoColor.BLACK);
+			draw(metropolisText, x_offset, y_offset);
+			y_offset += metropolisText.getHeight() + 15;
+		}
 
 		MinuetoImage levelUp = levelUpBtn.getImage();
 		draw(levelUp, box_x + WIDTH - levelUp.getWidth() - 50, box_y + HEIGHT - levelUp.getHeight() - 10);

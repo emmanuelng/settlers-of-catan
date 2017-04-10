@@ -1,13 +1,20 @@
 package catan.settlers.server.model.game.handlers;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+import catan.settlers.client.view.game.FlipchartLayer.Field;
 import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
+import catan.settlers.network.client.commands.game.UpdateMetOwnerCommand;
 import catan.settlers.network.client.commands.game.UpdatePlayerLevelsCommand;
+import catan.settlers.network.client.commands.game.UpdatePoliticsMetOwnerCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
+import catan.settlers.network.client.commands.game.UpdateScienceMetOwnerCommand;
+import catan.settlers.network.client.commands.game.UpdateTradeMetOwnerCommand;
 import catan.settlers.network.client.commands.game.UpdateVPCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Game.GamePhase;
@@ -36,9 +43,15 @@ public class TurnPhaseHandler implements Serializable {
 	private Edge selectedEdge;
 	private Intersection selectedIntersection;
 	private Knight selectedKnight;
+	private HashMap<Field,Player> metOwners;
 
 	public TurnPhaseHandler(Game game) {
 		this.game = game;
+		metOwners = new HashMap<Field,Player>();
+		for(Field f : Field.values()){
+			metOwners.put(f, null);
+		}
+		
 	}
 
 	public void handle(Player sender, TurnData data) {
@@ -350,6 +363,8 @@ public class TurnPhaseHandler implements Serializable {
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
 			updatePlayerCondition();
+
+			updateMetOwners(Field.POLITICS);
 		}
 	}
 
@@ -362,6 +377,8 @@ public class TurnPhaseHandler implements Serializable {
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
 			updatePlayerCondition();
+
+			updateMetOwners(Field.SCIENCE);
 		}
 	}
 
@@ -374,6 +391,64 @@ public class TurnPhaseHandler implements Serializable {
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
 			updatePlayerCondition();
+			updateMetOwners(Field.TRADE);
 		}
 	}
+	
+	public void updateMetOwners(Field f){
+		ArrayList<Player> otherPlayers = game.getParticipants();
+		otherPlayers.remove(currentPlayer);
+		int otherPeoplelvl = 0;
+		
+		switch(f){
+		case SCIENCE:
+			for(Player p: otherPlayers){
+				if(p.getScienceLevel()>otherPeoplelvl){
+					otherPeoplelvl = p.getScienceLevel();
+				}
+			}
+			System.out.println("This happens");
+			if(currentPlayer.getScienceLevel()==4){
+				metOwners.put(Field.SCIENCE, currentPlayer);
+			}else if(currentPlayer.getScienceLevel() == 5 && currentPlayer.getScienceLevel()>otherPeoplelvl){
+				metOwners.put(Field.SCIENCE, currentPlayer);
+			}
+			if(metOwners.get(Field.SCIENCE)!= null){
+				game.sendToAllPlayers(new UpdateScienceMetOwnerCommand(metOwners.get(Field.SCIENCE).getUsername()));
+			}
+			break;
+		case TRADE:
+			for(Player p: otherPlayers){
+				if(p.getTradeLevel()>otherPeoplelvl){
+					otherPeoplelvl = p.getTradeLevel();
+				}
+			}
+			if(currentPlayer.getTradeLevel()==4){
+				metOwners.put(Field.TRADE, currentPlayer);
+			}else if(currentPlayer.getTradeLevel() == 5 && currentPlayer.getTradeLevel()>otherPeoplelvl){
+				metOwners.put(Field.TRADE, currentPlayer);
+			}
+			if(metOwners.get(Field.TRADE)!= null){
+				game.sendToAllPlayers(new UpdateTradeMetOwnerCommand(metOwners.get(Field.TRADE).getUsername()));
+			}
+			break;
+		case POLITICS:
+			for(Player p: otherPlayers){
+				if(p.getPoliticsLevel()>otherPeoplelvl){
+					otherPeoplelvl = p.getPoliticsLevel();
+				}
+			}
+			if(currentPlayer.getPoliticsLevel()==4){
+				metOwners.put(Field.POLITICS, currentPlayer);
+			}else if(currentPlayer.getPoliticsLevel() == 5 && currentPlayer.getPoliticsLevel()>otherPeoplelvl){
+				metOwners.put(Field.POLITICS, currentPlayer);
+			}
+			if(metOwners.get(Field.POLITICS)!= null){
+				game.sendToAllPlayers(new UpdatePoliticsMetOwnerCommand(metOwners.get(Field.POLITICS).getUsername()));
+			}
+			break;
+		}
+		
+	}
+	
 }
