@@ -3,19 +3,21 @@ package catan.settlers.server.model.game.handlers;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import catan.settlers.client.view.game.FlipchartLayer.Field;
 import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
-import catan.settlers.network.client.commands.game.UpdateMetOwnerCommand;
+import catan.settlers.network.client.commands.game.UpdateLargestArmyCommand;
 import catan.settlers.network.client.commands.game.UpdatePlayerLevelsCommand;
 import catan.settlers.network.client.commands.game.UpdatePoliticsMetOwnerCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.UpdateScienceMetOwnerCommand;
 import catan.settlers.network.client.commands.game.UpdateTradeMetOwnerCommand;
 import catan.settlers.network.client.commands.game.UpdateVPCommand;
+import catan.settlers.network.server.Credentials;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.GameBoardManager;
@@ -251,6 +253,7 @@ public class TurnPhaseHandler implements Serializable {
 				updateResourcesAndBoard();
 			}
 		}
+		updateLargestArmy();
 	}
 
 	private void promoteKnight() {
@@ -288,6 +291,7 @@ public class TurnPhaseHandler implements Serializable {
 				return;
 			}
 		}
+		updateLargestArmy();
 	}
 
 	private void activateKnight() {
@@ -451,4 +455,52 @@ public class TurnPhaseHandler implements Serializable {
 		
 	}
 	
+	public void updateLargestArmy(){
+		HashMap<Player, Integer> playerStrength = new HashMap<>();
+		for (Player p : game.getParticipants())
+			playerStrength.put(p, 0);
+
+		/*
+		 * Checks all intersections. If city, +1 to barbarian strength. If
+		 * active knight, +1/2/3 to player strength
+		 */
+		for (Intersection i : gameBoardManager.getBoard().getIntersections()) {
+			IntersectionUnit unit = i.getUnit();
+			 if (unit instanceof Knight) {
+				if (((Knight) unit).isActive()) {
+					int current = 0;
+					switch (((Knight) unit).getType()) {
+					case BASIC_KNIGHT:
+						current = playerStrength.get(unit.getOwner());
+						playerStrength.put(unit.getOwner(), current + 1);
+						break;
+					case STRONG_KNIGHT:
+						current = playerStrength.get(unit.getOwner());
+						playerStrength.put(unit.getOwner(), current + 2);
+						break;
+					case MIGHTY_KNIGHT:
+						current = playerStrength.get(unit.getOwner());
+						playerStrength.put(unit.getOwner(), current + 3);
+						break;
+					}
+				}
+			}
+		}
+
+		int maxStrength = 0;
+		Player strongestPlayer = new Player(new Credentials(null, null));
+		for (Player player : playerStrength.keySet()) {
+			int curPlayerStrength = playerStrength.get(player);
+
+			if (curPlayerStrength >= maxStrength && curPlayerStrength >5) {
+				strongestPlayer = player;
+				maxStrength = curPlayerStrength;
+				
+			}
+		}
+		game.setLargestArmy(strongestPlayer);
+		if(strongestPlayer != null){
+			game.sendToAllPlayers(new UpdateLargestArmyCommand(strongestPlayer.getUsername()));
+		}
+	}
 }

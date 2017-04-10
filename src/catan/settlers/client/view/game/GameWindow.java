@@ -43,6 +43,7 @@ public class GameWindow extends MinuetoFrame {
 	private SelectHexLayer selectHexLayer;
 	private BarbarianCounterLayer barbarianCounterLayer;
 	private FlipchartLayer flipchartLayer;
+	private AchievementsLayer achievementsLayer;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
@@ -99,6 +100,7 @@ public class GameWindow extends MinuetoFrame {
 		this.selectHexLayer = new SelectHexLayer();
 		this.flipchartLayer = new FlipchartLayer();
 		this.barbarianCounterLayer = new BarbarianCounterLayer();
+		this.achievementsLayer = new AchievementsLayer();
 
 		this.imageClickableMap = new HashMap<>();
 	}
@@ -122,6 +124,7 @@ public class GameWindow extends MinuetoFrame {
 		drawLayer(topBar, 0, 0);
 		drawLayer(flipchartLayer,0,0);
 		drawLayer(barbarianCounterLayer,0,100);
+		drawLayer(achievementsLayer,0,100);
 
 		render();
 	}

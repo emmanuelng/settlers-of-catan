@@ -86,6 +86,10 @@ public class GameStateManager {
 
 	private String polMetOwner;
 
+	private String largestArmy;
+
+	private String longestRoad;
+
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
 		this.canMoveRobber = false;
@@ -573,5 +577,21 @@ public class GameStateManager {
 	}
 	public String getPolMetOwner(){
 		return polMetOwner;
+	}
+
+	public void setLargestArmy(String player) {
+		this.largestArmy = player;
+	}
+	
+	public void setLongestRoad(String player){
+		this.longestRoad = player;
+	}
+	
+	public String getLargestArmy(){
+		return this.largestArmy;
+	}
+	
+	public String getLongestRoad(){
+		return longestRoad;
 	}
 }

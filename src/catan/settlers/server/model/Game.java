@@ -46,6 +46,7 @@ public class Game implements Serializable {
 	private Hexagon inventorFirstHex, inventorSecondHex;
 	private ProgressCards progressCards;
 	private boolean bootDrawn;
+	private Player largestArmy, longestRoad;
 
 	private SetupPhaseHandler setupPhaseHandler;
 	private RollDicePhaseHandler rollDicePhaseHandler;
@@ -264,7 +265,23 @@ public class Game implements Serializable {
 	public ProgressCardHandler getProgressCardHandler() {
 		return progressCardHandler;
 	}
+	
+	public void setLargestArmy(Player p){
+		largestArmy = p;
+	}
 
+	public void setLongestroad(Player p){
+		longestRoad = p;
+	}
+	
+	public Player getLargestArmy(){
+		return largestArmy;
+	}
+	
+	public Player getLongestroad(){
+		return longestRoad;
+	}
+	
 	public void declareVictor(Player currentPlayer) {
 		sendToAllPlayers(new DeclareVictorCommand(currentPlayer.getUsername()));
 	}

@@ -87,15 +87,12 @@ public class FlipchartLayer extends ImageLayer {
 				NetworkManager nm = ClientModel.instance.getNetworkManager();
 				switch(currentField){
 				case TRADE:
-					System.out.println("tradebutton");
 					nm.sendCommand(new IncrementTradeCommand());
 					break;
 				case POLITICS:
-					System.out.println("politicsbutton");
 					nm.sendCommand(new IncrementPoliticsCommand());
 					break;
 				case SCIENCE:
-					System.out.println("sciencebutton");
 					nm.sendCommand(new IncrementScienceCommand());
 					break;
 				}
