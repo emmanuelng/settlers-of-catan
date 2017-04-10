@@ -485,41 +485,42 @@ public class TurnPhaseHandler implements Serializable {
 		for (Intersection i : gameBoardManager.getBoard().getIntersections()) {
 			IntersectionUnit unit = i.getUnit();
 			 if (unit instanceof Knight) {
-				if (((Knight) unit).isActive()) {
-					int current = 0;
-					switch (((Knight) unit).getType()) {
-					case BASIC_KNIGHT:
-						current = playerStrength.get(unit.getOwner());
-						playerStrength.put(unit.getOwner(), current + 1);
-						break;
-					case STRONG_KNIGHT:
-						current = playerStrength.get(unit.getOwner());
-						playerStrength.put(unit.getOwner(), current + 2);
-						break;
-					case MIGHTY_KNIGHT:
-						current = playerStrength.get(unit.getOwner());
-						playerStrength.put(unit.getOwner(), current + 3);
-						break;
-					}
+				int current = 0;
+				switch (((Knight) unit).getType()) {
+				case BASIC_KNIGHT:
+					current = playerStrength.get(unit.getOwner());
+					playerStrength.put(unit.getOwner(), current + 1);
+					break;
+				case STRONG_KNIGHT:
+					current = playerStrength.get(unit.getOwner());
+					playerStrength.put(unit.getOwner(), current + 2);
+					break;
+				case MIGHTY_KNIGHT:
+					current = playerStrength.get(unit.getOwner());
+					playerStrength.put(unit.getOwner(), current + 3);
+					break;
 				}
+				
 			}
 		}
 
 		int maxStrength = 0;
 		Player strongestPlayer = new Player(new Credentials(null, null));
-		for (Player player : playerStrength.keySet()) {
+		for (Player player : game.getParticipants()) {
 			int curPlayerStrength = playerStrength.get(player);
-
-			if (curPlayerStrength >= maxStrength && curPlayerStrength >5) {
+			System.out.println(player.getUsername());
+			if (curPlayerStrength >= maxStrength && curPlayerStrength >= 5) {
+				System.out.println(curPlayerStrength);
 				strongestPlayer = player;
 				maxStrength = curPlayerStrength;
-				
+				game.setLargestArmy(strongestPlayer);
+				game.sendToAllPlayers(new UpdateLargestArmyCommand(strongestPlayer.getUsername()));
 			}
-		}
-		game.setLargestArmy(strongestPlayer);
-		if(strongestPlayer != null){
-			game.sendToAllPlayers(new UpdateLargestArmyCommand(strongestPlayer.getUsername()));
 		}
 	}
 	
+	
+	public void updateLongestRoad(){
+		
+	}
 }

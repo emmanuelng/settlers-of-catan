@@ -277,7 +277,11 @@ public class Game implements Serializable {
 	}
 
 	public void setLargestArmy(Player p) {
-		largestArmy = p;
+		if(largestArmy!= p){
+			largestArmy.decrementVP(2);
+			largestArmy = p;	
+			p.incrementVP(2);
+		} 
 	}
 
 	public void setLongestroad(Player p) {
