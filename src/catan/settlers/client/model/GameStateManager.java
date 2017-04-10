@@ -54,11 +54,12 @@ public class GameStateManager {
 	private boolean showSelectCardTypeMenu;
 	private boolean showSelectCommodityMenu;
 	private boolean doShowSelectHexLayer;
-	
+	private boolean doShowSaveMenu;
+
 	public enum SelectionReason {
-		STEAL_RESOURCE, DESERTER, GIVE_BOOT, 
+		STEAL_RESOURCE, DESERTER, GIVE_BOOT,
 	}
-	
+
 	private SelectionReason currentReason;
 
 	private String dboxTitle;
@@ -86,9 +87,7 @@ public class GameStateManager {
 	private boolean showFlipChart;
 
 	private String scienceMetOwner;
-
 	private String tradeMetOwner;
-
 	private String polMetOwner;
 
 	public GameStateManager(int gameId) {
@@ -504,11 +503,11 @@ public class GameStateManager {
 	public void setSelectCommodityMessage(String string) {
 		this.selectCommodityMsg = string;
 	}
-	
+
 	public void setSelectionReason(SelectionReason r) {
 		this.currentReason = r;
 	}
-	
+
 	public SelectionReason getSelectionReason() {
 		return currentReason;
 	}
@@ -564,19 +563,32 @@ public class GameStateManager {
 	public void setScienceMetOwner(String scienceMetOwner) {
 		this.scienceMetOwner = scienceMetOwner;
 	}
+
 	public void setTradeMetOwner(String tradeMetOwner) {
 		this.tradeMetOwner = tradeMetOwner;
 	}
+
 	public void setPolMetOwner(String polMetOwner) {
 		this.polMetOwner = polMetOwner;
 	}
-	public String getScienceMetOwner(){
+
+	public String getScienceMetOwner() {
 		return scienceMetOwner;
 	}
-	public String getTradeMetOwner(){
+
+	public String getTradeMetOwner() {
 		return tradeMetOwner;
 	}
-	public String getPolMetOwner(){
+
+	public String getPolMetOwner() {
 		return polMetOwner;
+	}
+
+	public void setShowSaveMenu(boolean b) {
+		this.doShowSaveMenu = b;
+	}
+
+	public boolean getShowSaveMenu() {
+		return doShowSaveMenu;
 	}
 }
