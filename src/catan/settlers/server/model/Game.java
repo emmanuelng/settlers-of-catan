@@ -11,6 +11,7 @@ import catan.settlers.network.client.commands.game.DeclareVictorCommand;
 import catan.settlers.network.client.commands.game.GamePhaseChangedCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
+import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
 import catan.settlers.network.client.commands.game.SetParticipantsCommand;
 import catan.settlers.network.client.commands.game.UpdateCardsCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
@@ -52,6 +53,7 @@ public class Game implements Serializable {
 	private RollDicePhaseHandler rollDicePhaseHandler;
 	private TurnPhaseHandler turnPhaseHandler;
 	private ProgressCardHandler progressCardHandler;
+	private GamePhase prevPhase;
 
 	public Game(int id, Credentials owner) {
 		this.id = id;
@@ -80,7 +82,30 @@ public class Game implements Serializable {
 		for (Player p : participants) {
 			sendPlayerState(p);
 			if (currentPhase == GamePhase.PAUSED) {
-				p.sendCommand(new CurrentPlayerChangedCommand(currentPlayer.getUsername()));
+				switch (prevPhase) {
+				case TURNPHASE:
+					p.sendCommand(new CurrentPlayerChangedCommand(currentPlayer.getUsername()));
+					break;
+				case SETUPPHASEONE:
+					if (p == currentPlayer) {
+						p.sendCommand(new PlaceElmtsSetupPhaseCommand(true));
+					} else {
+						p.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
+					}
+					break;
+				case SETUPPHASETWO:
+					if (p == currentPlayer) {
+						p.sendCommand(new PlaceElmtsSetupPhaseCommand(false));
+					} else {
+						p.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
+					}
+					break;
+				case ROLLDICEPHASE:
+					p.sendCommand(new RollDicePhaseCommand(currentPlayer.getUsername()));
+					break;
+				default:
+					break;
+				}
 			} else {
 				if (p == currentPlayer) {
 					p.sendCommand(new PlaceElmtsSetupPhaseCommand(true));
@@ -88,6 +113,11 @@ public class Game implements Serializable {
 					p.sendCommand(new WaitForPlayerCommand(currentPlayer.getUsername()));
 				}
 			}
+		}
+
+		if (currentPhase == GamePhase.PAUSED) {
+			currentPhase = prevPhase;
+			sendToAllPlayers(new GamePhaseChangedCommand(currentPhase));
 		}
 
 	}
@@ -135,7 +165,7 @@ public class Game implements Serializable {
 
 	public synchronized void saveToFile() {
 		try {
-			GamePhase prevPhase = currentPhase;
+			prevPhase = currentPhase;
 			currentPhase = GamePhase.PAUSED;
 
 			String filename = "saves/game" + getGameId() + ".catan";
@@ -277,11 +307,7 @@ public class Game implements Serializable {
 	}
 
 	public void setLargestArmy(Player p) {
-		if(largestArmy!= p){
-			largestArmy.decrementVP(2);
-			largestArmy = p;	
-			p.incrementVP(2);
-		} 
+		largestArmy = p;
 	}
 
 	public void setLongestroad(Player p) {
