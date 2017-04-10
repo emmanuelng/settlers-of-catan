@@ -26,12 +26,11 @@ public class ClientModel {
 	public GameStateManager getGameStateManager() {
 		return gameStateManager;
 	}
-	
+
 	public ActionManager getActionManager() {
 		return actionManager;
 	}
 
-	
 	public void joinGame(int gameId) {
 		networkManager.sendCommand(new JoinGameCommand(gameId));
 	}
@@ -51,5 +50,9 @@ public class ClientModel {
 
 	public ImageFileManager getImageFileManager() {
 		return imageFileManager;
+	}
+
+	public void resetGameStateManager() {
+		this.gameStateManager = null;
 	}
 }

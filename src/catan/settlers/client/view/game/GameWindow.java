@@ -43,6 +43,7 @@ public class GameWindow extends MinuetoFrame {
 	private SelectHexLayer selectHexLayer;
 	private BarbarianCounterLayer barbarianCounterLayer;
 	private FlipchartLayer flipchartLayer;
+	private SaveAndExitMenuLayer saveAndExitMenuLayer;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
@@ -57,16 +58,15 @@ public class GameWindow extends MinuetoFrame {
 			while (eventQueue.hasNext())
 				eventQueue.handle();
 
-			updateWindow();
-
 			try {
+				updateWindow();
 				Thread.sleep(1000 / FPS);
 			} catch (InterruptedException e) {
 				// Ignore
 			}
 		}
 
-		close();
+		setVisible(false);
 	}
 
 	private void initialize() {
@@ -99,6 +99,7 @@ public class GameWindow extends MinuetoFrame {
 		this.selectHexLayer = new SelectHexLayer();
 		this.flipchartLayer = new FlipchartLayer();
 		this.barbarianCounterLayer = new BarbarianCounterLayer();
+		this.saveAndExitMenuLayer = new SaveAndExitMenuLayer();
 
 		this.imageClickableMap = new HashMap<>();
 	}
@@ -120,8 +121,9 @@ public class GameWindow extends MinuetoFrame {
 		drawLayer(selectCommodityMenuLayer, 0, 0);
 		drawLayer(selectHexLayer, 0, 0);
 		drawLayer(topBar, 0, 0);
-		drawLayer(flipchartLayer,0,0);
-		drawLayer(barbarianCounterLayer,0,100);
+		drawLayer(flipchartLayer, 0, 0);
+		drawLayer(barbarianCounterLayer, 10, 105);
+		drawLayer(saveAndExitMenuLayer, 0, 0);
 
 		render();
 	}
@@ -248,5 +250,9 @@ public class GameWindow extends MinuetoFrame {
 			TopBarLayer.resourceColors.put(rtype, color);
 		}
 		return TopBarLayer.resourceColors.get(rtype);
+	}
+
+	public synchronized void stopGame() {
+		open = false;
 	}
 }

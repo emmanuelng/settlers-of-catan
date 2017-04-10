@@ -27,7 +27,7 @@ import catan.settlers.server.model.map.Hexagon;
 public class Game implements Serializable {
 
 	public static enum GamePhase {
-		READYTOJOIN, SETUPPHASEONE, SETUPPHASETWO, ROLLDICEPHASE, TURNPHASE
+		READYTOJOIN, SETUPPHASEONE, SETUPPHASETWO, ROLLDICEPHASE, TURNPHASE, PAUSED
 	}
 
 	private static final long serialVersionUID = -5752967531725278325L;
@@ -129,12 +129,17 @@ public class Game implements Serializable {
 
 	public synchronized void saveToFile() {
 		try {
+			GamePhase prevPhase = currentPhase;
+			currentPhase = GamePhase.PAUSED;
+			
 			String filename = "saves/game" + getGameId() + ".catan";
 			FileOutputStream fos = new FileOutputStream(filename);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(this);
 			oos.close();
 			fos.close();
+			
+			currentPhase = prevPhase;
 			System.out.println("Game saved as " + filename);
 		} catch (Exception e) {
 			e.printStackTrace();

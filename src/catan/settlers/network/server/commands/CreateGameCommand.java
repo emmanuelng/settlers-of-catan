@@ -14,7 +14,7 @@ public class CreateGameCommand implements ClientToServerCommand {
 		try {
 			Game game = server.getGameManager().createGame(sender.getCredentials());
 			sender.sendCommand(new JoinGameResponseCommand(true, "Success!", game));
-			int nbOfGames = server.getGameManager().getListOfGames().size();
+			int nbOfGames = server.getGameManager().getListOfPublicGames().size();
 			server.writeToConsole("New game created. There are now " + nbOfGames + " games");
 		} catch (Exception e) {
 			// Ignore

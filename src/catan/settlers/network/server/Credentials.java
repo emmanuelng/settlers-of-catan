@@ -20,4 +20,13 @@ public class Credentials implements Serializable {
 	public boolean comparePassword(String other) {
 		return password.equals(other);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Credentials) {
+			Credentials other = (Credentials) obj;
+			return other.username.equals(username) && other.password.equals(password);
+		}
+		return false;
+	}
 }

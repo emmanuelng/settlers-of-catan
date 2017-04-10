@@ -1,5 +1,6 @@
 package catan.settlers.client.view.setup;
 
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -19,19 +20,31 @@ public class Lobby extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JButton backButton, createGameButton;
 	private JLabel publicGamesLabel;
+	private JLabel savedGamesLabel;
 
-	public Lobby(ArrayList<GameRepresentation> games) {
+	public Lobby(ArrayList<GameRepresentation> publicGames, ArrayList<GameRepresentation> savedGames) {
 		backButton = new JButton("Back");
 		createGameButton = new JButton("Create new game");
 		publicGamesLabel = new JLabel("Public Games");
 
+		savedGamesLabel = new JLabel("Saved games");
+
 		add(backButton);
 		add(createGameButton);
-		add(publicGamesLabel);
 
-		for (int i = 0; i < games.size(); i++) {
-			JButton gameButton = new JButton("Game " + i);
-			gameButton.addActionListener(new JoinGameActionListener(games.get(i)));
+		add(publicGamesLabel);
+		for (int i = 0; i < publicGames.size(); i++) {
+			GameRepresentation curGame = publicGames.get(i);
+			JButton gameButton = new JButton("Game " + curGame.getGameId());
+			gameButton.addActionListener(new JoinGameActionListener(curGame));
+			add(gameButton); // TODO: add some layout later
+		}
+
+		add(savedGamesLabel);
+		for (int i = 0; i < savedGames.size(); i++) {
+			GameRepresentation curGame = savedGames.get(i);
+			JButton gameButton = new JButton("Game " + curGame.getGameId());
+			gameButton.addActionListener(new JoinGameActionListener(curGame));
 			add(gameButton); // TODO: add some layout later
 		}
 

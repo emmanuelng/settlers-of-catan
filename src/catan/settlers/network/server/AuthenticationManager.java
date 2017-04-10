@@ -49,7 +49,11 @@ public class AuthenticationManager {
 	}
 
 	public Session getSessionByCredentials(Credentials cred) {
-		return registeredPlayers.get(cred);
+		for (Credentials curCred : registeredPlayers.keySet())
+			if (curCred.equals(cred))
+				return registeredPlayers.get(curCred);
+				
+		return null;
 	}
 
 	public Credentials getCredentialsBySession(Session s) {

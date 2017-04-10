@@ -35,7 +35,7 @@ public class ClientWindow {
 	}
 
 	public void switchToSetup() {
-		gameWindow.setVisible(false);
+		gameWindow.stopGame();
 		setupWindow.setVisible(true);
 	}
 

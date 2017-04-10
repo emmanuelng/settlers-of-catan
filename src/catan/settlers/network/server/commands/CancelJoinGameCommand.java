@@ -23,7 +23,8 @@ public class CancelJoinGameCommand implements ClientToServerCommand {
 		game.getPlayersManager().removePlayer(sender.getCredentials());
 
 		try {
-			sender.sendCommand(new CancelJoinGameResponseCommand(server.getGameManager().getListOfGames()));
+			sender.sendCommand(new CancelJoinGameResponseCommand(server.getGameManager().getListOfPublicGames(),
+					server.getGameManager().getSavedGames(sender.getCredentials())));
 			for (String username : game.getPlayersManager().getParticipantsUsernames()) {
 				if (username != sender.getCredentials().getUsername()) {
 					Session playerSession = server.getAuthManager().getSessionByUsername(username);

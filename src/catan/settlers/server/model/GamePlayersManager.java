@@ -35,6 +35,10 @@ public class GamePlayersManager implements Serializable, SessionObserver {
 
 	public JoinStatus addPlayer(Credentials playerCred) {
 		if (getGame() != null) {
+			if (getGame().getGamePhase() == GamePhase.PAUSED)
+				if (isParticipant(playerCred))
+					return JoinStatus.SUCCESS;
+
 			if (getGame().getGamePhase() != GamePhase.READYTOJOIN) {
 				return JoinStatus.INVALID_GAME_STATUS;
 			}

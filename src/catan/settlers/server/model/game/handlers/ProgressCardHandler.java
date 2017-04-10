@@ -1,5 +1,6 @@
 package catan.settlers.server.model.game.handlers;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -38,8 +39,9 @@ import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.units.Knight;
 import catan.settlers.server.model.units.Village;
 
-public class ProgressCardHandler {
+public class ProgressCardHandler implements Serializable {
 
+	private static final long serialVersionUID = 4870364720277618607L;
 	private Game game;
 	private Player currentPlayer;
 
@@ -270,7 +272,7 @@ public class ProgressCardHandler {
 		BishopSetHandler set = new BishopSetHandler();
 		set.waitForPlayer(sender);
 		game.setCurSetOfOpponentMove(set);
-		
+
 		sender.sendCommand(new MoveRobberCommand(true));
 		game.sendToAllPlayers(new BishopCommand(sender.getUsername()));
 

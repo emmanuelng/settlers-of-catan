@@ -23,6 +23,7 @@ public class Server extends Thread {
 			try {
 				instance = new Server();
 			} catch (IOException e) {
+				e.printStackTrace();
 				System.exit(0);
 			}
 		}

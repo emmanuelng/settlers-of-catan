@@ -14,8 +14,6 @@ import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.units.Knight.KnightType;
 import catan.settlers.server.model.units.Port.PortKind;
-import catan.settlers.server.model.units.Village;
-import catan.settlers.server.model.units.Village.VillageKind;
 
 public class Player implements Serializable {
 
