@@ -12,7 +12,7 @@ public class ManageLevelsAction implements GameAction {
 
 	@Override
 	public String getDescription() {
-		return "Open flipchart";
+		return "Toggle Flipchart";
 	}
 
 	@Override
@@ -20,8 +20,10 @@ public class ManageLevelsAction implements GameAction {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		if(!gsm.getDoShowFlipchartLayer()){
 			gsm.setShowFlipchartLayer(true);
+			
 		}else if(gsm.getDoShowFlipchartLayer()){
 			gsm.setShowFlipchartLayer(false);
+			
 		}
 	}
 

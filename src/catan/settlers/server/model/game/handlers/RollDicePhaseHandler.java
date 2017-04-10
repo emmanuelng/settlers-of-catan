@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import catan.settlers.network.client.commands.game.AqueductCommand;
 import catan.settlers.network.client.commands.game.BarbarianAttackCommand;
 import catan.settlers.network.client.commands.game.ChooseProgressCardCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
@@ -14,8 +15,11 @@ import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.UpdateVPCommand;
 import catan.settlers.network.client.commands.game.WaitForSetOfOpponentMoveCommand;
+import catan.settlers.network.client.commands.game.cards.MerchantFleetCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Game.GamePhase;
+import catan.settlers.server.model.game.handlers.set.AqueductSetHandler;
+import catan.settlers.server.model.game.handlers.set.MerchantFleetSetHandler;
 import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
 import catan.settlers.server.model.game.handlers.set.SevenDiscardSetHandler;
 import catan.settlers.server.model.GameBoardManager;
@@ -181,12 +185,19 @@ public class RollDicePhaseHandler implements Serializable {
 	private void distributeResources() {
 		HashSet<Player> playersWhoDrew = gameBoardManager.produceResources(redDie + yellowDie);
 		for (Player p : participants) {
-			p.sendCommand(new NormalDiceRollCommand(redDie, yellowDie));
-			p.sendCommand(new UpdateResourcesCommand(p.getResources()));
 
 			if (!playersWhoDrew.contains(p) && p.hasAqueduct()) {
 				// TODO: select a card
+				AqueductSetHandler set = new AqueductSetHandler();
+				set.waitForPlayer(p);
+				game.setCurSetOfOpponentMove(set);
+
+				p.sendCommand(new AqueductCommand(p.getUsername()));
+				p.sendCommand(new NormalDiceRollCommand(redDie, yellowDie));
+			}else{
+				p.sendCommand(new NormalDiceRollCommand(redDie, yellowDie));
 			}
+			p.sendCommand(new UpdateResourcesCommand(p.getResources()));
 		}
 	}
 

@@ -73,7 +73,7 @@ public class FlipchartLayer extends ImageLayer {
 		this.scienceButtonBg = new MinuetoRectangle(leftBarWidth - 10, 35, new MinuetoColor(55, 200, 113), true);
 		this.scienceText = new MinuetoText("Science", description_font_bold, new MinuetoColor(33, 120, 68));
 		
-		this.levelUpBtn = new Button(this, "Go to next improvement level", new MinuetoColor(55, 200, 113),getPlayerConfirmListener());
+		this.levelUpBtn = new Button(this, "Level Up", new MinuetoColor(55, 200, 113),getPlayerConfirmListener());
 				
 	}
 
@@ -99,7 +99,6 @@ public class FlipchartLayer extends ImageLayer {
 					nm.sendCommand(new IncrementScienceCommand());
 					break;
 				}
-				compose(ClientModel.instance.getGameStateManager());
 			}
 		};
 	}
@@ -189,15 +188,23 @@ public class FlipchartLayer extends ImageLayer {
 		y_offset += fieldTitle.getHeight() + 10;
 
 		int level = 0;
+		String building = "";
+		String buildingDescription = "";
 		switch (currentField) {
 		case TRADE:
 			level = gsm.getTradeImprovementLevel();
+			building = "Trading House";
+			buildingDescription = "You may now trade 2 commodity for any resource";
 			break;
 		case POLITICS:
 			level = gsm.getPoliticsImprovementLevel();
+			building = "Barracks";
+			buildingDescription = "You may now hire mighty knights";
 			break;
 		case SCIENCE:
 			level = gsm.getScienceImprovementLevel();
+			building = "Aqueduct";
+			buildingDescription = "You may now choose to take a resource of your choice when a dice is rolled.";
 			break;
 		}
 
@@ -206,12 +213,19 @@ public class FlipchartLayer extends ImageLayer {
 		draw(fieldLevel, x_offset, y_offset);
 		y_offset += fieldLevel.getHeight() + 30;
 
-		MinuetoText buildingText = new MinuetoText("BUILDINGS", title_font, MinuetoColor.BLACK);
-		draw(buildingText, x_offset, y_offset);
-		y_offset += buildingText.getHeight() + 15;
+		if(level>=3){
+			MinuetoText buildingText = new MinuetoText(building, title_font, MinuetoColor.BLACK);
+			draw(buildingText, x_offset, y_offset);
+			y_offset += buildingText.getHeight() + 15;
+			
+			MinuetoText buildingDes = new MinuetoText(buildingDescription, field_description_font, MinuetoColor.BLACK);
+			draw(buildingDes, x_offset, y_offset);
+			y_offset += buildingDes.getHeight() + 15;
+		}
+		
 
 		MinuetoImage levelUp = levelUpBtn.getImage();
-		draw(levelUp, box_x + WIDTH - levelUp.getWidth() - 10, box_y + HEIGHT - levelUp.getHeight() - 10);
+		draw(levelUp, box_x + WIDTH - levelUp.getWidth() - 50, box_y + HEIGHT - levelUp.getHeight() - 10);
 	}
 	
 	private void overrideClickables() {
