@@ -7,6 +7,7 @@ import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager.SelectionReason;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
+import catan.settlers.server.model.game.handlers.FishHandler.FishAction;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
@@ -27,7 +28,7 @@ public class TurnData implements Serializable {
 
 	public static enum TurnAction {
 		BUILD_SETTLEMENT, BUILD_KNIGHT, BUILD_ROAD, UPGRADE_SETTLEMENT, UPGRADE_KNIGHT, BUILD_WALL, END_TURN, ACTIVATE_KNIGHT, PROGRESS_CARD, DISPLACE_KNIGHT, SEVEN_DISCARD, 
-		ROLL_DICE, BUILD_SHIP, RESOURCE_SELECTED, PLAYER_SELECTED, HEX_SELECTED,POLITICS_CITY_IMPROVEMENT,SCIENCE_CITY_IMPROVEMENT, TRADE_CITY_IMPROVEMENT, STEAL_RESOURCE
+		ROLL_DICE, BUILD_SHIP, RESOURCE_SELECTED, PLAYER_SELECTED, HEX_SELECTED,POLITICS_CITY_IMPROVEMENT,SCIENCE_CITY_IMPROVEMENT, TRADE_CITY_IMPROVEMENT, STEAL_RESOURCE, FISH_ACTION
 	}
 
 	private Intersection selectedIntersection;
@@ -41,6 +42,7 @@ public class TurnData implements Serializable {
 	private int selectedHex_x;
 	private int selectedHex_y;
 	private SelectionReason reason;
+	private FishAction fishAction;
 
 	public TurnData(TurnAction action) {
 		ClientModel cm = ClientModel.instance;
@@ -112,6 +114,14 @@ public class TurnData implements Serializable {
 	
 	public SelectionReason getSelectionReason() {
 		return reason;
+	}
+	
+	public void setFishAction(FishAction f) {
+		fishAction = f;
+	}
+	
+	public FishAction getFishAction() {
+		return fishAction;
 	}
 
 	public void setSelectedHex(Hexagon hex, GameBoard gameBoard) {

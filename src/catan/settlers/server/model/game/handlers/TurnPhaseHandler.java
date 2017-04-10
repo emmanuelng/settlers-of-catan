@@ -44,6 +44,7 @@ public class TurnPhaseHandler implements Serializable {
 	private Intersection selectedIntersection;
 	private Knight selectedKnight;
 	private HashMap<Field,Player> metOwners;
+	private FishHandler fishHandler;
 
 	public TurnPhaseHandler(Game game) {
 		this.game = game;
@@ -51,7 +52,7 @@ public class TurnPhaseHandler implements Serializable {
 		for(Field f : Field.values()){
 			metOwners.put(f, null);
 		}
-		
+		fishHandler = new FishHandler(game);
 	}
 
 	public void handle(Player sender, TurnData data) {
@@ -98,6 +99,9 @@ public class TurnPhaseHandler implements Serializable {
 			break;
 		case PLAYER_SELECTED:
 			handlePlayerSelected(data);
+			break;
+		case FISH_ACTION:
+			fishHandler.handle(sender, data.getFishAction());
 			break;
 		case POLITICS_CITY_IMPROVEMENT:
 			PoliticsCityImprovement();
