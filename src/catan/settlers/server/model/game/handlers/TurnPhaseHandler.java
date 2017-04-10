@@ -6,8 +6,9 @@ import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
-import catan.settlers.network.client.commands.game.UpdatePlayerCommand;
+import catan.settlers.network.client.commands.game.UpdatePlayerLevelsCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
+import catan.settlers.network.client.commands.game.UpdateVPCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.GameBoardManager;
@@ -136,6 +137,8 @@ public class TurnPhaseHandler implements Serializable {
 
 			if (cost.canPay(currentPlayer)) {
 				selectedIntersection.setUnit(village);
+				currentPlayer.incrementVP(1);
+				currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
 				updateResourcesAndBoard();
 			}
 		}
@@ -172,6 +175,8 @@ public class TurnPhaseHandler implements Serializable {
 			if (cost.canPay(currentPlayer)) {
 				village.upgradeToCity();
 				cost.removeResources(currentPlayer);
+				currentPlayer.incrementVP(1);
+				currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
 				updateResourcesAndBoard();
 			}
 		}
@@ -306,6 +311,9 @@ public class TurnPhaseHandler implements Serializable {
 			p.resetTradeAtAdvantage();
 
 		// TODO Check for victory
+		if(game.getCurrentPlayer().getVP()>=13){
+			game.declareVictor(currentPlayer);
+		}
 
 		game.setGamePhase(GamePhase.ROLLDICEPHASE);
 		game.sendToAllPlayers(new RollDicePhaseCommand(nextPlayer.getUsername()));
@@ -319,15 +327,16 @@ public class TurnPhaseHandler implements Serializable {
 	}
 
 	private void updatePlayerCondition() {
-		currentPlayer.sendCommand(new UpdatePlayerCommand(currentPlayer));
+		currentPlayer.sendCommand(new UpdatePlayerLevelsCommand(currentPlayer.getPoliticsLevel(),currentPlayer.getTradeLevel(),currentPlayer.getScienceLevel()));
 	}
 	
 	private void PoliticsCityImprovement() {
 		int level = currentPlayer.getPoliticsLevel() + 1;
 		Cost cost = new Cost();
 		cost.addPriceEntry(ResourceType.COIN, level);
+		
 		if (cost.canPay(currentPlayer)) {
-			currentPlayer.incrementPolitics();
+			currentPlayer.setPoliticsLvl(level);
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
 			updatePlayerCondition();
@@ -339,7 +348,7 @@ public class TurnPhaseHandler implements Serializable {
 		Cost cost = new Cost();
 		cost.addPriceEntry(ResourceType.PAPER, level);
 		if (cost.canPay(currentPlayer)) {
-			currentPlayer.incrementScience();
+			currentPlayer.setScienceLvl(level);
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
 			updatePlayerCondition();
@@ -351,7 +360,7 @@ public class TurnPhaseHandler implements Serializable {
 		Cost cost = new Cost();
 		cost.addPriceEntry(ResourceType.CLOTH, level);
 		if (cost.canPay(currentPlayer)) {
-			currentPlayer.incrementTrade();
+			currentPlayer.setTradeLvl(level);
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
 			updatePlayerCondition();

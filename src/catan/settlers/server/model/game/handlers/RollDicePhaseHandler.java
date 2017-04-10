@@ -12,6 +12,7 @@ import catan.settlers.network.client.commands.game.NormalDiceRollCommand;
 import catan.settlers.network.client.commands.game.UpdateBarbarianCounterCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
+import catan.settlers.network.client.commands.game.UpdateVPCommand;
 import catan.settlers.network.client.commands.game.WaitForSetOfOpponentMoveCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Game.GamePhase;
@@ -265,6 +266,8 @@ public class RollDicePhaseHandler implements Serializable {
 				if (cities.size() != 0) {
 					Village v = cities.remove((int)Math.random()*cities.size());
 					v.destroyCity();
+					p.decrementVP(1);
+					p.sendCommand(new UpdateVPCommand(game.getCurrentPlayer().getVP()));
 				}
 			}
 		} else {

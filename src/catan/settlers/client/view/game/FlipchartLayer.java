@@ -28,7 +28,6 @@ public class FlipchartLayer extends ImageLayer {
 	private static final MinuetoFont field_title_font = new MinuetoFont("arial", 25, true, false);
 	private static final MinuetoFont field_description_font = new MinuetoFont("arial", 20, false, false);
 	private static final MinuetoFont description_font_bold = new MinuetoFont("arial", 17, true, false);
-	private static final MinuetoColor cancel_btn_color =new MinuetoColor(255, 153, 85);
 
 	private Field currentField;
 
@@ -37,7 +36,9 @@ public class FlipchartLayer extends ImageLayer {
 	private MinuetoRectangle border;
 	private MinuetoText title;
 	private int leftBarWidth;
+	private int rightPartWidth;
 	private MinuetoRectangle leftBarBg;
+	private MinuetoRectangle rightPartBg;
 	private MinuetoRectangle tradeButtonBg;
 	private MinuetoText tradeText;
 	private MinuetoImage politicsButtonBg;
@@ -46,8 +47,7 @@ public class FlipchartLayer extends ImageLayer {
 	private MinuetoImage scienceText;
 	private Button levelUpBtn;
 	private boolean clear;
-	private Button cancelButton;
-
+	
 	public FlipchartLayer() {
 
 		this.currentField = Field.TRADE;
@@ -61,6 +61,9 @@ public class FlipchartLayer extends ImageLayer {
 		this.leftBarWidth = title.getWidth() + 40;
 		this.leftBarBg = new MinuetoRectangle(leftBarWidth, HEIGHT, new MinuetoColor(222, 170, 135), true);
 
+		this.rightPartWidth = WIDTH - leftBarWidth;
+		this.rightPartBg = new MinuetoRectangle(rightPartWidth, HEIGHT, bg_color , true);
+		
 		this.tradeButtonBg = new MinuetoRectangle(leftBarWidth - 10, 35, new MinuetoColor(255, 221, 85), true);
 		this.tradeText = new MinuetoText("Trade", description_font_bold, new MinuetoColor(170, 136, 0));
 
@@ -69,41 +72,39 @@ public class FlipchartLayer extends ImageLayer {
 
 		this.scienceButtonBg = new MinuetoRectangle(leftBarWidth - 10, 35, new MinuetoColor(55, 200, 113), true);
 		this.scienceText = new MinuetoText("Science", description_font_bold, new MinuetoColor(33, 120, 68));
-
-		this.cancelButton = new Button(this, "Cancel", cancel_btn_color, new ClickListener() {
-			@Override
-			public void onClick() {
-				GameStateManager gsm = ClientModel.instance.getGameStateManager();
-				gsm.setShowFlipchartLayer(false);
-
-			}
-		});
 		
-		this.levelUpBtn = new Button(this, "Go to next improvement level", new MinuetoColor(55, 200, 113),
-				new ClickListener() {
-
-					@Override
-					public void onClick() {
-						NetworkManager nm = ClientModel.instance.getNetworkManager();
-						switch(currentField){
-						case TRADE:
-							System.out.println("tradebutton");
-							nm.sendCommand(new IncrementTradeCommand());
-							break;
-						case POLITICS:
-							System.out.println("politicsbutton");
-							nm.sendCommand(new IncrementPoliticsCommand());
-							break;
-						case SCIENCE:
-							System.out.println("sciencebutton");
-							nm.sendCommand(new IncrementScienceCommand());
-							break;
-						}
-					}
-				});
+		this.levelUpBtn = new Button(this, "Go to next improvement level", new MinuetoColor(55, 200, 113),getPlayerConfirmListener());
+				
 	}
 
 	
+	private ClickListener getPlayerConfirmListener() {
+		// TODO Auto-generated method stub
+		return new ClickListener() {
+
+			@Override
+			public void onClick() {
+				NetworkManager nm = ClientModel.instance.getNetworkManager();
+				switch(currentField){
+				case TRADE:
+					System.out.println("tradebutton");
+					nm.sendCommand(new IncrementTradeCommand());
+					break;
+				case POLITICS:
+					System.out.println("politicsbutton");
+					nm.sendCommand(new IncrementPoliticsCommand());
+					break;
+				case SCIENCE:
+					System.out.println("sciencebutton");
+					nm.sendCommand(new IncrementScienceCommand());
+					break;
+				}
+				compose(ClientModel.instance.getGameStateManager());
+			}
+		};
+	}
+
+
 	@Override
 	public void compose(GameStateManager gsm) {
 		if (!gsm.getDoShowFlipchartLayer()) {
@@ -120,15 +121,13 @@ public class FlipchartLayer extends ImageLayer {
 		
 		draw(background, box_x, box_y);
 		draw(leftBarBg, box_x, box_y);
+		draw(rightPartBg, box_x+leftBarBg.getWidth(),box_y);
+		draw(border, box_x, box_y);
 		overrideClickables();
-		
 		drawLeftBar();
 		drawRightPart(gsm);
 		
 		
-
-		draw(border, box_x, box_y);
-
 	}
 
 	private void drawLeftBar() {
@@ -202,6 +201,7 @@ public class FlipchartLayer extends ImageLayer {
 			break;
 		}
 
+
 		MinuetoText fieldLevel = new MinuetoText("Level " + level, field_description_font, MinuetoColor.BLACK);
 		draw(fieldLevel, x_offset, y_offset);
 		y_offset += fieldLevel.getHeight() + 30;
@@ -212,9 +212,6 @@ public class FlipchartLayer extends ImageLayer {
 
 		MinuetoImage levelUp = levelUpBtn.getImage();
 		draw(levelUp, box_x + WIDTH - levelUp.getWidth() - 10, box_y + HEIGHT - levelUp.getHeight() - 10);
-		
-		MinuetoImage cancel = cancelButton.getImage();
-		draw(cancel, box_x + WIDTH - levelUp.getWidth() - cancel.getWidth() - 30, box_y + HEIGHT - levelUp.getHeight() - 10);
 	}
 	
 	private void overrideClickables() {

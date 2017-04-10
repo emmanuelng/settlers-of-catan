@@ -14,6 +14,8 @@ import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.units.Knight.KnightType;
 import catan.settlers.server.model.units.Port.PortKind;
+import catan.settlers.server.model.units.Village;
+import catan.settlers.server.model.units.Village.VillageKind;
 
 public class Player implements Serializable {
 
@@ -57,7 +59,7 @@ public class Player implements Serializable {
 		this.victoryP = 0;
 
 		for (ResourceType resType : ResourceType.values()) {
-			resources.put(resType, 0);
+			resources.put(resType, 12);
 		}
 
 		for (PortKind portKind : PortKind.values()) {
@@ -330,6 +332,7 @@ public class Player implements Serializable {
 		return ret;
 	}
 
+	
 	public void setCurrentSelectedResource(ResourceType resource) {
 		this.currentlySelectedResource = resource;
 	}
@@ -381,15 +384,15 @@ public class Player implements Serializable {
 		return selectedHex;
 	}
 
-	public void incrementTrade() {
-		tradeImprovement++;
+	public void setTradeLvl(int lvl) {
+		tradeImprovement = lvl ;
 	}
 
-	public void incrementPolitics() {
-		politicsImprovement++;
+	public void setPoliticsLvl(int lvl) {
+		politicsImprovement = lvl ;
 	}
 
-	public void incrementScience() {
-		scienceImprovement++;
+	public void setScienceLvl(int lvl) {
+		scienceImprovement = lvl;
 	}
 }
