@@ -1,26 +1,29 @@
 package catan.settlers.server.model.game.handlers;
 
+import java.io.Serializable;
+
 import catan.settlers.network.client.commands.game.ChooseProgressCardCommand;
 import catan.settlers.network.client.commands.game.FishResourceCommand;
 import catan.settlers.network.client.commands.game.SelectPlayerToStealFromCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 
-public class FishHandler {
-	
+public class FishHandler implements Serializable {
+
+	private static final long serialVersionUID = 2035231735693549521L;
 	private Game game;
 	private Player currentPlayer;
-	
+
 	public FishHandler(Game game) {
 		this.game = game;
 	}
-	
+
 	public enum FishAction {
 		REMOVEROBBER, STEALRESOURCE, DRAWRESOURCE, BUILDROAD, PROGRESSCARD
 	}
-	
+
 	public void handle(Player sender, FishAction action) {
-		switch(action) {
+		switch (action) {
 		case REMOVEROBBER:
 			game.getGameBoardManager().getBoard().setRobberHex(null);
 			sender.removeFish(2);
