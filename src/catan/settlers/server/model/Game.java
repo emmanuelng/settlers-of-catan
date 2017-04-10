@@ -45,6 +45,7 @@ public class Game implements Serializable {
 	private int barbarianHordeCounter;
 	private Hexagon inventorFirstHex, inventorSecondHex;
 	private ProgressCards progressCards;
+	private Player largestArmy, longestRoad;
 	private boolean bootDrawn;
 
 	private SetupPhaseHandler setupPhaseHandler;
@@ -270,6 +271,23 @@ public class Game implements Serializable {
 		return progressCardHandler;
 	}
 
+	public void setLargestArmy(Player p){
+		largestArmy = p;
+	}
+
+	public void setLongestroad(Player p){
+		longestRoad = p;
+	}
+	
+	public Player getLargestArmy(){
+		return largestArmy;
+	}
+	
+	public Player getLongestroad(){
+		return longestRoad;
+	}
+	
+	
 	public void declareVictor(Player currentPlayer) {
 		sendToAllPlayers(new DeclareVictorCommand(currentPlayer.getUsername()));
 	}

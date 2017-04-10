@@ -30,6 +30,8 @@ public class GameStateManager {
 	private HashMap<ProgressCardType, Integer> progressCards;
 	private HashMap<ResourceType, Integer> receiveTradeOfferGive, receiveTradeOfferGet;
 	private Player requestedPlayer;
+	private String largestArmy;
+	private String longestRoad;
 
 	private Intersection selectedIntersection;
 	private Edge selectedEdge;
@@ -590,5 +592,21 @@ public class GameStateManager {
 
 	public boolean getShowSaveMenu() {
 		return doShowSaveMenu;
+	}
+	
+	public void setLargestArmy(String player) {
+		this.largestArmy = player;
+	}
+	
+	public void setLongestRoad(String player){
+		this.longestRoad = player;
+	}
+	
+	public String getLargestArmy(){
+		return this.largestArmy;
+	}
+	
+	public String getLongestRoad(){
+		return longestRoad;
 	}
 }
