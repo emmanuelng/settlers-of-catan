@@ -8,6 +8,7 @@ import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
 import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
 import catan.settlers.network.client.commands.game.TurnResponseCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
+import catan.settlers.network.client.commands.game.UpdateVPCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
 import catan.settlers.server.model.GameBoardManager;
 import catan.settlers.server.model.Player;
@@ -134,10 +135,15 @@ public class SetupPhaseHandler implements Serializable {
 
 		selectedIntersection.setUnit(village);
 		selectedEdge.setOwner(currentPlayer);
+		currentPlayer.incrementVP(1);
+		
 
-		if (!isPhaseOne)
+		if (!isPhaseOne){
 			village.upgradeToCity();
+			currentPlayer.incrementVP(1);
+		}
 
+		currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
 		game.updateAllPlayers();
 	}
 

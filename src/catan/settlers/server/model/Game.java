@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
+import catan.settlers.network.client.commands.game.DeclareVictorCommand;
 import catan.settlers.network.client.commands.game.GamePhaseChangedCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.PlaceElmtsSetupPhaseCommand;
@@ -260,6 +261,10 @@ public class Game implements Serializable {
 
 	public ProgressCardHandler getProgressCardHandler() {
 		return progressCardHandler;
+	}
+
+	public void declareVictor(Player currentPlayer) {
+		sendToAllPlayers(new DeclareVictorCommand(currentPlayer.getUsername()));
 	}
 	
 }

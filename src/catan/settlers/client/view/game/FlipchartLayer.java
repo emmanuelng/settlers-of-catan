@@ -28,7 +28,6 @@ public class FlipchartLayer extends ImageLayer {
 	private static final MinuetoFont field_title_font = new MinuetoFont("arial", 25, true, false);
 	private static final MinuetoFont field_description_font = new MinuetoFont("arial", 20, false, false);
 	private static final MinuetoFont description_font_bold = new MinuetoFont("arial", 17, true, false);
-	private static final MinuetoColor cancel_btn_color =new MinuetoColor(255, 153, 85);
 
 	private Field currentField;
 
@@ -48,7 +47,6 @@ public class FlipchartLayer extends ImageLayer {
 	private MinuetoImage scienceText;
 	private Button levelUpBtn;
 	private boolean clear;
-	private Button cancelButton;
 	
 	public FlipchartLayer() {
 
@@ -74,15 +72,6 @@ public class FlipchartLayer extends ImageLayer {
 
 		this.scienceButtonBg = new MinuetoRectangle(leftBarWidth - 10, 35, new MinuetoColor(55, 200, 113), true);
 		this.scienceText = new MinuetoText("Science", description_font_bold, new MinuetoColor(33, 120, 68));
-
-		this.cancelButton = new Button(this, "Cancel", cancel_btn_color, new ClickListener() {
-			@Override
-			public void onClick() {
-				GameStateManager gsm = ClientModel.instance.getGameStateManager();
-				gsm.setShowFlipchartLayer(false);
-
-			}
-		});
 		
 		this.levelUpBtn = new Button(this, "Go to next improvement level", new MinuetoColor(55, 200, 113),getPlayerConfirmListener());
 				
@@ -223,9 +212,6 @@ public class FlipchartLayer extends ImageLayer {
 
 		MinuetoImage levelUp = levelUpBtn.getImage();
 		draw(levelUp, box_x + WIDTH - levelUp.getWidth() - 10, box_y + HEIGHT - levelUp.getHeight() - 10);
-		
-		MinuetoImage cancel = cancelButton.getImage();
-		draw(cancel, box_x + WIDTH - levelUp.getWidth() - cancel.getWidth() - 30, box_y + HEIGHT - levelUp.getHeight() - 10);
 	}
 	
 	private void overrideClickables() {

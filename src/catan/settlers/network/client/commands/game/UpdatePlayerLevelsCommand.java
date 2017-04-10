@@ -5,20 +5,20 @@ import catan.settlers.client.model.GameStateManager;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.server.model.Player;
 
-public class UpdatePlayerCommand implements ServerToClientCommand{
+public class UpdatePlayerLevelsCommand implements ServerToClientCommand{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5407822065630018780L;
-	private int p,t,s,vp;
+	private int p,t,s;
 	
-	public UpdatePlayerCommand(int p, int t, int s, int vp){
+	public UpdatePlayerLevelsCommand(int p, int t, int s){
 		this.p=p;
 		this.t=t;
 		this.s=s;
-		this.vp=vp;
 	}
+	
 
 	@Override
 	public void execute() {
@@ -27,7 +27,6 @@ public class UpdatePlayerCommand implements ServerToClientCommand{
 		gsm.setPoliticsImprovementLevel(p);
 		gsm.setTradeImprovementLevel(t);
 		gsm.setScienceImprovementLevel(s);
-		gsm.setVictoryPoints(vp);
 	}
 
 }
