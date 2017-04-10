@@ -57,7 +57,7 @@ public class Player implements Serializable {
 		this.victoryP = 0;
 
 		for (ResourceType resType : ResourceType.values()) {
-			resources.put(resType, 0);
+			resources.put(resType, 12);
 		}
 
 		for (PortKind portKind : PortKind.values()) {
@@ -381,15 +381,15 @@ public class Player implements Serializable {
 		return selectedHex;
 	}
 
-	public void incrementTrade() {
-		tradeImprovement++;
+	public void setTradeLvl(int lvl) {
+		tradeImprovement = lvl ;
 	}
 
-	public void incrementPolitics() {
-		politicsImprovement++;
+	public void setPoliticsLvl(int lvl) {
+		politicsImprovement = lvl ;
 	}
 
-	public void incrementScience() {
-		scienceImprovement++;
+	public void setScienceLvl(int lvl) {
+		scienceImprovement = lvl;
 	}
 }

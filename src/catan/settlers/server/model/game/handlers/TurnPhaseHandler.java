@@ -319,15 +319,16 @@ public class TurnPhaseHandler implements Serializable {
 	}
 
 	private void updatePlayerCondition() {
-		currentPlayer.sendCommand(new UpdatePlayerCommand(currentPlayer));
+		currentPlayer.sendCommand(new UpdatePlayerCommand(currentPlayer.getPoliticsLevel(),currentPlayer.getTradeLevel(),currentPlayer.getScienceLevel(),currentPlayer.getVP()));
 	}
 	
 	private void PoliticsCityImprovement() {
 		int level = currentPlayer.getPoliticsLevel() + 1;
 		Cost cost = new Cost();
 		cost.addPriceEntry(ResourceType.COIN, level);
+		
 		if (cost.canPay(currentPlayer)) {
-			currentPlayer.incrementPolitics();
+			currentPlayer.setPoliticsLvl(level);
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
 			updatePlayerCondition();
@@ -339,7 +340,7 @@ public class TurnPhaseHandler implements Serializable {
 		Cost cost = new Cost();
 		cost.addPriceEntry(ResourceType.PAPER, level);
 		if (cost.canPay(currentPlayer)) {
-			currentPlayer.incrementScience();
+			currentPlayer.setScienceLvl(level);
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
 			updatePlayerCondition();
@@ -351,7 +352,7 @@ public class TurnPhaseHandler implements Serializable {
 		Cost cost = new Cost();
 		cost.addPriceEntry(ResourceType.CLOTH, level);
 		if (cost.canPay(currentPlayer)) {
-			currentPlayer.incrementTrade();
+			currentPlayer.setTradeLvl(level);
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
 			updatePlayerCondition();
