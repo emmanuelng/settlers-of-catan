@@ -145,6 +145,9 @@ public class TurnPhaseHandler implements Serializable {
 		ResourceType r = target.drawRandomResource();
 		target.removeResource(r, 1);
 		currentPlayer.giveResource(r, 1);
+		for (Player p : game.getParticipants()) {
+			p.sendCommand(new UpdateResourcesCommand(p.getResources()));
+		}
 	}
 
 	private void updateDataFromGame() {
