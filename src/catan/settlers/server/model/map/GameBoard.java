@@ -403,6 +403,10 @@ public class GameBoard implements Serializable {
 		return intersections;
 	}
 
+	public ArrayList<Edge> getEdges(){
+		return edges;
+	}
+	
 	public int[] getHex_coords(Hexagon hex) {
 		int[] coords = new int[2];
 

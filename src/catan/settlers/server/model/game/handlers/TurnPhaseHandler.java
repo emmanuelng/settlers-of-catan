@@ -2,7 +2,9 @@ package catan.settlers.server.model.game.handlers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import catan.settlers.client.model.GameStateManager.SelectionReason;
 import catan.settlers.client.view.game.FlipchartLayer.Field;
@@ -47,6 +49,7 @@ public class TurnPhaseHandler implements Serializable {
 	private Knight selectedKnight;
 	private HashMap<Field, Player> metOwners;
 	private FishHandler fishHandler;
+	private HashSet<Edge> visitedEdges;
 
 	public TurnPhaseHandler(Game game) {
 		this.game = game;
@@ -199,7 +202,9 @@ public class TurnPhaseHandler implements Serializable {
 			selectedEdge.setOwner(currentPlayer);
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
+			updateLongestRoad(selectedEdge, currentPlayer);
 		}
+
 	}
 
 	private void upgradeSettlement() {
@@ -258,6 +263,7 @@ public class TurnPhaseHandler implements Serializable {
 			selectedEdge.setOwner(currentPlayer);
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
+			updateLongestRoad(selectedEdge, currentPlayer);
 		}
 	}
 
@@ -538,10 +544,45 @@ public class TurnPhaseHandler implements Serializable {
 		}
 	}
 
-	public void updateLongestRoad() {
-		HashMap<Player, Integer> playerRoadLength = new HashMap<>();
-		for (Player p : game.getParticipants())
-			playerRoadLength.put(p, 0);
+	public void updateLongestRoad(Edge e, Player currentPlayer2) {
+		visitedEdges = new HashSet<>();
 
+		System.out.println(numLongestRoad(e, currentPlayer2));
 	}
+
+	public int numLongestRoad(Edge e, Player currPlayer) {
+		int length = 1;
+
+		for (Intersection i : e.getIntersections()) {
+			System.out.println("E.getintersections" + e.getIntersections());
+			System.out.println("Intersection: " + i);
+			ArrayList<Integer> lengths = new ArrayList<>();
+			for (Edge edge : i.getEdges()) {
+				System.out.println("Edge: " + edge);
+				if (edge == e) {
+					continue;
+				} else {
+					if (edge != null) {
+						if (!visitedEdges.contains(edge)) {
+							System.out.println("visited edges: "+ visitedEdges + "adding " + edge);
+							visitedEdges.add(edge);
+						} else {
+							continue;
+						}
+						if (edge.getOwner() != currentPlayer) {
+							System.out.println("ArrayList: " + lengths);
+							return 0;
+						} else {
+							lengths.add(numLongestRoad(edge, currPlayer));
+						}
+					}
+				}
+			}
+			System.out.println("Max of the arraylist: " + Collections.max(lengths));
+			length += Collections.max(lengths);
+		}
+
+		return length;
+	}
+
 }
