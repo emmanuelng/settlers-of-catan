@@ -20,7 +20,7 @@ public class PlayConstitutionCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Constitution Card";
+		return "Victoire pont pour toi.";
 	}
 
 	@Override

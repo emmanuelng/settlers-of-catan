@@ -20,7 +20,7 @@ public class PlayMedicineCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Medicine Card";
+		return " Your next city upgrade this turn costs 2 ore and 1 grain.";
 	}
 
 	@Override

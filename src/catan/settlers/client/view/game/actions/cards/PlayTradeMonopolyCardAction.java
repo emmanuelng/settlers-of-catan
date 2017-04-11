@@ -20,7 +20,7 @@ public class PlayTradeMonopolyCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Trade Monopoly Card";
+		return "Name a commodity; all players must give you 1 if that if they have it.";
 	}
 
 	@Override

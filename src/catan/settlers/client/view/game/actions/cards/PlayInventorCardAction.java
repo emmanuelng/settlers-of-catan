@@ -20,7 +20,7 @@ public class PlayInventorCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Inventor Card";
+		return "Swap the numbers of two hexagons on the board. They must not be 2, 6, 8, 12.";
 	}
 
 	@Override

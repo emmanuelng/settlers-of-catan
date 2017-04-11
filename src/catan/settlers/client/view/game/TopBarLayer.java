@@ -90,7 +90,9 @@ public class TopBarLayer extends ImageLayer {
 					resources_y + 40 * (int) Math.floor(i / resources_per_line));
 		}
 
-		Button fishImage = new Button(this, "Fish " + gsm.getNumFish() ,bg_color.darken(0.1), new ClickListener() {
+
+		MinuetoColor buttonColor =(gsm.getNumFish()>=2) ? MinuetoColor.BLACK : bg_color;
+		Button fishImage = new Button(this, "Fish " + gsm.getNumFish() , buttonColor, new ClickListener() {
 
 			@Override
 			public void onClick() {

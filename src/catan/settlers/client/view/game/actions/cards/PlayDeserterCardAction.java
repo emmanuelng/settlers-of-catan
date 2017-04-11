@@ -20,7 +20,7 @@ public class PlayDeserterCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Deserter Card";
+		return "Choose an opponent who must remove a knight; place a knight of equal strength.";
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class PlayPrinterCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Printer Card";
+		return "You printed a victory point.";
 	}
 
 	@Override

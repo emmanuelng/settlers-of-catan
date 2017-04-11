@@ -19,7 +19,7 @@ public class PlaySmithCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Smith Card";
+		return "Upgrade two knights at no cost.";
 	}
 
 	@Override

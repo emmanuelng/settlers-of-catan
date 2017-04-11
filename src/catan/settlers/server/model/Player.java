@@ -421,4 +421,12 @@ public class Player implements Serializable {
 	public void addFreeRoad() {
 		roadBuilding++;
 	}
+	
+	public void setHasBoot(boolean b){
+		hasBoot = b;
+	}
+	
+	public boolean getHasBoot(){
+		return hasBoot;
+	}
 }

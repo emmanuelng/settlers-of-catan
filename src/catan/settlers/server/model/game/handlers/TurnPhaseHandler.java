@@ -418,7 +418,11 @@ public class TurnPhaseHandler implements Serializable {
 
 		// TODO Check for victory
 		if (game.getCurrentPlayer().getVP() >= 13) {
-			game.declareVictor(currentPlayer);
+			if(!game.getCurrentPlayer().getHasBoot()){
+				game.declareVictor(currentPlayer);
+			}else if(game.getCurrentPlayer().getHasBoot() && game.getCurrentPlayer().getVP()>=14){
+				game.declareVictor(currentPlayer);
+			}
 		}
 
 		game.setGamePhase(GamePhase.ROLLDICEPHASE);

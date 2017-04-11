@@ -113,7 +113,7 @@ public class ProgressCardMenuLayer extends ImageLayer {
 		cardNameStr = cardNameStr.substring(0, 1).toUpperCase() + cardNameStr.substring(1);
 
 		// TODO Add description
-		String cardDescStr = "Description here";
+		String cardDescStr = cardAction.getDescription();
 
 		MinuetoColor cardColor = new MinuetoColor(222, 170, 135);
 		MinuetoColor fontColor = cardColor.darken(0.4);

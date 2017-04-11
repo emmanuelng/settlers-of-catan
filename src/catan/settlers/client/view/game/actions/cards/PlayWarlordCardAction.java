@@ -20,7 +20,7 @@ public class PlayWarlordCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Warlord Card";
+		return "Activate all your knights for free.";
 	}
 
 	@Override
