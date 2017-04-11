@@ -290,6 +290,7 @@ public class RollDicePhaseHandler implements Serializable {
 			if (strongestPlayers.size() == 1) {
 				for (Player p : strongestPlayers) {
 					p.incrementVP(1);
+					p.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 				}
 			} else {
 				for (Player p : strongestPlayers) {
