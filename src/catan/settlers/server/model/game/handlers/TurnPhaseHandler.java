@@ -342,16 +342,43 @@ public class TurnPhaseHandler implements Serializable {
 		if (newLocation.isMaritime())
 			return;
 
-		if (newLocation.getUnit() != null || !(curKnightLoc.getUnit() instanceof Knight))
+		if (!(curKnightLoc.getUnit() instanceof Knight))
 			return;
 
 		if (selectedKnight != null) {
 			if (selectedKnight.canCanMoveIntersecIds().contains(newLocation.getId())) {
-				Knight knight = (Knight) curKnightLoc.getUnit();
-				knight.setLocatedAt(newLocation);
-				newLocation.setUnit(knight);
-				curKnightLoc.setUnit(null);
-				updateResourcesAndBoard();
+				if (newLocation.getUnit() instanceof Knight) {
+					if (selectedKnight.getType().ordinal() > ((Knight)newLocation.getUnit()).getType().ordinal()) {
+						Knight knight = (Knight) curKnightLoc.getUnit();
+						curKnightLoc.setUnit(null);
+						updateResourcesAndBoard();
+						
+						Player displacee = newLocation.getUnit().getOwner();
+						SetOfOpponentMove displacedKnight = new DisplacedKnightHandler((Knight)newLocation.getUnit());
+						System.out.println("Sending the move displaced knight command");
+						displacee.sendCommand(new MoveDisplacedKnightCommand(newLocation));
+						displacedKnight.waitForPlayer(displacee);
+						game.setCurSetOfOpponentMove(displacedKnight);
+						
+						knight.setLocatedAt(newLocation);
+						newLocation.setUnit(knight);
+						
+					}
+				} else if (newLocation.getUnit() instanceof Village) {
+					return;
+				} else {
+					Knight knight = (Knight) curKnightLoc.getUnit();
+					knight.setLocatedAt(newLocation);
+					newLocation.setUnit(knight);
+					curKnightLoc.setUnit(null);
+					updateResourcesAndBoard();
+				}
+				HashSet<Hexagon> hexes = newLocation.getHexagons();
+				for (Hexagon h : hexes) {
+					if (h == game.getGameBoardManager().getBoard().getRobberHex()) {
+						// TODO: currentPlayer.sendCommand(new MoveRobberCommand()); ???
+					}
+				}
 			}
 		}
 	}
