@@ -84,7 +84,7 @@ public class GameStateManager {
 	private int scienceImprovementLevel;
 	private int barbarianCounter;
 	private ArrayList<ResourceType> merchantFleetAdvantage;
-	private int victoryPoints;
+	private HashMap<String, Integer> victoryPoints;
 
 	private boolean showFlipChart;
 
@@ -546,12 +546,12 @@ public class GameStateManager {
 		return merchantFleetAdvantage;
 	}
 
-	public int getVictoryPoint() {
+	public HashMap<String, Integer> getVictoryPoints() {
 		return victoryPoints;
 	}
 
-	public void setVictoryPoints(int value) {
-		victoryPoints = value;
+	public void setVictoryPoints(HashMap<String, Integer> victoryPoints) {
+		this.victoryPoints = victoryPoints;
 	}
 
 	public boolean getDoShowFlipchartLayer() {

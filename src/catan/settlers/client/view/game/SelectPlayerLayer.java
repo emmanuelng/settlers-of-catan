@@ -101,7 +101,8 @@ public class SelectPlayerLayer extends ImageLayer {
 			draw(username, player_box_x + player_box_width / 2 - username.getWidth() / 2, player_box_y_offset);
 			player_box_y_offset += username.getHeight() + 10;
 
-			MinuetoText playerdescr = new MinuetoText("0 victory points", description_font, MinuetoColor.BLACK);
+			int vp = gsm.getVictoryPoints().get(participants.get(i));
+			MinuetoText playerdescr = new MinuetoText(vp + " victory points", description_font, MinuetoColor.BLACK);
 			draw(playerdescr, player_box_x + player_box_width / 2 - playerdescr.getWidth() / 2, player_box_y_offset);
 			player_box_y_offset += playerdescr.getHeight() + 30;
 

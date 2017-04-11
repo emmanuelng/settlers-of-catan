@@ -142,7 +142,7 @@ public class SetupPhaseHandler implements Serializable {
 			currentPlayer.incrementVP(1);
 		}
 
-		currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
+		currentPlayer.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 		game.updateAllPlayers();
 	}
 

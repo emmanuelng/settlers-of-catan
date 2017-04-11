@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
@@ -32,7 +33,7 @@ public class Game implements Serializable {
 	}
 
 	private static final long serialVersionUID = -5752967531725278325L;
-	public static final int MAX_NB_OF_PLAYERS = 1;
+	public static final int MAX_NB_OF_PLAYERS = 3;
 
 	private int id;
 	private ArrayList<Player> participants;
@@ -331,6 +332,14 @@ public class Game implements Serializable {
 
 	public void declareVictor(Player currentPlayer) {
 		sendToAllPlayers(new DeclareVictorCommand(currentPlayer.getUsername()));
+	}
+
+	public HashMap<String, Integer> getVictoryPoints() {
+		HashMap<String, Integer> ret = new HashMap<>();
+		for (Player p : participants) {
+			ret.put(p.getUsername(), p.getVP());
+		}
+		return ret;
 	}
 
 }

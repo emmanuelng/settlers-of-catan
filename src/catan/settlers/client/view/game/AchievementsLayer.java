@@ -5,6 +5,7 @@ import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoText;
 
 import catan.settlers.client.model.GameStateManager;
+import catan.settlers.client.view.ClientWindow;
 
 public class AchievementsLayer extends ImageLayer {
 
@@ -30,9 +31,13 @@ public class AchievementsLayer extends ImageLayer {
 				true);
 		MinuetoText longestRoadText = new MinuetoText("Longest Road: " + longestRoad, amt_font, MinuetoColor.BLACK,
 				true);
-
-		draw(largestArmyText, 10, 30);
-		draw(longestRoadText, 10, largestArmyText.getHeight() + 30);
+		
+		int y_offset = ClientWindow.WINDOW_HEIGHT - longestRoadText.getHeight() - 30 - largestArmyText.getHeight() - 30;
+		
+		draw(largestArmyText, 10, y_offset);
+		y_offset += largestArmyText.getHeight() + 30;
+		
+		draw(longestRoadText, 10, y_offset);
 	}
 
 }

@@ -80,7 +80,7 @@ public class GameManager {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			// Ignore
 		}
 	}
 

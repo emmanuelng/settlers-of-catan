@@ -90,7 +90,8 @@ public class TopBarLayer extends ImageLayer {
 
 		int x_offset = ClientWindow.WINDOW_WIDTH - vpImage.getWidth() - 30;
 
-		MinuetoText vpAmt = new MinuetoText("" + gsm.getVictoryPoint(), vp_font, vp_color, true);
+		int vps = gsm.getVictoryPoints().get(ClientModel.instance.getUsername());
+		MinuetoText vpAmt = new MinuetoText("" + vps, vp_font, vp_color, true);
 
 		draw(vpImage, x_offset, 0);
 		draw(vpAmt, x_offset + 75, 35);

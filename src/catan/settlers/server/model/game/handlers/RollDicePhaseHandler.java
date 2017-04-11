@@ -276,7 +276,7 @@ public class RollDicePhaseHandler implements Serializable {
 					Village v = cities.remove((int) Math.random() * cities.size());
 					v.destroyCity();
 					p.decrementVP(1);
-					p.sendCommand(new UpdateVPCommand(game.getCurrentPlayer().getVP()));
+					p.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 				}
 			}
 		} else {
