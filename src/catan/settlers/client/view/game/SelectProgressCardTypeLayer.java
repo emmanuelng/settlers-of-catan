@@ -7,9 +7,11 @@ import org.minueto.image.MinuetoFont;
 import org.minueto.image.MinuetoRectangle;
 import org.minueto.image.MinuetoText;
 
+import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
+import catan.settlers.network.server.commands.game.DrawProgressCardCommand;
 
 public class SelectProgressCardTypeLayer extends ImageLayer {
 
@@ -111,6 +113,7 @@ public class SelectProgressCardTypeLayer extends ImageLayer {
 			public void onClick() {
 				// TODO
 				System.out.println("You selected " + field);
+				ClientModel.instance.getNetworkManager().sendCommand(new DrawProgressCardCommand(field.toString()));
 			}
 		});
 

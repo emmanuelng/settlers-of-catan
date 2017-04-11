@@ -92,54 +92,59 @@ public class FishMenuLayer extends ImageLayer {
 	}
 	
 	private void drawDrawDevCard() {
-		this.devCard = new Button(this, "Draw Dev Card" , MinuetoColor.BLACK, new ClickListener() {
+		this.devCard = new Button(this, "7: Draw Progress Card" , MinuetoColor.BLACK, new ClickListener() {
 
 					@Override
 					public void onClick() {
-						ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.PROGRESSCARD));
+						if (ClientModel.instance.getGameStateManager().getNumFish() >= 7)
+							ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.PROGRESSCARD));
 					}
 				});
 	}
 
 	private void drawFreeRoad() {
-		this.buildRoad = new Button(this, "Build Free Road" , MinuetoColor.BLACK, new ClickListener() {
+		this.buildRoad = new Button(this, "5: Build Free Road" , MinuetoColor.BLACK, new ClickListener() {
 
 			@Override
 			public void onClick() {
-				ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.BUILDROAD));
+				if (ClientModel.instance.getGameStateManager().getNumFish() >= 5)
+					ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.BUILDROAD));
 			}
 		}); 
 		
 	}
 
 	private void drawResource() {
-		this.drawResource = new Button(this, "Draw Free Resource" , MinuetoColor.BLACK, new ClickListener() {
+		this.drawResource = new Button(this, "4: Draw Free Resource" , MinuetoColor.BLACK, new ClickListener() {
 
 			@Override
 			public void onClick() {
-				ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.DRAWRESOURCE));
+				if (ClientModel.instance.getGameStateManager().getNumFish() >= 4)
+					ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.DRAWRESOURCE));
 			}
 		}); 
 		
 	}
 
 	private void drawStealResource() {
-		this.stealResource = new Button(this, "Steal Resource" , MinuetoColor.BLACK, new ClickListener() {
+		this.stealResource = new Button(this, "3: Steal Resource" , MinuetoColor.BLACK, new ClickListener() {
 
 			@Override
 			public void onClick() {
-				ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.STEALRESOURCE));
+				if (ClientModel.instance.getGameStateManager().getNumFish() >= 3)
+					ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.STEALRESOURCE));
 			}
 		}); 
 		
 	}
 
 	private void drawRemoveRobber() {
-		this.removeRobber = new Button(this, "Remove Robber" , MinuetoColor.BLACK, new ClickListener() {
+		this.removeRobber = new Button(this, "2: Remove Robber" , MinuetoColor.BLACK, new ClickListener() {
 
 			@Override
 			public void onClick() {
-				ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.REMOVEROBBER));
+				if (ClientModel.instance.getGameStateManager().getNumFish() >= 2) 
+					ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.REMOVEROBBER));
 			}
 		}); 
 		

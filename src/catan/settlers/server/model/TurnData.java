@@ -27,7 +27,7 @@ public class TurnData implements Serializable {
 	private static final long serialVersionUID = -2490523320154300533L;
 
 	public static enum TurnAction {
-		BUILD_SETTLEMENT, BUILD_KNIGHT, BUILD_ROAD, UPGRADE_SETTLEMENT, UPGRADE_KNIGHT, BUILD_WALL, END_TURN, ACTIVATE_KNIGHT, PROGRESS_CARD, DISPLACE_KNIGHT, SEVEN_DISCARD, ROLL_DICE, BUILD_SHIP, RESOURCE_SELECTED, PLAYER_SELECTED, HEX_SELECTED, POLITICS_CITY_IMPROVEMENT, SCIENCE_CITY_IMPROVEMENT, TRADE_CITY_IMPROVEMENT, STEAL_RESOURCE, FISH_ACTION, SELECT_INTERSECTION
+		BUILD_SETTLEMENT, BUILD_KNIGHT, BUILD_ROAD, UPGRADE_SETTLEMENT, UPGRADE_KNIGHT, BUILD_WALL, END_TURN, ACTIVATE_KNIGHT, PROGRESS_CARD, DISPLACE_KNIGHT, SEVEN_DISCARD, ROLL_DICE, BUILD_SHIP, RESOURCE_SELECTED, PLAYER_SELECTED, HEX_SELECTED, POLITICS_CITY_IMPROVEMENT, SCIENCE_CITY_IMPROVEMENT, TRADE_CITY_IMPROVEMENT, STEAL_RESOURCE, FISH_ACTION, SELECT_INTERSECTION, DRAW_PROGRESS_CARD
 	}
 
 	private Intersection selectedIntersection;
@@ -42,6 +42,7 @@ public class TurnData implements Serializable {
 	private int selectedHex_y;
 	private SelectionReason reason;
 	private FishAction fishAction;
+	private String ProgressCardType;
 
 	public TurnData(TurnAction action) {
 		ClientModel cm = ClientModel.instance;
@@ -131,5 +132,13 @@ public class TurnData implements Serializable {
 
 	public Hexagon getSelectedHex(GameBoard gameBoard) {
 		return gameBoard.getHexagonAt(selectedHex_x, selectedHex_y);
+	}
+
+	public void setSelectedProgressCardType(String type) {
+		this.ProgressCardType = type;
+	}
+	
+	public String getSelectedProgressCardType() {
+		return ProgressCardType;
 	}
 }

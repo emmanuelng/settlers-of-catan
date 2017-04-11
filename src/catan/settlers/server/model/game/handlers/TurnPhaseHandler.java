@@ -12,6 +12,7 @@ import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.MoveDisplacedKnightCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
+import catan.settlers.network.client.commands.game.UpdateCardsCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateLargestArmyCommand;
 import catan.settlers.network.client.commands.game.UpdatePlayerLevelsCommand;
@@ -106,6 +107,9 @@ public class TurnPhaseHandler implements Serializable {
 		case DISPLACE_KNIGHT:
 			displaceKnight();
 			break;
+		case RESOURCE_SELECTED:
+			currentPlayer.giveResource(data.getSelectedResourceOrCommodity(), 1);
+			break;
 		case PLAYER_SELECTED:
 			handlePlayerSelected(data);
 			break;
@@ -121,9 +125,23 @@ public class TurnPhaseHandler implements Serializable {
 		case TRADE_CITY_IMPROVEMENT:
 			TradeCityImprovement();
 			break;
+		case DRAW_PROGRESS_CARD:
+			drawProgressCard(data);
+			break;
 		default:
 			break;
 		}
+	}
+
+	private void drawProgressCard(TurnData data) {
+		if (data.getSelectedProgressCardType().equals("TRADE")) {
+			currentPlayer.giveProgressCard(game.getProgressCards().drawTradeCard());
+		} else if (data.getSelectedProgressCardType().equals("POLITICS")) {
+			currentPlayer.giveProgressCard(game.getProgressCards().drawPoliticsCard());
+		} else if (data.getSelectedProgressCardType().equals("SCIENCE")) {
+			currentPlayer.giveProgressCard(game.getProgressCards().drawScienceCard());
+		}
+		currentPlayer.sendCommand(new UpdateCardsCommand(currentPlayer.getProgressCards()));
 	}
 
 	private void handlePlayerSelected(TurnData data) {
