@@ -109,6 +109,7 @@ public class TurnPhaseHandler implements Serializable {
 			break;
 		case RESOURCE_SELECTED:
 			currentPlayer.giveResource(data.getSelectedResourceOrCommodity(), 1);
+			currentPlayer.sendCommand(new UpdateResourcesCommand(currentPlayer.getResources()));
 			break;
 		case PLAYER_SELECTED:
 			handlePlayerSelected(data);

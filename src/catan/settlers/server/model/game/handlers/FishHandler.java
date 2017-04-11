@@ -6,6 +6,7 @@ import catan.settlers.network.client.commands.game.ChooseProgressCardCommand;
 import catan.settlers.network.client.commands.game.FishResourceCommand;
 import catan.settlers.network.client.commands.game.SelectPlayerToStealFromCommand;
 import catan.settlers.network.client.commands.game.UpdateFishCommand;
+import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
@@ -28,7 +29,7 @@ public class FishHandler implements Serializable {
 		switch (action) {
 		case REMOVEROBBER:
 			game.getGameBoardManager().getBoard().setRobberHex(null);
-			sender.giveFish(2);
+			sender.removeFish(2);
 			break;
 		case STEALRESOURCE:
 			sender.sendCommand(new SelectPlayerToStealFromCommand());
@@ -52,6 +53,7 @@ public class FishHandler implements Serializable {
 		sender.sendCommand(new UpdateFishCommand(sender.getNumFish()));
 		for (Player p : game.getParticipants()) {
 			p.sendCommand(new UpdateResourcesCommand(p.getResources()));
+			p.sendCommand(new UpdateGameBoardCommand(game.getGameBoardManager().getBoardDeepCopy()));
 		}
 	}
 }
