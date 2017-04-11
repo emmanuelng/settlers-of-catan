@@ -48,8 +48,11 @@ public class PlayerListLayer extends ImageLayer {
 				MinuetoText username = new MinuetoText(userStr, unameFont, MinuetoColor.BLACK);
 
 				// TODO: Update the victory points
-				int vp = gsm.getVictoryPoints() == null && participants == null ? 0
-						: gsm.getVictoryPoints().get(participants.get(i));
+				System.out.println(gsm);
+				System.out.println(gsm.getVictoryPoints());
+				System.out.println(participants);
+				Integer vp = gsm.getVictoryPoints().get(participants.get(i));
+				vp = vp == null ? 0 : vp;
 				MinuetoText vps = new MinuetoText(vp + " victory points", vpFont, MinuetoColor.BLACK);
 
 				draw(logo, offsetX, offsetY + i * spaceBetweenPlayers);
