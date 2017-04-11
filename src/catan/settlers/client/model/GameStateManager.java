@@ -223,7 +223,7 @@ public class GameStateManager {
 
 	public void setProgressCards(HashMap<ProgressCardType, Integer> progressCards) {
 		this.progressCards = progressCards;
-		this.progressCards.put(ProgressCardType.SABOTEUR, 1);
+		this.progressCards.put(ProgressCardType.WEDDING, 1);
 		this.updateProgressCards = true;
 	}
 

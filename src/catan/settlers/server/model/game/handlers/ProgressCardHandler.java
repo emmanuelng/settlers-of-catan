@@ -21,6 +21,7 @@ import catan.settlers.network.client.commands.game.cards.MerchantCommand;
 import catan.settlers.network.client.commands.game.cards.MerchantFleetCommand;
 import catan.settlers.network.client.commands.game.cards.ResourceMonopolyCommand;
 import catan.settlers.network.client.commands.game.cards.TradeMonopolyCommand;
+import catan.settlers.network.client.commands.game.cards.WeddingCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
@@ -35,6 +36,7 @@ import catan.settlers.server.model.game.handlers.set.MerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.ResourceMonopolySetHandler;
 import catan.settlers.server.model.game.handlers.set.SaboteurSetHandler;
 import catan.settlers.server.model.game.handlers.set.TradeMonopolySetHandler;
+import catan.settlers.server.model.game.handlers.set.WeddingSetHandler;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
@@ -101,7 +103,7 @@ public class ProgressCardHandler implements Serializable {
 			saboteur(sender);
 			break;
 		case SPY:
-			spy(sender); // TODO
+			spy(sender);
 			break;
 		case WARLORD:
 			warlord(sender);
@@ -376,7 +378,7 @@ public class ProgressCardHandler implements Serializable {
 	private void saboteur(Player sender) {
 		SaboteurSetHandler set = new SaboteurSetHandler();
 		for (Player p : game.getParticipants()) {
-			if (p.getVP() >= sender.getVP()) {
+			if (p.getVP() > sender.getVP()) {
 				if (p != sender) {
 					set.waitForPlayer(p);
 					p.sendCommand(new DiscardCardsCommand("The Saboteur destroys half of your resources"));
@@ -413,6 +415,10 @@ public class ProgressCardHandler implements Serializable {
 				}
 			}
 		}
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.WARLORD);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**
@@ -420,17 +426,23 @@ public class ProgressCardHandler implements Serializable {
 	 * choice
 	 */
 	private void wedding(Player sender) {
-		ArrayList<Player> otherPlayers = game.getParticipants();
-		for (Player p : otherPlayers) {
-			if (p.getVP() > sender.getVP()) {
-				p.sendCommand(new SelectResourceCommand("Wedding - all players with more VP than you give 2 resource"));
-				HashMap<ResourceType, Integer> resourceToGive = p.getCurrentSelectedResources();
-				for (ResourceType r : resourceToGive.keySet()) {
-					p.removeResource(r, resourceToGive.get(r));
-					sender.giveResource(r, resourceToGive.get(r));
-				}
+		WeddingSetHandler set = new WeddingSetHandler(sender);
+
+		for (Player p : game.getParticipants()) {
+			if (p.getVP() >= sender.getVP() && p != sender) {
+				set.waitForPlayer(p);
+				p.sendCommand(new WeddingCommand(sender.getUsername(), true));
+			} else {
+				p.sendCommand(new WeddingCommand(sender.getUsername(), false));
 			}
 		}
+
+		if (!set.isEmpty())
+			game.setCurSetOfOpponentMove(set);
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.WEDDING);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**
@@ -439,6 +451,10 @@ public class ProgressCardHandler implements Serializable {
 	 */
 	private void crane(Player sender) {
 		sender.playCrane();
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.CRANE);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**
@@ -446,6 +462,10 @@ public class ProgressCardHandler implements Serializable {
 	 */
 	private void engineer(Player sender) {
 		sender.playEngineer();
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.ENGINEER);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**
@@ -454,6 +474,11 @@ public class ProgressCardHandler implements Serializable {
 	 */
 	private void inventor(Player sender) {
 		sender.sendCommand(new InventorCommand());
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.INVENTOR);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
+
 	}
 
 	/**
@@ -483,6 +508,10 @@ public class ProgressCardHandler implements Serializable {
 				}
 			}
 		}
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.IRRIGATION);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**
@@ -490,6 +519,10 @@ public class ProgressCardHandler implements Serializable {
 	 */
 	private void medicine(Player sender) {
 		sender.playMedicine();
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.MEDICINE);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**
@@ -519,6 +552,10 @@ public class ProgressCardHandler implements Serializable {
 				}
 			}
 		}
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.MINING);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**
@@ -528,6 +565,10 @@ public class ProgressCardHandler implements Serializable {
 		sender.incrementVP(1);
 		game.getVictoryPoints().put(sender.getUsername(), sender.getVP() + 1);
 		sender.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.PRINTER);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**
@@ -535,6 +576,9 @@ public class ProgressCardHandler implements Serializable {
 	 */
 	private void roadBuilding(Player sender) {
 		sender.playRoadBuilding();
+		// Update cards
+		sender.useProgressCard(ProgressCardType.ROAD_BUILDING);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**
@@ -542,5 +586,9 @@ public class ProgressCardHandler implements Serializable {
 	 */
 	private void smithCard(Player sender) {
 		sender.playSmith();
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.SMITH);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 }

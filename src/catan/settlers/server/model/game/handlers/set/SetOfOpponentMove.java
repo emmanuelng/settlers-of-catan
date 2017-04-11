@@ -67,4 +67,10 @@ public abstract class SetOfOpponentMove implements Serializable {
 		return players.isEmpty();
 	}
 
+	public HashSet<Credentials> getPlayers() {
+		HashSet<Credentials> ret = new HashSet<>();
+		ret.addAll(players);
+		return ret;
+	}
+
 }
