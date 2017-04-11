@@ -17,7 +17,7 @@ import catan.settlers.client.view.game.handlers.ClickListener;
 import catan.settlers.network.server.commands.game.SevenDiscardCommand;
 import catan.settlers.server.model.Player.ResourceType;
 
-public class SevenDiscardMenuLayer extends ImageLayer {
+public class DiscardResourcesMenuLayer extends ImageLayer {
 
 	private static final HashMap<ResourceType, MinuetoImage> plusButtons = new HashMap<>();
 	private static final HashMap<ResourceType, MinuetoImage> minusButtons = new HashMap<>();
@@ -46,10 +46,8 @@ public class SevenDiscardMenuLayer extends ImageLayer {
 	private int nbResToSelect;
 	private boolean clear;
 
-	public SevenDiscardMenuLayer() {
+	public DiscardResourcesMenuLayer() {
 		super();
-
-		String title = "A seven was rolled and you have too many resources";
 		String description = "You need to discard half of your resources:";
 
 		this.box_x = ClientWindow.WINDOW_WIDTH / 2 - WIDTH / 2;
@@ -57,7 +55,6 @@ public class SevenDiscardMenuLayer extends ImageLayer {
 
 		this.background = new MinuetoRectangle(WIDTH, HEIGHT, bg_color, true);
 		this.border = new MinuetoRectangle(WIDTH, HEIGHT, border_color, false);
-		this.title = new MinuetoText(title, title_font, MinuetoColor.BLACK);
 		this.description = new MinuetoText(description, description_font, MinuetoColor.BLACK);
 		this.confirmButton = new Button(this, "Discard resources", confirm_btn_color, getConfirmListener());
 
@@ -79,6 +76,7 @@ public class SevenDiscardMenuLayer extends ImageLayer {
 		} else {
 			clear = true;
 			nbResToSelect = updateNbResToSelect();
+			this.title = new MinuetoText(gsm.getDiscardMenuTitle(), title_font, MinuetoColor.BLACK);
 		}
 
 		draw(background, box_x, box_y);

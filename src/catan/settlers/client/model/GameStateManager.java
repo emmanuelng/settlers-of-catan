@@ -55,8 +55,10 @@ public class GameStateManager {
 	private boolean showProgressCardMenu;
 	private boolean showSelectCardTypeMenu;
 	private boolean showSelectCommodityMenu;
-	private boolean doShowSelectHexLayer;
-	private boolean doShowSaveMenu;
+	private boolean showSelectInterscetionLayer;
+	private boolean showFishMenu;
+	private boolean showSelectHexLayer;
+	private boolean showSaveMenu;
 
 	public enum SelectionReason {
 		STEAL_RESOURCE, DESERTER, GIVE_BOOT,
@@ -92,9 +94,7 @@ public class GameStateManager {
 	private String tradeMetOwner;
 	private String polMetOwner;
 
-	private boolean doShowSelectInterscetionLayer;
-
-	private boolean doShowFishMenu;
+	private String discardMenuTitle;
 
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
@@ -112,9 +112,10 @@ public class GameStateManager {
 		this.showSelectResourceMenu = false;
 		this.showSelectCardTypeMenu = false;
 		this.showSelectCommodityMenu = false;
-		this.doShowSelectHexLayer = false;
-		this.doShowFishMenu = false;
+		this.showSelectHexLayer = false;
+		this.showFishMenu = false;
 		this.currentReason = null;
+		this.discardMenuTitle = null;
 
 		this.sevenDiscardMenuMsg = "";
 		this.tradeMenuMsg = "";
@@ -532,11 +533,11 @@ public class GameStateManager {
 	}
 
 	public void doShowSelectHexLayer(boolean b) {
-		doShowSelectHexLayer = b;
+		showSelectHexLayer = b;
 	}
 
 	public boolean getSelectHexLayer() {
-		return doShowSelectHexLayer;
+		return showSelectHexLayer;
 	}
 
 	/**
@@ -593,11 +594,11 @@ public class GameStateManager {
 	}
 
 	public void setShowSaveMenu(boolean b) {
-		this.doShowSaveMenu = b;
+		this.showSaveMenu = b;
 	}
 
 	public boolean getShowSaveMenu() {
-		return doShowSaveMenu;
+		return showSaveMenu;
 	}
 
 	public void setLargestArmy(String player) {
@@ -617,17 +618,26 @@ public class GameStateManager {
 	}
 
 	public boolean getShowSelectIntersectionLayer() {
-		return doShowSelectInterscetionLayer;
+		return showSelectInterscetionLayer;
 	}
 
 	public void setShowSelectIntersectionLayer(boolean b) {
-		this.doShowSelectInterscetionLayer = b;
+		this.showSelectInterscetionLayer = b;
 	}
 
-	public void setShowFishMenu(boolean b){
-		doShowFishMenu = b;
+	public void setShowFishMenu(boolean b) {
+		showFishMenu = b;
 	}
+
 	public boolean doShowFishMenu() {
-		return doShowFishMenu;
+		return showFishMenu;
+	}
+
+	public void setDiscardMenuTitle(String title) {
+		this.discardMenuTitle = title;
+	}
+
+	public String getDiscardMenuTitle() {
+		return discardMenuTitle;
 	}
 }

@@ -28,6 +28,7 @@ import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.TurnData;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
+import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Cost;
 import catan.settlers.server.model.units.IntersectionUnit;

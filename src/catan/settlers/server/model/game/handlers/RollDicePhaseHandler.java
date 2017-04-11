@@ -153,7 +153,7 @@ public class RollDicePhaseHandler implements Serializable {
 		for (Player p : participants) {
 			int nbResourceCards = p.getNbResourceCards();
 			if (nbResourceCards > numThreshold) {
-				p.sendCommand(new DiscardCardsCommand());
+				p.sendCommand(new DiscardCardsCommand("A seven was rolled and you have too many cards"));
 				set.waitForPlayer(p);
 			}
 		}

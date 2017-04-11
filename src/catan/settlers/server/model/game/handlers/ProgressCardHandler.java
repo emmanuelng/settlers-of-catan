@@ -94,10 +94,10 @@ public class ProgressCardHandler implements Serializable {
 			diplomat(sender); // TODO
 			break;
 		case INTRIGUE:
-			intrigue(sender); // TODO
+			intrigue(sender);
 			break;
 		case SABOTEUR:
-			saboteur(sender); // TODO
+			saboteur(sender);
 			break;
 		case SPY:
 			spy(sender); // TODO
@@ -373,11 +373,11 @@ public class ProgressCardHandler implements Serializable {
 	 * @param sender
 	 */
 	private void saboteur(Player sender) {
+		SaboteurSetHandler set = new SaboteurSetHandler();
 		for (Player p : game.getParticipants()) {
 			if (p.getVP() > sender.getVP()) {
-				// Probably want some message letting them know saboteur was
-				// played
-				p.sendCommand(new DiscardCardsCommand());
+				set.waitForPlayer(p);
+				p.sendCommand(new DiscardCardsCommand("The Saboteur destroys half of your resources"));
 			}
 		}
 	}

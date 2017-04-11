@@ -34,7 +34,7 @@ public class GameWindow extends MinuetoFrame {
 	private DialogBoxLayer dbox;
 	private TradeMenuLayer tradeMenu;
 	private TradeOfferMenuLayer receiveTradeMenu;
-	private SevenDiscardMenuLayer sevenDiscardMenu;
+	private DiscardResourcesMenuLayer sevenDiscardMenu;
 	private SelectPlayerLayer selectPlayerLayer;
 	private ProgressCardMenuLayer progressCardsLayer;
 	private SelectProgressCardTypeLayer selectProgressCardTypeLayer;
@@ -93,7 +93,7 @@ public class GameWindow extends MinuetoFrame {
 		this.dbox = new DialogBoxLayer();
 		this.tradeMenu = new TradeMenuLayer();
 		this.receiveTradeMenu = new TradeOfferMenuLayer();
-		this.sevenDiscardMenu = new SevenDiscardMenuLayer();
+		this.sevenDiscardMenu = new DiscardResourcesMenuLayer();
 		this.selectPlayerLayer = new SelectPlayerLayer();
 		this.progressCardsLayer = new ProgressCardMenuLayer();
 		this.selectResourceMenuLayer = new SelectResourceMenuLayer();

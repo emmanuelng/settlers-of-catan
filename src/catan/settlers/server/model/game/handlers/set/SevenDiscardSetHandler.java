@@ -46,7 +46,7 @@ public class SevenDiscardSetHandler extends SetOfOpponentMove {
 				endSevenDiscardPhase();
 			}
 		} else {
-			sender.sendCommand(new DiscardCardsCommand());
+			sender.sendCommand(new DiscardCardsCommand("A seven was rolled and you have too many cards"));
 		}
 	}
 
