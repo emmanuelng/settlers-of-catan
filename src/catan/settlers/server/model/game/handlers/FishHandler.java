@@ -5,6 +5,7 @@ import java.io.Serializable;
 import catan.settlers.network.client.commands.game.ChooseProgressCardCommand;
 import catan.settlers.network.client.commands.game.FishResourceCommand;
 import catan.settlers.network.client.commands.game.SelectPlayerToStealFromCommand;
+import catan.settlers.network.client.commands.game.UpdateFishCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 
@@ -47,5 +48,6 @@ public class FishHandler implements Serializable {
 		default:
 			break;
 		}
+		sender.sendCommand(new UpdateFishCommand(sender.getNumFish()));
 	}
 }
