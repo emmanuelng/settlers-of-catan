@@ -20,7 +20,7 @@ public class TradeSuccessCommand implements ServerToClientCommand {
 	@Override
 	public void execute() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		gsm.setShowTradeMenu(false);
+		gsm.setShowTradeReceivedMenu(false);
 
 		if (username != null) {
 			gsm.setdBox("Trade success!", username + " accepted the offer");

@@ -95,6 +95,7 @@ public class GameStateManager {
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
 		this.canMoveRobber = false;
+		this.victoryPoints = new HashMap<>();
 
 		this.updateResources = true;
 		this.updateProgressCards = true;

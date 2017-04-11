@@ -152,8 +152,6 @@ public class TradeOfferMenuLayer extends ImageLayer {
 			@Override
 			public void onClick() {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
-				System.out.println("Confirm Trade");
-				// confirm trade here
 				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeConfirmCommand(give, get, player));
 				gsm.setShowTradeReceivedMenu(false);
 			}
@@ -166,7 +164,6 @@ public class TradeOfferMenuLayer extends ImageLayer {
 			@Override
 			public void onClick() {
 				GameStateManager gsm = ClientModel.instance.getGameStateManager();
-				System.out.println("Refuse trade");
 				gsm.setShowTradeReceivedMenu(false);
 			}
 		};
