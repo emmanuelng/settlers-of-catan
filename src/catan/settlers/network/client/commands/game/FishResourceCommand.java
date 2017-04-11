@@ -13,6 +13,5 @@ public class FishResourceCommand implements ServerToClientCommand {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		gsm.setSelectResourceMessage("Choose the resource you would like");
 		gsm.setShowSelectResourceMenu(true);
-		gsm.setShowSelectResourceMenuReason("Traded Fish");
 	}
 }
