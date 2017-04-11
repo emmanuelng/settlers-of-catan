@@ -16,7 +16,7 @@ public class DeserterCommand implements ServerToClientCommand {
 	@Override
 	public void execute() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		gsm.setShowSelectCardTypeMenu(false);
+		gsm.setShowProgressCardMenu(false);
 
 		if (playerWhoPlayedCard.equals(ClientModel.instance.getUsername())) {
 			gsm.setShowSelectIntersectionLayer(true);

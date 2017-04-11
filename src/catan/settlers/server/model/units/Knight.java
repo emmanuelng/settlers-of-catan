@@ -141,11 +141,21 @@ public class Knight implements IntersectionUnit {
 
 		Intersection intersections[] = edge.getIntersections();
 
-		if (intersections[0].getUnit() == null && !intersections[0].isMaritime())
+		if (intersections[0].getUnit() == null && !intersections[0].isMaritime()) {
 			ret.add(intersections[0].getId());
+		} else if (intersections[0].getUnit() instanceof Knight && intersections[0].getUnit().getOwner() != myOwner) {
+			if (knightType.ordinal() > ((Knight)intersections[0].getUnit()).getType().ordinal()) {
+				ret.add(intersections[0].getId());
+			}
+		}
 
-		if (intersections[1].getUnit() == null && !intersections[1].isMaritime())
+		if (intersections[1].getUnit() == null && !intersections[1].isMaritime()) {
 			ret.add(intersections[1].getId());
+		} else if (intersections[1].getUnit() instanceof Knight && intersections[1].getUnit().getOwner() != myOwner) {
+			if (knightType.ordinal() > ((Knight)intersections[1].getUnit()).getType().ordinal()) {
+				ret.add(intersections[1].getId());
+			}
+		}
 
 		for (Edge e : intersections[0].getEdges()) {
 			if (e != edge)
