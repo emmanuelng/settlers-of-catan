@@ -449,7 +449,7 @@ public class ProgressCardHandler implements Serializable {
 						}
 						if (onHex) {
 							sender.giveResource(ResourceType.ORE, 2);
-							sender.sendCommand(new UpdateResourcesCommand(currentPlayer.getResources()));
+							sender.sendCommand(new UpdateResourcesCommand(sender.getResources()));
 						}
 					}
 				}
