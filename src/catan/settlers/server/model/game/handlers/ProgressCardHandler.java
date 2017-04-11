@@ -33,6 +33,7 @@ import catan.settlers.server.model.game.handlers.set.MasterMerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantFleetSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.ResourceMonopolySetHandler;
+import catan.settlers.server.model.game.handlers.set.SaboteurSetHandler;
 import catan.settlers.server.model.game.handlers.set.TradeMonopolySetHandler;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.Hexagon;
@@ -375,11 +376,20 @@ public class ProgressCardHandler implements Serializable {
 	private void saboteur(Player sender) {
 		SaboteurSetHandler set = new SaboteurSetHandler();
 		for (Player p : game.getParticipants()) {
-			if (p.getVP() > sender.getVP()) {
-				set.waitForPlayer(p);
-				p.sendCommand(new DiscardCardsCommand("The Saboteur destroys half of your resources"));
+			if (p.getVP() >= sender.getVP()) {
+				if (p != sender) {
+					set.waitForPlayer(p);
+					p.sendCommand(new DiscardCardsCommand("The Saboteur destroys half of your resources"));
+				}
 			}
 		}
+
+		if (!set.isEmpty())
+			game.setCurSetOfOpponentMove(set);
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.SABOTEUR);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**
