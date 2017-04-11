@@ -92,6 +92,8 @@ public class GameStateManager {
 	private String tradeMetOwner;
 	private String polMetOwner;
 
+	private boolean doShowSelectInterscetionLayer;
+
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
 		this.canMoveRobber = false;
@@ -609,5 +611,13 @@ public class GameStateManager {
 
 	public String getLongestRoad() {
 		return longestRoad;
+	}
+
+	public boolean getShowSelectIntersectionLayer() {
+		return doShowSelectInterscetionLayer;
+	}
+
+	public void setShowSelectIntersectionLayer(boolean b) {
+		this.doShowSelectInterscetionLayer = b;
 	}
 }

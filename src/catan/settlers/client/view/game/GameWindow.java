@@ -45,6 +45,7 @@ public class GameWindow extends MinuetoFrame {
 	private FlipchartLayer flipchartLayer;
 	private SaveAndExitMenuLayer saveAndExitMenuLayer;
 	private AchievementsLayer achievementsLayer;
+	private SelectIntersectionLayer selectIntersectionLayer;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
@@ -102,6 +103,7 @@ public class GameWindow extends MinuetoFrame {
 		this.barbarianCounterLayer = new BarbarianCounterLayer();
 		this.achievementsLayer = new AchievementsLayer();
 		this.saveAndExitMenuLayer = new SaveAndExitMenuLayer();
+		this.selectIntersectionLayer = new SelectIntersectionLayer();
 
 		this.imageClickableMap = new HashMap<>();
 	}
@@ -122,6 +124,7 @@ public class GameWindow extends MinuetoFrame {
 		drawLayer(selectProgressCardTypeLayer, 0, 0);
 		drawLayer(selectCommodityMenuLayer, 0, 0);
 		drawLayer(selectHexLayer, 0, 0);
+		drawLayer(selectIntersectionLayer, 0, 0);
 		drawLayer(topBar, 0, 0);
 		drawLayer(flipchartLayer, 0, 0);
 		drawLayer(barbarianCounterLayer, 10, 105);
