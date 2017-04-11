@@ -19,6 +19,7 @@ public class PlayerSelectedCommand implements ClientToServerCommand {
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 		this.data = new TurnData(TurnAction.PLAYER_SELECTED);
 		data.setSelectedPlayer(username);
+		data.setSelectionReason(reason);
 	}
 
 	@Override
