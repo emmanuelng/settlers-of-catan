@@ -16,8 +16,10 @@ import catan.settlers.client.model.ImageFileManager;
 import catan.settlers.client.view.ClientWindow;
 import catan.settlers.client.view.game.handlers.ClickListener;
 import catan.settlers.network.server.commands.game.EndTurnCommand;
+import catan.settlers.network.server.commands.game.FishActionCommand;
 import catan.settlers.network.server.commands.game.RollDiceCommand;
 import catan.settlers.server.model.Player.ResourceType;
+import catan.settlers.server.model.game.handlers.FishHandler.FishAction;
 
 public class TopBarLayer extends ImageLayer {
 
@@ -88,7 +90,17 @@ public class TopBarLayer extends ImageLayer {
 					resources_y + 40 * (int) Math.floor(i / resources_per_line));
 		}
 
+		Button fishImage = new Button(this, "Fish " , MinuetoColor.BLACK, new ClickListener() {
+
+			@Override
+			public void onClick() {
+				gsm.setShowFishMenu(!gsm.doShowFishMenu());
+			}
+		});
 		int x_offset = ClientWindow.WINDOW_WIDTH - vpImage.getWidth() - 30;
+		draw(fishImage.getImage(), ClientWindow.WINDOW_WIDTH/2-150, 50);
+		
+		
 
 		Integer vps = gsm.getVictoryPoints().get(ClientModel.instance.getUsername());
 		vps = vps == null ? 0 : vps;

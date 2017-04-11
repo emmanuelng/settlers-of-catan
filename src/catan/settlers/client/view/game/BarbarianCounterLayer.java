@@ -36,7 +36,7 @@ public class BarbarianCounterLayer extends ImageLayer {
 		MinuetoText counter = new MinuetoText(barbarianCounter + "/7", amt_font, MinuetoColor.BLACK, true);
 
 		draw(barbarianImage, 10, 10);
-		draw(counter, barbarianImage.getWidth() - 40, barbarianImage.getHeight() - 30);
+		draw(counter, barbarianImage.getWidth()+20, barbarianImage.getHeight() - 25);
 
 	}
 

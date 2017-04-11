@@ -94,6 +94,8 @@ public class GameStateManager {
 
 	private boolean doShowSelectInterscetionLayer;
 
+	private boolean doShowFishMenu;
+
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
 		this.canMoveRobber = false;
@@ -111,6 +113,7 @@ public class GameStateManager {
 		this.showSelectCardTypeMenu = false;
 		this.showSelectCommodityMenu = false;
 		this.doShowSelectHexLayer = false;
+		this.doShowFishMenu = false;
 		this.currentReason = null;
 
 		this.sevenDiscardMenuMsg = "";
@@ -619,5 +622,12 @@ public class GameStateManager {
 
 	public void setShowSelectIntersectionLayer(boolean b) {
 		this.doShowSelectInterscetionLayer = b;
+	}
+
+	public void setShowFishMenu(boolean b){
+		doShowFishMenu = b;
+	}
+	public boolean doShowFishMenu() {
+		return doShowFishMenu;
 	}
 }
