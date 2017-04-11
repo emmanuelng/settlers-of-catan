@@ -2,6 +2,7 @@ package catan.settlers.server.model.game.handlers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
@@ -38,6 +39,7 @@ import catan.settlers.server.model.game.handlers.set.SaboteurSetHandler;
 import catan.settlers.server.model.game.handlers.set.TradeMonopolySetHandler;
 import catan.settlers.server.model.game.handlers.set.WeddingSetHandler;
 import catan.settlers.server.model.map.Edge;
+import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
@@ -89,7 +91,7 @@ public class ProgressCardHandler implements Serializable {
 			deserter(sender);
 			break;
 		case DIPLOMAT:
-			diplomat(sender); // TODO
+			diplomat(sender);
 			break;
 		case INTRIGUE:
 			intrigue(sender);
@@ -536,24 +538,17 @@ public class ProgressCardHandler implements Serializable {
 	 * Draw two ore for each mountain tile you have at least one village on
 	 */
 	private void mining(Player sender) {
-		for (int y = 0; y < 7; y++) {
-			for (int x = 0; x < 7; x++) {
-				Hexagon h = game.getGameBoardManager().getBoard().getHexagonAt(x, y);
-				if (h != null) {
-					if (h.getType() == TerrainType.MOUNTAIN) {
-						boolean onHex = false;
-						for (IntersectionLoc loc : IntersectionLoc.values()) {
-							IntersectionUnit u = h.getIntersection(loc).getUnit();
-							if (u instanceof Village) {
-								if (u.getOwner() == sender) {
-									onHex = true;
-									break;
-								}
-							}
-						}
-						if (onHex) {
-							sender.giveResource(ResourceType.ORE, 2);
-							sender.sendCommand(new UpdateResourcesCommand(sender.getResources()));
+		GameBoard board = game.getGameBoardManager().getBoard();
+		for (int x = 0; x < board.getLength(); x++) {
+			for (int y = 0; y < board.getHeight(); y++) {
+				Hexagon hex = board.getHexagonAt(x, y);
+
+				if (hex != null) {
+					if (hex.getType() == TerrainType.MOUNTAIN) {
+						HashSet<Player> players = hex.getPlayersOnHex();
+						for (Player p : players) {
+							p.giveResource(ResourceType.ORE, 2);
+							p.sendCommand(new UpdateResourcesCommand(p.getResources()));
 						}
 					}
 				}

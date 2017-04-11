@@ -225,6 +225,8 @@ public class GameStateManager {
 
 	public void setProgressCards(HashMap<ProgressCardType, Integer> progressCards) {
 		this.progressCards = progressCards;
+		
+		this.progressCards.put(ProgressCardType.MINING, 1);
 		this.updateProgressCards = true;
 	}
 
