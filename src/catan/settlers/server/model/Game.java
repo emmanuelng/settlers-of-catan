@@ -55,6 +55,7 @@ public class Game implements Serializable {
 	private TurnPhaseHandler turnPhaseHandler;
 	private ProgressCardHandler progressCardHandler;
 	private GamePhase prevPhase;
+	private boolean attacked;
 
 	public Game(int id, Credentials owner) {
 		this.id = id;
@@ -342,4 +343,11 @@ public class Game implements Serializable {
 		return ret;
 	}
 
+	public void setAttacked(boolean b) {
+		attacked = b;
+	}
+
+	public boolean getAttacked(){
+		return attacked;
+	}
 }

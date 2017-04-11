@@ -210,7 +210,7 @@ public class RollDicePhaseHandler implements Serializable {
 	 */
 	private void barbarianAttack() {
 		int barbarianStrength = 0;
-
+		game.setAttacked(true);
 		HashMap<Player, Integer> playerStrength = new HashMap<>();
 		for (Player p : participants)
 			playerStrength.put(p, 0);
