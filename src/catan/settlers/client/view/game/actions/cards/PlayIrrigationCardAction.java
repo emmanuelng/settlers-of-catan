@@ -20,7 +20,7 @@ public class PlayIrrigationCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Irrigation Card";
+		return "Draw two grain for each field tile you have at least one village on.";
 	}
 
 	@Override

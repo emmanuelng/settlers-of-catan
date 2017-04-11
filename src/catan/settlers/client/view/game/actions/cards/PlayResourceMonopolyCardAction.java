@@ -20,7 +20,7 @@ public class PlayResourceMonopolyCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Resource Monopoly Card";
+		return "Name a resource; all other players must give you 2 of that if they have it.";
 	}
 
 	@Override

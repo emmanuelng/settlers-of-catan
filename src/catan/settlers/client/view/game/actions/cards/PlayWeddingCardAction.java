@@ -20,7 +20,7 @@ public class PlayWeddingCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Wedding Card";
+		return "All players with more VPs than you must give you 2 resources of their choice.";
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class PlayMerchantFleetCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Merchant Fleet Card";
+		return "Select a resource; you may trade that at 2:1 for this turn.";
 	}
 
 	@Override

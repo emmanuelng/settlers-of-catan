@@ -20,7 +20,7 @@ public class PlaySpyCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Spy Card";
+		return "Steal a non-VP progress card from an opponent.";
 	}
 
 	@Override

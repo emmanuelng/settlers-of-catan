@@ -20,7 +20,7 @@ public class PlayMerchantCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Merchant Card";
+		return "Place merchant on a tile; trade that resource at 2:1.";
 	}
 
 	@Override

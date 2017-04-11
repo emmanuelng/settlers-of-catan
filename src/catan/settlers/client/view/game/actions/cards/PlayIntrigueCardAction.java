@@ -20,7 +20,7 @@ public class PlayIntrigueCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Intrigue Card";
+		return "Choose an opponent's knight to displace for free, but it must be on your road network.";
 	}
 
 	@Override

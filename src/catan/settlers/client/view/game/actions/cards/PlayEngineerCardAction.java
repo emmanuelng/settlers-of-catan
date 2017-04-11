@@ -20,7 +20,7 @@ public class PlayEngineerCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Engineer Card";
+		return "Your next city wall is free.";
 	}
 
 	@Override

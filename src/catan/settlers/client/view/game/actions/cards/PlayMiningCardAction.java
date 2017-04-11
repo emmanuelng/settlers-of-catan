@@ -20,7 +20,7 @@ public class PlayMiningCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Mining Card";
+		return "Draw two ore for each mountain tile you have at least one village on.";
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class PlayCraneCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Crane Card";
+		return "Your next city improvement you build this turn costs one less commodity than usual.";
 	}
 
 	@Override

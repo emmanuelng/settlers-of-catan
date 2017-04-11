@@ -20,7 +20,7 @@ public class PlayDiplomatCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Diplomat Card";
+		return "Remove any open road; if it's your own, you may place it somewhere else";
 	}
 
 	@Override

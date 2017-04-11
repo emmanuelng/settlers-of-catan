@@ -20,7 +20,7 @@ public class PlaySaboteurCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Saboteur Card Action";
+		return "All players with more VPs than you must discard half their cards.";
 	}
 
 	@Override

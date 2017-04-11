@@ -21,7 +21,7 @@ public class PlayCommercialHarbourCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Commercial Harbour Card";
+		return "Give each opponent a resource of your choice in exchange for a commodity of their choice.";
 	}
 
 	@Override

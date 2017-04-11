@@ -19,7 +19,7 @@ public class PlayMasterMerchantCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Master Merchant Card";
+		return "Choose two cards to take from an opponent with more VPs than you.";
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class PlayRoadBuildingCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Play Road Building Card";
+		return "Build two roads at no cost.";
 	}
 
 	@Override
