@@ -186,7 +186,8 @@ public class Hexagon implements Serializable {
 
 		for (Intersection intersection : myIntersections)
 			if (intersection.getUnit() != null)
-				ret.add(intersection.getUnit().getOwner());
+				if (intersection.getUnit().isVillage())
+					ret.add(intersection.getUnit().getOwner());
 
 		return ret;
 	}
