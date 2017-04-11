@@ -104,6 +104,10 @@ public class HexagonImage extends MinuetoImage {
 			return new MinuetoColor(198, 233, 175);
 		case GOLDMINE:
 			return new MinuetoColor(229, 255, 128);
+		case LAKE:
+			return new MinuetoColor(51, 127, 178);
+		case FISHINGGROUND:
+			return new MinuetoColor(0,0,128);
 		default:
 			return new MinuetoColor(236, 236, 236);
 		}
