@@ -161,6 +161,10 @@ public class Player implements Serializable {
 		return count;
 	}
 
+	public int getNumFish(){
+		return fishCount;
+	}
+	
 	public void giveFish(int n) {
 		fishCount += n;
 	}

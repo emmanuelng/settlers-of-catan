@@ -96,6 +96,8 @@ public class GameStateManager {
 
 	private String discardMenuTitle;
 
+	private int numFish;
+
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
 		this.canMoveRobber = false;
@@ -640,4 +642,13 @@ public class GameStateManager {
 	public String getDiscardMenuTitle() {
 		return discardMenuTitle;
 	}
+
+	public void setNumFish(int numFish) {
+		this.numFish = numFish;
+	}
+	
+	public int getNumFish(){
+		return numFish;
+	}
+	
 }

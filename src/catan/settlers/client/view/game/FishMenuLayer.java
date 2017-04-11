@@ -25,6 +25,7 @@ public class FishMenuLayer extends ImageLayer {
 	private MinuetoRectangle background;
 	private MinuetoRectangle border;
 	private MinuetoText title;
+	private MinuetoText description;
 	private boolean clear;
 	private MinuetoRectangle btnShadow;
 	private Button removeRobber;
@@ -42,6 +43,7 @@ public class FishMenuLayer extends ImageLayer {
 		this.background = new MinuetoRectangle(WIDTH, HEIGHT, bg_color, true);
 		this.border = new MinuetoRectangle(WIDTH, HEIGHT, border_color, false);
 		this.title = new MinuetoText("Trade Fish!", title_font, MinuetoColor.BLACK);
+		this.description = new MinuetoText("You have "+ ClientModel.instance.getGameStateManager().getNumFish() + " fish.", description_font, MinuetoColor.BLACK);
 	}
 	
 	@Override
@@ -65,7 +67,7 @@ public class FishMenuLayer extends ImageLayer {
 
 		draw(title, box_x + (WIDTH / 2 - title.getWidth() / 2), y_offset);
 		y_offset += title.getHeight() + 10;
-
+		draw(description,box_x + (WIDTH / 2 - description.getWidth() / 2), y_offset );
 		y_offset += 20;
 		
 		drawRemoveRobber();

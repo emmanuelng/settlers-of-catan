@@ -11,6 +11,7 @@ import catan.settlers.network.client.commands.game.ChooseProgressCardCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.NormalDiceRollCommand;
 import catan.settlers.network.client.commands.game.UpdateBarbarianCounterCommand;
+import catan.settlers.network.client.commands.game.UpdateFishCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.UpdateVPCommand;
@@ -196,6 +197,7 @@ public class RollDicePhaseHandler implements Serializable {
 				p.sendCommand(new NormalDiceRollCommand(redDie, yellowDie));
 			}
 			p.sendCommand(new UpdateResourcesCommand(p.getResources()));
+			p.sendCommand(new UpdateFishCommand(p.getNumFish()));
 		}
 	}
 
