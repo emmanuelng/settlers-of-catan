@@ -2,18 +2,16 @@ package catan.settlers.server.model.game.handlers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import catan.settlers.client.model.GameStateManager.SelectionReason;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
-import catan.settlers.network.client.commands.game.SelectPlayerCommand;
 import catan.settlers.network.client.commands.game.UpdateCardsCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.UpdateVPCommand;
 import catan.settlers.network.client.commands.game.cards.BishopCommand;
 import catan.settlers.network.client.commands.game.cards.CommercialHarborCommand;
 import catan.settlers.network.client.commands.game.cards.DeserterCommand;
+import catan.settlers.network.client.commands.game.cards.DiplomatCommand;
 import catan.settlers.network.client.commands.game.cards.IntrigueCommand;
 import catan.settlers.network.client.commands.game.cards.InventorCommand;
 import catan.settlers.network.client.commands.game.cards.MasterMerchantCommand;
@@ -29,6 +27,7 @@ import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.game.handlers.set.BishopSetHandler;
 import catan.settlers.server.model.game.handlers.set.CommercialHarborSetHandler;
 import catan.settlers.server.model.game.handlers.set.DeserterSetHandler;
+import catan.settlers.server.model.game.handlers.set.DiplomatSetHandler;
 import catan.settlers.server.model.game.handlers.set.IntrigueSetHandler;
 import catan.settlers.server.model.game.handlers.set.InventorSetHandler;
 import catan.settlers.server.model.game.handlers.set.MasterMerchantSetHandler;
@@ -59,11 +58,6 @@ public class ProgressCardHandler implements Serializable {
 
 	/**
 	 * Progress card logic handling.
-	 * 
-	 * TODO: Implement the TODO methods. Once this is done, remove the TODO tag.
-	 * You can go directly to the method using Ctrl + click on the method name.
-	 * You can also get the method description by hovering on the method
-	 * signature.
 	 */
 	public void handle(Player sender, ProgressCardType card) {
 		switch (card) {
@@ -104,13 +98,13 @@ public class ProgressCardHandler implements Serializable {
 			saboteur(sender);
 			break;
 		case SPY:
-			spy(sender);
+			spy(sender); // TODO
 			break;
 		case WARLORD:
 			warlord(sender);
 			break;
 		case WEDDING:
-			wedding(sender); // TODO
+			wedding(sender);
 			break;
 		case CRANE:
 			crane(sender);
@@ -119,25 +113,25 @@ public class ProgressCardHandler implements Serializable {
 			engineer(sender);
 			break;
 		case INVENTOR:
-			inventor(sender); // TODO
+			inventor(sender);
 			break;
 		case IRRIGATION:
 			irrigation(sender);
 			break;
 		case MEDICINE:
-			medicine(sender); // TODO
+			medicine(sender);
 			break;
 		case MINING:
 			mining(sender);
 			break;
 		case PRINTER:
-			printer(sender); // TODO
+			printer(sender);
 			break;
 		case ROAD_BUILDING:
-			roadBuilding(sender); // TODO
+			roadBuilding(sender);
 			break;
 		case SMITH:
-			smithCard(sender); // TODO
+			smithCard(sender);
 			break;
 		default:
 			break;
@@ -333,7 +327,15 @@ public class ProgressCardHandler implements Serializable {
 	 * remove any open road; if it's your own, you may place it somewhere else
 	 */
 	private void diplomat(Player sender) {
+		DiplomatSetHandler set = new DiplomatSetHandler();
+		set.waitForPlayer(sender);
+		game.setCurSetOfOpponentMove(set);
 
+		game.sendToAllPlayers(new DiplomatCommand(sender.getUsername(), false));
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.DIPLOMAT);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**

@@ -98,6 +98,8 @@ public class GameStateManager {
 
 	private int numFish;
 
+	private boolean showSelectEdgeLayer;
+
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
 		this.canMoveRobber = false;
@@ -648,6 +650,14 @@ public class GameStateManager {
 
 	public int getNumFish() {
 		return numFish;
+	}
+	
+	public void setShowSelectEdgeLayer(boolean b) {
+		this.showSelectEdgeLayer = b;
+	}
+
+	public boolean getShowSelectEdgeLayer() {
+		return showSelectEdgeLayer;
 	}
 
 }
