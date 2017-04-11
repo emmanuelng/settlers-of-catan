@@ -46,8 +46,11 @@ public class ActionBoxLayer extends ImageLayer {
 		if (!gsm.doUpdateActions() || gsm.getCurrentPhase() != GamePhase.TURNPHASE)
 			return;
 
-		if (!gsm.getCurrentPlayer().equals(ClientModel.instance.getUsername()))
+		if (!gsm.getCurrentPlayer().equals(ClientModel.instance.getUsername())){
+			clear();
 			return;
+		}
+
 
 		ClientWindow.getInstance().getGameWindow().clearLayerClickables(this);
 		clear();
