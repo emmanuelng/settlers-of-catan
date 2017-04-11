@@ -18,7 +18,7 @@ public class BuildRoadAction implements GameAction {
 
 		if (selectedEdge != null) {
 			if (resources.get(ResourceType.BRICK) > 0 && resources.get(ResourceType.LUMBER) > 0)
-				return selectedEdge.canBuild(ClientModel.instance.getUsername());
+				return selectedEdge.canBuild(ClientModel.instance.getUsername()) && !selectedEdge.isMaritime();
 		}
 		return false;
 	}
