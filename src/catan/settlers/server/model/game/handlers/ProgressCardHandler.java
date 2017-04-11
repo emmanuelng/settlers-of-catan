@@ -30,6 +30,7 @@ import catan.settlers.server.model.game.handlers.set.BishopSetHandler;
 import catan.settlers.server.model.game.handlers.set.CommercialHarborSetHandler;
 import catan.settlers.server.model.game.handlers.set.DeserterSetHandler;
 import catan.settlers.server.model.game.handlers.set.IntrigueSetHandler;
+import catan.settlers.server.model.game.handlers.set.InventorSetHandler;
 import catan.settlers.server.model.game.handlers.set.MasterMerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantFleetSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantSetHandler;
@@ -473,7 +474,11 @@ public class ProgressCardHandler implements Serializable {
 	 * 12
 	 */
 	private void inventor(Player sender) {
-		sender.sendCommand(new InventorCommand());
+		InventorSetHandler set = new InventorSetHandler();
+		set.waitForPlayer(sender);
+		game.setCurSetOfOpponentMove(set);
+
+		game.sendToAllPlayers(new InventorCommand(sender.getUsername()));
 
 		// Update cards
 		sender.useProgressCard(ProgressCardType.INVENTOR);
