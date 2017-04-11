@@ -9,6 +9,7 @@ import catan.settlers.network.client.commands.game.AqueductCommand;
 import catan.settlers.network.client.commands.game.BarbarianAttackCommand;
 import catan.settlers.network.client.commands.game.ChooseProgressCardCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
+import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.NormalDiceRollCommand;
 import catan.settlers.network.client.commands.game.UpdateBarbarianCounterCommand;
 import catan.settlers.network.client.commands.game.UpdateCardsCommand;
@@ -71,6 +72,9 @@ public class RollDicePhaseHandler implements Serializable {
 				game.setCurSetOfOpponentMove(discardResourcesSet);
 				askOtherPlayersToWait(discardResourcesSet, "SevenDiscard");
 				return;
+			}
+			if (game.getAttacked()) {
+				sender.sendCommand(new MoveRobberCommand(false));
 			}
 
 		} else {
