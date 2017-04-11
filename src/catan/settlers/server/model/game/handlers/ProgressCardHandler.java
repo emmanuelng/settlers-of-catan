@@ -10,6 +10,7 @@ import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.SelectPlayerCommand;
 import catan.settlers.network.client.commands.game.UpdateCardsCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
+import catan.settlers.network.client.commands.game.UpdateVPCommand;
 import catan.settlers.network.client.commands.game.cards.BishopCommand;
 import catan.settlers.network.client.commands.game.cards.CommercialHarborCommand;
 import catan.settlers.network.client.commands.game.cards.InventorCommand;
@@ -284,6 +285,8 @@ public class ProgressCardHandler implements Serializable {
 	 */
 	private void constitution(Player sender) {
 		sender.incrementVP(1);
+		game.getVictoryPoints().put(sender.getUsername(), sender.getVP()+1);
+		sender.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 		// TODO: Update the victory points
 	}
 
@@ -459,6 +462,8 @@ public class ProgressCardHandler implements Serializable {
 	 */
 	private void printer(Player sender) {
 		sender.incrementVP(1);
+		game.getVictoryPoints().put(sender.getUsername(), sender.getVP()+1);
+		sender.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 	}
 
 	/**
