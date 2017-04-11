@@ -23,7 +23,6 @@ public class SelectIntersectionFeedbackCommand implements ClientToServerCommand 
 	public void execute(Session sender, Server server) {
 		Game game = server.getGameManager().getGameById(gameId);
 		game.receiveResponse(sender.getCredentials(), data);
-		;
 	}
 
 }

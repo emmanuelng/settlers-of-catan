@@ -47,6 +47,7 @@ public class SelectIntersectionLayer extends ImageLayer {
 				nm.sendCommand(new SelectIntersectionFeedbackCommand());
 				gsm.setSelectedIntersection(null);
 				gsm.setdBox(null, null);
+				gsm.setMoveKnightMode(false);
 				gsm.setShowSelectIntersectionLayer(false);
 			}
 		};

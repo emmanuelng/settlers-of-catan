@@ -14,6 +14,7 @@ import catan.settlers.network.client.commands.game.UpdateVPCommand;
 import catan.settlers.network.client.commands.game.cards.BishopCommand;
 import catan.settlers.network.client.commands.game.cards.CommercialHarborCommand;
 import catan.settlers.network.client.commands.game.cards.DeserterCommand;
+import catan.settlers.network.client.commands.game.cards.IntrigueCommand;
 import catan.settlers.network.client.commands.game.cards.InventorCommand;
 import catan.settlers.network.client.commands.game.cards.MasterMerchantCommand;
 import catan.settlers.network.client.commands.game.cards.MerchantCommand;
@@ -27,11 +28,13 @@ import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.game.handlers.set.BishopSetHandler;
 import catan.settlers.server.model.game.handlers.set.CommercialHarborSetHandler;
 import catan.settlers.server.model.game.handlers.set.DeserterSetHandler;
+import catan.settlers.server.model.game.handlers.set.IntrigueSetHandler;
 import catan.settlers.server.model.game.handlers.set.MasterMerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantFleetSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.ResourceMonopolySetHandler;
 import catan.settlers.server.model.game.handlers.set.TradeMonopolySetHandler;
+import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
@@ -85,7 +88,7 @@ public class ProgressCardHandler implements Serializable {
 			constitution(sender);
 			break;
 		case DESERTER:
-			deserter(sender); // TODO
+			deserter(sender);
 			break;
 		case DIPLOMAT:
 			diplomat(sender); // TODO
@@ -334,7 +337,34 @@ public class ProgressCardHandler implements Serializable {
 	 * road network
 	 */
 	private void intrigue(Player sender) {
+		// Check if there is an opponent knight on the sender's road network
+		boolean canPlay = false;
 
+		for (Intersection intersection : game.getGameBoardManager().getBoard().getIntersections()) {
+			if (intersection.getUnit() instanceof Knight)
+				if (intersection.getUnit().getOwner() != sender)
+					for (Edge edge : intersection.getEdges())
+						if (edge.getOwner() == sender) {
+							canPlay = true;
+							break;
+						}
+
+			if (canPlay)
+				break;
+		}
+
+		if (!canPlay)
+			return;
+
+		IntrigueSetHandler set = new IntrigueSetHandler();
+		set.waitForPlayer(sender);
+		game.setCurSetOfOpponentMove(set);
+
+		game.sendToAllPlayers(new IntrigueCommand(sender.getUsername()));
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.INTRIGUE);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**
