@@ -20,7 +20,18 @@ public class NormalDiceRollCommand implements ServerToClientCommand {
 	@Override
 	public void execute() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		gsm.setdBox((redDie + yellowDie) + " was rolled", "Red Die: "+ redDie + " Yellow Die: "+ yellowDie + " Event Die: "+ eventDie);
+		String eventString = null;
+		if (eventDie < 4) {
+			eventString = "Barbarian Horde";
+		} else if (eventDie == 4) {
+			eventString = "Trade";
+		} else if (eventDie == 5) {
+			eventString = "Politics";
+		} else if (eventDie == 6) {
+			eventString = "Science";
+		}
+		
+		gsm.setdBox((redDie + yellowDie) + " was rolled", "Red Die: "+ redDie + " Yellow Die: "+ yellowDie + " Event Die: "+ eventString);
 	}
 
 }
