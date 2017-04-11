@@ -11,6 +11,7 @@ import catan.settlers.network.client.commands.game.ChooseProgressCardCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.NormalDiceRollCommand;
 import catan.settlers.network.client.commands.game.UpdateBarbarianCounterCommand;
+import catan.settlers.network.client.commands.game.UpdateCardsCommand;
 import catan.settlers.network.client.commands.game.UpdateFishCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
@@ -94,6 +95,7 @@ public class RollDicePhaseHandler implements Serializable {
 				if (lvl != 0) {
 					if (lvl + 1 >= redDie) {
 						p.giveProgressCard(ProgCards.drawTradeCard());
+						p.sendCommand(new UpdateCardsCommand(p.getProgressCards()));
 					}
 				}
 			}
@@ -104,6 +106,7 @@ public class RollDicePhaseHandler implements Serializable {
 				if (lvl != 0) {
 					if (lvl + 1 >= redDie) {
 						p.giveProgressCard(ProgCards.drawPoliticsCard());
+						p.sendCommand(new UpdateCardsCommand(p.getProgressCards()));
 					}
 				}
 			}
@@ -114,6 +117,7 @@ public class RollDicePhaseHandler implements Serializable {
 				if (lvl != 0) {
 					if (lvl + 1 >= redDie) {
 						p.giveProgressCard(ProgCards.drawScienceCard());
+						p.sendCommand(new UpdateCardsCommand(p.getProgressCards()));
 					}
 				}
 			}
@@ -192,9 +196,9 @@ public class RollDicePhaseHandler implements Serializable {
 				game.setCurSetOfOpponentMove(set);
 
 				p.sendCommand(new AqueductCommand(p.getUsername()));
-				p.sendCommand(new NormalDiceRollCommand(redDie, yellowDie));
+				p.sendCommand(new NormalDiceRollCommand(redDie, yellowDie,eventDie));
 			} else {
-				p.sendCommand(new NormalDiceRollCommand(redDie, yellowDie));
+				p.sendCommand(new NormalDiceRollCommand(redDie, yellowDie,eventDie));
 			}
 			p.sendCommand(new UpdateResourcesCommand(p.getResources()));
 			p.sendCommand(new UpdateFishCommand(p.getNumFish()));

@@ -20,6 +20,7 @@ public class FishActionCommand implements ClientToServerCommand {
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 		this.turnData = new TurnData(TurnAction.FISH_ACTION);
 		turnData.setFishAction(action);
+		ClientModel.instance.getGameStateManager().setShowFishMenu(false);
 	}
 	
 	@Override

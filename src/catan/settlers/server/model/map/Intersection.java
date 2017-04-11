@@ -128,7 +128,7 @@ public class Intersection implements Serializable {
 
 	public boolean isMaritime() {
 		for (Hexagon hex : myHexagons) {
-			if (hex.getType() != Hexagon.TerrainType.SEA) {
+			if (hex.getType() != Hexagon.TerrainType.SEA && hex.getType() != Hexagon.TerrainType.FISHINGGROUND) {
 				return false;
 			}
 		}
