@@ -22,10 +22,10 @@ public class WaitForSetOfOpponentMoveCommand implements ServerToClientCommand {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		gsm.setShowSevenDiscardMenu(false);
 
-		if (reason == "SevenDiscard") {
+		if (reason.equals("SevenDiscard")) {
 			gsm.setdBox("A 7 was rolled", "Some players need to discard resources. Please wait (" + nbOfResponse + "/"
 					+ nbOfPlayers + " players responded)");
-		} else if (reason == "CommercialHarbour") {
+		} else if (reason.equals("CommercialHarbour")) {
 			gsm.setdBox("Somebody played a commercial harbour card",
 					"Everybody needs to choose a resource/commodity " + nbOfPlayers + " players responded");
 		}
