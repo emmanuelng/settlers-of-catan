@@ -21,6 +21,7 @@ public class MoveDisplacedKnightCommand implements ServerToClientCommand {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		gsm.setSelectedIntersection(knightLoc);
 		gsm.setMoveKnightMode(true);
+		gsm.setShowSelectIntersectionLayer(true);
 		gsm.setCanMoveKnightIntersecIds(knightToMove.canCanMoveIntersecIds());
 		gsm.setdBox("Your knight has been displaced!", "Select a new intersection to move your displaced knight to.");
 	}

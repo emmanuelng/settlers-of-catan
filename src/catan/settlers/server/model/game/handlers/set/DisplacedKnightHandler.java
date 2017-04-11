@@ -1,6 +1,7 @@
 package catan.settlers.server.model.game.handlers.set;
 
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
+import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.TurnData;
@@ -25,12 +26,14 @@ public class DisplacedKnightHandler extends SetOfOpponentMove {
 			if (newLocation.getUnit() != null || newLocation.isMaritime())
 				return;
 			if (knightToMove.canCanMoveIntersecIds().contains(newLocation.getId())) {
-					knightToMove.setLocatedAt(newLocation);
-					newLocation.setUnit(knightToMove);
-					curKnightLoc.setUnit(null);
-					
-					game.setCurSetOfOpponentMove(null);
-					game.sendToAllPlayers(new CurrentPlayerChangedCommand(game.getCurrentPlayer().getUsername()));
+				knightToMove.setLocatedAt(newLocation);
+				newLocation.setUnit(knightToMove);
+				curKnightLoc.setUnit(null);
+				game.sendToAllPlayers(new UpdateGameBoardCommand(game.getGameBoardManager().getBoardDeepCopy()));
+				
+				game.sendToAllPlayers(new CurrentPlayerChangedCommand(game.getCurrentPlayer().getUsername()));
+				game.setCurSetOfOpponentMove(null);
+				return;
 			}
 		}
 	}

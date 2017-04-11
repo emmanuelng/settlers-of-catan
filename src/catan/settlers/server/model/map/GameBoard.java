@@ -41,40 +41,47 @@ public class GameBoard implements Serializable {
 	 */
 	private void generateBoard() {
 		for (int x = 0; x < length; x++) {
-			if (x == 1) {
+			if (x == 0) {
+				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][1] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][2] = new Hexagon(TerrainType.FISHINGGROUND, 1);
+				hexagons[x][3] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][4] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][5] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
+			} else if (x == 1) {
 				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][1] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][2] = new Hexagon(TerrainType.PASTURE, 1);
 				hexagons[x][3] = new Hexagon(TerrainType.PASTURE, 1);
 				hexagons[x][4] = new Hexagon(TerrainType.PASTURE, 1);
+				hexagons[x][5] = new Hexagon(TerrainType.FISHINGGROUND, 1);
+				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
+			} else if (x == 2) {
+				hexagons[x][0] = new Hexagon(TerrainType.FISHINGGROUND, 1);
+				hexagons[x][1] = new Hexagon(TerrainType.PASTURE, 1);
+				hexagons[x][2] = new Hexagon(TerrainType.PASTURE, 1);
+				hexagons[x][3] = new Hexagon(TerrainType.LAKE, 0);
+				hexagons[x][4] = new Hexagon(TerrainType.PASTURE, 1);
+				hexagons[x][5] = new Hexagon(TerrainType.PASTURE, 1);
+				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
+			} else if (x == 3) {
+				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][1] = new Hexagon(TerrainType.PASTURE, 1);
+				hexagons[x][2] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][3] = new Hexagon(TerrainType.PASTURE, 1);
+				hexagons[x][4] = new Hexagon(TerrainType.FISHINGGROUND, 1);
+				hexagons[x][5] = new Hexagon(TerrainType.PASTURE, 1);
+				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
+			} else if (x == 4) {
+				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][1] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][2] = new Hexagon(TerrainType.FISHINGGROUND, 1);
+				hexagons[x][3] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][4] = new Hexagon(TerrainType.PASTURE, 1);
 				hexagons[x][5] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
 			} else if (x == 5) {
-				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][1] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][2] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][3] = new Hexagon(TerrainType.PASTURE, 1);
-				hexagons[x][4] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][5] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
-			} else if (x == 0) {
-				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][1] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][2] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][3] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][4] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][5] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
-			} else if (x == length - 1) {
-				hexagons[x][0] = null;
-				hexagons[x][1] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][2] = null;
-				hexagons[x][3] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][4] = null;
-				hexagons[x][5] = new Hexagon(TerrainType.SEA, 0);
-				hexagons[x][6] = null;
-
-			} else {
 				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
 				hexagons[x][1] = new Hexagon(TerrainType.PASTURE, 1);
 				hexagons[x][2] = new Hexagon(TerrainType.PASTURE, 1);
@@ -82,8 +89,17 @@ public class GameBoard implements Serializable {
 				hexagons[x][4] = new Hexagon(TerrainType.PASTURE, 1);
 				hexagons[x][5] = new Hexagon(TerrainType.PASTURE, 1);
 				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
+			} else if (x == 6) {
+				hexagons[x][0] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][1] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][2] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][3] = new Hexagon(TerrainType.FISHINGGROUND, 1);
+				hexagons[x][4] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][5] = new Hexagon(TerrainType.SEA, 0);
+				hexagons[x][6] = new Hexagon(TerrainType.SEA, 0);
 			}
 		}
+
 		populateAllEdgesAndIntersections();
 		randomizeHexes();
 		stitchEdgesAndIntersections();
@@ -183,19 +199,19 @@ public class GameBoard implements Serializable {
 		diceValues.addAll(Arrays.asList(2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12));
 		Collections.shuffle(diceValues);
 
+		ArrayList<Integer> fishValues = new ArrayList<>();
+		fishValues.addAll(Arrays.asList(4, 5, 6, 8, 9, 10));
+		Collections.shuffle(fishValues);
+
 		for (int x = 0; x < length; x++) {
 			for (int y = 0; y < height; y++) {
 				if (hexagons[x][y] != null) {
-					if (hexagons[x][y].getType() != TerrainType.SEA) {
+					if (hexagons[x][y].getType() != TerrainType.SEA && hexagons[x][y].getType() != TerrainType.LAKE && hexagons[x][y].getType() != TerrainType.FISHINGGROUND) {
 						TerrainType t = terrainPool.remove(0);
-						if (t == TerrainType.DESERT) {
-							hexagons[x][y].setType(t);
-							hexagons[x][y].setNumber(0);
-							robberHex = hexagons[x][y];
-						} else {
-							hexagons[x][y].setType(t);
-							hexagons[x][y].setNumber(diceValues.remove(0));
-						}
+						hexagons[x][y].setType(t);
+						hexagons[x][y].setNumber(diceValues.remove(0));
+					} else if (hexagons[x][y].getType() == TerrainType.FISHINGGROUND) {
+						hexagons[x][y].setNumber(fishValues.remove(0));
 					}
 				}
 			}
@@ -360,24 +376,22 @@ public class GameBoard implements Serializable {
 	}
 
 	private void setPortables() {
-		hexagons[2][1].getIntersection(IntersectionLoc.TOP).setPortable(PortKind.ALLPORT);
-		hexagons[2][1].getIntersection(IntersectionLoc.TOPLEFT).setPortable(PortKind.ALLPORT);
-		hexagons[1][2].getIntersection(IntersectionLoc.TOPLEFT).setPortable(PortKind.BRICKPORT);
-		hexagons[1][2].getIntersection(IntersectionLoc.BOTTOMLEFT).setPortable(PortKind.BRICKPORT);
-		hexagons[1][4].getIntersection(IntersectionLoc.TOPLEFT).setPortable(PortKind.LUMBERPORT);
-		hexagons[1][4].getIntersection(IntersectionLoc.BOTTOMLEFT).setPortable(PortKind.LUMBERPORT);
-		hexagons[2][5].getIntersection(IntersectionLoc.BOTTOMLEFT).setPortable(PortKind.ALLPORT);
-		hexagons[2][5].getIntersection(IntersectionLoc.BOTTOM).setPortable(PortKind.ALLPORT);
-		hexagons[3][5].getIntersection(IntersectionLoc.BOTTOM).setPortable(PortKind.OREPORT);
-		hexagons[3][5].getIntersection(IntersectionLoc.BOTTOMRIGHT).setPortable(PortKind.OREPORT);
-		hexagons[4][4].getIntersection(IntersectionLoc.BOTTOMRIGHT).setPortable(PortKind.WOOLPORT);
-		hexagons[4][4].getIntersection(IntersectionLoc.BOTTOM).setPortable(PortKind.WOOLPORT);
-		hexagons[5][3].getIntersection(IntersectionLoc.TOPRIGHT).setPortable(PortKind.ALLPORT);
-		hexagons[5][3].getIntersection(IntersectionLoc.BOTTOMRIGHT).setPortable(PortKind.ALLPORT);
-		hexagons[4][2].getIntersection(IntersectionLoc.TOP).setPortable(PortKind.GRAINPORT);
-		hexagons[4][2].getIntersection(IntersectionLoc.TOPRIGHT).setPortable(PortKind.GRAINPORT);
-		hexagons[3][1].getIntersection(IntersectionLoc.TOP).setPortable(PortKind.ALLPORT);
-		hexagons[3][1].getIntersection(IntersectionLoc.TOPRIGHT).setPortable(PortKind.ALLPORT);
+		hexagons[1][1].getIntersection(IntersectionLoc.TOPRIGHT).setPortable(PortKind.ALLPORT);
+		hexagons[1][1].getIntersection(IntersectionLoc.BOTTOMRIGHT).setPortable(PortKind.ALLPORT);
+		hexagons[0][4].getIntersection(IntersectionLoc.TOP).setPortable(PortKind.BRICKPORT);
+		hexagons[0][4].getIntersection(IntersectionLoc.TOPRIGHT).setPortable(PortKind.BRICKPORT);
+		hexagons[2][6].getIntersection(IntersectionLoc.TOP).setPortable(PortKind.LUMBERPORT);
+		hexagons[2][6].getIntersection(IntersectionLoc.TOPRIGHT).setPortable(PortKind.LUMBERPORT);
+		hexagons[4][1].getIntersection(IntersectionLoc.TOPRIGHT).setPortable(PortKind.ALLPORT);
+		hexagons[4][1].getIntersection(IntersectionLoc.BOTTOMRIGHT).setPortable(PortKind.ALLPORT);
+		hexagons[4][5].getIntersection(IntersectionLoc.TOP).setPortable(PortKind.OREPORT);
+		hexagons[4][5].getIntersection(IntersectionLoc.TOPRIGHT).setPortable(PortKind.OREPORT);
+		hexagons[6][2].getIntersection(IntersectionLoc.TOPLEFT).setPortable(PortKind.WOOLPORT);
+		hexagons[6][2].getIntersection(IntersectionLoc.BOTTOMLEFT).setPortable(PortKind.WOOLPORT);
+		hexagons[3][2].getIntersection(IntersectionLoc.BOTTOM).setPortable(PortKind.GRAINPORT);
+		hexagons[3][2].getIntersection(IntersectionLoc.BOTTOMLEFT).setPortable(PortKind.GRAINPORT);
+		hexagons[6][5].getIntersection(IntersectionLoc.TOPLEFT).setPortable(PortKind.ALLPORT);
+		hexagons[6][5].getIntersection(IntersectionLoc.BOTTOMLEFT).setPortable(PortKind.ALLPORT);
 	}
 
 	@Override
