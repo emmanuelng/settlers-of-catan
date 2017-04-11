@@ -234,9 +234,12 @@ public class TurnPhaseHandler implements Serializable {
 		IntersectionUnit unit = selectedIntersection.getUnit();
 		if (unit instanceof Village) {
 			Village village = (Village) unit;
-			Cost cost;
+			Cost cost = new Cost();
 			// if some progress card changes cost here, dont know right now
-			cost = village.getbuildWallCost();
+			if(!currentPlayer.hasEngineer()){
+				cost = village.getbuildWallCost();
+			}
+			
 			if (cost.canPay(currentPlayer)) {
 				if (village.getKind() == VillageKind.SETTLEMENT) {
 					currentPlayer.sendCommand(new FailureCommand("Cannot build walls on a settlement"));
@@ -383,9 +386,14 @@ public class TurnPhaseHandler implements Serializable {
 	}
 
 	private void PoliticsCityImprovement() {
+		
 		int level = currentPlayer.getPoliticsLevel() + 1;
 		Cost cost = new Cost();
-		cost.addPriceEntry(ResourceType.COIN, level);
+		if(currentPlayer.hasCrane()){
+			cost.addPriceEntry(ResourceType.COIN, level-1);
+		}else{
+			cost.addPriceEntry(ResourceType.COIN, level);
+		}
 
 		if (cost.canPay(currentPlayer)) {
 			currentPlayer.setPoliticsLvl(level);
@@ -400,7 +408,12 @@ public class TurnPhaseHandler implements Serializable {
 	private void ScienceCityImprovement() {
 		int level = currentPlayer.getScienceLevel() + 1;
 		Cost cost = new Cost();
-		cost.addPriceEntry(ResourceType.PAPER, level);
+		if(currentPlayer.hasCrane()){
+			cost.addPriceEntry(ResourceType.PAPER, level-1);
+		}else{
+			cost.addPriceEntry(ResourceType.PAPER, level);
+		}
+	
 		if (cost.canPay(currentPlayer)) {
 			currentPlayer.setScienceLvl(level);
 			cost.removeResources(currentPlayer);
@@ -414,7 +427,11 @@ public class TurnPhaseHandler implements Serializable {
 	private void TradeCityImprovement() {
 		int level = currentPlayer.getTradeLevel() + 1;
 		Cost cost = new Cost();
-		cost.addPriceEntry(ResourceType.CLOTH, level);
+		if(currentPlayer.hasCrane()){
+			cost.addPriceEntry(ResourceType.CLOTH, level-1);
+		}else{
+			cost.addPriceEntry(ResourceType.CLOTH, level);
+		}
 		if (cost.canPay(currentPlayer)) {
 			currentPlayer.setTradeLvl(level);
 			cost.removeResources(currentPlayer);
