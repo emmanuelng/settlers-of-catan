@@ -160,4 +160,9 @@ public class Knight implements IntersectionUnit {
 		return ret;
 	}
 
+	@Override
+	public void setOwner(Player newOwner) {
+		myOwner = newOwner;
+	}
+
 }

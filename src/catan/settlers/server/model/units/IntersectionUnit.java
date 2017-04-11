@@ -14,4 +14,6 @@ public interface IntersectionUnit extends Serializable {
 	public boolean isKnight();
 
 	public boolean isVillage();
+
+	public void setOwner(Player newOwner);
 }

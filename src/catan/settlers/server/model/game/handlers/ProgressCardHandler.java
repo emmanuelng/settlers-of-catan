@@ -13,6 +13,7 @@ import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.UpdateVPCommand;
 import catan.settlers.network.client.commands.game.cards.BishopCommand;
 import catan.settlers.network.client.commands.game.cards.CommercialHarborCommand;
+import catan.settlers.network.client.commands.game.cards.DeserterCommand;
 import catan.settlers.network.client.commands.game.cards.InventorCommand;
 import catan.settlers.network.client.commands.game.cards.MasterMerchantCommand;
 import catan.settlers.network.client.commands.game.cards.MerchantCommand;
@@ -25,6 +26,7 @@ import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.ProgressCards.ProgressCardType;
 import catan.settlers.server.model.game.handlers.set.BishopSetHandler;
 import catan.settlers.server.model.game.handlers.set.CommercialHarborSetHandler;
+import catan.settlers.server.model.game.handlers.set.DeserterSetHandler;
 import catan.settlers.server.model.game.handlers.set.MasterMerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantFleetSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantSetHandler;
@@ -285,9 +287,11 @@ public class ProgressCardHandler implements Serializable {
 	 */
 	private void constitution(Player sender) {
 		sender.incrementVP(1);
-		game.getVictoryPoints().put(sender.getUsername(), sender.getVP()+1);
 		sender.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
-		// TODO: Update the victory points
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.CONSTITUTION);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**
@@ -295,7 +299,27 @@ public class ProgressCardHandler implements Serializable {
 	 * strength
 	 */
 	private void deserter(Player sender) {
-		sender.sendCommand(new SelectPlayerCommand(SelectionReason.DESERTER));
+		boolean canPlay = false;
+
+		for (Intersection intersection : game.getGameBoardManager().getBoard().getIntersections()) {
+			if (intersection.getUnit() instanceof Knight) {
+				if (intersection.getUnit().getOwner() != sender) {
+					canPlay = true;
+				}
+			}
+		}
+
+		if (!canPlay)
+			return;
+
+		DeserterSetHandler set = new DeserterSetHandler();
+		set.waitForPlayer(sender);
+		game.setCurSetOfOpponentMove(set);
+		game.sendToAllPlayers(new DeserterCommand(sender.getUsername()));
+
+		// Update cards
+		sender.useProgressCard(ProgressCardType.DESERTER);
+		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
 
 	/**
@@ -462,7 +486,7 @@ public class ProgressCardHandler implements Serializable {
 	 */
 	private void printer(Player sender) {
 		sender.incrementVP(1);
-		game.getVictoryPoints().put(sender.getUsername(), sender.getVP()+1);
+		game.getVictoryPoints().put(sender.getUsername(), sender.getVP() + 1);
 		sender.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 	}
 
