@@ -12,13 +12,13 @@ import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.TurnData;
 import catan.settlers.server.model.TurnData.TurnAction;
 
-public class SevenDiscardCommand implements ClientToServerCommand {
+public class DiscardCommand implements ClientToServerCommand {
 
 	private static final long serialVersionUID = 2910353679944890130L;
 	private TurnData data;
 	private int gameId;
 
-	public SevenDiscardCommand(HashMap<ResourceType, Integer> resources) {
+	public DiscardCommand(HashMap<ResourceType, Integer> resources) {
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 		this.data = new TurnData(TurnAction.SEVEN_DISCARD);
 		this.data.setSevenDiscardResources(resources);
@@ -27,9 +27,7 @@ public class SevenDiscardCommand implements ClientToServerCommand {
 	@Override
 	public void execute(Session sender, Server server) {
 		Game game = server.getGameManager().getGameById(gameId);
-
-		if (game.getGamePhase() == GamePhase.ROLLDICEPHASE)
-			game.receiveResponse(sender.getCredentials(), data);
+		game.receiveResponse(sender.getCredentials(), data);
 	}
 
 }
