@@ -192,7 +192,6 @@ public class GameBoard implements Serializable {
 		terrainPool.add(TerrainType.FOREST);
 		terrainPool.add(TerrainType.FOREST);
 		terrainPool.add(TerrainType.FOREST);
-		terrainPool.add(TerrainType.DESERT);
 		Collections.shuffle(terrainPool);
 
 		ArrayList<Integer> diceValues = new ArrayList<>();
