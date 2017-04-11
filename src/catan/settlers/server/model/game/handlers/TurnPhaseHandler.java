@@ -432,8 +432,14 @@ public class TurnPhaseHandler implements Serializable {
 			System.out.println("This happens");
 			if(currentPlayer.getScienceLevel()==4){
 				metOwners.put(Field.SCIENCE, currentPlayer);
+				currentPlayer.incrementVP(1);
+				currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
 			}else if(currentPlayer.getScienceLevel() == 5 && currentPlayer.getScienceLevel()>otherPeoplelvl){
+				metOwners.get(Field.SCIENCE).decrementVP(1);
+				metOwners.get(Field.SCIENCE).sendCommand(new UpdateVPCommand(metOwners.get(Field.SCIENCE).getVP()));
 				metOwners.put(Field.SCIENCE, currentPlayer);
+				currentPlayer.incrementVP(1);
+				currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
 			}
 			if(metOwners.get(Field.SCIENCE)!= null){
 				game.sendToAllPlayers(new UpdateScienceMetOwnerCommand(metOwners.get(Field.SCIENCE).getUsername()));
@@ -447,8 +453,14 @@ public class TurnPhaseHandler implements Serializable {
 			}
 			if(currentPlayer.getTradeLevel()==4){
 				metOwners.put(Field.TRADE, currentPlayer);
+				currentPlayer.incrementVP(1);
+				currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
 			}else if(currentPlayer.getTradeLevel() == 5 && currentPlayer.getTradeLevel()>otherPeoplelvl){
+				metOwners.get(Field.TRADE).decrementVP(1);
+				metOwners.get(Field.TRADE).sendCommand(new UpdateVPCommand(metOwners.get(Field.TRADE).getVP()));
 				metOwners.put(Field.TRADE, currentPlayer);
+				currentPlayer.incrementVP(1);
+				currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
 			}
 			if(metOwners.get(Field.TRADE)!= null){
 				game.sendToAllPlayers(new UpdateTradeMetOwnerCommand(metOwners.get(Field.TRADE).getUsername()));
@@ -462,8 +474,14 @@ public class TurnPhaseHandler implements Serializable {
 			}
 			if(currentPlayer.getPoliticsLevel()==4){
 				metOwners.put(Field.POLITICS, currentPlayer);
+				currentPlayer.incrementVP(1);
+				currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
 			}else if(currentPlayer.getPoliticsLevel() == 5 && currentPlayer.getPoliticsLevel()>otherPeoplelvl){
+				metOwners.get(Field.POLITICS).decrementVP(1);
+				metOwners.get(Field.POLITICS).sendCommand(new UpdateVPCommand(metOwners.get(Field.POLITICS).getVP()));
 				metOwners.put(Field.POLITICS, currentPlayer);
+				currentPlayer.incrementVP(1);
+				currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
 			}
 			if(metOwners.get(Field.POLITICS)!= null){
 				game.sendToAllPlayers(new UpdatePoliticsMetOwnerCommand(metOwners.get(Field.POLITICS).getUsername()));
@@ -521,6 +539,9 @@ public class TurnPhaseHandler implements Serializable {
 	
 	
 	public void updateLongestRoad(){
+		HashMap<Player, Integer> playerRoadLength = new HashMap<>();
+		for(Player p: game.getParticipants())
+			playerRoadLength.put(p, 0);
 		
 	}
 }
