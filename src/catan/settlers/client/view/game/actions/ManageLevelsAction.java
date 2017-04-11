@@ -18,12 +18,12 @@ public class ManageLevelsAction implements GameAction {
 	@Override
 	public void perform() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		if(!gsm.getDoShowFlipchartLayer()){
+		if (!gsm.getDoShowFlipchartLayer()) {
 			gsm.setShowFlipchartLayer(true);
-			
-		}else if(gsm.getDoShowFlipchartLayer()){
+
+		} else if (gsm.getDoShowFlipchartLayer()) {
 			gsm.setShowFlipchartLayer(false);
-			
+
 		}
 	}
 

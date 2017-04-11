@@ -279,21 +279,20 @@ public class TradeMenuLayer extends ImageLayer {
 				buttonAdded = true;
 			}
 		}
-		
-		if(gsm.getTradeImprovementLevel() >= 3) {
-			
-				Button button = new Button(this, "Trading House", new MinuetoColor(255, 238, 170), new ClickListener() {
 
-					@Override
-					public void onClick() {
-						gsm.setTradeMenuMessage(
-								"Trading House allows you to trade 2 commodity for any resource.");
-					}
-				});
+		if (gsm.getTradeImprovementLevel() >= 3) {
 
-				draw(button.getImage(), x_offset, y_offset);
-				x_offset += button.getImage().getWidth() + 15;
-				buttonAdded = true;
+			Button button = new Button(this, "Trading House", new MinuetoColor(255, 238, 170), new ClickListener() {
+
+				@Override
+				public void onClick() {
+					gsm.setTradeMenuMessage("Trading House allows you to trade 2 commodity for any resource.");
+				}
+			});
+
+			draw(button.getImage(), x_offset, y_offset);
+			x_offset += button.getImage().getWidth() + 15;
+			buttonAdded = true;
 		}
 		return buttonAdded ? y - y_offset + 60 : 0;
 	}

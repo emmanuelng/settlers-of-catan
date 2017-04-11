@@ -22,7 +22,7 @@ public class SelectHexFeedbackCommand implements ClientToServerCommand {
 
 	public SelectHexFeedbackCommand(Hexagon selected) {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		
+
 		this.gameId = gsm.getGameId();
 		this.data = new TurnData(TurnAction.HEX_SELECTED);
 		data.setSelectedHex(selected, gsm.getBoard());

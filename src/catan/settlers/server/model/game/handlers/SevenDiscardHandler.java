@@ -9,10 +9,10 @@ import catan.settlers.network.client.commands.game.EndOfSevenDiscardPhase;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForSetOfOpponentMoveCommand;
 import catan.settlers.server.model.Game;
+import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
-import catan.settlers.server.model.Game.GamePhase;
 
 public class SevenDiscardHandler implements Serializable {
 
@@ -48,7 +48,8 @@ public class SevenDiscardHandler implements Serializable {
 	private void askOtherPlayersToWait() {
 		int nbOfResponses = currentSetOfOpponentMove.nbOfResponses();
 		int nbOfPlayers = currentSetOfOpponentMove.nbOfPlayers();
-		WaitForSetOfOpponentMoveCommand cmd = new WaitForSetOfOpponentMoveCommand(nbOfResponses, nbOfPlayers, "SevenDiscard");
+		WaitForSetOfOpponentMoveCommand cmd = new WaitForSetOfOpponentMoveCommand(nbOfResponses, nbOfPlayers,
+				"SevenDiscard");
 
 		for (Player p : participants)
 			if (!currentSetOfOpponentMove.contains(p))

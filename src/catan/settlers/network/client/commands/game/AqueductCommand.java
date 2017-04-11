@@ -4,7 +4,7 @@ import catan.settlers.client.model.ClientModel;
 import catan.settlers.client.model.GameStateManager;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 
-public class AqueductCommand implements ServerToClientCommand{
+public class AqueductCommand implements ServerToClientCommand {
 
 	/**
 	 * 
@@ -15,7 +15,7 @@ public class AqueductCommand implements ServerToClientCommand{
 	public AqueductCommand(String username) {
 		this.playerWithAqueduct = username;
 	}
-	
+
 	@Override
 	public void execute() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
@@ -28,7 +28,6 @@ public class AqueductCommand implements ServerToClientCommand{
 			gsm.setdBox(playerWithAqueduct + " is choosing the resource through Aqueduct", "Please wait");
 		}
 
-		
 	}
 
 }

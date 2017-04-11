@@ -46,9 +46,9 @@ public class CommercialHarborSetHandler extends SetOfOpponentMove {
 
 			sender.sendCommand(new UpdateResourcesCommand(sender.getResources()));
 			playerWhoSelectsResources.sendCommand(new UpdateResourcesCommand(playerWhoSelectsResources.getResources()));
-			
+
 			playerResponded(sender.getCredentials());
-			
+
 			this.selectedResource = null;
 		}
 

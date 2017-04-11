@@ -16,7 +16,7 @@ public class InventorSecondCommand implements ServerToClientCommand {
 		int gameId = gsm.getGameId();
 		Hexagon selected2 = gsm.getSelectedHex();
 		gsm.setdBox("Swap Complete", "The two hex values should be swapped.");
-		ClientModel.instance.getNetworkManager().sendCommand(new InventorSecondResponseCommand(selected2,gameId));
+		ClientModel.instance.getNetworkManager().sendCommand(new InventorSecondResponseCommand(selected2, gameId));
 		gsm.setSelectedHex(null);
 
 	}

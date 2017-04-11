@@ -35,6 +35,7 @@ public class MainMenu extends JPanel implements ActionListener {
 		tutorialButton.addActionListener(this);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == playButton) {
 			// Request the list of games

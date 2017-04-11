@@ -10,12 +10,12 @@ import catan.settlers.network.client.commands.game.TurnResponseCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.UpdateVPCommand;
 import catan.settlers.network.client.commands.game.WaitForPlayerCommand;
-import catan.settlers.server.model.GameBoardManager;
-import catan.settlers.server.model.Player;
-import catan.settlers.server.model.TurnData;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Game.GamePhase;
+import catan.settlers.server.model.GameBoardManager;
+import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
+import catan.settlers.server.model.TurnData;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
@@ -136,9 +136,8 @@ public class SetupPhaseHandler implements Serializable {
 		selectedIntersection.setUnit(village);
 		selectedEdge.setOwner(currentPlayer);
 		currentPlayer.incrementVP(1);
-		
 
-		if (!isPhaseOne){
+		if (!isPhaseOne) {
 			village.upgradeToCity();
 			currentPlayer.incrementVP(1);
 		}

@@ -7,6 +7,7 @@ public class BoardWindowHandler implements MinuetoWindowHandler {
 	/**
 	 * Prints out a message when the MinuetoWindow gets the focus.
 	 **/
+	@Override
 	public void handleGetFocus() {
 
 	}
@@ -14,6 +15,7 @@ public class BoardWindowHandler implements MinuetoWindowHandler {
 	/**
 	 * Prints out a message when the MinuetoWindow loses the focus.
 	 **/
+	@Override
 	public void handleLostFocus() {
 
 	}
@@ -22,6 +24,7 @@ public class BoardWindowHandler implements MinuetoWindowHandler {
 	 * Prints out a message when the user tries to quit the application (by
 	 * pressing the X in the top right corner, pressing Alt-F4, etc).
 	 **/
+	@Override
 	public void handleQuitRequest() {
 
 	}
@@ -29,6 +32,7 @@ public class BoardWindowHandler implements MinuetoWindowHandler {
 	/**
 	 * Prints out a message when the user minimizes the window.
 	 **/
+	@Override
 	public void handleMinimizeWindow() {
 
 	}
@@ -36,6 +40,7 @@ public class BoardWindowHandler implements MinuetoWindowHandler {
 	/**
 	 * Prints out a message when the user restores a window (from a minimize).
 	 **/
+	@Override
 	public void handleRestoreWindow() {
 
 	}

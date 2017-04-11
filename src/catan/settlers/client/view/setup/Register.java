@@ -49,6 +49,7 @@ public class Register extends JPanel implements ActionListener {
 		backButton.addActionListener(this);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == registerButton) {
 			String u = usernameTextField.getText();

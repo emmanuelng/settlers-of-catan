@@ -52,7 +52,7 @@ public class AuthenticationManager {
 		for (Credentials curCred : registeredPlayers.keySet())
 			if (curCred.equals(cred))
 				return registeredPlayers.get(curCred);
-				
+
 		return null;
 	}
 

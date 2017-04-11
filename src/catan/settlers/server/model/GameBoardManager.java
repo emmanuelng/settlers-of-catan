@@ -101,15 +101,16 @@ public class GameBoardManager implements Serializable {
 
 		return playersWhoDrew;
 	}
-			
+
 	public void goFish(Player p) {
-		int n = (int)Math.ceil(Math.random()*(29 + board.bootDrawn()));
+		int n = (int) Math.ceil(Math.random() * (29 + board.bootDrawn()));
 		if (n <= 11) {
 			p.giveFish(1);
 		} else if (n <= 21) {
 			p.giveFish(2);
 		} else if (n <= 29) {
-			p.giveFish(3);;
+			p.giveFish(3);
+			;
 		} else {
 			p.giveBoot();
 			board.drewBoot();

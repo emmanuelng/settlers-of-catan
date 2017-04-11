@@ -72,7 +72,7 @@ public class HexagonImage extends MinuetoImage {
 
 	private static void setSide(int side) {
 		s = side;
-		t = (int) (s / 2);
+		t = s / 2;
 		r = (int) (s * 0.8660254037844);
 	}
 

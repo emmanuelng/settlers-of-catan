@@ -49,6 +49,7 @@ public class SettingsPanel extends JPanel {
 
 		jButton1.setText("Save");
 		jButton1.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				saveButtonActionPerformed(evt);
 			}
@@ -56,6 +57,7 @@ public class SettingsPanel extends JPanel {
 
 		jButton2.setText("Cancel");
 		jButton2.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				cancelButtonActionPerformed(evt);
 			}

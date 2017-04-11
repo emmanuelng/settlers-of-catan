@@ -11,11 +11,11 @@ public class PlayDeserterCardAction implements CardAction {
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		if(gsm.getProgressCards().get(ProgressCardType.DESERTER) > 0){
+		if (gsm.getProgressCards().get(ProgressCardType.DESERTER) > 0) {
 			return true;
 		}
 		return false;
-			
+
 	}
 
 	@Override
@@ -29,9 +29,9 @@ public class PlayDeserterCardAction implements CardAction {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		ProgressCardType pcard = ProgressCardType.DESERTER;
 		nm.sendCommand(new PlayProgressCardCommand(pcard));
-		
+
 		int previous = gsm.getProgressCards().get(pcard);
-		gsm.getProgressCards().put(pcard, previous-1);
+		gsm.getProgressCards().put(pcard, previous - 1);
 
 	}
 

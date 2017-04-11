@@ -62,7 +62,7 @@ public class ProgressCards implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public void returnProgressCard(ProgressCardType card) {
 		if (card.ordinal() < 6) {
 			TradeCards.add(card);

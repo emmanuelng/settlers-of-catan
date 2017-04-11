@@ -17,9 +17,9 @@ import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.Direction;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
+import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.Knight;
 import catan.settlers.server.model.units.Village;
-import catan.settlers.server.model.map.Intersection;
 
 public class GameBoardImage extends ImageLayer {
 
@@ -142,8 +142,8 @@ public class GameBoardImage extends ImageLayer {
 					.getSelectedIntersection() == curIntersection;
 			IntersectionImage intersecImg = IntersectionImage.getIntersectionImage(curIntersection, isSelected);
 
-			int posX = (int) (x + shift_x - intersecImg.getWidth() / 2);
-			int posY = (int) (y + shift_y - intersecImg.getWidth() / 2);
+			int posX = x + shift_x - intersecImg.getWidth() / 2;
+			int posY = y + shift_y - intersecImg.getWidth() / 2;
 
 			if (curIntersection.getUnit() != null) {
 				if (curIntersection.getUnit().isVillage()) {
@@ -249,8 +249,8 @@ public class GameBoardImage extends ImageLayer {
 
 			boolean isSelected = curEdge == ClientModel.instance.getGameStateManager().getSelectedEdge();
 			EdgeImage edgeImg = EdgeImage.getEdgeImage(curEdge, rotation, isSelected);
-			int posX = (int) (x + shift_x - 5);
-			int posY = (int) (y + shift_y);
+			int posX = x + shift_x - 5;
+			int posY = y + shift_y;
 
 			draw(edgeImg.getImage(), posX, posY);
 

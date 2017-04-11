@@ -9,11 +9,12 @@ public class SelectPlayerCommand implements ServerToClientCommand {
 
 	private static final long serialVersionUID = 6324859214229351576L;
 	SelectionReason reason;
-	
+
 	public SelectPlayerCommand(SelectionReason reason) {
 		this.reason = reason;
 	}
-	
+
+	@Override
 	public void execute() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		gsm.setSelectionReason(reason);

@@ -12,9 +12,10 @@ public class File {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private String path;
-	
+
 	/**
 	 * Represents a file. Encapsulates the I/O operations
+	 * 
 	 * @param path
 	 * @throws IOException
 	 */

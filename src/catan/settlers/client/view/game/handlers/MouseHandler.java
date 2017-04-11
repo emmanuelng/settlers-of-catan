@@ -17,6 +17,7 @@ public class MouseHandler implements MinuetoMouseHandler {
 		addedElements = new HashSet<>();
 	}
 
+	@Override
 	public void handleMousePress(int x, int y, int button) {
 		for (int i = clickableElmts.size() - 1; i >= 0; i--) {
 			Clickable c = clickableElmts.get(i);
@@ -35,12 +36,12 @@ public class MouseHandler implements MinuetoMouseHandler {
 				System.out.println("WARNING: Too many elements are registered!");
 		}
 	}
-	
+
 	public void registerHoverable(Hoverable h) {
-		if(!addedElements.contains(h.getName())) {
+		if (!addedElements.contains(h.getName())) {
 			hoverableElmts.add(h);
 			addedElements.add(h.getName());
-			if(hoverableElmts.size()>100000)
+			if (hoverableElmts.size() > 100000)
 				System.out.println("WARNING: Too many elements are registered!");
 		}
 	}

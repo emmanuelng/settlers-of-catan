@@ -47,7 +47,7 @@ public class FlipchartLayer extends ImageLayer {
 	private MinuetoImage scienceText;
 	private Button levelUpBtn;
 	private boolean clear;
-	
+
 	public FlipchartLayer() {
 
 		this.currentField = Field.TRADE;
@@ -62,8 +62,8 @@ public class FlipchartLayer extends ImageLayer {
 		this.leftBarBg = new MinuetoRectangle(leftBarWidth, HEIGHT, new MinuetoColor(222, 170, 135), true);
 
 		this.rightPartWidth = WIDTH - leftBarWidth;
-		this.rightPartBg = new MinuetoRectangle(rightPartWidth, HEIGHT, bg_color , true);
-		
+		this.rightPartBg = new MinuetoRectangle(rightPartWidth, HEIGHT, bg_color, true);
+
 		this.tradeButtonBg = new MinuetoRectangle(leftBarWidth - 10, 35, new MinuetoColor(255, 221, 85), true);
 		this.tradeText = new MinuetoText("Trade", description_font_bold, new MinuetoColor(170, 136, 0));
 
@@ -72,12 +72,11 @@ public class FlipchartLayer extends ImageLayer {
 
 		this.scienceButtonBg = new MinuetoRectangle(leftBarWidth - 10, 35, new MinuetoColor(55, 200, 113), true);
 		this.scienceText = new MinuetoText("Science", description_font_bold, new MinuetoColor(33, 120, 68));
-		
-		this.levelUpBtn = new Button(this, "Level Up", new MinuetoColor(55, 200, 113),getPlayerConfirmListener());
-				
+
+		this.levelUpBtn = new Button(this, "Level Up", new MinuetoColor(55, 200, 113), getPlayerConfirmListener());
+
 	}
 
-	
 	private ClickListener getPlayerConfirmListener() {
 		// TODO Auto-generated method stub
 		return new ClickListener() {
@@ -85,24 +84,23 @@ public class FlipchartLayer extends ImageLayer {
 			@Override
 			public void onClick() {
 				NetworkManager nm = ClientModel.instance.getNetworkManager();
-				switch(currentField){
+				switch (currentField) {
 				case TRADE:
-					
+
 					nm.sendCommand(new IncrementTradeCommand());
 					break;
 				case POLITICS:
-					
+
 					nm.sendCommand(new IncrementPoliticsCommand());
 					break;
 				case SCIENCE:
-					
+
 					nm.sendCommand(new IncrementScienceCommand());
 					break;
 				}
 			}
 		};
 	}
-
 
 	@Override
 	public void compose(GameStateManager gsm) {
@@ -116,17 +114,15 @@ public class FlipchartLayer extends ImageLayer {
 		} else {
 			clear = true;
 		}
-		
-		
+
 		draw(background, box_x, box_y);
 		draw(leftBarBg, box_x, box_y);
-		draw(rightPartBg, box_x+leftBarBg.getWidth(),box_y);
+		draw(rightPartBg, box_x + leftBarBg.getWidth(), box_y);
 		draw(border, box_x, box_y);
 		overrideClickables();
 		drawLeftBar();
 		drawRightPart(gsm);
-		
-		
+
 	}
 
 	private void drawLeftBar() {
@@ -208,31 +204,30 @@ public class FlipchartLayer extends ImageLayer {
 			break;
 		}
 
-
 		MinuetoText fieldLevel = new MinuetoText("Level " + level, field_description_font, MinuetoColor.BLACK);
 		draw(fieldLevel, x_offset, y_offset);
 		y_offset += fieldLevel.getHeight() + 30;
 
-		if(level>=3){
+		if (level >= 3) {
 			MinuetoText buildingText = new MinuetoText(building, title_font, MinuetoColor.BLACK);
 			draw(buildingText, x_offset, y_offset);
 			y_offset += buildingText.getHeight() + 15;
-			
+
 			MinuetoText buildingDes = new MinuetoText(buildingDescription, field_description_font, MinuetoColor.BLACK);
 			draw(buildingDes, x_offset, y_offset);
 			y_offset += buildingDes.getHeight() + 15;
 		}
-		if(gsm.getCurrentPlayer() == gsm.getScienceMetOwner()){
+		if (gsm.getCurrentPlayer() == gsm.getScienceMetOwner()) {
 			MinuetoText metropolisText = new MinuetoText("Metropolis of Science", title_font, MinuetoColor.BLACK);
 			draw(metropolisText, x_offset, y_offset);
 			y_offset += metropolisText.getHeight() + 15;
 		}
-		if(gsm.getCurrentPlayer() == gsm.getTradeMetOwner()){
+		if (gsm.getCurrentPlayer() == gsm.getTradeMetOwner()) {
 			MinuetoText metropolisText = new MinuetoText("Metropolis of Trade", title_font, MinuetoColor.BLACK);
 			draw(metropolisText, x_offset, y_offset);
 			y_offset += metropolisText.getHeight() + 15;
 		}
-		if(gsm.getCurrentPlayer() == gsm.getPolMetOwner()){
+		if (gsm.getCurrentPlayer() == gsm.getPolMetOwner()) {
 			MinuetoText metropolisText = new MinuetoText("Metropolis of Politics", title_font, MinuetoColor.BLACK);
 			draw(metropolisText, x_offset, y_offset);
 			y_offset += metropolisText.getHeight() + 15;
@@ -241,7 +236,7 @@ public class FlipchartLayer extends ImageLayer {
 		MinuetoImage levelUp = levelUpBtn.getImage();
 		draw(levelUp, box_x + WIDTH - levelUp.getWidth() - 50, box_y + HEIGHT - levelUp.getHeight() - 10);
 	}
-	
+
 	private void overrideClickables() {
 		/*
 		 * Add an dummy clickables to override the clickables on the background

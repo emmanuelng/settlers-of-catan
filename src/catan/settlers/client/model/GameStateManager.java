@@ -593,20 +593,20 @@ public class GameStateManager {
 	public boolean getShowSaveMenu() {
 		return doShowSaveMenu;
 	}
-	
+
 	public void setLargestArmy(String player) {
 		this.largestArmy = player;
 	}
-	
-	public void setLongestRoad(String player){
+
+	public void setLongestRoad(String player) {
 		this.longestRoad = player;
 	}
-	
-	public String getLargestArmy(){
+
+	public String getLargestArmy() {
 		return this.largestArmy;
 	}
-	
-	public String getLongestRoad(){
+
+	public String getLongestRoad() {
 		return longestRoad;
 	}
 }

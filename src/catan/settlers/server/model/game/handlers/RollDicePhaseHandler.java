@@ -67,7 +67,7 @@ public class RollDicePhaseHandler implements Serializable {
 
 			if (!discardResourcesSet.isEmpty()) {
 				game.setCurSetOfOpponentMove(discardResourcesSet);
-				askOtherPlayersToWait(discardResourcesSet,"SevenDiscard");
+				askOtherPlayersToWait(discardResourcesSet, "SevenDiscard");
 				return;
 			}
 
@@ -79,7 +79,7 @@ public class RollDicePhaseHandler implements Serializable {
 
 		if (eventDie < 4) {
 			game.increaseBarbarianHordeCounter();
-			System.out.println(""+ barbarianHordeCounter);
+			System.out.println("" + barbarianHordeCounter);
 			game.sendToAllPlayers(new UpdateBarbarianCounterCommand(barbarianHordeCounter));
 			if (barbarianHordeCounter >= 7) {
 				barbarianAttack();
@@ -192,7 +192,7 @@ public class RollDicePhaseHandler implements Serializable {
 
 				p.sendCommand(new AqueductCommand(p.getUsername()));
 				p.sendCommand(new NormalDiceRollCommand(redDie, yellowDie));
-			}else{
+			} else {
 				p.sendCommand(new NormalDiceRollCommand(redDie, yellowDie));
 			}
 			p.sendCommand(new UpdateResourcesCommand(p.getResources()));
@@ -273,7 +273,7 @@ public class RollDicePhaseHandler implements Serializable {
 					}
 				}
 				if (cities.size() != 0) {
-					Village v = cities.remove((int)Math.random()*cities.size());
+					Village v = cities.remove((int) Math.random() * cities.size());
 					v.destroyCity();
 					p.decrementVP(1);
 					p.sendCommand(new UpdateVPCommand(game.getCurrentPlayer().getVP()));

@@ -43,8 +43,8 @@ public class DisplaceKnightAction implements GameAction {
 		if (selectedIntersec != null)
 			if (!gsm.getCanMoveKnightIntersecIds().contains(selectedIntersec.getId()))
 				return "Invalid intersection";
-		else
-			return "Select an intersection";
+			else
+				return "Select an intersection";
 
 		return "Cannot move knight";
 	}

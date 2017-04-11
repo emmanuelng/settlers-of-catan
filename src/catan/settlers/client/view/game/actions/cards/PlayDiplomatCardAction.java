@@ -11,11 +11,11 @@ public class PlayDiplomatCardAction implements CardAction {
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		if(gsm.getProgressCards().get(ProgressCardType.DIPLOMAT) > 0){
+		if (gsm.getProgressCards().get(ProgressCardType.DIPLOMAT) > 0) {
 			return true;
 		}
 		return false;
-			
+
 	}
 
 	@Override
@@ -29,9 +29,9 @@ public class PlayDiplomatCardAction implements CardAction {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		ProgressCardType pcard = ProgressCardType.DIPLOMAT;
 		nm.sendCommand(new PlayProgressCardCommand(pcard));
-		
+
 		int previous = gsm.getProgressCards().get(pcard);
-		gsm.getProgressCards().put(pcard, previous-1);
+		gsm.getProgressCards().put(pcard, previous - 1);
 
 	}
 

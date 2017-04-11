@@ -69,7 +69,7 @@ public class BuildWallAction implements GameAction {
 					} else {
 						if (resources.get(ResourceType.BRICK) < 2)
 							return "Missing " + (2 - resources.get(ResourceType.BRICK)) + "bricks";
-						
+
 						if (iu.hasWalls())
 							return "This city has already walls";
 					}

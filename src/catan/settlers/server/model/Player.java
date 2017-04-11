@@ -160,22 +160,22 @@ public class Player implements Serializable {
 		}
 		return count;
 	}
-	
+
 	public void giveFish(int n) {
 		fishCount += n;
 	}
-	
+
 	public void removeFish(int n) {
 		if (n <= fishCount) {
 			fishCount -= n;
 		}
 	}
-	
+
 	// If a player has the old boot, they need an additional VP to win!
 	public void giveBoot() {
 		hasBoot = true;
 	}
-	
+
 	public void removeBoot() {
 		hasBoot = false;
 	}
@@ -351,7 +351,6 @@ public class Player implements Serializable {
 		return ret;
 	}
 
-	
 	public void setCurrentSelectedResource(ResourceType resource) {
 		this.currentlySelectedResource = resource;
 	}
@@ -404,11 +403,11 @@ public class Player implements Serializable {
 	}
 
 	public void setTradeLvl(int lvl) {
-		tradeImprovement = lvl ;
+		tradeImprovement = lvl;
 	}
 
 	public void setPoliticsLvl(int lvl) {
-		politicsImprovement = lvl ;
+		politicsImprovement = lvl;
 	}
 
 	public void setScienceLvl(int lvl) {

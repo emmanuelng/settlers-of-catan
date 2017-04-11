@@ -6,8 +6,8 @@ import catan.settlers.network.server.Session;
 import catan.settlers.network.server.commands.ClientToServerCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player.ResourceType;
-import catan.settlers.server.model.TurnData.TurnAction;
 import catan.settlers.server.model.TurnData;
+import catan.settlers.server.model.TurnData.TurnAction;
 
 public class ResourceSelectedCommand implements ClientToServerCommand {
 

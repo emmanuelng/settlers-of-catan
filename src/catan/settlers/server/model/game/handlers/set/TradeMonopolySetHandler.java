@@ -4,8 +4,8 @@ import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
-import catan.settlers.server.model.TurnData;
 import catan.settlers.server.model.Player.ResourceType;
+import catan.settlers.server.model.TurnData;
 
 public class TradeMonopolySetHandler extends SetOfOpponentMove {
 

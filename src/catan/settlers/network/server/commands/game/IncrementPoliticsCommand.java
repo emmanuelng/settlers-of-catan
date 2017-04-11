@@ -31,6 +31,4 @@ public class IncrementPoliticsCommand implements ClientToServerCommand {
 			game.receiveResponse(sender.getCredentials(), turnData);
 	}
 
-
-
 }

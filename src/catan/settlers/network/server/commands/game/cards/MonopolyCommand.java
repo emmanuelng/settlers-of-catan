@@ -7,21 +7,22 @@ import catan.settlers.network.server.commands.ClientToServerCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
-import catan.settlers.server.model.GamePlayersManager;
 
 public class MonopolyCommand implements ClientToServerCommand {
 
 	private ResourceType selected;
 	private int gameId;
-	
+
 	public MonopolyCommand(ResourceType res) {
 		selected = res;
 		gameId = ClientModel.instance.getGameStateManager().getGameId();
 	}
+
 	@Override
 	public void execute(Session sender, Server server) {
 		Game game = server.getGameManager().getGameById(gameId);
-		Player cardPlayer = game.getPlayersManager().getPlayerByCredentials(server.getAuthManager().getCredentialsBySession(sender));
+		Player cardPlayer = game.getPlayersManager()
+				.getPlayerByCredentials(server.getAuthManager().getCredentialsBySession(sender));
 		int amtToGive = 0;
 		if (selected == ResourceType.CLOTH || selected == ResourceType.COIN || selected == ResourceType.PAPER) {
 			for (Player p : game.getParticipants()) {
@@ -30,7 +31,7 @@ public class MonopolyCommand implements ClientToServerCommand {
 						p.removeResource(selected, 1);
 						amtToGive++;
 					}
-				}		
+				}
 			}
 			cardPlayer.giveResource(selected, amtToGive);
 		} else {
@@ -43,7 +44,7 @@ public class MonopolyCommand implements ClientToServerCommand {
 						p.removeResource(selected, 1);
 						amtToGive++;
 					}
-				}		
+				}
 			}
 			cardPlayer.giveResource(selected, amtToGive);
 		}

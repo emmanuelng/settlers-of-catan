@@ -121,7 +121,7 @@ public class SelectResourceMenuLayer extends ImageLayer {
 
 				y_offset += background.getHeight() + 10;
 			}
-		} else if(menuReason == "Aqueduct"){
+		} else if (menuReason == "Aqueduct") {
 			for (ResourceType rtype : ResourceType.values()) {
 				// Ignore commodities
 				String rnameStr = rtype.toString().toLowerCase();

@@ -15,13 +15,13 @@ public class PlayProgressCardCommand implements ClientToServerCommand {
 	private int gameId;
 	private TurnData data;
 
-	public PlayProgressCardCommand(ProgressCardType pCardType){
+	public PlayProgressCardCommand(ProgressCardType pCardType) {
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 		this.data = new TurnData(TurnAction.PROGRESS_CARD);
-		
+
 		data.setProgressCard(pCardType);
 	}
-	
+
 	@Override
 	public void execute(Session sender, Server server) {
 		Game game = server.getGameManager().getGameById(gameId);

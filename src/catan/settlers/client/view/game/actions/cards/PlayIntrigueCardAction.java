@@ -11,11 +11,11 @@ public class PlayIntrigueCardAction implements CardAction {
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		if(gsm.getProgressCards().get(ProgressCardType.INTRIGUE) > 0){
+		if (gsm.getProgressCards().get(ProgressCardType.INTRIGUE) > 0) {
 			return true;
 		}
 		return false;
-			
+
 	}
 
 	@Override
@@ -29,11 +29,11 @@ public class PlayIntrigueCardAction implements CardAction {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		ProgressCardType pcard = ProgressCardType.INTRIGUE;
 		nm.sendCommand(new PlayProgressCardCommand(pcard));
-		
+
 		int previous = gsm.getProgressCards().get(pcard);
-		gsm.getProgressCards().put(pcard, previous-1);
+		gsm.getProgressCards().put(pcard, previous - 1);
 	}
-	
+
 	@Override
 	public ProgressCardType getCardType() {
 		return ProgressCardType.INTRIGUE;

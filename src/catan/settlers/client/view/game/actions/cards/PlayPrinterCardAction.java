@@ -34,7 +34,7 @@ public class PlayPrinterCardAction implements CardAction {
 		gsm.getProgressCards().put(pcard, previous - 1);
 
 	}
-	
+
 	@Override
 	public ProgressCardType getCardType() {
 		return ProgressCardType.PRINTER;

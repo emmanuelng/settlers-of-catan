@@ -69,7 +69,7 @@ public class UpgradeToCityAction implements GameAction {
 
 				if (resources.get(ResourceType.GRAIN) < 2)
 					return "Missing " + (resources.get(ResourceType.GRAIN) - 2) + " grain";
-				
+
 				if (resources.get(ResourceType.ORE) < 3)
 					return "Missing " + (resources.get(ResourceType.ORE) - 3) + " ore";
 			}

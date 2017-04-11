@@ -11,11 +11,11 @@ public class PlayCraneCardAction implements CardAction {
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		if(gsm.getProgressCards().get(ProgressCardType.CRANE) > 0){
+		if (gsm.getProgressCards().get(ProgressCardType.CRANE) > 0) {
 			return true;
 		}
 		return false;
-			
+
 	}
 
 	@Override
@@ -28,9 +28,9 @@ public class PlayCraneCardAction implements CardAction {
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		nm.sendCommand(new PlayProgressCardCommand(ProgressCardType.CRANE));
-		
+
 		int previous = gsm.getProgressCards().get(ProgressCardType.CRANE);
-		gsm.getProgressCards().put(ProgressCardType.CRANE, previous-1);
+		gsm.getProgressCards().put(ProgressCardType.CRANE, previous - 1);
 
 	}
 

@@ -55,6 +55,7 @@ class Worker implements Runnable {
 		this.gamewindow = gameWindow;
 	}
 
+	@Override
 	public void run() {
 		gamewindow.start();
 	}

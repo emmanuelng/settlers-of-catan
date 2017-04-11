@@ -57,7 +57,7 @@ public class TopBarLayer extends ImageLayer {
 		this.menuImage = ifm.load("images/menu_player"
 				+ ClientWindow.getInstance().getGameWindow().getPlayerNumber(ClientModel.instance.getUsername())
 				+ ".png");
-		
+
 		registerClickable(menuImage, new ClickListener() {
 			@Override
 			public void onClick() {

@@ -7,8 +7,8 @@ public class RegistrationResultCommand implements ServerToClientCommand {
 
 	private static final long serialVersionUID = -4187356844265663743L;
 	private boolean success;
-	private JLabel label1,label2;
-	
+	private JLabel label1, label2;
+
 	public RegistrationResultCommand(boolean success) {
 		this.success = success;
 	}
@@ -16,9 +16,9 @@ public class RegistrationResultCommand implements ServerToClientCommand {
 	@Override
 	public void execute() {
 		// TODO Manage registration success/failure on client side
-		if(success){
+		if (success) {
 			JOptionPane.showMessageDialog(label1, "Register Success");
-		}else{
+		} else {
 			JOptionPane.showMessageDialog(label2, "Invalid Username or Password");
 		}
 	}

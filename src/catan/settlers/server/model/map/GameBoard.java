@@ -322,24 +322,22 @@ public class GameBoard implements Serializable {
 		merchantHex = h;
 	}
 
-	public void setMerchantOwner(Player p){
+	public void setMerchantOwner(Player p) {
 		merchantOwner = p;
 	}
-	
-	public Player getMerchantOwner(){
+
+	public Player getMerchantOwner() {
 		return merchantOwner;
 	}
-	
+
 	public int bootDrawn() {
-		return bootDrawn? 0 : 1;
+		return bootDrawn ? 0 : 1;
 	}
-	
+
 	public void drewBoot() {
 		bootDrawn = true;
 	}
-	
-	
-	
+
 	/**
 	 * Private helpers; nothing important here
 	 */

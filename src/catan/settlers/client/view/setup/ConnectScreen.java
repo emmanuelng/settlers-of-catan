@@ -44,7 +44,7 @@ public class ConnectScreen extends JPanel implements ActionListener {
 			// Get the data from the text fields
 			String ip = ipAddressTextField.getText();
 			int port = Integer.parseInt(portNumberTextField.getText());
-			
+
 			// Connect
 			ClientModel.instance.getNetworkManager().connect(ip, port);
 			ClientWindow.getInstance().getSetupWindow().setScreen(new Login());

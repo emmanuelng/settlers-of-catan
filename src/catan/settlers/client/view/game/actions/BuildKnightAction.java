@@ -48,13 +48,13 @@ public class BuildKnightAction implements GameAction {
 		if (gsm.getSelectedIntersection() == null) {
 			return "Select an intersection";
 		} else {
-			
+
 			if (resources.get(ResourceType.ORE) < 1)
 				return "Missing 1 ore";
 
 			if (resources.get(ResourceType.WOOL) < 1)
 				return "Missing 1 wool";
-			
+
 			if (gsm.getSelectedIntersection().getUnit() == null)
 				return "Cannot place a knight here";
 

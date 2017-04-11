@@ -12,10 +12,10 @@ public class UpdateLargestArmyCommand implements ServerToClientCommand {
 	private static final long serialVersionUID = -2937623524124463573L;
 	private String player;
 
-	public UpdateLargestArmyCommand(String player){
+	public UpdateLargestArmyCommand(String player) {
 		this.player = player;
 	}
-	
+
 	@Override
 	public void execute() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();

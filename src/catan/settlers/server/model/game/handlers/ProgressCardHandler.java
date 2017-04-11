@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import catan.settlers.client.model.GameStateManager.SelectionReason;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
-import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.SelectPlayerCommand;
 import catan.settlers.network.client.commands.game.UpdateCardsCommand;
@@ -29,7 +28,6 @@ import catan.settlers.server.model.game.handlers.set.MasterMerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantFleetSetHandler;
 import catan.settlers.server.model.game.handlers.set.MerchantSetHandler;
 import catan.settlers.server.model.game.handlers.set.ResourceMonopolySetHandler;
-import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
 import catan.settlers.server.model.game.handlers.set.TradeMonopolySetHandler;
 import catan.settlers.server.model.map.Hexagon;
 import catan.settlers.server.model.map.Hexagon.IntersectionLoc;

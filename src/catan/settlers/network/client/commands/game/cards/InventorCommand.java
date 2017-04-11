@@ -16,7 +16,7 @@ public class InventorCommand implements ServerToClientCommand {
 		int gameId = gsm.getGameId();
 		Hexagon selected1 = gsm.getSelectedHex();
 		gsm.setdBox("Selection Made", "Now select the hex to swap with.");
-		ClientModel.instance.getNetworkManager().sendCommand(new InventorFirstResponseCommand(selected1,gameId));
+		ClientModel.instance.getNetworkManager().sendCommand(new InventorFirstResponseCommand(selected1, gameId));
 		gsm.setSelectedHex(null);
 	}
 

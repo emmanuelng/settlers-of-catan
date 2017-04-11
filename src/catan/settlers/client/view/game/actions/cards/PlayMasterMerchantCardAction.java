@@ -11,7 +11,7 @@ public class PlayMasterMerchantCardAction implements CardAction {
 	@Override
 	public boolean isPossible() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		if(gsm.getProgressCards().get(ProgressCardType.MASTER_MERCHANT) > 0){
+		if (gsm.getProgressCards().get(ProgressCardType.MASTER_MERCHANT) > 0) {
 			return true;
 		}
 		return false;

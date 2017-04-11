@@ -1,6 +1,5 @@
 package catan.settlers.client.view.setup;
 
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -52,6 +51,7 @@ public class Lobby extends JPanel implements ActionListener {
 		createGameButton.addActionListener(this);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == backButton) {
 			ClientWindow.getInstance().getSetupWindow().setScreen(new MainMenu());

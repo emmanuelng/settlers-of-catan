@@ -45,13 +45,13 @@ public class TurnPhaseHandler implements Serializable {
 	private Edge selectedEdge;
 	private Intersection selectedIntersection;
 	private Knight selectedKnight;
-	private HashMap<Field,Player> metOwners;
+	private HashMap<Field, Player> metOwners;
 	private FishHandler fishHandler;
 
 	public TurnPhaseHandler(Game game) {
 		this.game = game;
-		metOwners = new HashMap<Field,Player>();
-		for(Field f : Field.values()){
+		metOwners = new HashMap<Field, Player>();
+		for (Field f : Field.values()) {
 			metOwners.put(f, null);
 		}
 		fishHandler = new FishHandler(game);
@@ -126,9 +126,9 @@ public class TurnPhaseHandler implements Serializable {
 			stealResource(data.getSelectedPlayer());
 			break;
 		case DESERTER:
-			
+
 			break;
-		default: 
+		default:
 			break;
 		}
 	}
@@ -356,7 +356,7 @@ public class TurnPhaseHandler implements Serializable {
 			p.resetTradeAtAdvantage();
 
 		// TODO Check for victory
-		if(game.getCurrentPlayer().getVP()>=13){
+		if (game.getCurrentPlayer().getVP() >= 13) {
 			game.declareVictor(currentPlayer);
 		}
 
@@ -372,14 +372,15 @@ public class TurnPhaseHandler implements Serializable {
 	}
 
 	private void updatePlayerCondition() {
-		currentPlayer.sendCommand(new UpdatePlayerLevelsCommand(currentPlayer.getPoliticsLevel(),currentPlayer.getTradeLevel(),currentPlayer.getScienceLevel()));
+		currentPlayer.sendCommand(new UpdatePlayerLevelsCommand(currentPlayer.getPoliticsLevel(),
+				currentPlayer.getTradeLevel(), currentPlayer.getScienceLevel()));
 	}
-	
+
 	private void PoliticsCityImprovement() {
 		int level = currentPlayer.getPoliticsLevel() + 1;
 		Cost cost = new Cost();
 		cost.addPriceEntry(ResourceType.COIN, level);
-		
+
 		if (cost.canPay(currentPlayer)) {
 			currentPlayer.setPoliticsLvl(level);
 			cost.removeResources(currentPlayer);
@@ -416,82 +417,82 @@ public class TurnPhaseHandler implements Serializable {
 			updateMetOwners(Field.TRADE);
 		}
 	}
-	
-	public void updateMetOwners(Field f){
+
+	public void updateMetOwners(Field f) {
 		ArrayList<Player> otherPlayers = game.getParticipants();
 		otherPlayers.remove(currentPlayer);
 		int otherPeoplelvl = 0;
-		
-		switch(f){
+
+		switch (f) {
 		case SCIENCE:
-			for(Player p: otherPlayers){
-				if(p.getScienceLevel()>otherPeoplelvl){
+			for (Player p : otherPlayers) {
+				if (p.getScienceLevel() > otherPeoplelvl) {
 					otherPeoplelvl = p.getScienceLevel();
 				}
 			}
 			System.out.println("This happens");
-			if(currentPlayer.getScienceLevel()==4){
+			if (currentPlayer.getScienceLevel() == 4) {
 				metOwners.put(Field.SCIENCE, currentPlayer);
 				currentPlayer.incrementVP(1);
 				currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
-			}else if(currentPlayer.getScienceLevel() == 5 && currentPlayer.getScienceLevel()>otherPeoplelvl){
+			} else if (currentPlayer.getScienceLevel() == 5 && currentPlayer.getScienceLevel() > otherPeoplelvl) {
 				metOwners.get(Field.SCIENCE).decrementVP(1);
 				metOwners.get(Field.SCIENCE).sendCommand(new UpdateVPCommand(metOwners.get(Field.SCIENCE).getVP()));
 				metOwners.put(Field.SCIENCE, currentPlayer);
 				currentPlayer.incrementVP(1);
 				currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
 			}
-			if(metOwners.get(Field.SCIENCE)!= null){
+			if (metOwners.get(Field.SCIENCE) != null) {
 				game.sendToAllPlayers(new UpdateScienceMetOwnerCommand(metOwners.get(Field.SCIENCE).getUsername()));
 			}
 			break;
 		case TRADE:
-			for(Player p: otherPlayers){
-				if(p.getTradeLevel()>otherPeoplelvl){
+			for (Player p : otherPlayers) {
+				if (p.getTradeLevel() > otherPeoplelvl) {
 					otherPeoplelvl = p.getTradeLevel();
 				}
 			}
-			if(currentPlayer.getTradeLevel()==4){
+			if (currentPlayer.getTradeLevel() == 4) {
 				metOwners.put(Field.TRADE, currentPlayer);
 				currentPlayer.incrementVP(1);
 				currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
-			}else if(currentPlayer.getTradeLevel() == 5 && currentPlayer.getTradeLevel()>otherPeoplelvl){
+			} else if (currentPlayer.getTradeLevel() == 5 && currentPlayer.getTradeLevel() > otherPeoplelvl) {
 				metOwners.get(Field.TRADE).decrementVP(1);
 				metOwners.get(Field.TRADE).sendCommand(new UpdateVPCommand(metOwners.get(Field.TRADE).getVP()));
 				metOwners.put(Field.TRADE, currentPlayer);
 				currentPlayer.incrementVP(1);
 				currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
 			}
-			if(metOwners.get(Field.TRADE)!= null){
+			if (metOwners.get(Field.TRADE) != null) {
 				game.sendToAllPlayers(new UpdateTradeMetOwnerCommand(metOwners.get(Field.TRADE).getUsername()));
 			}
 			break;
 		case POLITICS:
-			for(Player p: otherPlayers){
-				if(p.getPoliticsLevel()>otherPeoplelvl){
+			for (Player p : otherPlayers) {
+				if (p.getPoliticsLevel() > otherPeoplelvl) {
 					otherPeoplelvl = p.getPoliticsLevel();
 				}
 			}
-			if(currentPlayer.getPoliticsLevel()==4){
+			if (currentPlayer.getPoliticsLevel() == 4) {
 				metOwners.put(Field.POLITICS, currentPlayer);
 				currentPlayer.incrementVP(1);
 				currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
-			}else if(currentPlayer.getPoliticsLevel() == 5 && currentPlayer.getPoliticsLevel()>otherPeoplelvl){
+			} else if (currentPlayer.getPoliticsLevel() == 5 && currentPlayer.getPoliticsLevel() > otherPeoplelvl) {
 				metOwners.get(Field.POLITICS).decrementVP(1);
 				metOwners.get(Field.POLITICS).sendCommand(new UpdateVPCommand(metOwners.get(Field.POLITICS).getVP()));
 				metOwners.put(Field.POLITICS, currentPlayer);
 				currentPlayer.incrementVP(1);
 				currentPlayer.sendCommand(new UpdateVPCommand(currentPlayer.getVP()));
 			}
-			if(metOwners.get(Field.POLITICS)!= null){
+			if (metOwners.get(Field.POLITICS) != null) {
 				game.sendToAllPlayers(new UpdatePoliticsMetOwnerCommand(metOwners.get(Field.POLITICS).getUsername()));
 			}
 			break;
 		}
-		
+
 	}
-	
-	public void updateLargestArmy(){
+
+	public void updateLargestArmy() {
 		HashMap<Player, Integer> playerStrength = new HashMap<>();
 		for (Player p : game.getParticipants())
 			playerStrength.put(p, 0);
@@ -502,7 +503,7 @@ public class TurnPhaseHandler implements Serializable {
 		 */
 		for (Intersection i : gameBoardManager.getBoard().getIntersections()) {
 			IntersectionUnit unit = i.getUnit();
-			 if (unit instanceof Knight) {
+			if (unit instanceof Knight) {
 				int current = 0;
 				switch (((Knight) unit).getType()) {
 				case BASIC_KNIGHT:
@@ -518,7 +519,7 @@ public class TurnPhaseHandler implements Serializable {
 					playerStrength.put(unit.getOwner(), current + 3);
 					break;
 				}
-				
+
 			}
 		}
 
@@ -536,12 +537,11 @@ public class TurnPhaseHandler implements Serializable {
 			}
 		}
 	}
-	
-	
-	public void updateLongestRoad(){
+
+	public void updateLongestRoad() {
 		HashMap<Player, Integer> playerRoadLength = new HashMap<>();
-		for(Player p: game.getParticipants())
+		for (Player p : game.getParticipants())
 			playerRoadLength.put(p, 0);
-		
+
 	}
 }

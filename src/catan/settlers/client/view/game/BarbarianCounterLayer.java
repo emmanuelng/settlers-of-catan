@@ -11,33 +11,33 @@ import catan.settlers.client.model.ImageFileManager;
 
 public class BarbarianCounterLayer extends ImageLayer {
 
-	private static final MinuetoFont amt_font = new MinuetoFont("arial", 25 , false, false);
-	
+	private static final MinuetoFont amt_font = new MinuetoFont("arial", 25, false, false);
+
 	private int barbarianCounter;
 	private MinuetoImageFile barbarianImage;
-	
-	public BarbarianCounterLayer(){
+
+	public BarbarianCounterLayer() {
 		super();
 
 		ImageFileManager ifm = ClientModel.instance.getImageFileManager();
 		this.barbarianImage = ifm.load("images/barbarian_counter.png");
 
 	}
-	
+
 	@Override
 	public void compose(GameStateManager gsm) {
-		
-		if(this.barbarianCounter != gsm.getBarbarianCounter()){
+
+		if (this.barbarianCounter != gsm.getBarbarianCounter()) {
 			clear();
 		}
-		
+
 		this.barbarianCounter = gsm.getBarbarianCounter();
 
-		MinuetoText counter = new MinuetoText(barbarianCounter + "/7", amt_font , MinuetoColor.BLACK, true);
-		
-		draw(barbarianImage,10,10);
-		draw(counter, barbarianImage.getWidth() - 40 , barbarianImage.getHeight() - 30);
-		
+		MinuetoText counter = new MinuetoText(barbarianCounter + "/7", amt_font, MinuetoColor.BLACK, true);
+
+		draw(barbarianImage, 10, 10);
+		draw(counter, barbarianImage.getWidth() - 40, barbarianImage.getHeight() - 30);
+
 	}
 
 }

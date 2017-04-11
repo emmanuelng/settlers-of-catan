@@ -125,7 +125,7 @@ public class GameWindow extends MinuetoFrame {
 		drawLayer(topBar, 0, 0);
 		drawLayer(flipchartLayer, 0, 0);
 		drawLayer(barbarianCounterLayer, 10, 105);
-		drawLayer(achievementsLayer,0,125);
+		drawLayer(achievementsLayer, 0, 125);
 		drawLayer(saveAndExitMenuLayer, 0, 0);
 
 		render();
