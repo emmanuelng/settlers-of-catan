@@ -10,6 +10,7 @@ import catan.settlers.client.model.GameStateManager.SelectionReason;
 import catan.settlers.client.view.game.FlipchartLayer.Field;
 import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.MoveDisplacedKnightCommand;
+import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.OwnedPortsChangedCommand;
 import catan.settlers.network.client.commands.game.RollDicePhaseCommand;
 import catan.settlers.network.client.commands.game.UpdateCardsCommand;
@@ -375,20 +376,22 @@ public class TurnPhaseHandler implements Serializable {
 			if (selectedKnight.canCanMoveIntersecIds().contains(newLocation.getId())) {
 				if (newLocation.getUnit() instanceof Knight) {
 					if (selectedKnight.getType().ordinal() > ((Knight)newLocation.getUnit()).getType().ordinal()) {
-						Knight knight = (Knight) curKnightLoc.getUnit();
+						Knight knight = (Knight) newLocation.getUnit();
 						curKnightLoc.setUnit(null);
 						updateResourcesAndBoard();
 						
 						Player displacee = newLocation.getUnit().getOwner();
-						SetOfOpponentMove displacedKnight = new DisplacedKnightHandler((Knight)newLocation.getUnit());
+						SetOfOpponentMove displacedKnight = new DisplacedKnightHandler(knight);
 						System.out.println("Sending the move displaced knight command");
 						displacee.sendCommand(new MoveDisplacedKnightCommand(newLocation));
 						displacedKnight.waitForPlayer(displacee);
 						game.setCurSetOfOpponentMove(displacedKnight);
 						
-						knight.setLocatedAt(newLocation);
-						newLocation.setUnit(knight);
+						selectedKnight.setLocatedAt(newLocation);
+						newLocation.setUnit(selectedKnight);
 						
+						selectedKnight.deactivateKnight();
+						updateResourcesAndBoard();
 					}
 				} else if (newLocation.getUnit() instanceof Village) {
 					return;
@@ -402,7 +405,7 @@ public class TurnPhaseHandler implements Serializable {
 				HashSet<Hexagon> hexes = newLocation.getHexagons();
 				for (Hexagon h : hexes) {
 					if (h == game.getGameBoardManager().getBoard().getRobberHex()) {
-						// TODO: currentPlayer.sendCommand(new MoveRobberCommand()); ???
+						currentPlayer.sendCommand(new MoveRobberCommand(false));
 					}
 				}
 			}

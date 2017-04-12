@@ -81,6 +81,10 @@ public class Knight implements IntersectionUnit {
 	public void activateKnight() {
 		activated = true;
 	}
+	
+	public void deactivateKnight() {
+		activated = false;
+	}
 
 	@Override
 	public boolean isKnight() {
