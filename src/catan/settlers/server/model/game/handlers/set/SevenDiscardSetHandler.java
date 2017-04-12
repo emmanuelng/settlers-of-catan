@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
-import catan.settlers.network.client.commands.game.DiscardCardsCommand;
-import catan.settlers.network.client.commands.game.EndOfSevenDiscardPhase;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForSetOfOpponentMoveCommand;
@@ -34,37 +32,18 @@ public class SevenDiscardSetHandler extends SetOfOpponentMove {
 		this.data = data;
 
 		updateDatafromGame();
+		removeResources(sender, sevenResources);
 
-		int nbSelectedResources = countSelectedResources(sevenResources);
-		int nbResourcesToDiscard = (int) Math.floor(sender.getNbResourceCards() / 2);
-
-		if (nbSelectedResources == nbResourcesToDiscard) {
-			removeResources(sender, sevenResources);
-
-			if (!allPlayersResponded()) {
-				askOtherPlayersToWait();
-			} else {
-				endSevenDiscardPhase();
-			}
+		if (!allPlayersResponded()) {
+			askOtherPlayersToWait();
 		} else {
-			sender.sendCommand(new DiscardCardsCommand("A seven was rolled and you have too many cards"));
+			endSevenDiscardPhase();
 		}
 	}
 
 	private void updateDatafromGame() {
 		this.participants = game.getParticipants();
 		this.sevenResources = data.getSevenResources();
-	}
-
-	private int countSelectedResources(HashMap<ResourceType, Integer> sevenResources) {
-		if (sevenResources == null)
-			return 0;
-
-		int nbSelectedResources = 0;
-		for (ResourceType rtype : ResourceType.values()) {
-			nbSelectedResources += sevenResources.get(rtype);
-		}
-		return nbSelectedResources;
 	}
 
 	private void removeResources(Player sender, HashMap<ResourceType, Integer> sevenResources) {
@@ -89,20 +68,13 @@ public class SevenDiscardSetHandler extends SetOfOpponentMove {
 
 	private void endSevenDiscardPhase() {
 		game.setCurSetOfOpponentMove(null);
-		for (Player p : participants) {
-			p.sendCommand(new EndOfSevenDiscardPhase());
-			p.sendCommand(new CurrentPlayerChangedCommand(game.getCurrentPlayer().getUsername()));
-		}
-
-		// TODO: If the first barbarian attack happened, ask to the current
-		// player to move the robber. Otherwise, go to normal turn phase
+		game.sendToAllPlayers(new CurrentPlayerChangedCommand(game.getCurrentPlayer().getUsername()));
 
 		game.setGamePhase(GamePhase.TURNPHASE);
 		if (game.getAttacked()) {
 			MoveRobberHandler set = new MoveRobberHandler();
 			set.waitForPlayer(game.getCurrentPlayer());
 			game.setCurSetOfOpponentMove(set);
-
 			game.getCurrentPlayer().sendCommand(new MoveRobberCommand(false));
 		}
 
