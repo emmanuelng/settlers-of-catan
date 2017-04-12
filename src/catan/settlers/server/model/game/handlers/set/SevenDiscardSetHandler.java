@@ -21,7 +21,6 @@ public class SevenDiscardSetHandler extends SetOfOpponentMove {
 	private static final long serialVersionUID = -5769163759033347539L;
 	private Game game;
 	private TurnData data;
-	private SetOfOpponentMove currentSetOfOpponentMove;
 	private ArrayList<Player> participants;
 	private HashMap<ResourceType, Integer> sevenResources;
 
@@ -42,7 +41,7 @@ public class SevenDiscardSetHandler extends SetOfOpponentMove {
 		if (nbSelectedResources == nbResourcesToDiscard) {
 			removeResources(sender, sevenResources);
 
-			if (!currentSetOfOpponentMove.allPlayersResponded()) {
+			if (!allPlayersResponded()) {
 				askOtherPlayersToWait();
 			} else {
 				endSevenDiscardPhase();
@@ -53,7 +52,6 @@ public class SevenDiscardSetHandler extends SetOfOpponentMove {
 	}
 
 	private void updateDatafromGame() {
-		this.currentSetOfOpponentMove = game.getCurrentSetOfOpponentMove();
 		this.participants = game.getParticipants();
 		this.sevenResources = data.getSevenResources();
 	}
@@ -73,20 +71,19 @@ public class SevenDiscardSetHandler extends SetOfOpponentMove {
 		for (ResourceType rtype : ResourceType.values()) {
 			sender.removeResource(rtype, sevenResources.get(rtype));
 		}
-		
-		playerResponded(sender);
+
 		sender.sendCommand(new UpdateResourcesCommand(sender.getResources()));
-		currentSetOfOpponentMove.playerResponded(sender);
+		playerResponded(sender);
 	}
 
 	private void askOtherPlayersToWait() {
-		int nbOfResponses = currentSetOfOpponentMove.nbOfResponses();
-		int nbOfPlayers = currentSetOfOpponentMove.nbOfPlayers();
+		int nbOfResponses = nbOfResponses();
+		int nbOfPlayers = nbOfPlayers();
 		WaitForSetOfOpponentMoveCommand cmd = new WaitForSetOfOpponentMoveCommand(nbOfResponses, nbOfPlayers,
 				"SevenDiscard");
 
 		for (Player p : participants)
-			if (!currentSetOfOpponentMove.contains(p))
+			if (!contains(p))
 				p.sendCommand(cmd);
 	}
 
@@ -99,16 +96,16 @@ public class SevenDiscardSetHandler extends SetOfOpponentMove {
 
 		// TODO: If the first barbarian attack happened, ask to the current
 		// player to move the robber. Otherwise, go to normal turn phase
-		
+
 		game.setGamePhase(GamePhase.TURNPHASE);
-		if(game.getAttacked()){
+		if (game.getAttacked()) {
 			MoveRobberHandler set = new MoveRobberHandler();
 			set.waitForPlayer(game.getCurrentPlayer());
 			game.setCurSetOfOpponentMove(set);
-	
+
 			game.getCurrentPlayer().sendCommand(new MoveRobberCommand(false));
 		}
-	
+
 	}
 
 }
