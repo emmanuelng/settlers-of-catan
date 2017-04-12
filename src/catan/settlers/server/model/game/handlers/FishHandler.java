@@ -11,6 +11,7 @@ import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.fish.FishStealResourceCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
+import catan.settlers.server.model.game.handlers.set.FishDrawResourceSetHandler;
 import catan.settlers.server.model.game.handlers.set.FishStealResourceSetHandler;
 
 public class FishHandler implements Serializable {
@@ -36,8 +37,7 @@ public class FishHandler implements Serializable {
 			stealResource(sender);
 			break;
 		case DRAWRESOURCE:
-			sender.sendCommand(new FishResourceCommand());
-			sender.removeFish(4);
+			drawResource(sender);
 			break;
 		case BUILDROAD:
 			sender.addFreeRoad();
@@ -55,6 +55,17 @@ public class FishHandler implements Serializable {
 			p.sendCommand(new UpdateResourcesCommand(p.getResources()));
 			p.sendCommand(new UpdateGameBoardCommand(game.getGameBoardManager().getBoardDeepCopy()));
 		}
+	}
+
+	private void drawResource(Player sender) {
+		FishDrawResourceSetHandler set = new FishDrawResourceSetHandler();
+		set.waitForPlayer(sender);
+		game.setCurSetOfOpponentMove(set);
+		
+		game.sendToAllPlayers(new FishResourceCommand(sender.getUsername()));
+		
+		sender.removeFish(4);
+		sender.sendCommand(new UpdateFishCommand(sender.getNumFish()));
 	}
 
 	private void stealResource(Player sender) {

@@ -97,13 +97,11 @@ public class SelectResourceMenuLayer extends ImageLayer {
 
 				MinuetoText rname = new MinuetoText(rnameStr, description_font_bold, resourceColor.darken(0.3));
 
-				if (btn_bg.get(rtype) == null)
-					btn_bg.put(rtype, new MinuetoRectangle(WIDTH - 30, rname.getHeight() + 30, resourceColor, true));
-
 				if (btnShadow == null)
 					btnShadow = new MinuetoRectangle(WIDTH - 30, rname.getHeight() + 30, bg_color.darken(0.2), true);
 
-				MinuetoRectangle background = btn_bg.get(rtype);
+				MinuetoRectangle background = new MinuetoRectangle(WIDTH - 30, rname.getHeight() + 30, resourceColor,
+						true);
 
 				draw(btnShadow, x + 3, y_offset + 3);
 				draw(background, x, y_offset);
@@ -121,7 +119,7 @@ public class SelectResourceMenuLayer extends ImageLayer {
 
 				y_offset += background.getHeight() + 10;
 			}
-		} else if (menuReason == "Aqueduct") {
+		} else if (menuReason.equals("Aqueduct")) {
 			for (ResourceType rtype : ResourceType.values()) {
 				// Ignore commodities
 				String rnameStr = rtype.toString().toLowerCase();
@@ -130,13 +128,45 @@ public class SelectResourceMenuLayer extends ImageLayer {
 
 				MinuetoText rname = new MinuetoText(rnameStr, description_font_bold, resourceColor.darken(0.3));
 
-				if (btn_bg.get(rtype) == null)
-					btn_bg.put(rtype, new MinuetoRectangle(WIDTH - 30, rname.getHeight() + 30, resourceColor, true));
+				if (btnShadow == null)
+					btnShadow = new MinuetoRectangle(WIDTH - 30, rname.getHeight() + 30, bg_color.darken(0.2), true);
+
+				MinuetoRectangle background = new MinuetoRectangle(WIDTH - 30, rname.getHeight() + 30, resourceColor,
+						true);
+
+				draw(btnShadow, x + 3, y_offset + 3);
+				draw(background, x, y_offset);
+				draw(rname, x + background.getWidth() / 2 - rname.getWidth() / 2,
+						y_offset + background.getHeight() / 2 - rname.getHeight() / 2);
+
+				registerClickable(background, new ClickListener() {
+					@Override
+					public void onClick() {
+						System.out.println("Selected " + rtype);
+						NetworkManager nm = ClientModel.instance.getNetworkManager();
+						nm.sendCommand(new ResourceSelectedCommand(rtype));
+					}
+				});
+
+				y_offset += background.getHeight() + 10;
+			}
+		} else if (menuReason.equals("FishResource")) {
+			for (ResourceType rtype : ResourceType.values()) {
+				// Ignore commodities
+				if (rtype == ResourceType.COIN || rtype == ResourceType.CLOTH || rtype == ResourceType.PAPER)
+					continue;
+
+				String rnameStr = rtype.toString().toLowerCase();
+				rnameStr = rnameStr.substring(0, 1).toUpperCase() + rnameStr.substring(1);
+				MinuetoColor resourceColor = GameWindow.getColorByResource(rtype);
+
+				MinuetoText rname = new MinuetoText(rnameStr, description_font_bold, resourceColor.darken(0.3));
 
 				if (btnShadow == null)
 					btnShadow = new MinuetoRectangle(WIDTH - 30, rname.getHeight() + 30, bg_color.darken(0.2), true);
 
-				MinuetoRectangle background = btn_bg.get(rtype);
+				MinuetoRectangle background = new MinuetoRectangle(WIDTH - 30, rname.getHeight() + 30, resourceColor,
+						true);
 
 				draw(btnShadow, x + 3, y_offset + 3);
 				draw(background, x, y_offset);
