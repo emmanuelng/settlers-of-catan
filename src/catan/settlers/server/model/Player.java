@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
+import catan.settlers.network.client.commands.game.UpdateCardsCommand;
 import catan.settlers.network.server.Credentials;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
@@ -198,8 +199,10 @@ public class Player implements Serializable {
 	public void useProgressCard(ProgressCardType pc) {
 		int prvAmt = progressCards.get(pc);
 
-		if (prvAmt > 0)
+		if (prvAmt > 0) {
 			progressCards.put(pc, prvAmt - 1);
+			sendCommand(new UpdateCardsCommand(getProgressCards()));
+		}
 	}
 
 	public int getKnightCount(KnightType kType) {
