@@ -125,6 +125,9 @@ public class TurnData implements Serializable {
 	}
 
 	public void setSelectedHex(Hexagon hex, GameBoard gameBoard) {
+		if (hex == null)
+			return;
+		
 		int[] coordinates = gameBoard.getHex_coords(hex);
 		this.selectedHex_x = coordinates[0];
 		this.selectedHex_y = coordinates[1];
