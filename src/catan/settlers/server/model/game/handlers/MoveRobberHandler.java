@@ -54,7 +54,13 @@ public class MoveRobberHandler extends SetOfOpponentMove {
 					}
 
 					game.sendToAllPlayers(new UpdateGameBoardCommand(game.getGameBoardManager().getBoardDeepCopy()));
-					sender.sendCommand(new SelectPlayerToStealFromCommand(listOfStealable));
+
+					if (!listOfStealable.isEmpty()) {
+						sender.sendCommand(new SelectPlayerToStealFromCommand(listOfStealable));
+					} else {
+						game.setCurSetOfOpponentMove(null);
+						game.sendToAllPlayers(new CurrentPlayerChangedCommand(game.getCurrentPlayer().getUsername()));
+					}
 
 				}
 
