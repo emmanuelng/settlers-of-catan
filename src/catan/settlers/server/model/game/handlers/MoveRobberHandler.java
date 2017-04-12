@@ -11,7 +11,6 @@ import catan.settlers.network.client.commands.game.cards.BishopCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.TurnData;
-import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
@@ -26,22 +25,25 @@ public class MoveRobberHandler extends SetOfOpponentMove{
 	 * 
 	 */
 	private static final long serialVersionUID = 1881812992580785787L;
-	private boolean firstPhase;
+	private boolean secondPhase;
 
 	@Override
 	public void handle(Game game, Player sender, TurnData data) {
 		if (contains(sender)) {
-			if(firstPhase){
+			if(!secondPhase){
 				GameBoard board = game.getGameBoardManager().getBoard();
 				Hexagon selectedHex = data.getSelectedHex(board);
-	
-				if (selectedHex.getType() == TerrainType.SEA) {
-					game.sendToAllPlayers(new MoveRobberCommand(false));
-					return;
+				if(selectedHex != null){
+					if (selectedHex.getType() == TerrainType.SEA) {
+						game.sendToAllPlayers(new MoveRobberCommand(false));
+						return;
+					}
+		
+					board.setRobberHex(selectedHex);
+					game.sendToAllPlayers(new UpdateGameBoardCommand(game.getGameBoardManager().getBoardDeepCopy()));
 				}
-	
-				board.setRobberHex(selectedHex);
-				game.sendToAllPlayers(new UpdateGameBoardCommand(game.getGameBoardManager().getBoardDeepCopy()));
+				
+				secondPhase = true;
 			}else{
 				ArrayList<String> listOfStealable = new ArrayList<>();
 				
@@ -51,7 +53,6 @@ public class MoveRobberHandler extends SetOfOpponentMove{
 						listOfStealable.add(iu.getOwner().getUsername());
 					}
 				}
-				
 				sender.sendCommand(new SelectPlayerToStealFromCommand(listOfStealable));
 	//			for (selectedHex.getPlayersOnHex()) {
 	//				if (player == sender)

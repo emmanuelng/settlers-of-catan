@@ -17,6 +17,7 @@ public class MoveRobberCommand implements ServerToClientCommand {
 	public void execute() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		gsm.setCanMoveRobber(true, isBishop);
+		gsm.doShowSelectHexLayer(true);
 
 		if (isBishop) {
 			gsm.setdBox("You played a bishop card",

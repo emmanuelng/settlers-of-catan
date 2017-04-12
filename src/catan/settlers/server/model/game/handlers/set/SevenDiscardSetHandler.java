@@ -6,12 +6,14 @@ import java.util.HashMap;
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.EndOfSevenDiscardPhase;
+import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.WaitForSetOfOpponentMoveCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
+import catan.settlers.server.model.game.handlers.MoveRobberHandler;
 import catan.settlers.server.model.TurnData;
 
 public class SevenDiscardSetHandler extends SetOfOpponentMove {
@@ -95,7 +97,16 @@ public class SevenDiscardSetHandler extends SetOfOpponentMove {
 
 		// TODO: If the first barbarian attack happened, ask to the current
 		// player to move the robber. Otherwise, go to normal turn phase
+		
 		game.setGamePhase(GamePhase.TURNPHASE);
+		if(game.getAttacked()){
+			MoveRobberHandler set = new MoveRobberHandler();
+			set.waitForPlayer(game.getCurrentPlayer());
+			game.setCurSetOfOpponentMove(set);
+	
+			game.getCurrentPlayer().sendCommand(new MoveRobberCommand(false));
+		}
+	
 	}
 
 }

@@ -18,6 +18,7 @@ import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.UpdateVPCommand;
 import catan.settlers.network.client.commands.game.WaitForSetOfOpponentMoveCommand;
+import catan.settlers.network.client.commands.game.cards.BishopCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.GameBoardManager;
@@ -25,6 +26,7 @@ import catan.settlers.server.model.Player;
 import catan.settlers.server.model.ProgressCards;
 import catan.settlers.server.model.TurnData;
 import catan.settlers.server.model.game.handlers.set.AqueductSetHandler;
+import catan.settlers.server.model.game.handlers.set.BishopSetHandler;
 import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
 import catan.settlers.server.model.game.handlers.set.SevenDiscardSetHandler;
 import catan.settlers.server.model.map.Intersection;
@@ -74,7 +76,12 @@ public class RollDicePhaseHandler implements Serializable {
 				return;
 			}
 			if (game.getAttacked()) {
+				MoveRobberHandler set = new MoveRobberHandler();
+				set.waitForPlayer(sender);
+				game.setCurSetOfOpponentMove(set);
+		
 				sender.sendCommand(new MoveRobberCommand(false));
+				game.sendToAllPlayers(new MoveRobberCommand(false));
 			}
 
 		} else {
