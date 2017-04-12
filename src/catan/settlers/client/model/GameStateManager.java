@@ -100,6 +100,10 @@ public class GameStateManager {
 
 	private boolean showSelectEdgeLayer;
 
+	private String winner;
+
+	private boolean showWinningScreen;
+
 	public GameStateManager(int gameId) {
 		this.gameId = gameId;
 		this.canMoveRobber = false;
@@ -120,6 +124,7 @@ public class GameStateManager {
 		this.showFishMenu = false;
 		this.currentReason = null;
 		this.discardMenuTitle = null;
+		this.showWinningScreen = false;
 
 		this.sevenDiscardMenuMsg = "";
 		this.tradeMenuMsg = "";
@@ -659,6 +664,22 @@ public class GameStateManager {
 
 	public boolean getShowSelectEdgeLayer() {
 		return showSelectEdgeLayer;
+	}
+
+	public void setVictor(String winner) {
+		this.winner = winner;
+	}
+
+	public void setWinningScreen(boolean b) {
+		this.showWinningScreen = b;
+	}
+	
+	public boolean getWinningScreen(){
+		return showWinningScreen;
+	}
+	
+	public String getWinner(){
+		return winner;
 	}
 
 }

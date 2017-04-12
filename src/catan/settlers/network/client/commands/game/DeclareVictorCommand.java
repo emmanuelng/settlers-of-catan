@@ -1,6 +1,7 @@
 package catan.settlers.network.client.commands.game;
 
 import catan.settlers.client.model.ClientModel;
+import catan.settlers.client.model.GameStateManager;
 import catan.settlers.network.client.commands.ServerToClientCommand;
 
 public class DeclareVictorCommand implements ServerToClientCommand {
@@ -17,8 +18,9 @@ public class DeclareVictorCommand implements ServerToClientCommand {
 
 	@Override
 	public void execute() {
-		ClientModel.instance.getGameStateManager().setdBox(winner + " has won", winner + " is the lord of catan");
-
+		GameStateManager gsm = ClientModel.instance.getGameStateManager();
+		gsm.setVictor(winner);
+		gsm.setWinningScreen(true);
 	}
 
 }

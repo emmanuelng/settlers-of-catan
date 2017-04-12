@@ -33,7 +33,7 @@ public class Game implements Serializable {
 	}
 
 	private static final long serialVersionUID = -5752967531725278325L;
-	public static final int MAX_NB_OF_PLAYERS = 2;
+	public static final int MAX_NB_OF_PLAYERS = 1;
 
 	private int id;
 	private ArrayList<Player> participants;
