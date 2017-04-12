@@ -20,7 +20,8 @@ public class DisplacedKnightHandler extends SetOfOpponentMove {
 	@Override
 	public void handle(Game game, Player sender, TurnData data) {
 		if (contains(sender)) {
-			Intersection newLocation = data.getIntersectionSelection();
+			int selectedId = data.getIntersectionSelection().getId();
+			Intersection newLocation = game.getGameBoardManager().getBoard().getIntersectionById(selectedId);
 			Intersection curKnightLoc = game.getGameBoardManager().getBoard().getIntersectionById(knightToMove.getLocatedAt().getId());
 
 			if (newLocation.getUnit() != null || newLocation.isMaritime())
@@ -28,7 +29,6 @@ public class DisplacedKnightHandler extends SetOfOpponentMove {
 			if (knightToMove.canCanMoveIntersecIds().contains(newLocation.getId())) {
 				knightToMove.setLocatedAt(newLocation);
 				newLocation.setUnit(knightToMove);
-				curKnightLoc.setUnit(null);
 				game.sendToAllPlayers(new UpdateGameBoardCommand(game.getGameBoardManager().getBoardDeepCopy()));
 				
 				game.sendToAllPlayers(new CurrentPlayerChangedCommand(game.getCurrentPlayer().getUsername()));
