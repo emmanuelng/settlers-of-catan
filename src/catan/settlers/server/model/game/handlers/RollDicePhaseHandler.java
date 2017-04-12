@@ -76,7 +76,7 @@ public class RollDicePhaseHandler implements Serializable {
 				game.setCurSetOfOpponentMove(set);
 
 				sender.sendCommand(new MoveRobberCommand(false));
-				game.getCurrentPlayer().sendCommand(new MoveRobberCommand(false));
+//				game.getCurrentPlayer().sendCommand(new MoveRobberCommand(false));
 			}
 
 		} else {
@@ -125,6 +125,11 @@ public class RollDicePhaseHandler implements Serializable {
 						p.sendCommand(new UpdateCardsCommand(p.getProgressCards()));
 					}
 				}
+			}
+		}
+		for (Intersection i : game.getGameBoardManager().getBoard().getIntersections()) {
+			if (i.getUnit() instanceof Knight) {
+				((Knight) i.getUnit()).notBuiltThisTurn();
 			}
 		}
 		game.setGamePhase(GamePhase.TURNPHASE);

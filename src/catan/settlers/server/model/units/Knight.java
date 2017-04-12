@@ -18,6 +18,7 @@ public class Knight implements IntersectionUnit {
 	private Player myOwner;
 	private KnightType knightType;
 	private boolean activated;
+	private boolean builtThisTurn;
 
 	private Cost buildKnightCost;
 	private Cost updateKnightCost;
@@ -30,6 +31,7 @@ public class Knight implements IntersectionUnit {
 		this.myOwner = p;
 		this.knightType = KnightType.BASIC_KNIGHT;
 		this.activated = false;
+		this.builtThisTurn = true;
 		this.locatedAt = initialLocation;
 
 		this.buildKnightCost = new Cost();
@@ -84,6 +86,14 @@ public class Knight implements IntersectionUnit {
 
 	public void deactivateKnight() {
 		activated = false;
+	}
+	
+	public void notBuiltThisTurn() {
+		builtThisTurn = false;
+	}
+	
+	public boolean wasBuiltThisTurn() {
+		return builtThisTurn;
 	}
 
 	@Override
