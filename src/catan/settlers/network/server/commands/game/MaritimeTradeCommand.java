@@ -66,6 +66,11 @@ public class MaritimeTradeCommand implements ClientToServerCommand {
 				if (give.get(rtype) == 3 && allOtherGiveResourcesAreEmpty(rtype))
 					if (onlyOneResourceInGet())
 						return true;
+			
+			// 4:1 trade
+			if (give.get(rtype) == 4 && allOtherGiveResourcesAreEmpty(rtype))
+				if (onlyOneResourceInGet())
+					return true;
 		}
 
 		// Check for merchant (2:1)
