@@ -313,12 +313,12 @@ public class Game implements Serializable {
 
 	public void setLargestArmy(Player p) {
 		if (largestArmy != p && largestArmy != null) {
-			largestArmy.decrementVP(2);
+			largestArmy.decrementVP(2, this);
 			largestArmy = p;
-			p.incrementVP(2);
+			p.incrementVP(2, this);
 		} else if (largestArmy == null) {
 			largestArmy = p;
-			p.incrementVP(2);
+			p.incrementVP(2, this);
 		}
 	}
 

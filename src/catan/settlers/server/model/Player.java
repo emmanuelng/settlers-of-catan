@@ -8,6 +8,7 @@ import java.util.Random;
 
 import catan.settlers.network.client.commands.ServerToClientCommand;
 import catan.settlers.network.client.commands.game.UpdateCardsCommand;
+import catan.settlers.network.client.commands.game.UpdateVPCommand;
 import catan.settlers.network.server.Credentials;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
@@ -76,16 +77,17 @@ public class Player implements Serializable {
 		return victoryP;
 	}
 
-	public void incrementVP(int amount) {
+	public void incrementVP(int amount, Game game) {
 		victoryP = victoryP + amount;
+		game.sendToAllPlayers(new UpdateVPCommand(game.getVictoryPoints()));
 	}
 
-	public void decrementVP(int amount) {
+	public void decrementVP(int amount, Game game) {
 		if (victoryP >= amount) {
 			victoryP = victoryP - amount;
 		}
-		// no way of knowing if we called this if we try to decrement more than
-		// num of vp
+		
+		game.sendToAllPlayers(new UpdateVPCommand(game.getVictoryPoints()));
 	}
 
 	public boolean hasPortOfThisResource(ResourceType r) {
