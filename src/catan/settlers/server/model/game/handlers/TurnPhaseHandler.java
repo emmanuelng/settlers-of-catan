@@ -403,6 +403,10 @@ public class TurnPhaseHandler implements Serializable {
 				HashSet<Hexagon> hexes = newLocation.getHexagons();
 				for (Hexagon h : hexes) {
 					if (h == game.getGameBoardManager().getBoard().getRobberHex()) {
+						MoveRobberHandler set = new MoveRobberHandler();
+						set.waitForPlayer(currentPlayer);
+						game.setCurSetOfOpponentMove(set);
+
 						currentPlayer.sendCommand(new MoveRobberCommand(false));
 					}
 				}
