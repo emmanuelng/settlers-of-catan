@@ -73,6 +73,8 @@ public class SevenDiscardSetHandler extends SetOfOpponentMove {
 		for (ResourceType rtype : ResourceType.values()) {
 			sender.removeResource(rtype, sevenResources.get(rtype));
 		}
+		
+		playerResponded(sender);
 		sender.sendCommand(new UpdateResourcesCommand(sender.getResources()));
 		currentSetOfOpponentMove.playerResponded(sender);
 	}
