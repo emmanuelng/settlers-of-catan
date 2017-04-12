@@ -10,6 +10,7 @@ import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.cards.BishopCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
+import catan.settlers.server.model.Player.ResourceType;
 import catan.settlers.server.model.TurnData;
 import catan.settlers.server.model.game.handlers.set.SetOfOpponentMove;
 import catan.settlers.server.model.map.GameBoard;
@@ -40,31 +41,34 @@ public class MoveRobberHandler extends SetOfOpponentMove{
 					}
 		
 					board.setRobberHex(selectedHex);
+					
+					ArrayList<String> listOfStealable = new ArrayList<>();
+					
+					for(IntersectionLoc intloc: IntersectionLoc.values()){
+						IntersectionUnit iu = game.getGameBoardManager().getBoard().getRobberHex().getIntersection(intloc).getUnit();
+						if(iu instanceof Village){
+							if(!iu.getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())){
+								listOfStealable.add(iu.getOwner().getUsername());
+							}
+						}
+					}
+					
+					sender.sendCommand(new SelectPlayerToStealFromCommand(listOfStealable));
+					
 					game.sendToAllPlayers(new UpdateGameBoardCommand(game.getGameBoardManager().getBoardDeepCopy()));
 				}
 				
 				secondPhase = true;
 			}else{
-				ArrayList<String> listOfStealable = new ArrayList<>();
 				
-				for(IntersectionLoc intloc: IntersectionLoc.values()){
-					IntersectionUnit iu = game.getGameBoardManager().getBoard().getRobberHex().getIntersection(intloc).getUnit();
-					if(iu instanceof Village){
-						listOfStealable.add(iu.getOwner().getUsername());
-					}
-				}
-				sender.sendCommand(new SelectPlayerToStealFromCommand(listOfStealable));
-	//			for (selectedHex.getPlayersOnHex()) {
-	//				if (player == sender)
-	//					continue;
-	//
-	//				ResourceType stolen = player.drawRandomResource();
-	//				player.removeResource(stolen, 1);
-	//				sender.giveResource(stolen, 1);
-	//				player.sendCommand(new UpdateResourcesCommand(player.getResources()));
-	//			}
-				
+				Player stolenFrom = game.getPlayersManager().getPlayerByUsername(data.getSelectedPlayer());
+				ResourceType stolen = stolenFrom.drawRandomResource();
+				stolenFrom.removeResource(stolen,1);
+				stolenFrom.sendCommand(new UpdateResourcesCommand(stolenFrom.getResources()));
+				sender.giveResource(stolen, 1);
 				sender.sendCommand(new UpdateResourcesCommand(sender.getResources()));
+		
+				
 				game.setCurSetOfOpponentMove(null);
 				game.sendToAllPlayers(new CurrentPlayerChangedCommand(game.getCurrentPlayer().getUsername()));
 			}

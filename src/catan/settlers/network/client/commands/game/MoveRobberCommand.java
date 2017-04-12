@@ -25,6 +25,7 @@ public class MoveRobberCommand implements ServerToClientCommand {
 		} else {
 			gsm.setdBox("Select a hexagon to block with the robber",
 					"Also select a settlement/city to steal a random resource from.");
+			gsm.setShowSelectPlayerMenu(true);
 		}
 	}
 
