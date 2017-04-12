@@ -135,11 +135,11 @@ public class SetupPhaseHandler implements Serializable {
 
 		selectedIntersection.setUnit(village);
 		selectedEdge.setOwner(currentPlayer);
-		currentPlayer.incrementVP(1);
+		currentPlayer.incrementVP(1, game);
 
 		if (!isPhaseOne) {
 			village.upgradeToCity();
-			currentPlayer.incrementVP(1);
+			currentPlayer.incrementVP(1, game);
 		}
 
 		currentPlayer.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));

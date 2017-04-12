@@ -61,10 +61,6 @@ public class RollDicePhaseHandler implements Serializable {
 		// TODO: Play alchemist card
 		assignRandomValuesToDice();
 
-		/*
-		 * apparently you cannot move the robber until the first barbarian
-		 * attack hits, or play the bishop card until the first attack
-		 */
 		if (redDie + yellowDie == 7) {
 			SevenDiscardSetHandler discardResourcesSet = buildDiscardResourcesSet();
 
@@ -290,7 +286,7 @@ public class RollDicePhaseHandler implements Serializable {
 				if (cities.size() != 0) {
 					Village v = cities.remove((int) Math.random() * cities.size());
 					v.destroyCity();
-					p.decrementVP(1);
+					p.decrementVP(1, game);
 					p.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 				}
 			}
@@ -298,7 +294,7 @@ public class RollDicePhaseHandler implements Serializable {
 			// top player gets VP or top players get prog cards
 			if (strongestPlayers.size() == 1) {
 				for (Player p : strongestPlayers) {
-					p.incrementVP(1);
+					p.incrementVP(1, game);
 					p.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 				}
 			} else {

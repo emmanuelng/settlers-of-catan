@@ -44,6 +44,8 @@ public class PlayerTradeConfirmCommand implements ClientToServerCommand {
 		}
 
 		for (Player p : game.getParticipants()) {
+			personWhoAccepts.sendCommand(new TradeSuccessCommand());
+			personWhoPropose.sendCommand(new TradeSuccessCommand());
 			p.sendCommand(new UpdateResourcesCommand(p.getResources()));
 			p.sendCommand(new TradeSuccessCommand(personWhoPropose.getUsername()));
 		}

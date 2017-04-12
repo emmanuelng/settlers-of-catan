@@ -372,6 +372,7 @@ public class TradeMenuLayer extends ImageLayer {
 			@Override
 			public void onClick() {
 				ClientModel.instance.getNetworkManager().sendCommand(new MaritimeTradeCommand(give, get));
+				ClientModel.instance.getGameStateManager().setShowTradeMenu(false);
 			}
 		};
 	}
@@ -381,6 +382,7 @@ public class TradeMenuLayer extends ImageLayer {
 			@Override
 			public void onClick() {
 				ClientModel.instance.getNetworkManager().sendCommand(new PlayerTradeRequestCommand(give, get));
+				ClientModel.instance.getGameStateManager().setShowTradeMenu(false);
 			}
 		};
 	}

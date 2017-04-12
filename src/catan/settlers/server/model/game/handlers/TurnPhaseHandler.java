@@ -54,7 +54,6 @@ public class TurnPhaseHandler implements Serializable {
 	private Knight selectedKnight;
 	private HashMap<Field, Player> metOwners;
 	private FishHandler fishHandler;
-	private HashSet<Edge> visitedEdges;
 
 	public TurnPhaseHandler(Game game) {
 		this.game = game;
@@ -118,13 +117,13 @@ public class TurnPhaseHandler implements Serializable {
 			fishHandler.handle(sender, data.getFishAction());
 			break;
 		case POLITICS_CITY_IMPROVEMENT:
-			PoliticsCityImprovement();
+			politicsCityImprovement();
 			break;
 		case SCIENCE_CITY_IMPROVEMENT:
-			ScienceCityImprovement();
+			scienceCityImprovement();
 			break;
 		case TRADE_CITY_IMPROVEMENT:
-			TradeCityImprovement();
+			tradeCityImprovement();
 			break;
 		case DRAW_PROGRESS_CARD:
 			drawProgressCard(data);
@@ -209,7 +208,7 @@ public class TurnPhaseHandler implements Serializable {
 
 			if (cost.canPay(currentPlayer)) {
 				selectedIntersection.setUnit(village);
-				currentPlayer.incrementVP(1);
+				currentPlayer.incrementVP(1, game);
 				currentPlayer.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 				updateResourcesAndBoard();
 			}
@@ -249,7 +248,7 @@ public class TurnPhaseHandler implements Serializable {
 			if (cost.canPay(currentPlayer)) {
 				village.upgradeToCity();
 				cost.removeResources(currentPlayer);
-				currentPlayer.incrementVP(1);
+				currentPlayer.incrementVP(1, game);
 				currentPlayer.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 				updateResourcesAndBoard();
 			}
@@ -443,7 +442,7 @@ public class TurnPhaseHandler implements Serializable {
 				currentPlayer.getTradeLevel(), currentPlayer.getScienceLevel()));
 	}
 
-	private void PoliticsCityImprovement() {
+	private void politicsCityImprovement() {
 
 		int level = currentPlayer.getPoliticsLevel() + 1;
 		Cost cost = new Cost();
@@ -463,7 +462,7 @@ public class TurnPhaseHandler implements Serializable {
 		}
 	}
 
-	private void ScienceCityImprovement() {
+	private void scienceCityImprovement() {
 		int level = currentPlayer.getScienceLevel() + 1;
 		Cost cost = new Cost();
 		if (currentPlayer.hasCrane()) {
@@ -482,7 +481,7 @@ public class TurnPhaseHandler implements Serializable {
 		}
 	}
 
-	private void TradeCityImprovement() {
+	private void tradeCityImprovement() {
 		int level = currentPlayer.getTradeLevel() + 1;
 		Cost cost = new Cost();
 		if (currentPlayer.hasCrane()) {
@@ -514,13 +513,13 @@ public class TurnPhaseHandler implements Serializable {
 			System.out.println("This happens");
 			if (currentPlayer.getScienceLevel() == 4) {
 				metOwners.put(Field.SCIENCE, currentPlayer);
-				currentPlayer.incrementVP(1);
+				currentPlayer.incrementVP(1, game);
 				currentPlayer.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 			} else if (currentPlayer.getScienceLevel() == 5 && currentPlayer.getScienceLevel() > otherPeoplelvl) {
-				metOwners.get(Field.SCIENCE).decrementVP(1);
+				metOwners.get(Field.SCIENCE).decrementVP(1, game);
 				metOwners.get(Field.SCIENCE).sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 				metOwners.put(Field.SCIENCE, currentPlayer);
-				currentPlayer.incrementVP(1);
+				currentPlayer.incrementVP(1, game);
 				currentPlayer.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 			}
 			if (metOwners.get(Field.SCIENCE) != null) {
@@ -535,13 +534,13 @@ public class TurnPhaseHandler implements Serializable {
 			}
 			if (currentPlayer.getTradeLevel() == 4) {
 				metOwners.put(Field.TRADE, currentPlayer);
-				currentPlayer.incrementVP(1);
+				currentPlayer.incrementVP(1, game);
 				currentPlayer.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 			} else if (currentPlayer.getTradeLevel() == 5 && currentPlayer.getTradeLevel() > otherPeoplelvl) {
-				metOwners.get(Field.TRADE).decrementVP(1);
+				metOwners.get(Field.TRADE).decrementVP(1, game);
 				metOwners.get(Field.TRADE).sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 				metOwners.put(Field.TRADE, currentPlayer);
-				currentPlayer.incrementVP(1);
+				currentPlayer.incrementVP(1, game);
 				currentPlayer.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 			}
 			if (metOwners.get(Field.TRADE) != null) {
@@ -556,13 +555,13 @@ public class TurnPhaseHandler implements Serializable {
 			}
 			if (currentPlayer.getPoliticsLevel() == 4) {
 				metOwners.put(Field.POLITICS, currentPlayer);
-				currentPlayer.incrementVP(1);
+				currentPlayer.incrementVP(1, game);
 				currentPlayer.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 			} else if (currentPlayer.getPoliticsLevel() == 5 && currentPlayer.getPoliticsLevel() > otherPeoplelvl) {
-				metOwners.get(Field.POLITICS).decrementVP(1);
+				metOwners.get(Field.POLITICS).decrementVP(1, game);
 				metOwners.get(Field.POLITICS).sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 				metOwners.put(Field.POLITICS, currentPlayer);
-				currentPlayer.incrementVP(1);
+				currentPlayer.incrementVP(1, game);
 				currentPlayer.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 			}
 			if (metOwners.get(Field.POLITICS) != null) {

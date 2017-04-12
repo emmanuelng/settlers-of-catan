@@ -293,7 +293,7 @@ public class ProgressCardHandler implements Serializable {
 	 * one VP for player
 	 */
 	private void constitution(Player sender) {
-		sender.incrementVP(1);
+		sender.incrementVP(1, game);
 		sender.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 
 		// Update cards
@@ -564,7 +564,7 @@ public class ProgressCardHandler implements Serializable {
 	 * Get one VP!
 	 */
 	private void printer(Player sender) {
-		sender.incrementVP(1);
+		sender.incrementVP(1, game);
 		game.getVictoryPoints().put(sender.getUsername(), sender.getVP() + 1);
 		sender.sendCommand(new UpdateVPCommand(game.getVictoryPoints()));
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import catan.settlers.client.model.ClientModel;
 import catan.settlers.network.client.commands.game.ReceiveTradeRequestCommand;
+import catan.settlers.network.client.commands.game.TradeFailureCommand;
 import catan.settlers.network.server.Server;
 import catan.settlers.network.server.Session;
 import catan.settlers.network.server.commands.ClientToServerCommand;
@@ -32,9 +33,25 @@ public class PlayerTradeRequestCommand implements ClientToServerCommand {
 		ArrayList<Player> otherPlayers = game.getParticipants();
 		otherPlayers.remove(player);
 
-		for (Player p : otherPlayers)
-			p.sendCommand(new ReceiveTradeRequestCommand(give, get, player));
+		boolean cmdSent = false;
+		for (Player p : otherPlayers) {
+			if (canTrade(p)) {
+				cmdSent = true;
+				p.sendCommand(new ReceiveTradeRequestCommand(give, get, player));
+			}
+		}
 
+		if (!cmdSent)
+			player.sendCommand(new TradeFailureCommand("Nobody has enough resources to trade with you."));
+
+	}
+
+	private boolean canTrade(Player p) {
+		for (ResourceType rtype : get.keySet()) {
+			if (p.getResourceAmount(rtype) < get.get(rtype))
+				return false;
+		}
+		return true;
 	}
 
 }
