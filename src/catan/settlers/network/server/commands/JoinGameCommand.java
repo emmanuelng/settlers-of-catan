@@ -25,9 +25,7 @@ public class JoinGameCommand implements ClientToServerCommand {
 				sender.sendCommand(new JoinGameResponseCommand(false, "The game does no exist", null));
 			} else {
 				Credentials cred = sender.getCredentials();
-				System.out.println("Joining game...");
 				JoinStatus status = game.getPlayersManager().addPlayer(cred);
-				System.out.println("Status: " + status);
 				if (status == JoinStatus.SUCCESS) {
 					sender.sendCommand(new JoinGameResponseCommand(true, "Success!", game));
 					notifyOtherPlayers(game, sender, server);

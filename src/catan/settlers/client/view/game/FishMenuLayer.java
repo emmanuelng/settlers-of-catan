@@ -18,7 +18,6 @@ public class FishMenuLayer extends ImageLayer {
 	private static final MinuetoColor bg_color = new MinuetoColor(249, 249, 249);
 	private static final MinuetoColor border_color = new MinuetoColor(179, 179, 179);
 	private static final MinuetoFont title_font = new MinuetoFont("arial", 28, true, false);
-	private static final MinuetoFont description_font_bold = new MinuetoFont("arial", 17, true, false);
 	private static final MinuetoFont description_font = new MinuetoFont("arial", 16, false, false);
 
 	private int box_x, box_y;
@@ -27,7 +26,6 @@ public class FishMenuLayer extends ImageLayer {
 	private MinuetoText title;
 	private MinuetoText description;
 	private boolean clear;
-	private MinuetoRectangle btnShadow;
 	private Button removeRobber;
 	private Button stealResource;
 	private Button drawResource;
