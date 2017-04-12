@@ -246,6 +246,7 @@ public class RollDicePhaseHandler implements Serializable {
 						playerStrength.put(unit.getOwner(), current + 3);
 						break;
 					}
+					((Knight) unit).deactivateKnight();
 				}
 			}
 		}

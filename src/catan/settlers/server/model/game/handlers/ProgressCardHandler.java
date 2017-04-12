@@ -8,6 +8,7 @@ import catan.settlers.network.client.commands.game.DiscardCardsCommand;
 import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.UpdateCardsCommand;
+import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
 import catan.settlers.network.client.commands.game.UpdateVPCommand;
 import catan.settlers.network.client.commands.game.cards.BishopCommand;
@@ -427,6 +428,9 @@ public class ProgressCardHandler implements Serializable {
 		}
 
 		// Update cards
+		for (Player p : game.getParticipants()) {
+			p.sendCommand(new UpdateGameBoardCommand(game.getGameBoardManager().getBoardDeepCopy()));
+		}
 		sender.useProgressCard(ProgressCardType.WARLORD);
 		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
 	}
