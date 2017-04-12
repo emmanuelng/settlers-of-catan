@@ -98,10 +98,7 @@ public class SelectProgressCardTypeLayer extends ImageLayer {
 		if (btnShadow == null)
 			btnShadow = new MinuetoRectangle(bgWidth, btnHeight, new MinuetoColor(200, 200, 200), true);
 
-		if (btnBg.get(index) == null)
-			btnBg.put(index, new MinuetoRectangle(bgWidth, btnHeight, fieldColor, true));
-
-		MinuetoRectangle background = btnBg.get(index);
+		MinuetoRectangle background = new MinuetoRectangle(bgWidth, btnHeight, fieldColor, true);
 
 		draw(btnShadow, x + 3, y + 3);
 		draw(background, x, y);
@@ -111,7 +108,6 @@ public class SelectProgressCardTypeLayer extends ImageLayer {
 
 			@Override
 			public void onClick() {
-				// TODO
 				System.out.println("You selected " + field);
 				ClientModel.instance.getNetworkManager().sendCommand(new DrawProgressCardCommand(field.toString()));
 			}
