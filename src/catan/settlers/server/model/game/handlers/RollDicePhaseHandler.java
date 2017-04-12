@@ -73,13 +73,14 @@ public class RollDicePhaseHandler implements Serializable {
 				askOtherPlayersToWait(discardResourcesSet, "SevenDiscard");
 				return;
 			}
+
 			if (game.getAttacked()) {
 				MoveRobberHandler set = new MoveRobberHandler();
 				set.waitForPlayer(sender);
 				game.setCurSetOfOpponentMove(set);
 
 				sender.sendCommand(new MoveRobberCommand(false));
-				game.sendToAllPlayers(new MoveRobberCommand(false));
+				game.getCurrentPlayer().sendCommand(new MoveRobberCommand(false));
 			}
 
 		} else {
@@ -198,7 +199,6 @@ public class RollDicePhaseHandler implements Serializable {
 		for (Player p : participants) {
 
 			if (!playersWhoDrew.contains(p) && p.hasAqueduct()) {
-				// TODO: select a card
 				AqueductSetHandler set = new AqueductSetHandler();
 				set.waitForPlayer(p);
 				game.setCurSetOfOpponentMove(set);
