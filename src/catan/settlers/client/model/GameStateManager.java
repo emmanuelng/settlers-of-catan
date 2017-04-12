@@ -197,6 +197,7 @@ public class GameStateManager {
 	public void setCurrentPlayer(String player) {
 		currentPlayer = player;
 		updateActions = true;
+		updatePlayers = true;
 	}
 
 	public String getCurrentPlayer() {
@@ -225,7 +226,7 @@ public class GameStateManager {
 
 	public void setProgressCards(HashMap<ProgressCardType, Integer> progressCards) {
 		this.progressCards = progressCards;
-		
+
 		this.progressCards.put(ProgressCardType.MINING, 1);
 		this.updateProgressCards = true;
 	}
@@ -653,7 +654,7 @@ public class GameStateManager {
 	public int getNumFish() {
 		return numFish;
 	}
-	
+
 	public void setShowSelectEdgeLayer(boolean b) {
 		this.showSelectEdgeLayer = b;
 	}
