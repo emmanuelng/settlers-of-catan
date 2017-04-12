@@ -494,24 +494,17 @@ public class ProgressCardHandler implements Serializable {
 	 * Draw two grain for each field tile you have at least one village on
 	 */
 	private void irrigation(Player sender) {
-		for (int y = 0; y < 7; y++) {
-			for (int x = 0; x < 7; x++) {
-				Hexagon h = game.getGameBoardManager().getBoard().getHexagonAt(x, y);
-				if (h != null) {
-					if (h.getType() == TerrainType.FIELD) {
-						boolean onHex = false;
-						for (IntersectionLoc loc : IntersectionLoc.values()) {
-							IntersectionUnit u = h.getIntersection(loc).getUnit();
-							if (u instanceof Village) {
-								if (u.getOwner() == sender) {
-									onHex = true;
-									break;
-								}
-							}
-						}
-						if (onHex) {
-							sender.giveResource(ResourceType.GRAIN, 2);
-							sender.sendCommand(new UpdateResourcesCommand(currentPlayer.getResources()));
+		GameBoard board = game.getGameBoardManager().getBoard();
+		for (int x = 0; x < board.getLength(); x++) {
+			for (int y = 0; y < board.getHeight(); y++) {
+				Hexagon hex = board.getHexagonAt(x, y);
+
+				if (hex != null) {
+					if (hex.getType() == TerrainType.FIELD) {
+						HashSet<Player> players = hex.getPlayersOnHex();
+						for (Player p : players) {
+							p.giveResource(ResourceType.GRAIN, 2);
+							p.sendCommand(new UpdateResourcesCommand(p.getResources()));
 						}
 					}
 				}
