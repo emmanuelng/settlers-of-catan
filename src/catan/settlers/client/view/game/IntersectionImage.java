@@ -60,6 +60,8 @@ public class IntersectionImage extends MinuetoImage {
 				Village village = (Village) intersection.getUnit();
 				int playerNo = gw.getPlayerNumber(village.getOwner().getUsername());
 
+				playerNo = playerNo == 0 ? 1 : playerNo;
+
 				switch (village.getKind()) {
 				case SETTLEMENT:
 					draw(imf.load("images/settlement" + playerNo + ".png"), 0, 0);
