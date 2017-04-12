@@ -17,7 +17,7 @@ public class MoveKnightAction implements GameAction {
 			IntersectionUnit unit = selectedIntersec.getUnit();
 			if (unit != null) {
 				if (unit instanceof Knight) {
-					return ((Knight)unit).wasBuiltThisTurn();
+					return !((Knight)unit).wasBuiltThisTurn();
 				}
 			}
 		}
