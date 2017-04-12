@@ -22,6 +22,7 @@ public class DiscardCommand implements ClientToServerCommand {
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 		this.data = new TurnData(TurnAction.SEVEN_DISCARD);
 		this.data.setSevenDiscardResources(resources);
+		ClientModel.instance.getGameStateManager().setShowSevenDiscardMenu(false);
 	}
 
 	@Override
