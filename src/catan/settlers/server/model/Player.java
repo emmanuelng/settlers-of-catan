@@ -59,6 +59,7 @@ public class Player implements Serializable {
 		this.politicsImprovement = 0;
 		this.scienceImprovement = 0;
 		this.victoryP = 0;
+		this.fishCount = 9; // TODO REMOVE
 
 		for (ResourceType resType : ResourceType.values()) {
 			resources.put(resType, 0);

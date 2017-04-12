@@ -1,15 +1,17 @@
 package catan.settlers.server.model.game.handlers;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import catan.settlers.network.client.commands.game.ChooseProgressCardCommand;
 import catan.settlers.network.client.commands.game.FishResourceCommand;
-import catan.settlers.network.client.commands.game.SelectPlayerToStealFromCommand;
 import catan.settlers.network.client.commands.game.UpdateFishCommand;
 import catan.settlers.network.client.commands.game.UpdateGameBoardCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
+import catan.settlers.network.client.commands.game.fish.FishStealResourceCommand;
 import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Player;
+import catan.settlers.server.model.game.handlers.set.FishStealResourceSetHandler;
 
 public class FishHandler implements Serializable {
 
@@ -31,8 +33,7 @@ public class FishHandler implements Serializable {
 			sender.removeFish(2);
 			break;
 		case STEALRESOURCE:
-			sender.sendCommand(new SelectPlayerToStealFromCommand());
-			sender.removeFish(3);
+			stealResource(sender);
 			break;
 		case DRAWRESOURCE:
 			sender.sendCommand(new FishResourceCommand());
@@ -54,5 +55,18 @@ public class FishHandler implements Serializable {
 			p.sendCommand(new UpdateResourcesCommand(p.getResources()));
 			p.sendCommand(new UpdateGameBoardCommand(game.getGameBoardManager().getBoardDeepCopy()));
 		}
+	}
+
+	private void stealResource(Player sender) {
+		FishStealResourceSetHandler set = new FishStealResourceSetHandler();
+		set.waitForPlayer(sender);
+		game.setCurSetOfOpponentMove(set);
+
+		ArrayList<String> choosablePlayers = game.getPlayersManager().getParticipantsUsernames();
+		choosablePlayers.remove(sender.getUsername());
+
+		sender.sendCommand(new FishStealResourceCommand(sender.getUsername(), choosablePlayers));
+		sender.removeFish(3);
+		sender.sendCommand(new UpdateFishCommand(sender.getNumFish()));
 	}
 }

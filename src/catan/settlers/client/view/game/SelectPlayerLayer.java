@@ -20,7 +20,6 @@ import catan.settlers.network.server.commands.game.PlayerSelectedCommand;
 public class SelectPlayerLayer extends ImageLayer {
 
 	private static final HashMap<String, MinuetoImage> shields = new HashMap<>();
-	private static final HashMap<String, Button> selectButtons = new HashMap<>();
 
 	private static final int WIDTH = 500, HEIGHT = 350;
 	private static final MinuetoColor bg_color = new MinuetoColor(249, 249, 249);
@@ -106,19 +105,16 @@ public class SelectPlayerLayer extends ImageLayer {
 			draw(playerdescr, player_box_x + player_box_width / 2 - playerdescr.getWidth() / 2, player_box_y_offset);
 			player_box_y_offset += playerdescr.getHeight() + 30;
 
-			if (selectButtons.get(curParticipant) == null) {
-				selectButtons.put(curParticipant, new Button(this, "Select", select_btn_color, new ClickListener() {
+			Button selectPlayerBtn = new Button(this, "Select", select_btn_color, new ClickListener() {
+				@Override
+				public void onClick() {
+					System.out.println("Select " + curParticipant);
+					NetworkManager nm = ClientModel.instance.getNetworkManager();
+					nm.sendCommand(new PlayerSelectedCommand(curParticipant, gsm.getSelectionReason()));
+				}
 
-					@Override
-					public void onClick() {
-						System.out.println("Select " + curParticipant);
-						NetworkManager nm = ClientModel.instance.getNetworkManager();
-						nm.sendCommand(new PlayerSelectedCommand(curParticipant, gsm.getSelectionReason()));
-					}
+			});
 
-				}));
-			}
-			Button selectPlayerBtn = selectButtons.get(curParticipant);
 			draw(selectPlayerBtn.getImage(),
 					player_box_x + player_box_width / 2 - selectPlayerBtn.getImage().getWidth() / 2,
 					player_box_y_offset);
