@@ -229,7 +229,7 @@ public class TurnPhaseHandler implements Serializable {
 			selectedEdge.setOwner(currentPlayer);
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
-			updateLongestRoad(selectedEdge, currentPlayer);
+			//updateLongestRoad(selectedEdge, currentPlayer);
 		}
 
 	}
@@ -293,7 +293,7 @@ public class TurnPhaseHandler implements Serializable {
 			selectedEdge.setOwner(currentPlayer);
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
-			updateLongestRoad(selectedEdge, currentPlayer);
+			//updateLongestRoad(selectedEdge, currentPlayer);
 		}
 	}
 
@@ -396,10 +396,10 @@ public class TurnPhaseHandler implements Serializable {
 				} else if (newLocation.getUnit() instanceof Village) {
 					return;
 				} else {
-					Knight knight = (Knight) curKnightLoc.getUnit();
-					knight.setLocatedAt(newLocation);
-					newLocation.setUnit(knight);
+					selectedKnight.setLocatedAt(newLocation);
+					newLocation.setUnit(selectedKnight);
 					curKnightLoc.setUnit(null);
+					selectedKnight.deactivateKnight();
 					updateResourcesAndBoard();
 				}
 				HashSet<Hexagon> hexes = newLocation.getHexagons();
@@ -620,13 +620,14 @@ public class TurnPhaseHandler implements Serializable {
 			}
 		}
 	}
-
+	/*
 	public void updateLongestRoad(Edge e, Player currentPlayer2) {
 		visitedEdges = new HashSet<>();
 
 		System.out.println(numLongestRoad(e, currentPlayer2));
 	}
 
+	
 	public int numLongestRoad(Edge e, Player currPlayer) {
 		int length = 1;
 
@@ -661,5 +662,5 @@ public class TurnPhaseHandler implements Serializable {
 
 		return length;
 	}
-
+	*/
 }
