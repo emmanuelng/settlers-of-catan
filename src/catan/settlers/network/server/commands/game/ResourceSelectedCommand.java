@@ -20,7 +20,7 @@ public class ResourceSelectedCommand implements ClientToServerCommand {
 
 		this.data = new TurnData(TurnAction.RESOURCE_SELECTED);
 		data.setSelectedResource(rtype);
-		
+
 		ClientModel.instance.getGameStateManager().setShowSelectResourceMenu(false);
 	}
 

@@ -11,11 +11,12 @@ public class MoveDisplacedKnightCommand implements ServerToClientCommand {
 	private static final long serialVersionUID = -6619870097347643068L;
 	private Intersection knightLoc;
 	private Knight knightToMove;
-	
+
 	public MoveDisplacedKnightCommand(Intersection knightLoc) {
 		this.knightLoc = knightLoc;
-		this.knightToMove = (Knight)knightLoc.getUnit();
+		this.knightToMove = (Knight) knightLoc.getUnit();
 	}
+
 	@Override
 	public void execute() {
 		GameStateManager gsm = ClientModel.instance.getGameStateManager();

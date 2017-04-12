@@ -90,7 +90,7 @@ public class HexagonImage extends MinuetoImage {
 		switch (type) {
 		case SEA:
 			return new MinuetoColor(170, 204, 255);
-			
+
 		case DESERT:
 			return new MinuetoColor(222, 205, 135);
 		case PASTURE:
@@ -108,7 +108,7 @@ public class HexagonImage extends MinuetoImage {
 		case LAKE:
 			return new MinuetoColor(51, 127, 178);
 		case FISHINGGROUND:
-			return new MinuetoColor(95,158,160);
+			return new MinuetoColor(95, 158, 160);
 		default:
 			return new MinuetoColor(236, 236, 236);
 		}

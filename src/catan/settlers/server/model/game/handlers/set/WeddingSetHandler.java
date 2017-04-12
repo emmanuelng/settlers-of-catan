@@ -1,6 +1,5 @@
 package catan.settlers.server.model.game.handlers.set;
 
-import java.rmi.server.UID;
 import java.util.HashSet;
 
 import catan.settlers.network.client.commands.game.CurrentPlayerChangedCommand;

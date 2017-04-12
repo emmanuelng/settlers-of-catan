@@ -43,12 +43,10 @@ import catan.settlers.server.model.game.handlers.set.WeddingSetHandler;
 import catan.settlers.server.model.map.Edge;
 import catan.settlers.server.model.map.GameBoard;
 import catan.settlers.server.model.map.Hexagon;
-import catan.settlers.server.model.map.Hexagon.IntersectionLoc;
 import catan.settlers.server.model.map.Hexagon.TerrainType;
 import catan.settlers.server.model.map.Intersection;
 import catan.settlers.server.model.units.IntersectionUnit;
 import catan.settlers.server.model.units.Knight;
-import catan.settlers.server.model.units.Village;
 
 public class ProgressCardHandler implements Serializable {
 
@@ -275,18 +273,18 @@ public class ProgressCardHandler implements Serializable {
 	 * new hex
 	 */
 	private void bishop(Player sender) {
-		if(game.getAttacked()){
+		if (game.getAttacked()) {
 			BishopSetHandler set = new BishopSetHandler();
 			set.waitForPlayer(sender);
 			game.setCurSetOfOpponentMove(set);
-	
+
 			sender.sendCommand(new MoveRobberCommand(true));
 			game.sendToAllPlayers(new BishopCommand(sender.getUsername()));
-	
+
 			// Update cards
 			sender.useProgressCard(ProgressCardType.BISHOP);
 			sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
-		}else{
+		} else {
 			currentPlayer.sendCommand(new FailureCommand("No robber before the first barbarian attacks."));
 		}
 	}

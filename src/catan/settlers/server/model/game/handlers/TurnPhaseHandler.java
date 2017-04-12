@@ -2,7 +2,6 @@ package catan.settlers.server.model.game.handlers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -229,7 +228,7 @@ public class TurnPhaseHandler implements Serializable {
 			selectedEdge.setOwner(currentPlayer);
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
-			//updateLongestRoad(selectedEdge, currentPlayer);
+			// updateLongestRoad(selectedEdge, currentPlayer);
 		}
 
 	}
@@ -263,10 +262,10 @@ public class TurnPhaseHandler implements Serializable {
 			Village village = (Village) unit;
 			Cost cost = new Cost();
 			// if some progress card changes cost here, dont know right now
-			if(!currentPlayer.hasEngineer()){
+			if (!currentPlayer.hasEngineer()) {
 				cost = village.getbuildWallCost();
 			}
-			
+
 			if (cost.canPay(currentPlayer)) {
 				if (village.getKind() == VillageKind.SETTLEMENT) {
 					currentPlayer.sendCommand(new FailureCommand("Cannot build walls on a settlement"));
@@ -293,7 +292,7 @@ public class TurnPhaseHandler implements Serializable {
 			selectedEdge.setOwner(currentPlayer);
 			cost.removeResources(currentPlayer);
 			updateResourcesAndBoard();
-			//updateLongestRoad(selectedEdge, currentPlayer);
+			// updateLongestRoad(selectedEdge, currentPlayer);
 		}
 	}
 
@@ -375,21 +374,21 @@ public class TurnPhaseHandler implements Serializable {
 		if (selectedKnight != null) {
 			if (selectedKnight.canCanMoveIntersecIds().contains(newLocation.getId())) {
 				if (newLocation.getUnit() instanceof Knight) {
-					if (selectedKnight.getType().ordinal() > ((Knight)newLocation.getUnit()).getType().ordinal()) {
+					if (selectedKnight.getType().ordinal() > ((Knight) newLocation.getUnit()).getType().ordinal()) {
 						Knight knight = (Knight) newLocation.getUnit();
 						curKnightLoc.setUnit(null);
 						updateResourcesAndBoard();
-						
+
 						Player displacee = newLocation.getUnit().getOwner();
 						SetOfOpponentMove displacedKnight = new DisplacedKnightHandler(knight);
 						System.out.println("Sending the move displaced knight command");
 						displacee.sendCommand(new MoveDisplacedKnightCommand(newLocation));
 						displacedKnight.waitForPlayer(displacee);
 						game.setCurSetOfOpponentMove(displacedKnight);
-						
+
 						selectedKnight.setLocatedAt(newLocation);
 						newLocation.setUnit(selectedKnight);
-						
+
 						selectedKnight.deactivateKnight();
 						updateResourcesAndBoard();
 					}
@@ -422,9 +421,9 @@ public class TurnPhaseHandler implements Serializable {
 
 		// TODO Check for victory
 		if (game.getCurrentPlayer().getVP() >= 13) {
-			if(!game.getCurrentPlayer().getHasBoot()){
+			if (!game.getCurrentPlayer().getHasBoot()) {
 				game.declareVictor(currentPlayer);
-			}else if(game.getCurrentPlayer().getHasBoot() && game.getCurrentPlayer().getVP()>=14){
+			} else if (game.getCurrentPlayer().getHasBoot() && game.getCurrentPlayer().getVP() >= 14) {
 				game.declareVictor(currentPlayer);
 			}
 		}
@@ -446,12 +445,12 @@ public class TurnPhaseHandler implements Serializable {
 	}
 
 	private void PoliticsCityImprovement() {
-		
+
 		int level = currentPlayer.getPoliticsLevel() + 1;
 		Cost cost = new Cost();
-		if(currentPlayer.hasCrane()){
-			cost.addPriceEntry(ResourceType.COIN, level-1);
-		}else{
+		if (currentPlayer.hasCrane()) {
+			cost.addPriceEntry(ResourceType.COIN, level - 1);
+		} else {
 			cost.addPriceEntry(ResourceType.COIN, level);
 		}
 
@@ -468,12 +467,12 @@ public class TurnPhaseHandler implements Serializable {
 	private void ScienceCityImprovement() {
 		int level = currentPlayer.getScienceLevel() + 1;
 		Cost cost = new Cost();
-		if(currentPlayer.hasCrane()){
-			cost.addPriceEntry(ResourceType.PAPER, level-1);
-		}else{
+		if (currentPlayer.hasCrane()) {
+			cost.addPriceEntry(ResourceType.PAPER, level - 1);
+		} else {
 			cost.addPriceEntry(ResourceType.PAPER, level);
 		}
-	
+
 		if (cost.canPay(currentPlayer)) {
 			currentPlayer.setScienceLvl(level);
 			cost.removeResources(currentPlayer);
@@ -487,9 +486,9 @@ public class TurnPhaseHandler implements Serializable {
 	private void TradeCityImprovement() {
 		int level = currentPlayer.getTradeLevel() + 1;
 		Cost cost = new Cost();
-		if(currentPlayer.hasCrane()){
-			cost.addPriceEntry(ResourceType.CLOTH, level-1);
-		}else{
+		if (currentPlayer.hasCrane()) {
+			cost.addPriceEntry(ResourceType.CLOTH, level - 1);
+		} else {
 			cost.addPriceEntry(ResourceType.CLOTH, level);
 		}
 		if (cost.canPay(currentPlayer)) {
@@ -621,46 +620,27 @@ public class TurnPhaseHandler implements Serializable {
 		}
 	}
 	/*
-	public void updateLongestRoad(Edge e, Player currentPlayer2) {
-		visitedEdges = new HashSet<>();
-
-		System.out.println(numLongestRoad(e, currentPlayer2));
-	}
-
-	
-	public int numLongestRoad(Edge e, Player currPlayer) {
-		int length = 1;
-
-		for (Intersection i : e.getIntersections()) {
-			System.out.println("E.getintersections" + e.getIntersections());
-			System.out.println("Intersection: " + i);
-			ArrayList<Integer> lengths = new ArrayList<>();
-			for (Edge edge : i.getEdges()) {
-				System.out.println("Edge: " + edge);
-				if (edge == e) {
-					continue;
-				} else {
-					if (edge != null) {
-						if (!visitedEdges.contains(edge)) {
-							System.out.println("visited edges: "+ visitedEdges + "adding " + edge);
-							visitedEdges.add(edge);
-						} else {
-							continue;
-						}
-						if (edge.getOwner() != currentPlayer) {
-							System.out.println("ArrayList: " + lengths);
-							return 0;
-						} else {
-							lengths.add(numLongestRoad(edge, currPlayer));
-						}
-					}
-				}
-			}
-			System.out.println("Max of the arraylist: " + Collections.max(lengths));
-			length += Collections.max(lengths);
-		}
-
-		return length;
-	}
-	*/
+	 * public void updateLongestRoad(Edge e, Player currentPlayer2) {
+	 * visitedEdges = new HashSet<>();
+	 * 
+	 * System.out.println(numLongestRoad(e, currentPlayer2)); }
+	 * 
+	 * 
+	 * public int numLongestRoad(Edge e, Player currPlayer) { int length = 1;
+	 * 
+	 * for (Intersection i : e.getIntersections()) {
+	 * System.out.println("E.getintersections" + e.getIntersections());
+	 * System.out.println("Intersection: " + i); ArrayList<Integer> lengths =
+	 * new ArrayList<>(); for (Edge edge : i.getEdges()) {
+	 * System.out.println("Edge: " + edge); if (edge == e) { continue; } else {
+	 * if (edge != null) { if (!visitedEdges.contains(edge)) {
+	 * System.out.println("visited edges: "+ visitedEdges + "adding " + edge);
+	 * visitedEdges.add(edge); } else { continue; } if (edge.getOwner() !=
+	 * currentPlayer) { System.out.println("ArrayList: " + lengths); return 0; }
+	 * else { lengths.add(numLongestRoad(edge, currPlayer)); } } } }
+	 * System.out.println("Max of the arraylist: " + Collections.max(lengths));
+	 * length += Collections.max(lengths); }
+	 * 
+	 * return length; }
+	 */
 }

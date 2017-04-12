@@ -13,14 +13,14 @@ public class DrawProgressCardCommand implements ClientToServerCommand {
 	private int gameId;
 	private String type;
 	private TurnData data;
-	
+
 	public DrawProgressCardCommand(String type) {
 		this.gameId = ClientModel.instance.getGameStateManager().getGameId();
 		this.type = type;
 		this.data = new TurnData(TurnAction.DRAW_PROGRESS_CARD);
 		ClientModel.instance.getGameStateManager().setShowSelectCardTypeMenu(false);
 	}
-	
+
 	@Override
 	public void execute(Session sender, Server server) {
 		Game game = server.getGameManager().getGameById(gameId);

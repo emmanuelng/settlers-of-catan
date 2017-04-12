@@ -137,7 +137,7 @@ public class TurnData implements Serializable {
 	public void setSelectedProgressCardType(String type) {
 		this.ProgressCardType = type;
 	}
-	
+
 	public String getSelectedProgressCardType() {
 		return ProgressCardType;
 	}

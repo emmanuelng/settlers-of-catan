@@ -205,7 +205,8 @@ public class GameBoard implements Serializable {
 		for (int x = 0; x < length; x++) {
 			for (int y = 0; y < height; y++) {
 				if (hexagons[x][y] != null) {
-					if (hexagons[x][y].getType() != TerrainType.SEA && hexagons[x][y].getType() != TerrainType.LAKE && hexagons[x][y].getType() != TerrainType.FISHINGGROUND) {
+					if (hexagons[x][y].getType() != TerrainType.SEA && hexagons[x][y].getType() != TerrainType.LAKE
+							&& hexagons[x][y].getType() != TerrainType.FISHINGGROUND) {
 						TerrainType t = terrainPool.remove(0);
 						hexagons[x][y].setType(t);
 						hexagons[x][y].setNumber(diceValues.remove(0));
@@ -416,10 +417,10 @@ public class GameBoard implements Serializable {
 		return intersections;
 	}
 
-	public ArrayList<Edge> getEdges(){
+	public ArrayList<Edge> getEdges() {
 		return edges;
 	}
-	
+
 	public int[] getHex_coords(Hexagon hex) {
 		int[] coords = new int[2];
 

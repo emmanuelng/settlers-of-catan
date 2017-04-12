@@ -31,12 +31,12 @@ public class AchievementsLayer extends ImageLayer {
 				true);
 		MinuetoText longestRoadText = new MinuetoText("Longest Road: " + longestRoad, amt_font, MinuetoColor.BLACK,
 				true);
-		
+
 		int y_offset = ClientWindow.WINDOW_HEIGHT - longestRoadText.getHeight() - 30 - largestArmyText.getHeight() - 30;
-		
+
 		draw(largestArmyText, 10, y_offset);
 		y_offset += largestArmyText.getHeight() + 30;
-		
+
 		draw(longestRoadText, 10, y_offset);
 	}
 

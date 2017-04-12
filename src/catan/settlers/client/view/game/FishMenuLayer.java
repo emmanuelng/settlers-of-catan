@@ -20,7 +20,7 @@ public class FishMenuLayer extends ImageLayer {
 	private static final MinuetoFont title_font = new MinuetoFont("arial", 28, true, false);
 	private static final MinuetoFont description_font_bold = new MinuetoFont("arial", 17, true, false);
 	private static final MinuetoFont description_font = new MinuetoFont("arial", 16, false, false);
-	
+
 	private int box_x, box_y;
 	private MinuetoRectangle background;
 	private MinuetoRectangle border;
@@ -33,8 +33,8 @@ public class FishMenuLayer extends ImageLayer {
 	private Button drawResource;
 	private Button buildRoad;
 	private Button devCard;
-	
-	public FishMenuLayer(){
+
+	public FishMenuLayer() {
 		super();
 
 		this.box_x = ClientWindow.WINDOW_WIDTH / 2 - WIDTH / 2;
@@ -43,9 +43,9 @@ public class FishMenuLayer extends ImageLayer {
 		this.background = new MinuetoRectangle(WIDTH, HEIGHT, bg_color, true);
 		this.border = new MinuetoRectangle(WIDTH, HEIGHT, border_color, false);
 		this.title = new MinuetoText("Trade Fish!", title_font, MinuetoColor.BLACK);
-		
+
 	}
-	
+
 	@Override
 	public void compose(GameStateManager gsm) {
 		if (!gsm.doShowFishMenu()) {
@@ -65,89 +65,94 @@ public class FishMenuLayer extends ImageLayer {
 
 		int y_offset = box_y + 20;
 
-		this.description = new MinuetoText("You have "+ ClientModel.instance.getGameStateManager().getNumFish() + " fish.", description_font, MinuetoColor.BLACK);
-		
+		this.description = new MinuetoText(
+				"You have " + ClientModel.instance.getGameStateManager().getNumFish() + " fish.", description_font,
+				MinuetoColor.BLACK);
+
 		draw(title, box_x + (WIDTH / 2 - title.getWidth() / 2), y_offset);
 		y_offset += title.getHeight() + 10;
-		draw(description,box_x + (WIDTH / 2 - description.getWidth() / 2), y_offset );
+		draw(description, box_x + (WIDTH / 2 - description.getWidth() / 2), y_offset);
 		y_offset += 20;
-		
+
 		drawRemoveRobber();
 		drawStealResource();
 		drawResource();
 		drawFreeRoad();
 		drawDrawDevCard();
-		
-		
-		draw(removeRobber.getImage(), box_x + 100 , y_offset);
+
+		draw(removeRobber.getImage(), box_x + 100, y_offset);
 		y_offset += removeRobber.getImage().getHeight() + 15;
-		draw(stealResource.getImage(), box_x + 100 , y_offset);
+		draw(stealResource.getImage(), box_x + 100, y_offset);
 		y_offset += stealResource.getImage().getHeight() + 15;
-		draw(drawResource.getImage(), box_x + 100 , y_offset);
+		draw(drawResource.getImage(), box_x + 100, y_offset);
 		y_offset += drawResource.getImage().getHeight() + 15;
-		draw(buildRoad.getImage(), box_x + 100 , y_offset);
+		draw(buildRoad.getImage(), box_x + 100, y_offset);
 		y_offset += buildRoad.getImage().getHeight() + 15;
-		draw(devCard.getImage(), box_x + 100 , y_offset);
+		draw(devCard.getImage(), box_x + 100, y_offset);
 		y_offset += devCard.getImage().getHeight() + 15;
 	}
-	
-	private void drawDrawDevCard() {
-		this.devCard = new Button(this, "7: Draw Progress Card" , MinuetoColor.BLACK, new ClickListener() {
 
-					@Override
-					public void onClick() {
-						if (ClientModel.instance.getGameStateManager().getNumFish() >= 7)
-							ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.PROGRESSCARD));
-					}
-				});
+	private void drawDrawDevCard() {
+		this.devCard = new Button(this, "7: Draw Progress Card", MinuetoColor.BLACK, new ClickListener() {
+
+			@Override
+			public void onClick() {
+				if (ClientModel.instance.getGameStateManager().getNumFish() >= 7)
+					ClientModel.instance.getNetworkManager()
+							.sendCommand(new FishActionCommand(FishAction.PROGRESSCARD));
+			}
+		});
 	}
 
 	private void drawFreeRoad() {
-		this.buildRoad = new Button(this, "5: Build Free Road" , MinuetoColor.BLACK, new ClickListener() {
+		this.buildRoad = new Button(this, "5: Build Free Road", MinuetoColor.BLACK, new ClickListener() {
 
 			@Override
 			public void onClick() {
 				if (ClientModel.instance.getGameStateManager().getNumFish() >= 5)
 					ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.BUILDROAD));
 			}
-		}); 
-		
+		});
+
 	}
 
 	private void drawResource() {
-		this.drawResource = new Button(this, "4: Draw Free Resource" , MinuetoColor.BLACK, new ClickListener() {
+		this.drawResource = new Button(this, "4: Draw Free Resource", MinuetoColor.BLACK, new ClickListener() {
 
 			@Override
 			public void onClick() {
 				if (ClientModel.instance.getGameStateManager().getNumFish() >= 4)
-					ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.DRAWRESOURCE));
+					ClientModel.instance.getNetworkManager()
+							.sendCommand(new FishActionCommand(FishAction.DRAWRESOURCE));
 			}
-		}); 
-		
+		});
+
 	}
 
 	private void drawStealResource() {
-		this.stealResource = new Button(this, "3: Steal Resource" , MinuetoColor.BLACK, new ClickListener() {
+		this.stealResource = new Button(this, "3: Steal Resource", MinuetoColor.BLACK, new ClickListener() {
 
 			@Override
 			public void onClick() {
 				if (ClientModel.instance.getGameStateManager().getNumFish() >= 3)
-					ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.STEALRESOURCE));
+					ClientModel.instance.getNetworkManager()
+							.sendCommand(new FishActionCommand(FishAction.STEALRESOURCE));
 			}
-		}); 
-		
+		});
+
 	}
 
 	private void drawRemoveRobber() {
-		this.removeRobber = new Button(this, "2: Remove Robber" , MinuetoColor.BLACK, new ClickListener() {
+		this.removeRobber = new Button(this, "2: Remove Robber", MinuetoColor.BLACK, new ClickListener() {
 
 			@Override
 			public void onClick() {
-				if (ClientModel.instance.getGameStateManager().getNumFish() >= 2) 
-					ClientModel.instance.getNetworkManager().sendCommand(new FishActionCommand(FishAction.REMOVEROBBER));
+				if (ClientModel.instance.getGameStateManager().getNumFish() >= 2)
+					ClientModel.instance.getNetworkManager()
+							.sendCommand(new FishActionCommand(FishAction.REMOVEROBBER));
 			}
-		}); 
-		
+		});
+
 	}
 
 	private void overrideClickables() {

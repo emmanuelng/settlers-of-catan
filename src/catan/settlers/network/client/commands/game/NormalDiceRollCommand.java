@@ -30,8 +30,9 @@ public class NormalDiceRollCommand implements ServerToClientCommand {
 		} else if (eventDie == 6) {
 			eventString = "Science";
 		}
-		
-		gsm.setdBox((redDie + yellowDie) + " was rolled", "Red Die: "+ redDie + " Yellow Die: "+ yellowDie + " Event Die: "+ eventString);
+
+		gsm.setdBox((redDie + yellowDie) + " was rolled",
+				"Red Die: " + redDie + " Yellow Die: " + yellowDie + " Event Die: " + eventString);
 	}
 
 }

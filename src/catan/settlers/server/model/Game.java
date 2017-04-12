@@ -72,7 +72,7 @@ public class Game implements Serializable {
 		this.rollDicePhaseHandler = new RollDicePhaseHandler(this);
 		this.turnPhaseHandler = new TurnPhaseHandler(this);
 		this.progressCardHandler = new ProgressCardHandler(this);
-		
+
 		this.attacked = true;
 	}
 
@@ -349,7 +349,7 @@ public class Game implements Serializable {
 		attacked = b;
 	}
 
-	public boolean getAttacked(){
+	public boolean getAttacked() {
 		return attacked;
 	}
 }

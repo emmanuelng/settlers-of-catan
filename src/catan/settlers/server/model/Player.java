@@ -162,10 +162,10 @@ public class Player implements Serializable {
 		return count;
 	}
 
-	public int getNumFish(){
+	public int getNumFish() {
 		return fishCount;
 	}
-	
+
 	public void giveFish(int n) {
 		fishCount += n;
 	}
@@ -424,12 +424,12 @@ public class Player implements Serializable {
 	public void addFreeRoad() {
 		roadBuilding++;
 	}
-	
-	public void setHasBoot(boolean b){
+
+	public void setHasBoot(boolean b) {
 		hasBoot = b;
 	}
-	
-	public boolean getHasBoot(){
+
+	public boolean getHasBoot() {
 		return hasBoot;
 	}
 }

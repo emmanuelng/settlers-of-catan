@@ -197,7 +197,6 @@ public class DiscardResourcesMenuLayer extends ImageLayer {
 				} else {
 					NetworkManager nm = ClientModel.instance.getNetworkManager();
 					nm.sendCommand(new DiscardCommand(resources));
-					gsm.setSevenDiscardMenuMsg("Command sent!");
 				}
 			}
 		};

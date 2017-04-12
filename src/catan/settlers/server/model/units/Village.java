@@ -102,7 +102,7 @@ public class Village implements IntersectionUnit {
 	public boolean hasWalls() {
 		return hasWall;
 	}
-	
+
 	@Override
 	public void setOwner(Player newOwner) {
 		myOwner = newOwner;

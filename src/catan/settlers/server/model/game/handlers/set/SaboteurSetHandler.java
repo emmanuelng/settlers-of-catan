@@ -35,7 +35,7 @@ public class SaboteurSetHandler extends SetOfOpponentMove {
 		if (nbSelectedResources == nbResourcesToDiscard) {
 			removeResources(sender, sevenResources);
 			game.setCurSetOfOpponentMove(null);
-			
+
 			System.out.println("Wololololo");
 			game.sendToAllPlayers(new CurrentPlayerChangedCommand(game.getCurrentPlayer().getUsername()));
 			return;

@@ -30,7 +30,7 @@ public class Edge implements Serializable {
 		this.buildRoadCost = new Cost();
 		this.buildRoadCost.addPriceEntry(ResourceType.BRICK, 1);
 		this.buildRoadCost.addPriceEntry(ResourceType.LUMBER, 1);
-		
+
 		this.buildShipCost = new Cost();
 		this.buildShipCost.addPriceEntry(ResourceType.WOOL, 1);
 		this.buildShipCost.addPriceEntry(ResourceType.LUMBER, 1);

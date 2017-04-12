@@ -13,8 +13,8 @@ import catan.settlers.server.model.Game;
 import catan.settlers.server.model.Game.GamePhase;
 import catan.settlers.server.model.Player;
 import catan.settlers.server.model.Player.ResourceType;
-import catan.settlers.server.model.game.handlers.MoveRobberHandler;
 import catan.settlers.server.model.TurnData;
+import catan.settlers.server.model.game.handlers.MoveRobberHandler;
 
 public class SevenDiscardSetHandler extends SetOfOpponentMove {
 
