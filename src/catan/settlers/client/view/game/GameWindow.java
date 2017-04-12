@@ -48,6 +48,7 @@ public class GameWindow extends MinuetoFrame {
 	private SelectIntersectionLayer selectIntersectionLayer;
 	private FishMenuLayer fishMenuLayer;
 	private SelectEdgeLayer selectEdgeLayer;
+	private WinningScreenLayer winningScreenLayer;
 
 	public GameWindow() {
 		super(ClientWindow.WINDOW_WIDTH, ClientWindow.WINDOW_HEIGHT, true);
@@ -108,6 +109,7 @@ public class GameWindow extends MinuetoFrame {
 		this.selectIntersectionLayer = new SelectIntersectionLayer();
 		this.fishMenuLayer = new FishMenuLayer();
 		this.selectEdgeLayer = new SelectEdgeLayer();
+		this.winningScreenLayer = new WinningScreenLayer();
 
 		this.imageClickableMap = new HashMap<>();
 	}
@@ -136,6 +138,7 @@ public class GameWindow extends MinuetoFrame {
 		drawLayer(achievementsLayer, 0, 125);
 		drawLayer(saveAndExitMenuLayer, 0, 0);
 		drawLayer(fishMenuLayer, 0, 0);
+		drawLayer(winningScreenLayer , 0, 0);
 
 		render();
 	}
