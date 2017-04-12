@@ -90,7 +90,6 @@ public class RollDicePhaseHandler implements Serializable {
 
 		if (eventDie < 4) {
 			game.increaseBarbarianHordeCounter();
-			System.out.println("" + barbarianHordeCounter);
 			game.sendToAllPlayers(new UpdateBarbarianCounterCommand(barbarianHordeCounter));
 			if (barbarianHordeCounter >= 7) {
 				barbarianAttack();

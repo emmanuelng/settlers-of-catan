@@ -419,7 +419,6 @@ public class TurnPhaseHandler implements Serializable {
 		for (Player p : game.getParticipants())
 			p.resetTradeAtAdvantage();
 
-		// TODO Check for victory
 		if (game.getCurrentPlayer().getVP() >= 13) {
 			if (!game.getCurrentPlayer().getHasBoot()) {
 				game.declareVictor(currentPlayer);
@@ -609,9 +608,7 @@ public class TurnPhaseHandler implements Serializable {
 		Player strongestPlayer = new Player(new Credentials(null, null));
 		for (Player player : game.getParticipants()) {
 			int curPlayerStrength = playerStrength.get(player);
-			System.out.println(player.getUsername());
 			if (curPlayerStrength >= maxStrength && curPlayerStrength >= 5) {
-				System.out.println(curPlayerStrength);
 				strongestPlayer = player;
 				maxStrength = curPlayerStrength;
 				game.setLargestArmy(strongestPlayer);
@@ -619,28 +616,4 @@ public class TurnPhaseHandler implements Serializable {
 			}
 		}
 	}
-	/*
-	 * public void updateLongestRoad(Edge e, Player currentPlayer2) {
-	 * visitedEdges = new HashSet<>();
-	 * 
-	 * System.out.println(numLongestRoad(e, currentPlayer2)); }
-	 * 
-	 * 
-	 * public int numLongestRoad(Edge e, Player currPlayer) { int length = 1;
-	 * 
-	 * for (Intersection i : e.getIntersections()) {
-	 * System.out.println("E.getintersections" + e.getIntersections());
-	 * System.out.println("Intersection: " + i); ArrayList<Integer> lengths =
-	 * new ArrayList<>(); for (Edge edge : i.getEdges()) {
-	 * System.out.println("Edge: " + edge); if (edge == e) { continue; } else {
-	 * if (edge != null) { if (!visitedEdges.contains(edge)) {
-	 * System.out.println("visited edges: "+ visitedEdges + "adding " + edge);
-	 * visitedEdges.add(edge); } else { continue; } if (edge.getOwner() !=
-	 * currentPlayer) { System.out.println("ArrayList: " + lengths); return 0; }
-	 * else { lengths.add(numLongestRoad(edge, currPlayer)); } } } }
-	 * System.out.println("Max of the arraylist: " + Collections.max(lengths));
-	 * length += Collections.max(lengths); }
-	 * 
-	 * return length; }
-	 */
 }
