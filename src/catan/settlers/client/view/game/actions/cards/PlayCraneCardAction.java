@@ -26,11 +26,7 @@ public class PlayCraneCardAction implements CardAction {
 	@Override
 	public void perform() {
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
-		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		nm.sendCommand(new PlayProgressCardCommand(ProgressCardType.CRANE));
-
-		int previous = gsm.getProgressCards().get(ProgressCardType.CRANE);
-		gsm.getProgressCards().put(ProgressCardType.CRANE, previous - 1);
 
 	}
 

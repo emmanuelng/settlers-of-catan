@@ -22,8 +22,6 @@ public class DisplacedKnightHandler extends SetOfOpponentMove {
 		if (contains(sender)) {
 			int selectedId = data.getIntersectionSelection().getId();
 			Intersection newLocation = game.getGameBoardManager().getBoard().getIntersectionById(selectedId);
-			Intersection curKnightLoc = game.getGameBoardManager().getBoard()
-					.getIntersectionById(knightToMove.getLocatedAt().getId());
 
 			if (newLocation.getUnit() != null || newLocation.isMaritime())
 				return;

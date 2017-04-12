@@ -20,17 +20,13 @@ public class PlayConstitutionCardAction implements CardAction {
 
 	@Override
 	public String getDescription() {
-		return "Victoire pont pour toi.";
+		return "Get one victory point";
 	}
 
 	@Override
 	public void perform() {
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
-		GameStateManager gsm = ClientModel.instance.getGameStateManager();
 		nm.sendCommand(new PlayProgressCardCommand(ProgressCardType.CONSTITUTION));
-
-		int previous = gsm.getProgressCards().get(ProgressCardType.CONSTITUTION);
-		gsm.getProgressCards().put(ProgressCardType.CONSTITUTION, previous - 1);
 
 	}
 

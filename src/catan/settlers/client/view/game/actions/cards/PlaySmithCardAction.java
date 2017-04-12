@@ -25,12 +25,7 @@ public class PlaySmithCardAction implements CardAction {
 	@Override
 	public void perform() {
 		NetworkManager nm = ClientModel.instance.getNetworkManager();
-		GameStateManager gsm = ClientModel.instance.getGameStateManager();
-		ProgressCardType pcard = ProgressCardType.SMITH;
-		nm.sendCommand(new PlayProgressCardCommand(pcard));
-
-		int previous = gsm.getProgressCards().get(pcard);
-		gsm.getProgressCards().put(pcard, previous - 1);
+		nm.sendCommand(new PlayProgressCardCommand(ProgressCardType.SMITH));
 
 	}
 

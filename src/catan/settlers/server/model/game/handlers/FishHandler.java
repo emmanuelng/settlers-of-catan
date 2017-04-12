@@ -15,7 +15,6 @@ public class FishHandler implements Serializable {
 
 	private static final long serialVersionUID = 2035231735693549521L;
 	private Game game;
-	private Player currentPlayer;
 
 	public FishHandler(Game game) {
 		this.game = game;
