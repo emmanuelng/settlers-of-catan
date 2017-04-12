@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import catan.settlers.network.client.commands.game.DiscardCardsCommand;
+import catan.settlers.network.client.commands.game.FailureCommand;
 import catan.settlers.network.client.commands.game.MoveRobberCommand;
 import catan.settlers.network.client.commands.game.UpdateCardsCommand;
 import catan.settlers.network.client.commands.game.UpdateResourcesCommand;
@@ -273,16 +274,20 @@ public class ProgressCardHandler implements Serializable {
 	 * new hex
 	 */
 	private void bishop(Player sender) {
-		BishopSetHandler set = new BishopSetHandler();
-		set.waitForPlayer(sender);
-		game.setCurSetOfOpponentMove(set);
-
-		sender.sendCommand(new MoveRobberCommand(true));
-		game.sendToAllPlayers(new BishopCommand(sender.getUsername()));
-
-		// Update cards
-		sender.useProgressCard(ProgressCardType.BISHOP);
-		sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
+		if(game.getAttacked()){
+			BishopSetHandler set = new BishopSetHandler();
+			set.waitForPlayer(sender);
+			game.setCurSetOfOpponentMove(set);
+	
+			sender.sendCommand(new MoveRobberCommand(true));
+			game.sendToAllPlayers(new BishopCommand(sender.getUsername()));
+	
+			// Update cards
+			sender.useProgressCard(ProgressCardType.BISHOP);
+			sender.sendCommand(new UpdateCardsCommand(sender.getProgressCards()));
+		}else{
+			currentPlayer.sendCommand(new FailureCommand("No robber before the first barbarian attacks."));
+		}
 	}
 
 	/**
