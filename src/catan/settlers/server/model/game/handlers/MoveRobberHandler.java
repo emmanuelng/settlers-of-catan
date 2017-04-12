@@ -53,9 +53,10 @@ public class MoveRobberHandler extends SetOfOpponentMove{
 						}
 					}
 					
+					game.sendToAllPlayers(new UpdateGameBoardCommand(game.getGameBoardManager().getBoardDeepCopy()));
 					sender.sendCommand(new SelectPlayerToStealFromCommand(listOfStealable));
 					
-					game.sendToAllPlayers(new UpdateGameBoardCommand(game.getGameBoardManager().getBoardDeepCopy()));
+					
 				}
 				
 				secondPhase = true;
